@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/form_a.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -26,7 +28,22 @@ class FirstRoute extends StatelessWidget {
             
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title:  const Center(child:  Text('BIENVENIDOS',style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),fontSize: 55),)),
+            title:  Center(
+              child: GradientText(
+                'BIENVENIDOS',
+                style: const TextStyle(
+                    fontSize: 55.0,
+                ),
+                gradientType: GradientType.linear,
+                gradientDirection: GradientDirection.ttb,
+                radius: 2.5,
+                colors: const [
+                    Color.fromARGB(255, 170, 63, 233),
+                    Color.fromARGB(255, 66, 91, 233),
+                    Color.fromARGB(255, 60, 135, 221),
+                ],
+            ),
+            ),
           ),
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
@@ -39,10 +56,13 @@ class FirstRoute extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      height: 90,
+                      height: 50,
                     ),
                     Row(
                       children: [
+                        const SizedBox(
+                          width: 5,
+                        ),
                         MaterialButton(
                           child: const SizedBox(height: 150, width: 145, child: Image(image: AssetImage('assets/profesor.png'))),
                           onPressed: () {
@@ -57,21 +77,73 @@ class FirstRoute extends StatelessWidget {
                     ),
                       ],
                     ),
-                      
+                      Row(
+                          children: [
+                            const SizedBox(
+                              width: 27,
+                            ),
+                             GradientText(
+                'PROFESOR',
+                style: const TextStyle(
+                    fontSize: 30.0,
+                ),
+                gradientType: GradientType.linear,
+                gradientDirection: GradientDirection.ttb,
+                radius: 2.5,
+                colors: const [
+                    Color.fromARGB(255, 170, 63, 233),
+                    Color.fromARGB(255, 66, 91, 233),
+                    Color.fromARGB(255, 60, 135, 221),
+                ],
+            ),
+            const SizedBox(
+              width: 50,
+            ),
+             GradientText(
+                'ALUMNO',
+                style: const TextStyle(
+                    fontSize: 30.0,
+                ),
+                gradientType: GradientType.linear,
+                gradientDirection: GradientDirection.ttb,
+                radius: 2.5,
+                colors: const [
+                    Color.fromARGB(255, 170, 63, 233),
+                    Color.fromARGB(255, 66, 91, 233),
+                    Color.fromARGB(255, 60, 135, 221),
+                ],
+            ),
+                          ],
+                      ),
                     
                         
                     
                       
                     const SizedBox(
-                      height: 50,
+                      height: 40,
                     ),
                         
                     MaterialButton(
                       child: const SizedBox(height: 150, width: 145, child: Image(image: AssetImage('assets/admin.png'))),
                       onPressed: () {
-                      
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const FormA(),));
                       },
                     ),
+
+                     GradientText(
+                'ADMINISTRADOR',
+                style: const TextStyle(
+                    fontSize: 30.0,
+                ),
+                gradientType: GradientType.linear,
+                gradientDirection: GradientDirection.ttb,
+                radius: 2.5,
+                colors: const [
+                    Color.fromARGB(255, 170, 63, 233),
+                    Color.fromARGB(255, 66, 91, 233),
+                    Color.fromARGB(255, 60, 135, 221),
+                ],
+            ),
                   ],
                 ),
               ),
@@ -104,7 +176,22 @@ class FirstRoute extends StatelessWidget {
 Widget inicio(){
   return Container(
     color: Colors.transparent,
-    child: const Text('----¿Como desea iniciar sesion?----', style: TextStyle(fontSize: 25, color: Color.fromARGB(236, 255, 255, 255)),)
+    child: Center(
+              child: GradientText(
+                '----¿COMO DESEA INICIAR SESION?----',
+                style: const TextStyle(
+                    fontSize: 23,
+                ),
+                gradientType: GradientType.linear,
+                gradientDirection: GradientDirection.ttb,
+                radius: 2.5,
+                colors: const [
+                    Color.fromARGB(255, 170, 63, 233),
+                    Color.fromARGB(255, 66, 91, 233),
+                    Color.fromARGB(255, 60, 135, 221),
+                ],
+            ),
+            ),
     );
 }
 
