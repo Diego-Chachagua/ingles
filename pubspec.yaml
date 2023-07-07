@@ -65,6 +65,9 @@ flutter:
   - assets/admin.png
   - assets/profesor.png
   - assets/alumno.png
+  - assets/examen.png
+  - assets/tareas.png
+  - assets/ver notas.png
 
   
 
