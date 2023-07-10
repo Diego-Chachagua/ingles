@@ -23,6 +23,12 @@ class _VerNotasAEState extends State<VerNotasA> {
 
   String usuariobd = "";
   String contrabd = "";
+    String _seleccionada2 = 'Año';
+    String _seleccionada = 'Seccion';
+    String _seleccionada3 = 'Unidad';
+  List anio = ['Año', '1', '2', '3'];
+  List seccion = ['Seccion','A','B','D','E','F','G','H','K','L','M','N','O'];
+  List unidad = ['Unidad','U1','U2','U3','U4'];
 
   @override
   Widget build(BuildContext context) {
@@ -95,52 +101,85 @@ class _VerNotasAEState extends State<VerNotasA> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
+                    //definicion de menu desplegabe para año
+                   Container(
                       width: 70,
                       height: 31,
                       decoration: BoxDecoration(
-                          color: Colors.blue,
+                          color: Color.fromARGB(255, 135, 114, 216),
                           border: Border.all(width: 2),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Center(
-                          child: Text(
-                        "Año",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      )),
+                        child: DropdownButton(items: GetOptionsDropDownButton2(),
+                   value: _seleccionada2,
+                   onChanged: (value){
+                    setState(() {
+                      _seleccionada2 = value.toString();
+
+                    });
+                   },
+                   style: TextStyle(color: Colors.white,fontSize: 20,),
+                   dropdownColor: Color.fromARGB(255, 135, 114, 216),
+                   borderRadius: BorderRadius.circular(10),
+                   ),
+                      )
                     ),
-                    Container(
-                      width: 70,
+                      //fin de definicion de menu desplegable de año
+                      //inicio de definicion de menu desplegable de secciones
+                     Container(
+                      width: 94,
                       height: 31,
                       decoration: BoxDecoration(
-                          color: Colors.blue,
+                          color: Color.fromARGB(255, 135, 114, 216),
                           border: Border.all(width: 2),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Center(
-                          child: Text(
-                        "Seccion",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      )),
-                    ),
+                        child: DropdownButton(items: GetOptionsDropDownButton(),
+                   value: _seleccionada,
+                   onChanged: (value){
+                    setState(() {
+                      _seleccionada = value.toString();
+
+                    });
+                   },
+                   style: TextStyle(color: Colors.white,fontSize: 20,),
+                   dropdownColor: Color.fromARGB(255, 135, 114, 216),
+                   borderRadius: BorderRadius.circular(10),
+                   ),
+                      )
+                    ), 
+                    //fin de definicion de menu desplegable de secciones
                     Container(
-                      width: 70,
+                      width: 90,
                       height: 31,
                       decoration: BoxDecoration(
-                          color: Colors.blue,
+                          color: Color.fromARGB(255, 135, 114, 216),
                           border: Border.all(width: 2),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: const Center(
-                          child: Text(
-                        "Unidad",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      )),
+                      child: Center(
+                        child: DropdownButton(items: GetOptionsDropDownButton3(),
+                   value: _seleccionada3,
+                   onChanged: (value){
+                    setState(() {
+                      _seleccionada3 = value.toString();
+
+                    });
+                   },
+                   style: TextStyle(color: Colors.white,fontSize: 20,),
+                   dropdownColor: Color.fromARGB(255, 135, 114, 216),
+                   borderRadius: BorderRadius.circular(10),
+                   ),
+                      )
                     ),
                     //espacio para edificion de boton de busqueda
                     MaterialButton(
                       onPressed: () {},
                       child: const SizedBox(
-                          height: 45,
-                          width: 45,
+                          height: 40,
+                          width: 40,
                           child: Image(image: AssetImage('assets/lupa.png'))),
+                          minWidth: 40,
+                          
                     ),
                     //fin de espacio para edición de boton de busqueda
                   ],
@@ -159,7 +198,10 @@ class _VerNotasAEState extends State<VerNotasA> {
                   height: 20,
                 ),
                 //espacio para definición de contenedor para mostrar historial
-                Container(
+                MaterialButton(onPressed:(){
+
+                } ,
+                child: Container(
                   width: 320,
                   height: 80,
                   decoration: BoxDecoration(
@@ -210,9 +252,48 @@ class _VerNotasAEState extends State<VerNotasA> {
                     ],
                   ),
                 ),
+                )
                 //fin de definición de contenedor 
 
               ],
             ))));
   }
+
+  List<DropdownMenuItem<String>> GetOptionsDropDownButton2() {
+    List<DropdownMenuItem<String>> anios = [];
+    anio.forEach((element) {
+      
+      anios.add(DropdownMenuItem(
+        child: Text(element),
+        
+        value: element,
+      ));
+    });
+    return anios;
+  }
+  List<DropdownMenuItem<String>> GetOptionsDropDownButton() {
+    List<DropdownMenuItem<String>> secciones = [];
+    seccion.forEach((element) {
+      
+      secciones.add(DropdownMenuItem(
+        child: Text(element),
+        
+        value: element,
+      ));
+    });
+    return secciones;
+  }
+  List<DropdownMenuItem<String>> GetOptionsDropDownButton3() {
+    List<DropdownMenuItem<String>> unidades = [];
+    unidad.forEach((element) {
+      
+      unidades.add(DropdownMenuItem(
+        child: Text(element),
+        
+        value: element,
+      ));
+    });
+    return unidades;
+  }
+
 }
