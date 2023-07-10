@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
 
@@ -28,8 +29,8 @@ String contrabd = "";
     return Container(
       decoration:  const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/fondop.jpg'),
-            fit: BoxFit.cover
+            image: AssetImage('assets/fondof.jpg'),
+            fit: BoxFit.fill
           ),
         ),
       child: Scaffold(
@@ -38,7 +39,22 @@ String contrabd = "";
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
               
-              title: const Center(child:  Text('CONTROL DE NOTAS', style: TextStyle(fontSize: 30),)),
+              title: Center(
+                child: GradientText(
+                  'WELCOME',
+                  style: const TextStyle(
+                      fontSize: 50.0,
+                  ),
+                  gradientType: GradientType.linear,
+                  gradientDirection: GradientDirection.ttb,
+                  radius: 2.5,
+                  colors: const [
+                      Color.fromARGB(255, 170, 63, 233),
+                      Color.fromARGB(255, 66, 91, 233),
+                      Color.fromARGB(255, 60, 135, 221),
+                  ],
+                          ),
+              ),
             ),
             backgroundColor: Colors.transparent,
           body: SingleChildScrollView(
@@ -51,16 +67,18 @@ String contrabd = "";
               const SizedBox(
                 width: 76,
               ),
-              
+              const SizedBox(
+                height: 210,
+              ),
                   MaterialButton(
-                  color: Colors.red,
+                  color: const Color.fromARGB(255, 135, 8, 160),
                   onPressed: (){
             Navigator.pop(
                           context,
                           MaterialPageRoute(builder: (context) => const FirstRoute()),
                         );
                   },
-                  child: const Text('Cancelar'),
+                  child: const Text('Cancelar', style: TextStyle(color: Colors.white),),
                   ),
               
               const SizedBox(
@@ -68,16 +86,28 @@ String contrabd = "";
               ),
               
                   MaterialButton(
-                  color: const Color.fromARGB(255, 20, 250, 28),
+                  color: const Color.fromARGB(255, 135, 8, 160),
                   onPressed: () async{
                     usuariobd = usuariob.text;
                     contrabd = contrab.text;
                     
                   },
-                  child: const Text('Iniciar'),
+                  child: const Text('Iniciar', style: TextStyle(color: Colors.white),),
                   ),
+
+                  const SizedBox(
+                height: 50,
+              ),
                 ],
                 ),
+                   MaterialButton(
+                color: Colors.transparent,
+                elevation: 0,
+                onPressed: (){
+                  
+                },
+              child: const Text('¡NO POSEE USUARIO REGISTRATE AQUI!', style: TextStyle(color: Colors.blue),),
+              ),
               ],
             ),
           ),
@@ -93,9 +123,13 @@ Widget  Cuerpo(){
    child: Column(children:  <Widget> [
      espacio(),
      control(),
-     linea(),
-     espacio(),
+     const SizedBox(
+      height: 40,
+     ),
      usuario(),
+     const SizedBox(
+      height: 10,
+     ),
      contrasena(),
      
 
@@ -104,29 +138,37 @@ Widget  Cuerpo(){
 }
 
 Widget control(){
-  return const Text("Inicio de sesión", style: TextStyle(color: Colors.black, fontSize: 40),);
+  return GradientText(
+                'INICIO DE SESIÓN',
+                style: const TextStyle(
+                    fontSize: 25.0,
+                ),
+                gradientType: GradientType.linear,
+                gradientDirection: GradientDirection.ttb,
+                radius: 2.5,
+                colors: const [
+                    Color.fromARGB(255, 130, 0, 206),
+                    Color.fromARGB(255, 70, 119, 255),
+                    Color.fromARGB(255, 0, 80, 172),
+                ],
+            );
 }
 
 Widget espacio(){
   return const SizedBox(
-    height: 30,
+    height: 40,
   );
 }
 
-Widget linea(){
-  return const Text('___________________________________________________', style: TextStyle(color: Color.fromARGB(255, 5, 5, 5)),);
-}
+
 
 Widget usuario(){
   return  Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
     child: TextField(
       controller: usuariob,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0)
-        ),
-        counterStyle: const TextStyle(color: Colors.white),
+      decoration: const InputDecoration(
+        counterStyle: TextStyle(color: Colors.white),
         hintText: "Usuario",
       ),
     ),
@@ -135,15 +177,12 @@ Widget usuario(){
 
 Widget contrasena(){
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
     child: TextField(
       controller: contrab,
       obscureText: true,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0)
-        ),
-        counterStyle: const TextStyle(color: Colors.white),
+      decoration: const InputDecoration(
+        counterStyle: TextStyle(color: Colors.white),
         hintText: "contraseña",
       ),
     ),
