@@ -100,14 +100,6 @@ String contrabd = "";
               ),
                 ],
                 ),
-                   MaterialButton(
-                color: Colors.transparent,
-                elevation: 0,
-                onPressed: (){
-                  
-                },
-              child: const Text('¡NO POSEE USUARIO REGISTRATE AQUI!', style: TextStyle(color: Colors.blue),),
-              ),
               ],
             ),
           ),
