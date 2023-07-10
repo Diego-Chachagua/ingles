@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/form_a.dart';
+import 'package:ingles/screens/form_es.dart';
+import 'package:ingles/screens/form_p.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import 'screens/form_e.dart';
@@ -68,13 +70,13 @@ class FirstRoute extends StatelessWidget {
                         MaterialButton(
                           child: const SizedBox(height: 150, width: 145, child: Image(image: AssetImage('assets/profesor.png'))),
                           onPressed: () {
-                            
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const FormP(),));
                           },
                         ),
                         MaterialButton(
                       child: const SizedBox(height: 150, width: 145, child: Image(image: AssetImage('assets/alumno.png'))),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const FormE(),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Formes(),));
                       },
                     ),
                       ],
