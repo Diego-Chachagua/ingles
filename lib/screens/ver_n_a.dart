@@ -175,11 +175,11 @@ class _VerNotasAEState extends State<VerNotasA> {
                     MaterialButton(
                       onPressed: () {},
                       child: const SizedBox(
-                          height: 40,
-                          width: 40,
+                          height: 35,
+                          width: 35,
                           child: Image(image: AssetImage('assets/lupa.png'))),
-                          minWidth: 40,
-                          
+                          minWidth: 35,
+
                     ),
                     //fin de espacio para edición de boton de busqueda
                   ],
