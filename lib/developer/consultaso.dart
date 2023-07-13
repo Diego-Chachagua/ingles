@@ -25,3 +25,35 @@ Future<dynamic> comprobara(String usuariobd, String contrabd) async{
     return enviar.body;
   }
 }
+
+Future<dynamic> comprobare(String usuariobd, String contrabd) async{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/forme.php'),
+    body: <String, dynamic>{
+      "usuario": usuariobd,
+      "contra": contrabd,
+    },
+  );
+   if (enviar.statusCode == 201) {
+    return "error";
+  } else {
+
+    return enviar.body;
+  }
+}
+
+Future<dynamic> comprobarp(String usuariobd, String contrabd) async{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/formp.php'),
+    body: <String, dynamic>{
+      "usuario": usuariobd,
+      "contra": contrabd,
+    },
+  );
+   if (enviar.statusCode == 201) {
+    return "error";
+  } else {
+
+    return enviar.body;
+  }
+}
