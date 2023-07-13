@@ -46,7 +46,7 @@ class _VerNotasAEState extends State<VerNotasA> {
                 child: Column(
                   children: [
                     GradientText(
-                      'TASK RESULTS',
+                      'HOMEWORK GRADES',
                       style: const TextStyle(
                         fontSize: 30.0,
                       ),
@@ -60,7 +60,7 @@ class _VerNotasAEState extends State<VerNotasA> {
                       ],
                     ),
                     GradientText(
-                      '(Resultados de tareas)',
+                      '(Calificaciones de tarea)',
                       style: const TextStyle(
                         fontSize: 20.0,
                       ),

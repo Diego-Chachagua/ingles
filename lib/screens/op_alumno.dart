@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../main.dart';
-import 'ver_n_a.dart';
+import 'elec_e_o_t.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -135,7 +135,7 @@ class _OpAlumEState extends State<OpAlum> {
                           onPressed: () {
                              Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const VerNotasA()),
+                          MaterialPageRoute(builder: (context) => const ElecEOT()),
                         );
                           },
                           child: const SizedBox(
