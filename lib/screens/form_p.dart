@@ -1,6 +1,7 @@
 // ignore: file_names
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
+import '../developer/consultaso.dart';
 import '../main.dart';
 import 'unidades.dart';
 
@@ -85,20 +86,13 @@ class _FormPState extends State<FormP> {
                     width: 30,
                   ),
                   MaterialButton(
-                    color: const Color.fromARGB(255, 135, 8, 160),
-                    onPressed: () async {
-                      usuariobd = usuariob.text;
-                      contrabd = contrab.text;
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Unidades(),
-                          ));
-                    },
-                    child: const Text(
-                      'Iniciar',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  color: const Color.fromARGB(255, 135, 8, 160),
+                  onPressed: () async{
+                    usuariobd = usuariob.text;
+                    contrabd = contrab.text;
+                    
+                  },
+                  child: const Text('Iniciar', style: TextStyle(color: Colors.white),),
                   ),
                   const SizedBox(
                     height: 50,

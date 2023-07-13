@@ -73,7 +73,7 @@ String contrabd = "";
                   onPressed: () async{
                     usuariobd = usuariob.text;
                     contrabd = contrab.text;
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => const OpAlum(),));
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => const OpAlum()));
                   },
                   child: const Text('Iniciar'),
                   ),
