@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'package:ingles/screens/ver_n_a.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
 import '../developer/consultaso.dart';
@@ -89,7 +90,7 @@ String contrabd = "";
                   MaterialButton(
                   color: const Color.fromARGB(255, 135, 8, 160),
                   onPressed: () async{
-                     usuariobd = usuariob.text;
+                    usuariobd = usuariob.text;
                     contrabd = contrab.text;
                     if (usuariobd.isNotEmpty || contrabd.isNotEmpty) {
                     dynamic respuesta = await comprobara(usuariobd,contrabd);
@@ -106,7 +107,7 @@ String contrabd = "";
                         // ignore: use_build_context_synchronously
                         Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const FirstRoute()),
+                  MaterialPageRoute(builder: (context) => const VerNotasA()),
                    );
                       }
                     }
