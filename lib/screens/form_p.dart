@@ -19,6 +19,7 @@ class FormP extends StatefulWidget {
 }
 
 class _FormPState extends State<FormP> {
+   bool _obscureText = true;
 final usuariob =TextEditingController();
 final contrab =TextEditingController();
 
@@ -192,9 +193,16 @@ Widget contrasena(){
     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
     child: TextField(
       controller: contrab,
-      obscureText: true,
-      decoration: const InputDecoration(
-        counterStyle: TextStyle(color: Colors.white),
+      obscureText: _obscureText,
+      decoration:  InputDecoration(
+        suffixIcon: GestureDetector(onTap: (){
+          setState(() {
+            _obscureText=!_obscureText;
+          });
+        },
+        child: Icon(_obscureText ?Icons.visibility : Icons.visibility_off),
+        ),
+        counterStyle: const TextStyle(color: Colors.white),
         hintText: "contraseña",
       ),
     ),

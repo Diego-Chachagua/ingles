@@ -1,5 +1,4 @@
 // ignore: file_names
-import 'package:ingles/screens/ver_n_a.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
 import '../developer/consultaso.dart';
@@ -8,19 +7,18 @@ import '../main.dart';
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
-    home: FormA(),
+    home: FormP(),
   ));
 }
 
-class FormA extends StatefulWidget {
-  const FormA({super.key});
+class FormP extends StatefulWidget {
+  const FormP({super.key});
 
   @override
-  State<FormA> createState() => _FormAState();
+  State<FormP> createState() => _FormPState();
 }
 
-class _FormAState extends State<FormA> {
-  bool _obscureText = true;
+class _FormPState extends State<FormP> {
 final usuariob =TextEditingController();
 final contrab =TextEditingController();
 
@@ -44,7 +42,7 @@ String contrabd = "";
               
               title: Center(
                 child: GradientText(
-                  'WELCOME',
+                  'SPEAK UP',
                   style: const TextStyle(
                       fontSize: 50.0,
                   ),
@@ -91,31 +89,11 @@ String contrabd = "";
                   MaterialButton(
                   color: const Color.fromARGB(255, 135, 8, 160),
                   onPressed: () async{
-                    usuariobd = usuariob.text;
+                     usuariobd = usuariob.text;
                     contrabd = contrab.text;
-                    if (usuariobd.isNotEmpty || contrabd.isNotEmpty) {
-                    dynamic respuesta = await comprobara(usuariobd,contrabd);
-                    if (respuesta == "error") {
-                        _mensaje(context);
-
-                      //se produjo un error
-                    }
-                    if (respuesta == "noExiste") {
-                      //no hay usuario con ese nombre
-                      _mensajeUsu(context);
-                    } else {
-                         if(respuesta == "admin"){
-                        // ignore: use_build_context_synchronously
-                        Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const VerNotasA()),
-                   );
-                      }
-                    }
-                    }
-                    
+                   
                   },
-                  child: const Text('Iniciar', style: TextStyle(color: Colors.white),),
+                  child: const Text('Registrarse', style: TextStyle(color: Colors.white),),
                   ),
 
                   const SizedBox(
@@ -154,7 +132,7 @@ Widget  Cuerpo(){
 
 Widget control(){
   return GradientText(
-                'INICIO DE SESIÓN',
+                '¡REGISTRATE!',
                 style: const TextStyle(
                     fontSize: 25.0,
                 ),
@@ -195,16 +173,9 @@ Widget contrasena(){
     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
     child: TextField(
       controller: contrab,
-      obscureText: _obscureText,
-      decoration:  InputDecoration(
-        suffixIcon: GestureDetector(onTap: (){
-          setState(() {
-            _obscureText=!_obscureText;
-          });
-        },
-        child: Icon(_obscureText ?Icons.visibility : Icons.visibility_off),
-        ),
-        counterStyle: const TextStyle(color: Colors.white),
+      obscureText: true,
+      decoration: const InputDecoration(
+        counterStyle: TextStyle(color: Colors.white),
         hintText: "contraseña",
       ),
     ),
