@@ -91,9 +91,28 @@ final contrab =TextEditingController();
                   MaterialButton(
                   color: const Color.fromARGB(255, 135, 8, 160),
                   onPressed: () async{
-                    usuariobd = usuariob.text;
+                     usuariobd = usuariob.text;
                     contrabd = contrab.text;
-                    
+                    if (usuariobd.isNotEmpty || contrabd.isNotEmpty) {
+                    dynamic respuesta = await comprobarp(usuariobd,contrabd);
+                    if (respuesta == "error") {
+                        _mensaje(context);
+
+                      //se produjo un error
+                    }
+                    if (respuesta == "noExiste") {
+                      //no hay usuario con ese nombre
+                      _mensajeUsu(context);
+                    } else {
+                         if(respuesta == "profe"){
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FirstRoute()),
+                   );
+                      }
+                    }
+                    }
                   },
                   child: const Text('Iniciar', style: TextStyle(color: Colors.white),),
                   ),

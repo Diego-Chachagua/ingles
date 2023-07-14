@@ -89,11 +89,31 @@ final contrab =TextEditingController();
                   const SizedBox(
                     width: 30,
                   ),
-                  MaterialButton(
+                 MaterialButton(
                   color: const Color.fromARGB(255, 135, 8, 160),
                   onPressed: () async{
                     usuariobd = usuariob.text;
                     contrabd = contrab.text;
+                    if (usuariobd.isNotEmpty || contrabd.isNotEmpty) {
+                    dynamic respuesta = await comprobara(usuariobd,contrabd);
+                    if (respuesta == "error") {
+                        _mensaje(context);
+
+                      //se produjo un error
+                    }
+                    if (respuesta == "noExiste") {
+                      //no hay usuario con ese nombre
+                      _mensajeUsu(context);
+                    } else {
+                         if(respuesta == "admin"){
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const VerNotasA()),
+                   );
+                      }
+                    }
+                    }
                     
                   },
                   child: const Text('Iniciar', style: TextStyle(color: Colors.white),),
