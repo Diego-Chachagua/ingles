@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/verusu.dart';
+
+import 'eliminar.dart';
 
 
 class Admin extends StatelessWidget {
@@ -110,7 +113,10 @@ class _AdministracionState extends State<Administracion> {
         child: ElevatedButton(
       onPressed: () {
         // Acción al presionar el botón
-        
+            Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const VerUsuarios()),
+                   );
       },
       child: Text('Consultar'),
       style: ButtonStyle(
@@ -132,6 +138,10 @@ class _AdministracionState extends State<Administracion> {
         child: ElevatedButton(
       onPressed: () {
         // Acción al presionar el botón
+            Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EliminarDatos()),
+                   );
       },
       child: Text('Eliminar'),
       style: ButtonStyle(
@@ -153,6 +163,7 @@ class _AdministracionState extends State<Administracion> {
         child: ElevatedButton(
       onPressed: () {
         // Acción al presionar el botón
+        
       },
       child: Text('Profesor'),
       style: ButtonStyle(
