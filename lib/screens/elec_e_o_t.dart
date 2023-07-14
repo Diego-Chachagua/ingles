@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../main.dart';
 import 'ver_n_a.dart';
+import 'ver_n_e.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -75,7 +76,10 @@ class _ElecEOTEState extends State<ElecEOT> {
                           children: [
                             MaterialButton(
                               onPressed: () {
-                
+                                 Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const VerNotasA()),
+                        );
                               },
                               child: const SizedBox(
                                   height: 150,
@@ -104,6 +108,10 @@ class _ElecEOTEState extends State<ElecEOT> {
                           children: [
                             MaterialButton(
                               onPressed: () {
+                                 Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const VerNotasE()),
+                        );
                 
                               },
                               child: const SizedBox(
