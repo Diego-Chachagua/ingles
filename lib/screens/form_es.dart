@@ -1,8 +1,10 @@
 // ignore: file_names
+import 'package:ingles/screens/registrarse.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
+import 'form_p.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -126,7 +128,10 @@ String contrabd = "";
                 color: Colors.transparent,
                 elevation: 0,
                 onPressed: (){
-                  
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Registro()),
+                   );
                 },
               child: const Text('¡NO POSEE USUARIO REGISTRATE AQUI!', style: TextStyle(color: Colors.blue),),
               ),
