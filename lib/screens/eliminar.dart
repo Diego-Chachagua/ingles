@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../developer/consultad.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -46,10 +48,10 @@ class _EliminarDatosState extends State<EliminarDatos> {
           toolbarHeight: 130,
           elevation: 0,
           title:  const Text(
-            '        \n        Eliminación \n        de Usuarios',
+            '        \n  Eliminación \n  de Usuarios',
           style: TextStyle(
             fontSize: 40,
-            color: Color.fromARGB(255, 58, 22, 219), // Establecer el color del texto
+            color: Color.fromARGB(255, 73, 75, 175), // Establecer el color del texto
           ),
           
           ),
@@ -132,14 +134,14 @@ class _EliminarDatosState extends State<EliminarDatos> {
           hintText:
               'Escriba el nie codigo del docente que deseas eliminar',
           labelText: 'NIE/CODIGO',
-          labelStyle: TextStyle(color: Color.fromARGB(255, 58, 22, 219), fontWeight: FontWeight.bold,),
+          labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,),
           hintStyle: TextStyle(
-          color: Color.fromARGB(255, 58, 22, 219),
+          color: Colors.black,
           fontWeight: FontWeight.bold,
           ),
           helperText: 'Escriba el nie o codigo del docente solamente',
           helperStyle: TextStyle(
-          color: Color.fromARGB(255, 58, 22, 219),
+          color: Colors.black,
           fontWeight: FontWeight.bold,
           fontSize: 14,
         ),
@@ -161,22 +163,19 @@ class _EliminarDatosState extends State<EliminarDatos> {
           print(usu);
           print(usu2);
           _controller.text = '';
+          eliminarUsu(usu, usu2);
           setState(() {});
         },
         child: const Text(
           'Eliminar',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 19,
+            fontSize: 16,
           ),
         ),
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 208, 206, 206),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(11),
-            side: BorderSide(width: 1, color: Colors.black),
-          ),
+          primary: const Color.fromARGB(255, 135, 8, 160),
           minimumSize: Size(100, 40),
         ),
       ),
@@ -190,17 +189,13 @@ class _EliminarDatosState extends State<EliminarDatos> {
         child: const Text(
           'Cancelar',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 19,
+            fontSize: 16,
           ),
         ),
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 208, 206, 206),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(11),
-            side: BorderSide(width: 1, color: Colors.black),
-          ),
+          primary: const Color.fromARGB(255, 135, 8, 160),
           minimumSize: Size(100, 40),
         ),
       ),
@@ -228,12 +223,12 @@ Widget _createInput() {
             filled: true,
             hintText: 'Introduzca la contraseña:',
             hintStyle: TextStyle(
-              color: Color.fromARGB(255, 58, 22, 219),
+              color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
             helperText: 'Esta acción eliminará todos los estudiantes',
             helperStyle: TextStyle(
-              color: Color.fromARGB(255, 58, 22, 219),
+              color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -257,17 +252,13 @@ Widget boton2() {
         child: const Text(
           'Aceptar',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 19,
+            fontSize: 16,
           ),
         ),
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 208, 206, 206),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(11),
-            side: BorderSide(width: 1, color: Colors.black),
-          ),
+          primary: const Color.fromARGB(255, 135, 8, 160),
           minimumSize: Size(100, 40),
         ),
       ),
@@ -281,17 +272,13 @@ Widget boton2() {
         child: const Text(
           'Cancelar',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 19,
+            fontSize: 16,
           ),
         ),
         style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 208, 206, 206),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(11),
-            side: BorderSide(width: 1, color: Colors.black),
-          ),
+          primary: const Color.fromARGB(255, 135, 8, 160),
           minimumSize: Size(100, 40),
         ),
       ),
