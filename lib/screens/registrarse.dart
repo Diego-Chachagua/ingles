@@ -19,15 +19,25 @@ class Registro extends StatefulWidget {
 }
 
 class _RegistroState extends State<Registro> {
-
-   bool _obscureText = true;
-final usuariob =TextEditingController();
-final contrab =TextEditingController();
-final nombre =TextEditingController();
-final apellido =TextEditingController();
+  bool _obscureText = true;
+  final usuariob = TextEditingController();
+  final contrab = TextEditingController();
+  final nombre = TextEditingController();
+  final apellido = TextEditingController();
 
   String usuariobd = "";
   String contrabd = "";
+
+  String _seleccionada = 'Año';
+  List anios = [
+    'Año',
+    '1',
+    '2',
+  ];
+  String _seleccionada2 = 'Seccion';
+  List seccion = ['Seccion', 'A', 'F', 'E', 'H', 'G', 'D'];
+  String _seleccionada3 = 'Genero';
+  List gene = ['Genero', 'Masculino', 'Femenino'];
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +86,7 @@ final apellido =TextEditingController();
                     onPressed: () {
                       Navigator.pop(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const Formes()),
+                        MaterialPageRoute(builder: (context) => const Formes()),
                       );
                     },
                     child: const Text(
@@ -89,11 +98,12 @@ final apellido =TextEditingController();
                     width: 30,
                   ),
                   MaterialButton(
-                  color: const Color.fromARGB(255, 135, 8, 160),
-                  onPressed: () async{
-                    
-                  },
-                  child: const Text('Iniciar', style: TextStyle(color: Colors.white),),
+                    color: const Color.fromARGB(255, 135, 8, 160),
+                    onPressed: () async {},
+                    child: const Text(
+                      'Iniciar',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   const SizedBox(
                     height: 50,
@@ -112,9 +122,16 @@ final apellido =TextEditingController();
     return Center(
       child: Column(children: <Widget>[
         espacio(),
+        const SizedBox(
+          height: 10,
+        ),
         control(),
         const SizedBox(
-          height: 40,
+          height: 10,
+        ),
+        crearDropdDownButton(),
+        const SizedBox(
+          height: 20,
         ),
         nombrea(),
         const SizedBox(
@@ -130,9 +147,7 @@ final apellido =TextEditingController();
         ),
         contrasena(),
         Row(
-          children: [
-            
-          ],
+          children: [],
         )
       ]),
     );
@@ -161,7 +176,7 @@ final apellido =TextEditingController();
     );
   }
 
-Widget apellidoa() {
+  Widget apellidoa() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: TextField(
@@ -200,24 +215,26 @@ Widget apellidoa() {
     );
   }
 
-Widget contrasena(){
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-    child: TextField(
-      controller: contrab,
-      obscureText: _obscureText,
-      decoration:  InputDecoration(
-        suffixIcon: GestureDetector(onTap: (){
-          setState(() {
-            _obscureText=!_obscureText;
-          });
-        },
-        child: Icon(_obscureText ?Icons.visibility : Icons.visibility_off),
-        ),
-        counterStyle: const TextStyle(color: Colors.white),
-        hintText: "Escriba la contraseña que desea usar:",
-      ),
-    ));
+  Widget contrasena() {
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        child: TextField(
+          controller: contrab,
+          obscureText: _obscureText,
+          decoration: InputDecoration(
+            suffixIcon: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+              child:
+                  Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+            ),
+            counterStyle: const TextStyle(color: Colors.white),
+            hintText: "Escriba la contraseña que desea usar:",
+          ),
+        ));
   }
 
   void _mensajeUsu(BuildContext context) {
@@ -269,5 +286,73 @@ Widget contrasena(){
             ],
           );
         });
+  }
+
+  List<DropdownMenuItem<String>> getOptionsDropDownButton() {
+    List<DropdownMenuItem<String>> annios = [];
+    anios.forEach((element) {
+      annios.add(DropdownMenuItem(
+        child: Text(element),
+        value: element,
+      ));
+    });
+    return annios;
+  }
+
+  List<DropdownMenuItem<String>> getOptionsDropDownButton2() {
+    List<DropdownMenuItem<String>> secciones = [];
+    seccion.forEach((element) {
+      secciones.add(DropdownMenuItem(
+        child: Text(element),
+        value: element,
+      ));
+    });
+    return secciones;
+  }
+
+  List<DropdownMenuItem<String>> getOptionsDropDownButton3() {
+    List<DropdownMenuItem<String>> genero = [];
+    gene.forEach((element) {
+      genero.add(DropdownMenuItem(
+        child: Text(element),
+        value: element,
+      ));
+    });
+    return genero;
+  }
+
+  Widget crearDropdDownButton() {
+    return Row(
+      children: <Widget>[
+        const SizedBox(width: 23),
+        DropdownButton(
+          value: _seleccionada,
+          items: getOptionsDropDownButton(),
+          onChanged: (value) {
+            setState(() {
+              _seleccionada = value.toString();
+            });
+          },
+        ),
+        const SizedBox(width: 39),
+        DropdownButton(
+          value: _seleccionada2,
+          items: getOptionsDropDownButton2(),
+          onChanged: (value) {
+            _seleccionada2 = value.toString();
+
+            setState(() {});
+          },
+        ),
+        const SizedBox(width: 39),
+        DropdownButton(
+          value: _seleccionada3,
+          items: getOptionsDropDownButton3(),
+          onChanged: (value) {
+            setState(() {});
+          },
+        ),
+      ],
+    );
   }
 }
