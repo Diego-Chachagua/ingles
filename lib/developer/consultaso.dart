@@ -57,3 +57,19 @@ Future<dynamic> comprobarp(String usuariobd, String contrabd) async{
     return enviar.body;
   }
 }
+
+Future<dynamic> consultarup() async{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/consultarup.php'),
+    body: <String, dynamic>{
+
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+   if (enviar.statusCode == 201) {
+    return "error";
+  } else {
+
+    return resultado;
+  }
+}

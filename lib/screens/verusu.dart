@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'dart:typed_data';
 
+import 'package:ingles/screens/usuariop.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -331,6 +333,10 @@ class _VerUsuariosState extends State<VerUsuarios> {
     return Row(children: [
       ElevatedButton(
         onPressed: () {
+          Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const UsuarioP()),
+                   );
           setState(() {});
         },
         child: const Text(

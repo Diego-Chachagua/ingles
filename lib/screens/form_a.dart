@@ -184,19 +184,26 @@ final contrab =TextEditingController();
     );
   }
 
-  Widget contrasena() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      child: TextField(
-        controller: contrab,
-        obscureText: true,
-        decoration: const InputDecoration(
-          counterStyle: TextStyle(color: Colors.white),
-          hintText: "contraseña",
+Widget contrasena(){
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+    child: TextField(
+      controller: contrab,
+      obscureText: _obscureText,
+      decoration:  InputDecoration(
+        suffixIcon: GestureDetector(onTap: (){
+          setState(() {
+            _obscureText=!_obscureText;
+          });
+        },
+        child: Icon(_obscureText ?Icons.visibility : Icons.visibility_off),
         ),
+        counterStyle: const TextStyle(color: Colors.white),
+        hintText: "contraseña",
       ),
-    );
-  }
+    ),
+  );
+} 
 
   void _mensajeUsu(BuildContext context) {
     showDialog(
