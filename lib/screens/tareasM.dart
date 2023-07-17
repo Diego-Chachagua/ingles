@@ -7,18 +7,18 @@ import 'elec_e_o_t.dart';
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
-    home: OpAlum(),
+    home: TareasP(),
   ));
 }
 
-class OpAlum extends StatefulWidget {
-  const OpAlum({super.key});
+class TareasP extends StatefulWidget {
+  const TareasP({super.key});
 
   @override
-  State<OpAlum> createState() => _OpAlumEState();
+  State<TareasP> createState() => _TareasPEState();
 }
 
-class _OpAlumEState extends State<OpAlum> {
+class _TareasPEState extends State<TareasP> {
   final usuariob = TextEditingController();
   final contrab = TextEditingController();
 
