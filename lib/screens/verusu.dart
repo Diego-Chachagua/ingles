@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:typed_data';
 
 import 'package:ingles/screens/usuariop.dart';
+import 'package:ingles/screens/verusualu.dart';
 
 
 void main() {
@@ -96,10 +97,6 @@ class _VerUsuariosState extends State<VerUsuarios> {
           titulo1(),
           espacio(),
           estudiantes(),
-          espacio(),
-          titulo2(),
-          espacio(),
-          perfil(),
           espacio(),
           titulo3(),
           espacio(),
@@ -237,6 +234,8 @@ class _VerUsuariosState extends State<VerUsuarios> {
               onPressed: () async{
                 seccione = textField2Controller.text;
                 gradoe = textField6Controller.text;
+
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> UsuarioAL(seccione2: seccione, gradoe2: gradoe)));
               },
               child: const Text(
                 'Ver',
@@ -261,71 +260,7 @@ class _VerUsuariosState extends State<VerUsuarios> {
     );
   }
 
-  Widget perfil() {
-  return Center(
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: TextField(
-              maxLength: 1,
-              textAlign: TextAlign.center,
-              controller: textField3Controller,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                fillColor: Color.fromARGB(0, 238, 238, 238),
-                filled: true,
-                hintText: 'Nie',
-                hintStyle: TextStyle(
-                  color: Color.fromARGB(97, 73, 75, 175),
-                  fontWeight: FontWeight.bold,
-                ),
-                labelText: 'Nie',
-                labelStyle: TextStyle(
-                  color: Color.fromARGB(255, 73, 75, 175),
-                  fontWeight: FontWeight.bold,
-                ),
-                helperText: 'solo el nie',
-                helperStyle: TextStyle(
-                  color: Color.fromARGB(255, 73, 75, 175),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 24.0,
-          ), // Espacio entre el campo de texto y el botón
-          ElevatedButton(
-            onPressed: () async {
-              gradoprofe = textField3Controller.text;
-            },
-            child: const Text(
-              'Ver',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              primary: const Color.fromARGB(255, 150, 62, 231),
-              minimumSize: const Size(70, 50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(11.0),
-                side: const BorderSide(color: Colors.black),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
+ 
 
 
 

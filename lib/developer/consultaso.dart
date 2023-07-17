@@ -73,3 +73,20 @@ Future<dynamic> consultarup() async{
     return resultado;
   }
 }
+
+Future<dynamic> enviarusu(String seccione2,String gradoe2) async{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/usuycontra.php'),
+    body: <String, dynamic>{
+      "seccion": seccione2,
+      "grado": gradoe2,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+   if (enviar.statusCode == 201) {
+    return "error";
+  } else {
+
+    return resultado;
+  }
+}
