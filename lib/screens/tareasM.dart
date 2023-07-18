@@ -34,29 +34,34 @@ class _TareasPEState extends State<TareasP> {
         ),
         child: Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: false,
+              title: Center(child: Text("Crear Actividad o tarea")),
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
-              title: Center(
-                child: GradientText(
-                  'ELIJA UNA OPCION',
-                  style: const TextStyle(
-                    fontSize: 30.0,
-                  ),
-                  gradientType: GradientType.linear,
-                  gradientDirection: GradientDirection.ttb,
-                  radius: 3.5,
-                  colors: const [
-                    Color.fromARGB(255, 170, 63, 233),
-                    Color.fromARGB(255, 66, 91, 233),
-                    Color.fromARGB(255, 60, 135, 221),
-                  ],
-                ),
-              ),
+               
             ),
             backgroundColor: Colors.transparent,
             body: SingleChildScrollView(
                 child: Center(
+                  child: Column(
+                    children: [
+                
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        
+                        children: [
+                          Text("Name of activity"),
+                          Container(
+                            height: 30,
+                            width: 30,
+                            color: Colors.amber,
+                          )
+                        ],
+                      ),
+                      Container(width: 500,height: 2,color: Colors.black,)
+                      
+                      
+                    ],
+                  ),
                 )
             )
         )

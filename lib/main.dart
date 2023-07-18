@@ -4,7 +4,6 @@ import 'package:ingles/screens/form_es.dart';
 import 'package:ingles/screens/form_p.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-import 'screens/form_e.dart';
 
 void main() {
   runApp(const MaterialApp(
