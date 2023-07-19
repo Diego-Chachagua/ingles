@@ -3,8 +3,8 @@ import 'package:ingles/screens/form_a.dart';
 import 'package:ingles/screens/form_es.dart';
 import 'package:ingles/screens/form_p.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
-import 'screens/form_e.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -17,6 +17,16 @@ void main() {
 
 class FirstRoute extends StatelessWidget {
   const FirstRoute({super.key});
+
+  @override
+void initState(){
+  super.initState();
+  (() async{
+    FlutterWindowManager.addFlags(
+    FlutterWindowManager.FLAG_SECURE);
+  })();
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -176,6 +186,8 @@ class FirstRoute extends StatelessWidget {
     );
   }
 }
+
+
 
 Widget inicio(){
   return Container(
