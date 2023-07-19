@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
 import 'form_p.dart';
+import 'op_alumno.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -109,7 +110,7 @@ String contrabd = "";
                         // ignore: use_build_context_synchronously
                          Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const FirstRoute()),
+                  MaterialPageRoute(builder: (context) => const  OpAlum()),
                    );
                       }
                     }
