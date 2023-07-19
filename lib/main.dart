@@ -15,9 +15,14 @@ void main() {
   ));
 }
 
-class FirstRoute extends StatelessWidget {
+class FirstRoute extends StatefulWidget {
   const FirstRoute({super.key});
 
+  @override
+  State<FirstRoute> createState() => _FirstRouteState();
+}
+
+class _FirstRouteState extends State<FirstRoute> {
   @override
 void initState(){
   super.initState();
@@ -26,7 +31,6 @@ void initState(){
     FlutterWindowManager.FLAG_SECURE);
   })();
 }
-
 
   @override
   Widget build(BuildContext context) {
