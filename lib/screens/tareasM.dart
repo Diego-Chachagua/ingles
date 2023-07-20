@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../main.dart';
@@ -22,10 +21,16 @@ class _TareasPEState extends State<TareasP> {
   final usuariob = TextEditingController();
   final contrab = TextEditingController();
   final nameac = TextEditingController();
-
+  final changeask = TextEditingController();
+   final nameask = TextEditingController();
+  int opactual = 0;
+  List<Widget> _addedWidgets = [];
   String usuariobd = "";
   String contrabd = "";
   String nameA = "NAME OF ACTIVITY/TASK";
+  int number = 1;
+  String ask = "Escribe tu pregunta aqui";
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +55,9 @@ class _TareasPEState extends State<TareasP> {
                   children: [
                     Container(
                       width: 250,
-                      height: 80,
+                      height: 60,
                       child: TextField(
+                        enabled: false,
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         decoration: InputDecoration.collapsed(
@@ -82,26 +88,39 @@ class _TareasPEState extends State<TareasP> {
                   height: 2,
                   color: Colors.black,
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Column(
+                  children: _addedWidgets,
+                )
               ],
             ),
           )),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_comment_outlined),
-              label: 'Add Ask'
-
-            ),
-            BottomNavigationBarItem(
-            icon: Icon(Icons.add_photo_alternate_outlined),
-            label: 'Add Image'
-            ),
-            BottomNavigationBarItem(
-            icon: Icon(Icons.add_link_outlined),
-            label: 'Record Audio'
-            ),
-            
-          ]),
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              FloatingActionButton(
+                onPressed: () async {
+                  setState(() {
+                    
+                    _nameask(context);
+                  });
+                },
+                child: Icon(Icons.add_comment_outlined),
+              ),
+              FloatingActionButton(
+                onPressed: () {
+                  _elegirImg(context);
+                },
+                child: Icon(Icons.add_photo_alternate_outlined),
+              ),
+              FloatingActionButton(
+                onPressed: () {},
+                child: Icon(Icons.add_link_rounded),
+              ),
+            ],
+          ),
         ));
   }
 
@@ -146,7 +165,194 @@ class _TareasPEState extends State<TareasP> {
                           }
                         });
                       },
-                      child: const Text('Aceptar',style: TextStyle(color: Colors.white),),
+                      child: const Text(
+                        'Aceptar',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
+//mensaje emergente para mostrar una pantalla emergente para cambiar la pregunta
+
+  void _changeask(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Cambia la pregunta"),
+            actions: [
+              Column(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 250,
+                      height: 80,
+                      child: TextField(
+                        controller: changeask,
+                        textAlign: TextAlign.center,
+                        cursorColor: Colors.black,
+                        maxLength: 40,
+                        maxLines: 2,
+                        decoration: const InputDecoration.collapsed(
+                            hintText: "Escribe la pregunta aqui",
+                            hintStyle: TextStyle(fontSize: 15)),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        setState(() {
+                          if (changeask.text == "") {
+                            ask = "Escribe tu pregunta aqui";
+                            number;
+                          } else {
+                            number;
+                            ask = changeask.text;
+                          }
+                        });
+                      },
+                      child: const Text(
+                        'Aceptar',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
+  //widget para crear una pregunta
+  Widget usuario() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 300,
+          height: 50,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: TextField(
+            enabled: false,
+            decoration: InputDecoration.collapsed(
+              hintText: "${number++}-${ask}",
+            ),
+          ),
+        ),
+        const SizedBox(
+          width: 5,
+        ),
+        MaterialButton(
+          onPressed: () {
+            _changeask(context);
+          },
+          minWidth: 10,
+          height: 50,
+          child: Container(
+            width: 30,
+            height: 30,
+            child: Icon(Icons.edit),
+          ),
+        )
+      ],
+    );
+  }
+
+  void _elegirImg(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Seleccionar una imagen"),
+            content: MaterialButton(
+              onPressed: () {},
+              minWidth: 40,
+              height: 70,
+              child: SizedBox(
+                width: 150,
+                height: 50,
+                child: Center(
+                    child: Row(
+                  children: const [
+                    Text("Elegir imagen"),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    Icon(Icons.image)
+                  ],
+                )),
+              ),
+            ),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancelar'),
+                ),
+              )
+            ],
+          );
+        });
+  }
+  void _nameask(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Cambia la pregunta"),
+            actions: [
+              Column(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 250,
+                      height: 80,
+                      child: TextField(
+                        controller: nameask,
+                        textAlign: TextAlign.center,
+                        cursorColor: Colors.black,
+                        maxLength: 40,
+                        maxLines: 2,
+                        decoration: const InputDecoration.collapsed(
+                            hintText: "Escribe la pregunta aqui",
+                            hintStyle: TextStyle(fontSize: 15)),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        setState(() {
+                          if (nameask.text == "") {
+                            ask = "Escribe tu pregunta aqui";
+                            number;
+                          } else {
+                            number;
+                            ask = nameask.text;
+                            _addedWidgets.add(usuario());
+                          }
+                        });
+                      },
+                      child: const Text(
+                        'Aceptar',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
