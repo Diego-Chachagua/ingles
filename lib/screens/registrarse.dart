@@ -1,7 +1,9 @@
 // ignore: file_names
+// ignore_for_file: prefer_final_fields, prefer_const_literals_to_create_immutables, avoid_function_literals_in_foreach_calls, sort_child_properties_last, unused_element, avoid_print
+
+import 'package:ingles/developer/consultad.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
-import '../developer/consultaso.dart';
 import 'form_es.dart';
 
 void main() {
@@ -24,6 +26,16 @@ class _RegistroState extends State<Registro> {
   final contrab = TextEditingController();
   final nombre = TextEditingController();
   final apellido = TextEditingController();
+  final nieee = TextEditingController();
+  String usu = '';
+  String contra = '';
+  String nom = '';
+  String apell = '';
+  String nnie = '';
+  dynamic grado = 0;
+  dynamic seccionb2;
+  String seccionb = '';
+  String g = '';
 
   String usuariobd = "";
   String contrabd = "";
@@ -33,9 +45,10 @@ class _RegistroState extends State<Registro> {
     'Año',
     '1',
     '2',
+    '3',
   ];
   String _seleccionada2 = 'Seccion';
-  List seccion = ['Seccion', 'A', 'F', 'E', 'H', 'G', 'D'];
+  List seccion = ['Seccion', 'A', 'F', 'E', 'H', 'G', 'D', 'K', 'O', 'L', 'M', 'N'];
   String _seleccionada3 = 'Genero';
   List gene = ['Genero', 'Masculino', 'Femenino'];
 
@@ -99,7 +112,48 @@ class _RegistroState extends State<Registro> {
                   ),
                   MaterialButton(
                     color: const Color.fromARGB(255, 135, 8, 160),
-                    onPressed: () async {},
+                    onPressed: () async {
+                    nnie = nieee.text;
+                    nom = nombre.text;
+                    apell = apellido.text;
+                    usu = usuariob.text;
+                    contra = contrab.text;
+                    grado = _seleccionada;
+                    g;
+                    seccionb2 = _seleccionada2;
+                    if(seccionb2 == 'A'){
+                      seccionb = '1';
+                    }
+                    if(seccionb2 == 'E'){
+                      seccionb = '2';
+                    }
+                    if(seccionb2 == 'K'){
+                      seccionb = '3';
+                    }
+                    if(seccionb2 == 'G'){
+                      seccionb = '4';
+                    }
+                    if(seccionb2 == 'D'){
+                      seccionb = '5';
+                    }
+                    if(seccionb2 == 'O'){
+                      seccionb = '6';
+                    }
+                    if(seccionb2 == 'L'){
+                      seccionb = '7';
+                    }
+                    if(seccionb2 == 'M'){
+                      seccionb = '8';
+                    }
+                    if(seccionb2 == 'N'){
+                      seccionb = '9';
+                    }
+                    if(seccionb2 == 'F'){
+                      seccionb = '10';
+                    }
+                    
+                    await registro(nnie, nom, apell, g, grado, seccionb, usu, contra);
+                    },
                     child: const Text(
                       'Iniciar',
                       style: TextStyle(color: Colors.white),
@@ -133,6 +187,10 @@ class _RegistroState extends State<Registro> {
         const SizedBox(
           height: 20,
         ),
+        niee(),
+        const SizedBox(
+          height: 10,
+        ),
         nombrea(),
         const SizedBox(
           height: 10,
@@ -152,6 +210,8 @@ class _RegistroState extends State<Registro> {
       ]),
     );
   }
+
+  
 
   Widget control() {
     return GradientText(
@@ -197,6 +257,20 @@ class _RegistroState extends State<Registro> {
         decoration: const InputDecoration(
           counterStyle: TextStyle(color: Colors.white),
           hintText: "Escriba su nombre completo",
+        ),
+      ),
+    );
+  }
+
+Widget niee() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      child: TextField(
+        keyboardType: TextInputType.number,
+        controller: nieee,
+        decoration: const InputDecoration(
+          counterStyle: TextStyle(color: Colors.white),
+          hintText: "Escriba su nie:",
         ),
       ),
     );
@@ -248,7 +322,7 @@ class _RegistroState extends State<Registro> {
             actions: [
               Center(
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.pop(context);
                     usuariob.clear();
                     contrab.clear();
@@ -330,7 +404,7 @@ class _RegistroState extends State<Registro> {
           items: getOptionsDropDownButton(),
           onChanged: (value) {
             setState(() {
-              _seleccionada = value.toString();
+              _seleccionada = value.toString();              
             });
           },
         ),
@@ -340,7 +414,6 @@ class _RegistroState extends State<Registro> {
           items: getOptionsDropDownButton2(),
           onChanged: (value) {
             _seleccionada2 = value.toString();
-
             setState(() {});
           },
         ),
@@ -349,6 +422,12 @@ class _RegistroState extends State<Registro> {
           value: _seleccionada3,
           items: getOptionsDropDownButton3(),
           onChanged: (value) {
+            _seleccionada3 = value.toString();
+            if(_seleccionada3 == 'Femenino'){
+              g = 'F';
+            }else{
+              g = 'M';
+            }
             setState(() {});
           },
         ),
@@ -356,3 +435,4 @@ class _RegistroState extends State<Registro> {
     );
   }
 }
+
