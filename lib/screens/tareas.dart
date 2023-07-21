@@ -1,5 +1,7 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+
+import '../developer/consultaso.dart';
 // import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 void main() {
@@ -20,6 +22,35 @@ class Tareas extends StatefulWidget {
 }
 
 class _TareasState extends State<Tareas> {
+var reslt;
+List<String> tareas= [];
+
+  @override
+void initState(){
+  super.initState();
+  (() async{
+    reslt = await tareasd(widget.grado,widget.seccion);
+    if (reslt!="noExisten"){
+      for (var i = 0; i < reslt.length; i++){
+    var dato =reslt[i];
+    print(dato["cod_g"]);
+
+  // ignore: non_constant_identifier_names
+          var nom_tem = dato["cod_g"];
+
+         
+
+setState(() {
+  // Actualizar las listas con los datos obtenidos
+  tareas.add(nom_tem);
+
+
+});
+  }
+    }
+  })();
+}
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -68,6 +99,7 @@ class _TareasState extends State<Tareas> {
               //Apartado del cuadro con imagen
               Row(
                 children: [
+                   for (var i = 0; i < tareas.length; i++)
                   Container(
                     margin: const EdgeInsets.only(top: 20, right: 20),
                     height: 120,
@@ -81,6 +113,7 @@ class _TareasState extends State<Tareas> {
                       
                       ),
                     ),
+                    for (var i = 0; i < tareas.length; i++)
                     Container(
                       //Apartado del boton
                       margin: const EdgeInsets.only(top: 20),
@@ -88,10 +121,11 @@ class _TareasState extends State<Tareas> {
                       width: 200,
                       color: const Color.fromARGB(255, 135, 8, 160),
                       
+                      
                       child:  MaterialButton(onPressed: (){
 
                       },
-                      child:  Text(widget.grado, style: TextStyle(color: Colors.white)),
+                      child:  Center(child: Text(tareas[i], style: const TextStyle(fontSize: 20))),
 
                         
                       

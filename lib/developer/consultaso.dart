@@ -107,3 +107,20 @@ Future<dynamic> anosec(String usuario,String contra) async{
     return resultado;
   }
 }
+
+Future<dynamic> tareasd(String grado,String seccion) async{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/tareas.php'),
+    body: <String, dynamic>{
+      "grado": grado,
+      "seccion": seccion,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+   if (enviar.statusCode == 201) {
+    return "error";
+  } else {
+
+    return resultado;
+  }
+}
