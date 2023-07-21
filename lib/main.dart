@@ -3,6 +3,7 @@ import 'package:ingles/screens/form_a.dart';
 import 'package:ingles/screens/form_es.dart';
 import 'package:ingles/screens/form_p.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
 
 void main() {
@@ -14,8 +15,22 @@ void main() {
   ));
 }
 
-class FirstRoute extends StatelessWidget {
+class FirstRoute extends StatefulWidget {
   const FirstRoute({super.key});
+
+  @override
+  State<FirstRoute> createState() => _FirstRouteState();
+}
+
+class _FirstRouteState extends State<FirstRoute> {
+  @override
+void initState(){
+  super.initState();
+  (() async{
+    FlutterWindowManager.addFlags(
+    FlutterWindowManager.FLAG_SECURE);
+  })();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -175,6 +190,8 @@ class FirstRoute extends StatelessWidget {
     );
   }
 }
+
+
 
 Widget inicio(){
   return Container(
