@@ -85,7 +85,7 @@ class _TareasState extends State<Tareas> {
                       //Apartado del boton
                       margin: const EdgeInsets.only(top: 20),
                       height: 50,
-                      width: 210,
+                      width: 200,
                       color: const Color.fromARGB(255, 135, 8, 160),
                       
                       child:  MaterialButton(onPressed: (){
