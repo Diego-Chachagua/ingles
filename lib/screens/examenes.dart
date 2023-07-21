@@ -1,6 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
+// import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -18,35 +18,41 @@ class Examenes extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/lila.jpg'), fit: BoxFit.fill),
+            image: AssetImage('assets/lila.jpg'), fit: BoxFit.cover),
       ),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title:  Center(
-            child: GradientText(
-                  'XAM',
-                  style: const TextStyle(
-                      fontSize: 50.0,
-                  ),
-                  gradientType: GradientType.linear,
-                  gradientDirection: GradientDirection.ttb,
-                  radius: 2.5,
-                  colors: const [
-                      Color.fromARGB(255, 153, 97, 185),
-                      Color.fromARGB(255, 59, 68, 117),
-                      Color.fromARGB(255, 127, 131, 136),
-                  ],
-                          ),
-   
-          ),
+        appBar:  PreferredSize(
+    preferredSize: Size.fromHeight(150),
+    child: AppBar(
+      centerTitle: true,
+      //MODIFICACION DEL CONTAINER DEL APPBAR
+  title: Text("", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 25),),
+  backgroundColor: Colors.red,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft: Radius.circular(50)),
+    ),
+    //MODIFICACION DE LA IMAGEN DEL APPBAR
+  flexibleSpace: ClipRRect(
+  borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),
+     child: Container(
+    decoration: BoxDecoration(
+      image: DecorationImage(
+      image: AssetImage("assets/Banner_app.png"),
+      fit: BoxFit.fill
+
+      ),
+     
+    ),
+     )
+  ),
+    )
         ),
+        backgroundColor: Colors.transparent,
         body:  SingleChildScrollView(
           child: Column(
             children: [
             //Definicion de la linea
-              const SizedBox(height: 20,),
+              const SizedBox(height: 5,),
               Container(
               height: 5,
               width: 1000,
@@ -94,10 +100,10 @@ class Examenes extends StatelessWidget {
         
           ),
         ),
-        backgroundColor: Colors.transparent,
+       
       ),
     );
-
+    
   
 
   }
