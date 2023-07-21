@@ -65,6 +65,7 @@ String contrabd = "";
           body: SingleChildScrollView(
             child: Column(
               children: [
+                //cuerpo del formulario
                 Cuerpo(),
                 Row(
                 children: [
@@ -95,6 +96,7 @@ String contrabd = "";
                   onPressed: () async{
                      usuariobd = usuariob.text;
                     contrabd = contrab.text;
+                    //comprobacion de usuario y contraseña
                     if (usuariobd.isNotEmpty || contrabd.isNotEmpty) {
                     dynamic respuesta = await comprobare(usuariobd,contrabd);
                     if (respuesta == "error") {
@@ -110,7 +112,7 @@ String contrabd = "";
                         // ignore: use_build_context_synchronously
                          Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const  OpAlum()),
+                  MaterialPageRoute(builder: (context) =>   OpAlum(usuario: usuariobd, contra: contrabd)),
                    );
                       }
                     }
@@ -164,7 +166,7 @@ Widget  Cuerpo(){
    ]),
  );
 }
-
+//widgets que forman la aplicacion
 Widget control(){
   return GradientText(
                 'INICIO DE SESIÓN',

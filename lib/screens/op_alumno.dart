@@ -1,29 +1,75 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import '../developer/consultaso.dart';
 import '../main.dart';
 import 'elec_e_o_t.dart';
 
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
-    home: OpAlum(),
+    home: OpAlum(usuario: '',contra: '',),
   ));
 }
 
 class OpAlum extends StatefulWidget {
-  const OpAlum({super.key});
+  final String usuario;
+  final String contra;
+  const OpAlum({super.key, required this.usuario, required this.contra});
+
+  
 
   @override
   State<OpAlum> createState() => _OpAlumEState();
 }
 
 class _OpAlumEState extends State<OpAlum> {
-  final usuariob = TextEditingController();
-  final contrab = TextEditingController();
-
   String usuariobd = "";
   String contrabd = "";
+  List<String> contrap = [];
+List<String> nombrep= [];
+var reslt;
+String grado="";
+String seccion="";
+
+
+  @override
+void initState(){
+  super.initState();
+  (() async{
+    reslt = await anosec(widget.usuario,widget.contra);
+    if (reslt!="noExisten"){
+      for (var i = 0; i < reslt.length; i++){
+    var dato =reslt[i];
+    print(dato["cod_g"]);
+    print(dato["cod_s"]);
+
+  // ignore: non_constant_identifier_names
+          var nom_tem = dato["cod_g"];
+
+          // ignore: non_constant_identifier_names
+          var i_tem = dato["cod_s"];
+         
+
+setState(() {
+  // Actualizar las listas con los datos obtenidos
+  nombrep.add(nom_tem);
+  contrap.add(i_tem);
+
+for (var i = 0; i < nombrep.length; i++) {
+  grado=nombrep[i];
+}
+for (var i = 0; i < contrap.length; i++) {
+  seccion=contrap[i];
+}
+
+});
+  }
+    }
+  })();
+}
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +118,7 @@ class _OpAlumEState extends State<OpAlum> {
                       children: [
                         MaterialButton(
                           onPressed: () {
-
+                              
                           },
                           child: const SizedBox(
                               height: 150,

@@ -63,6 +63,7 @@ final contrab =TextEditingController();
         body: SingleChildScrollView(
           child: Column(
             children: [
+              //cuerpo del formulario
               Cuerpo(),
               Row(
                 children: [
@@ -94,6 +95,7 @@ final contrab =TextEditingController();
                   onPressed: () async{
                     usuariobd = usuariob.text;
                     contrabd = contrab.text;
+                    //comprobacion de usuario y contraseña
                     if (usuariobd.isNotEmpty || contrabd.isNotEmpty) {
                     dynamic respuesta = await comprobara(usuariobd,contrabd);
                     if (respuesta == "error") {
@@ -129,7 +131,7 @@ final contrab =TextEditingController();
       ),
     );
   }
-
+//widgets que forman la aplicacion
 // ignore: non_constant_identifier_names
   Widget Cuerpo() {
     return Center(

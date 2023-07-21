@@ -90,3 +90,20 @@ Future<dynamic> enviarusu(String seccione2,String gradoe2) async{
     return resultado;
   }
 }
+
+Future<dynamic> anosec(String usuario,String contra) async{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/grasecc.php'),
+    body: <String, dynamic>{
+      "usu": usuario,
+      "contra": contra,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+   if (enviar.statusCode == 201) {
+    return "error";
+  } else {
+
+    return resultado;
+  }
+}

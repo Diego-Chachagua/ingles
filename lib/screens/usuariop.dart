@@ -25,7 +25,7 @@ List<String> usup = [];
 List<String> contrap = [];
 List<String> nombrep= [];
 var reslt;
-
+//extraccion de datos
 @override
 void initState(){
   super.initState();
@@ -107,6 +107,7 @@ setState(() {
                     contra(),
                   ]
                 ),
+                //generacion de tabla automatica segun datos de la base
                  for (var i = 0; i < nombrep.length; i++)
                  TableRow(
                   decoration: const BoxDecoration(
