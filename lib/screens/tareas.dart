@@ -6,13 +6,20 @@ void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Navigation Basics',
-    home: Tareas(),
+    home: Tareas(seccion: '', grado: '',),
   ));
 }
 
-class Tareas extends StatelessWidget {
-  const Tareas({super.key});
+class Tareas extends StatefulWidget {
+  final String grado;
+  final String seccion;
+  const Tareas({super.key, required this.grado, required this.seccion});
 
+  @override
+  State<Tareas> createState() => _TareasState();
+}
+
+class _TareasState extends State<Tareas> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,20 +29,20 @@ class Tareas extends StatelessWidget {
       ),
       child: Scaffold(
         appBar:  PreferredSize(
-    preferredSize: Size.fromHeight(150),
+    preferredSize: const Size.fromHeight(150),
     child: AppBar(
       centerTitle: true,
       //MODIFICACION DEL CONTAINER DEL APPBAR
-  title: Text("", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 25),),
+  title: const Text("", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 25),),
   backgroundColor: Colors.red,
-  shape: RoundedRectangleBorder(
+  shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft: Radius.circular(50)),
     ),
     //MODIFICACION DE LA IMAGEN DEL APPBAR
   flexibleSpace: ClipRRect(
-  borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),
+  borderRadius: const BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),
      child: Container(
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       image: DecorationImage(
       image: AssetImage("assets/Banner_app.png"),
       fit: BoxFit.fill
@@ -56,19 +63,19 @@ class Tareas extends StatelessWidget {
               Container(
               height: 5,
               width: 1000,
-              color: Color.fromARGB(255, 15, 152, 161),
+              color: const Color.fromARGB(255, 15, 152, 161),
               ),
               //Apartado del cuadro con imagen
               Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 20, right: 20),
+                    margin: const EdgeInsets.only(top: 20, right: 20),
                     height: 120,
                     width: 120,
                     decoration: BoxDecoration(
-                      color:  Color.fromARGB(255, 185, 91, 91),
+                      color:  const Color.fromARGB(255, 185, 91, 91),
                       borderRadius: BorderRadius.circular(300),
-                      border: Border.all(width: 2, color: Color.fromARGB(255, 24, 3, 119)),
+                      border: Border.all(width: 2, color: const Color.fromARGB(255, 24, 3, 119)),
                       image: const DecorationImage(
                       image: AssetImage('assets/task.png'),),
                       
@@ -76,14 +83,15 @@ class Tareas extends StatelessWidget {
                     ),
                     Container(
                       //Apartado del boton
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       height: 50,
-                      width: 250,
+                      width: 210,
                       color: const Color.fromARGB(255, 135, 8, 160),
+                      
                       child:  MaterialButton(onPressed: (){
 
                       },
-                      child: const Text("Tarea asignada", style: TextStyle(color: Colors.white)),
+                      child:  Text(widget.grado, style: TextStyle(color: Colors.white)),
 
                         
                       
@@ -107,5 +115,4 @@ class Tareas extends StatelessWidget {
   
 
   }
-  
 }

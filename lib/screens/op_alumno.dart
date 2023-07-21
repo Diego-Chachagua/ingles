@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/tareas.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
@@ -118,7 +119,10 @@ for (var i = 0; i < contrap.length; i++) {
                       children: [
                         MaterialButton(
                           onPressed: () {
-                              
+                              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>   Tareas(grado: grado, seccion: seccion)),
+                   );
                           },
                           child: const SizedBox(
                               height: 150,
