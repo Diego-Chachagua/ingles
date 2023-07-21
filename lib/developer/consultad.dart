@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unused_local_variable, unused_impor, avoid_print, unused_import
+// ignore_for_file: non_constant_identifier_names, unused_local_variable, unused_impor, avoid_print, unused_import, prefer_const_declarations
 
 import 'package:http/http.dart' as http;
 //Libreria que nos permitira usar funciones async
@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'dart:collection';
 
 import 'dart:io';
+
 
 Future<dynamic> eliminarUsu(var usu ,String usu2) async{
   print(usu);
@@ -21,3 +22,21 @@ Future<dynamic> eliminarUsu(var usu ,String usu2) async{
     },
     );
 }
+
+Future<dynamic> registro(String nnie, String nom, String apell, String g, dynamic grado, dynamic seccionb, String usu, String contra) async {
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/registro.php'),
+    body: <String, dynamic>{
+      "nnie": nnie,
+      "nom": nom,
+      "apell": apell,
+      "g": g,
+      "grado": grado,
+      "seccionb": seccionb,
+      "usu": usu,
+      "contra": contra,
+    },
+  );
+  print(enviar.body);
+}
+

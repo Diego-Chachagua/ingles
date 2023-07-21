@@ -1,4 +1,6 @@
 // ignore: file_names
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, unused_import
+
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../main.dart';
@@ -35,7 +37,7 @@ class _VerNotasEEState extends State<VerNotasE> {
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/fondo_v.jpg'), fit: BoxFit.cover),
+              image: AssetImage('assets/fondof.jpg'), fit: BoxFit.cover),
         ),
         child: Scaffold(
             appBar: AppBar(
@@ -89,102 +91,8 @@ class _VerNotasEEState extends State<VerNotasE> {
                     SizedBox(
                       width: 20,
                     ),
-                    Text(
-                      "Filtros:",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 87, 51, 235),
-                        fontSize: 25,
-                      ),
-                    )
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    //definicion de menu desplegabe para año
-                   Container(
-                      width: 70,
-                      height: 31,
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 135, 114, 216),
-                          border: Border.all(width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Center(
-                        child: DropdownButton(items: GetOptionsDropDownButton2(),
-                   value: _seleccionada2,
-                   onChanged: (value){
-                    setState(() {
-                      _seleccionada2 = value.toString();
-
-                    });
-                   },
-                   style: TextStyle(color: Colors.white,fontSize: 20,),
-                   dropdownColor: Color.fromARGB(255, 135, 114, 216),
-                   borderRadius: BorderRadius.circular(10),
-                   ),
-                      )
-                    ),
-                      //fin de definicion de menu desplegable de año
-                      //inicio de definicion de menu desplegable de secciones
-                     Container(
-                      width: 94,
-                      height: 31,
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 135, 114, 216),
-                          border: Border.all(width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Center(
-                        child: DropdownButton(items: GetOptionsDropDownButton(),
-                   value: _seleccionada,
-                   onChanged: (value){
-                    setState(() {
-                      _seleccionada = value.toString();
-
-                    });
-                   },
-                   style: TextStyle(color: Colors.white,fontSize: 20,),
-                   dropdownColor: Color.fromARGB(255, 135, 114, 216),
-                   borderRadius: BorderRadius.circular(10),
-                   ),
-                      )
-                    ), 
-                    //fin de definicion de menu desplegable de secciones
-                    Container(
-                      width: 90,
-                      height: 31,
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 135, 114, 216),
-                          border: Border.all(width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Center(
-                        child: DropdownButton(items: GetOptionsDropDownButton3(),
-                   value: _seleccionada3,
-                   onChanged: (value){
-                    setState(() {
-                      _seleccionada3 = value.toString();
-
-                    });
-                   },
-                   style: TextStyle(color: Colors.white,fontSize: 20,),
-                   dropdownColor: Color.fromARGB(255, 135, 114, 216),
-                   borderRadius: BorderRadius.circular(10),
-                   ),
-                      )
-                    ),
-                    //espacio para edificion de boton de busqueda
-                    MaterialButton(
-                      onPressed: () {},
-                      child: const SizedBox(
-                          height: 35,
-                          width: 35,
-                          child: Image(image: AssetImage('assets/lupa.png'))),
-                          minWidth: 35,
-
-                    ),
-                    //fin de espacio para edición de boton de busqueda
-                  ],
-                ),
-                //espacio para definicion de linea
                 const SizedBox(
                   height: 10,
                 ),
@@ -201,55 +109,58 @@ class _VerNotasEEState extends State<VerNotasE> {
                 MaterialButton(onPressed:(){
 
                 } ,
-                child: Container(
-                  width: 320,
-                  height: 80,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(15)),
-                      color: Colors.grey,
-                      border: Border.all(
-                        width: 2,
-                        color: Colors.black,
-                      )),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row( 
-                        children: [
-                          const SizedBox(
-                            width: 30,
-                          ),
-                          const Text("Name of Activity",style: TextStyle(fontSize: 15),),
-                          const SizedBox(
-                            width: 110,
-                          ),
-                          Column(
-                            children: const[
-                               SizedBox(
-                            height: 40,
-                          ),
-                              Text("U1",style: TextStyle(fontSize: 15),),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-
-                          //espacio para definición de linea horizontal
-                          Container(
-                            width: 2,
-                            height: 76,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 2, color: Colors.black)
-                                //fin de espacio de linea horizontal
-                                ),
-                          ),
-                          const SizedBox(width:10),
-                          const Text("0/10",style: TextStyle(fontSize: 15),),
-                        ],
-                      ),
-                    ],
+                child: MaterialButton(
+                  onPressed: (){},
+                  child: Container(
+                    width: 320,
+                    height: 80,
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(15)),
+                        color: Color.fromARGB(255, 249, 249, 249),
+                        border: Border.all(
+                          width: 2,
+                          color: Colors.black,
+                        )),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row( 
+                          children: [
+                            const SizedBox(
+                              width: 30,
+                            ),
+                            const Text("Name of Activity",style: TextStyle(fontSize: 15),),
+                            const SizedBox(
+                              width: 110,
+                            ),
+                            Column(
+                              children: const[
+                                 SizedBox(
+                              height: 40,
+                            ),
+                                Text("U1",style: TextStyle(fontSize: 15),),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                
+                            //espacio para definición de linea horizontal
+                            Container(
+                              width: 2,
+                              height: 76,
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(width: 2, color: Colors.black)
+                                  //fin de espacio de linea horizontal
+                                  ),
+                            ),
+                            const SizedBox(width:10),
+                            const Text("0/10",style: TextStyle(fontSize: 15),),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 )
