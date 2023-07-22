@@ -33,10 +33,10 @@ void initState(){
     if (reslt!="noExisten"){
       for (var i = 0; i < reslt.length; i++){
     var dato =reslt[i];
-    print(dato["cod_g"]);
+    print(dato["nombre_act"]);
 
   // ignore: non_constant_identifier_names
-          var nom_tem = dato["cod_g"];
+          var nom_tem = dato["nombre_act"];
 
          
 
@@ -56,7 +56,7 @@ setState(() {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/lila.jpg'), fit: BoxFit.cover),
+            image: AssetImage('assets/fondop.jpg'), fit: BoxFit.cover),
       ),
       child: Scaffold(
         appBar:  PreferredSize(
@@ -97,42 +97,48 @@ setState(() {
               color: const Color.fromARGB(255, 15, 152, 161),
               ),
               //Apartado del cuadro con imagen
-              Row(
+              for (var i = 0; i < tareas.length; i++)
+              Column(
                 children: [
-                   for (var i = 0; i < tareas.length; i++)
-                  Container(
-                    margin: const EdgeInsets.only(top: 20, right: 20),
-                    height: 120,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      color:  const Color.fromARGB(255, 185, 91, 91),
-                      borderRadius: BorderRadius.circular(300),
-                      border: Border.all(width: 2, color: const Color.fromARGB(255, 24, 3, 119)),
-                      image: const DecorationImage(
-                      image: AssetImage('assets/task.png'),),
-                      
-                      ),
-                    ),
-                    for (var i = 0; i < tareas.length; i++)
-                    Container(
-                      //Apartado del boton
-                      margin: const EdgeInsets.only(top: 20),
-                      height: 50,
-                      width: 200,
-                      color: const Color.fromARGB(255, 135, 8, 160),
-                      
-                      
-                      child:  MaterialButton(onPressed: (){
+                  
+                  Row(
+                    children: [
 
-                      },
-                      child:  Center(child: Text(tareas[i], style: const TextStyle(fontSize: 20))),
-
+                      Container(
+                        margin: const EdgeInsets.only(top: 20, right: 20),
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          
+                          borderRadius: BorderRadius.circular(300),
+                          border: Border.all(width: 2, color: const Color.fromARGB(255, 24, 3, 119)),
+                          image: const DecorationImage(
+                          image: AssetImage('assets/tareas.png'),),
+                          
+                          ),
+                        ),
                         
-                      
+                        Container(
+                          //Apartado del boton
+                          margin: const EdgeInsets.only(top: 20),
+                          height: 50,
+                          width: 200,
+                          color:Color.fromARGB(255, 171, 5, 204),
+                          
+                          
+                          child:  MaterialButton(onPressed: (){
 
-                      )
-                      ),
+                          },
+                          child:  Center(child: Text(tareas[i], style: const TextStyle(fontSize: 20, color: Colors.white))),
+
+                            
+                          
+
+                          )
+                          ),
         
+                    ],
+                  ),
                 ],
               ),
               
