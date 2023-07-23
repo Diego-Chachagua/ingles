@@ -2,20 +2,22 @@
 import 'package:flutter/material.dart';
 
 import '../developer/consultaso.dart';
+import '../main.dart';
 // import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Navigation Basics',
-    home: Tareas(seccion: '', grado: '',),
+    home: Tareas(seccion: '', grado: '', nie: '',),
   ));
 }
 
 class Tareas extends StatefulWidget {
   final String grado;
   final String seccion;
-  const Tareas({super.key, required this.grado, required this.seccion});
+  final String nie;
+  const Tareas({super.key, required this.grado, required this.seccion, required this.nie});
 
   @override
   State<Tareas> createState() => _TareasState();
@@ -24,6 +26,7 @@ class Tareas extends StatefulWidget {
 class _TareasState extends State<Tareas> {
 var reslt;
 List<String> tareas= [];
+List<String> cod= [];
 
   @override
 void initState(){
@@ -34,15 +37,19 @@ void initState(){
       for (var i = 0; i < reslt.length; i++){
     var dato =reslt[i];
     print(dato["nombre_act"]);
+    print(dato["cod_act"]);
 
   // ignore: non_constant_identifier_names
           var nom_tem = dato["nombre_act"];
+          // ignore: non_constant_identifier_names
+          var id_tem = dato["cod_act"];
 
          
 
 setState(() {
   // Actualizar las listas con los datos obtenidos
   tareas.add(nom_tem);
+  cod.add(id_tem);
 
 
 });
@@ -125,7 +132,26 @@ setState(() {
                           color:Color.fromARGB(255, 171, 5, 204),
                           
                           
-                          child:  MaterialButton(onPressed: (){
+                          child:  MaterialButton(onPressed: () async{
+                          
+                    dynamic respuesta = await comprobartarea(cod[i],widget.nie);
+                    if (respuesta == "error") {
+                        _mensaje(context);
+
+                      //se produjo un error
+                    }
+                    if (respuesta == "noExiste") {
+                      //ya realizo la prueba
+                      _mensajeUsu(context);
+                    } else {
+                         if(respuesta == "exito"){
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FirstRoute()),
+                   );
+                      }
+                    }
 
                           },
                           child:  Center(child: Text(tareas[i], style: const TextStyle(fontSize: 20, color: Colors.white))),
@@ -153,5 +179,51 @@ setState(() {
     
   
 
+  }
+    void _mensajeUsu(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("REALIZADO"),
+            content: const Text(
+                'Ya realizaste esta tarea'),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  void _mensaje(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("REALIZADO"),
+            content:
+                const Text('Ya realizaste esta tarea'),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              )
+            ],
+          );
+        });
   }
 }

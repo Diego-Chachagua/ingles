@@ -31,9 +31,11 @@ class _OpAlumEState extends State<OpAlum> {
   String contrabd = "";
   List<String> contrap = [];
 List<String> nombrep= [];
+List<String> niee= [];
 var reslt;
 String grado="";
 String seccion="";
+String nie="";
 
 
   @override
@@ -46,24 +48,32 @@ void initState(){
     var dato =reslt[i];
     print(dato["cod_g"]);
     print(dato["cod_s"]);
+    print(dato["nie"]);
 
   // ignore: non_constant_identifier_names
           var nom_tem = dato["cod_g"];
 
           // ignore: non_constant_identifier_names
           var i_tem = dato["cod_s"];
+
+          // ignore: non_constant_identifier_names
+          var id_tem = dato["nie"];
          
 
 setState(() {
   // Actualizar las listas con los datos obtenidos
   nombrep.add(nom_tem);
   contrap.add(i_tem);
+  niee.add(id_tem);
 
 for (var i = 0; i < nombrep.length; i++) {
   grado=nombrep[i];
 }
 for (var i = 0; i < contrap.length; i++) {
   seccion=contrap[i];
+}
+for (var i = 0; i < niee.length; i++) {
+  nie=niee[i];
 }
 
 });
@@ -123,7 +133,7 @@ for (var i = 0; i < contrap.length; i++) {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>   Tareas(grado: grado, seccion: seccion)),
+                              MaterialPageRoute(builder: (context) =>   Tareas(grado: grado, seccion: seccion, nie: nie)),
                             );    
                           },
                           child: const SizedBox(
