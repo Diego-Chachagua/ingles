@@ -132,11 +132,9 @@ void initState() {
                 ),
                 //espacio para definición de contenedor para mostrar historial
                 
-                MaterialButton(onPressed:(){
-                  
-                } ,
                 
-                child: MaterialButton(
+                for (var i = 0; i < nombre.length; i++)
+                 MaterialButton(
                   onPressed: ()async{
                   },
                   
@@ -192,7 +190,7 @@ void initState() {
                     ),
                   ),
                 ),
-                )
+                
                 //fin de definición de contenedor 
 
               ],
