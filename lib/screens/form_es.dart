@@ -1,4 +1,6 @@
 // ignore: file_names
+// ignore_for_file: use_build_context_synchronously, duplicate_ignore, avoid_print, unused_import
+
 import 'package:ingles/screens/registrarse.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
@@ -94,8 +96,10 @@ String contrabd = "";
                   MaterialButton(
                   color: const Color.fromARGB(255, 135, 8, 160),
                   onPressed: () async{
-                     usuariobd = usuariob.text;
+                    usuariobd = usuariob.text;
                     contrabd = contrab.text;
+                    print(usuariobd);
+                    print(contrabd);  
                     //comprobacion de usuario y contraseña
                     if (usuariobd.isNotEmpty || contrabd.isNotEmpty) {
                     dynamic respuesta = await comprobare(usuariobd,contrabd);
@@ -109,11 +113,11 @@ String contrabd = "";
                       _mensajeUsu(context);
                     } else {
                          if(respuesta == "estudiante"){
-                        // ignore: use_build_context_synchronously
-                         Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>   OpAlum(usuario: usuariobd, contra: contrabd)),
-                   );
+                        // ignore: use_build_context_synchronously                      
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>   OpAlum(usuario: usuariobd, contra: contrabd)),
+                          );
                       }
                     }
                     }

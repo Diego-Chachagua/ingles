@@ -1,19 +1,22 @@
 // ignore: file_names
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, unused_import
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, unused_import, unused_field, prefer_final_fields, await_only_futures, avoid_print, prefer_typing_uninitialized_variables, unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:ingles/developer/consultad.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../main.dart';
 
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
-    home: VerNotasE(),
+    home: VerNotasE(contra: '', usuario: '',),
   ));
 }
 
 class VerNotasE extends StatefulWidget {
-  const VerNotasE({super.key});
+  final String contra;
+  final String usuario;
+  const VerNotasE({super.key, required this.contra, required this.usuario});
 
   @override
   State<VerNotasE> createState() => _VerNotasEEState();
@@ -25,12 +28,27 @@ class _VerNotasEEState extends State<VerNotasE> {
 
   String usuariobd = "";
   String contrabd = "";
-    String _seleccionada2 = 'Año';
-    String _seleccionada = 'Seccion';
-    String _seleccionada3 = 'Unidad';
-  List anio = ['Año', '1', '2', '3'];
-  List seccion = ['Seccion','A','B','D','E','F','G','H','K','L','M','N','O'];
-  List unidad = ['Unidad','U1','U2','U3','U4'];
+  var resultado;
+  var dato;
+@override
+void initState() {
+  super.initState();
+  (() async {
+    usuariobd = widget.usuario;
+    contrabd = widget.contra;
+    resultado = await historialestu(usuariobd, contrabd);
+    if (resultado != null) {
+      for (dato in resultado) {
+        print(dato);
+      }
+    } else {
+      print("El resultado es nulo.");
+    }
+
+
+
+  })();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +128,8 @@ class _VerNotasEEState extends State<VerNotasE> {
 
                 } ,
                 child: MaterialButton(
-                  onPressed: (){},
+                  onPressed: ()async{
+                  },
                   child: Container(
                     width: 320,
                     height: 80,
@@ -129,9 +148,9 @@ class _VerNotasEEState extends State<VerNotasE> {
                             const SizedBox(
                               width: 30,
                             ),
-                            const Text("Name of Activity",style: TextStyle(fontSize: 15),),
-                            const SizedBox(
-                              width: 110,
+                              Text(dato, style: TextStyle(fontSize: 15)),
+                              const SizedBox(
+                              width: 90,
                             ),
                             Column(
                               children: const[
@@ -142,7 +161,7 @@ class _VerNotasEEState extends State<VerNotasE> {
                               ],
                             ),
                             const SizedBox(
-                              width: 10,
+                              width: 16,
                             ),
                 
                             //espacio para definición de linea horizontal
@@ -155,7 +174,7 @@ class _VerNotasEEState extends State<VerNotasE> {
                                   //fin de espacio de linea horizontal
                                   ),
                             ),
-                            const SizedBox(width:10),
+                            const SizedBox(width:6),
                             const Text("0/10",style: TextStyle(fontSize: 15),),
                           ],
                         ),
@@ -170,41 +189,5 @@ class _VerNotasEEState extends State<VerNotasE> {
             ))));
   }
 
-  List<DropdownMenuItem<String>> GetOptionsDropDownButton2() {
-    List<DropdownMenuItem<String>> anios = [];
-    anio.forEach((element) {
-      
-      anios.add(DropdownMenuItem(
-        child: Text(element),
-        
-        value: element,
-      ));
-    });
-    return anios;
-  }
-  List<DropdownMenuItem<String>> GetOptionsDropDownButton() {
-    List<DropdownMenuItem<String>> secciones = [];
-    seccion.forEach((element) {
-      
-      secciones.add(DropdownMenuItem(
-        child: Text(element),
-        
-        value: element,
-      ));
-    });
-    return secciones;
-  }
-  List<DropdownMenuItem<String>> GetOptionsDropDownButton3() {
-    List<DropdownMenuItem<String>> unidades = [];
-    unidad.forEach((element) {
-      
-      unidades.add(DropdownMenuItem(
-        child: Text(element),
-        
-        value: element,
-      ));
-    });
-    return unidades;
-  }
-
+ 
 }
