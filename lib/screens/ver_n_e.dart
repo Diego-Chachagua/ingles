@@ -29,7 +29,7 @@ class _VerNotasEEState extends State<VerNotasE> {
   String usuariobd = "";
   String contrabd = "";
   var resultado;
-  var dato;
+  var dato = "";
 @override
 void initState() {
   super.initState();
