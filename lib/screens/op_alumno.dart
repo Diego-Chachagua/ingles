@@ -1,4 +1,6 @@
 // ignore: file_names
+// ignore_for_file: unused_import, prefer_typing_uninitialized_variables, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/tareas.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -119,10 +121,10 @@ for (var i = 0; i < contrap.length; i++) {
                       children: [
                         MaterialButton(
                           onPressed: () {
-                              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>   Tareas(grado: grado, seccion: seccion)),
-                   );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>   ElecEOT(usu: usuariobd, contra: contrabd)),
+                            );    
                           },
                           child: const SizedBox(
                               height: 150,
@@ -183,10 +185,16 @@ for (var i = 0; i < contrap.length; i++) {
                       children: [
                         MaterialButton(
                           onPressed: () {
-                             Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const ElecEOT()),
-                        );
+                            print(widget.usuario);
+                            print(widget.contra);
+                            usuariobd = widget.usuario;
+                            contrabd = widget.contra;
+                            print(usuariobd);
+                            print(contrabd);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>   ElecEOT(usu: usuariobd, contra: contrabd)),
+                            );
                           },
                           child: const SizedBox(
                               height: 150,

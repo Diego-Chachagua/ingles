@@ -1,4 +1,6 @@
 // ignore: file_names
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../main.dart';
@@ -8,24 +10,22 @@ import 'ver_n_e.dart';
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
-    home: ElecEOT(),
+    home: ElecEOT(usu: '', contra: '',),
   ));
 }
 
 class ElecEOT extends StatefulWidget {
-  const ElecEOT({super.key});
+  final String usu;
+  final String contra;
+  const ElecEOT({super.key, required this.usu, required this.contra});
 
   @override
   State<ElecEOT> createState() => _ElecEOTEState();
 }
 
 class _ElecEOTEState extends State<ElecEOT> {
-  final usuariob = TextEditingController();
-  final contrab = TextEditingController();
-
-  String usuariobd = "";
-  String contrabd = "";
-
+  String usuariob = "";
+  String contrab = "";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -108,11 +108,12 @@ class _ElecEOTEState extends State<ElecEOT> {
                           children: [
                             MaterialButton(
                               onPressed: () {
-                                 Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const VerNotasE()),
-                        );
-                
+                                usuariob = widget.usu;
+                                contrab = widget.contra;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>   VerNotasE(usuario: usuariob, contra: contrab)),
+                              );     
                               },
                               child: const SizedBox(
                                   height: 150,

@@ -40,3 +40,20 @@ Future<dynamic> registro(String nnie, String nom, String apell, String g, dynami
   print(enviar.body);
 }
 
+Future<dynamic> historialestu(String usuariobd ,String contrabd) async{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/historialES.php'),
+    body: <String, dynamic>{
+      "usu": usuariobd,
+      "contra": contrabd,
+    },
+    );
+    print(enviar.body);
+    var resultado = jsonDecode(enviar.body);
+      if (enviar.statusCode == 201) {
+      return "error";
+    } else {
+      return resultado;
+    }
+}
+
