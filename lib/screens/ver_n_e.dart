@@ -156,7 +156,7 @@ void initState() {
                             const SizedBox(
                               width: 30,
                             ),
-                              Text(dato, style: TextStyle(fontSize: 15)),
+                              Text(nombre[i], style: TextStyle(fontSize: 15)),
                               const SizedBox(
                               width: 90,
                             ),
