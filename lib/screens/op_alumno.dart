@@ -123,7 +123,7 @@ for (var i = 0; i < contrap.length; i++) {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>   ElecEOT(usu: usuariobd, contra: contrabd)),
+                              MaterialPageRoute(builder: (context) =>   Tareas(grado: grado, seccion: seccion)),
                             );    
                           },
                           child: const SizedBox(
