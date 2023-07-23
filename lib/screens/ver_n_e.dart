@@ -30,6 +30,7 @@ class _VerNotasEEState extends State<VerNotasE> {
   String contrabd = "";
   var resultado;
   var dato = "";
+  List<String> nombre = [];
 @override
 void initState() {
   super.initState();
@@ -40,19 +41,25 @@ void initState() {
     if (resultado != null) {
       for (dato in resultado) {
         print(dato);
+      
+      var nombre_p = dato;
+
+    setState(() {
+      nombre.add(nombre_p);
+    });
       }
     } else {
       print("El resultado es nulo.");
     }
-
-
 
   })();
 }
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
+      
         decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/fondof.jpg'), fit: BoxFit.cover),
@@ -98,7 +105,7 @@ void initState() {
               ),
             ),
             backgroundColor: Colors.transparent,
-            body: SingleChildScrollView(
+            body: SingleChildScrollView(              
                 child: Column(
               children: [
                 const SizedBox(
@@ -124,12 +131,15 @@ void initState() {
                   height: 20,
                 ),
                 //espacio para definición de contenedor para mostrar historial
+                
                 MaterialButton(onPressed:(){
-
+                  
                 } ,
+                
                 child: MaterialButton(
                   onPressed: ()async{
                   },
+                  
                   child: Container(
                     width: 320,
                     height: 80,
