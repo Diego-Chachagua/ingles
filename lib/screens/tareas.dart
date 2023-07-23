@@ -94,7 +94,7 @@ setState(() {
               Container(
               height: 5,
               width: 1000,
-              color: const Color.fromARGB(255, 15, 152, 161),
+              color: Color.fromARGB(255, 0, 0, 0),
               ),
               //Apartado del cuadro con imagen
               for (var i = 0; i < tareas.length; i++)
@@ -105,15 +105,15 @@ setState(() {
                     children: [
 
                       Container(
-                        margin: const EdgeInsets.only(top: 20, right: 20),
+                        margin: const EdgeInsets.only(top: 20, right: 20,left: 10),
                         height: 120,
                         width: 120,
                         decoration: BoxDecoration(
-                          
-                          borderRadius: BorderRadius.circular(300),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(width: 2, color: const Color.fromARGB(255, 24, 3, 119)),
                           image: const DecorationImage(
-                          image: AssetImage('assets/tareas.png'),),
+                          image: AssetImage('assets/tareaso.png'),),
                           
                           ),
                         ),
