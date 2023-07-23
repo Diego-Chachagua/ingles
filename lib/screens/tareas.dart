@@ -108,11 +108,10 @@ setState(() {
                         margin: const EdgeInsets.only(top: 20, right: 20,left: 10),
                         height: 120,
                         width: 120,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 2, color: const Color.fromARGB(255, 24, 3, 119)),
-                          image: const DecorationImage(
+                        decoration: const BoxDecoration(
+                          
+                          
+                          image: DecorationImage(
                           image: AssetImage('assets/tareaso.png'),),
                           
                           ),
