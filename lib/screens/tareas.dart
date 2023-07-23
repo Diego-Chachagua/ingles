@@ -60,8 +60,9 @@ setState(() {
       ),
       child: Scaffold(
         appBar:  PreferredSize(
-    preferredSize: const Size.fromHeight(150),
+    preferredSize: const Size.fromHeight(130),
     child: AppBar(
+      automaticallyImplyLeading: false,
       centerTitle: true,
       //MODIFICACION DEL CONTAINER DEL APPBAR
   title: const Text("", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 25),),
@@ -71,7 +72,6 @@ setState(() {
     ),
     //MODIFICACION DE LA IMAGEN DEL APPBAR
   flexibleSpace: ClipRRect(
-  borderRadius: const BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),
      child: Container(
     decoration: const BoxDecoration(
       image: DecorationImage(
@@ -94,7 +94,7 @@ setState(() {
               Container(
               height: 5,
               width: 1000,
-              color: Color.fromARGB(255, 0, 0, 0),
+              color: const Color.fromARGB(255, 0, 0, 0),
               ),
               //Apartado del cuadro con imagen
               for (var i = 0; i < tareas.length; i++)
