@@ -153,6 +153,7 @@ class _RegistroState extends State<Registro> {
                     }
                     
                     await registro(nnie, nom, apell, g, grado, seccionb, usu, contra);
+                    _mensaje(context);
                     },
                     child: const Text(
                       'Iniciar',
@@ -340,16 +341,18 @@ Widget niee() {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Error de conexión"),
+            title: const Text("EXITO",style: TextStyle(color: Colors.green),),
             content:
-                const Text('Ocurrió un error al conectar con la base de datos'
-                    'o consulta errónea.'),
+                const Text('Se ha registrado con exito'),
             actions: [
               Center(
                 child: TextButton(
                   onPressed: () {
                     setState(() {
                       Navigator.pop(context);
+                      apellido.clear();
+                      nombre.clear();
+                      nieee.clear();
                       usuariob.clear();
                       contrab.clear();
                     });

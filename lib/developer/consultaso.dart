@@ -124,3 +124,19 @@ Future<dynamic> tareasd(String grado,String seccion) async{
     return resultado;
   }
 }
+
+Future<dynamic> comprobartarea(String nombret, String nie) async{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/comprobart.php'),
+    body: <String, dynamic>{
+      "tarea": nombret,
+      "nie": nie,
+    },
+  );
+   if (enviar.statusCode == 201) {
+    return "error";
+  } else {
+
+    return enviar.body;
+  }
+}

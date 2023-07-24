@@ -1,85 +1,44 @@
 // ignore: file_names
-// ignore_for_file: unused_import, prefer_typing_uninitialized_variables, avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/tareas.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
 import 'elec_e_o_t.dart';
+import 'tareasM.dart';
 
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
-    home: OpAlum(usuario: '',contra: '',),
+    home: ElecOP(usuario: '',contra: '',),
   ));
 }
 
-class OpAlum extends StatefulWidget {
+class ElecOP extends StatefulWidget {
   final String usuario;
   final String contra;
-  const OpAlum({super.key, required this.usuario, required this.contra});
+  const ElecOP({super.key, required this.usuario, required this.contra});
 
   
 
   @override
-  State<OpAlum> createState() => _OpAlumEState();
+  State<ElecOP> createState() => _ElecOPEState();
 }
 
-class _OpAlumEState extends State<OpAlum> {
+class _ElecOPEState extends State<ElecOP> {
   String usuariobd = "";
   String contrabd = "";
   List<String> contrap = [];
 List<String> nombrep= [];
-List<String> niee= [];
 var reslt;
 String grado="";
 String seccion="";
-String nie="";
 
 
   @override
 void initState(){
   super.initState();
-  (() async{
-    reslt = await anosec(widget.usuario,widget.contra);
-    if (reslt!="noExisten"){
-      for (var i = 0; i < reslt.length; i++){
-    var dato =reslt[i];
-    print(dato["cod_g"]);
-    print(dato["cod_s"]);
-    print(dato["nie"]);
-
-  // ignore: non_constant_identifier_names
-          var nom_tem = dato["cod_g"];
-
-          // ignore: non_constant_identifier_names
-          var i_tem = dato["cod_s"];
-
-          // ignore: non_constant_identifier_names
-          var id_tem = dato["nie"];
-         
-
-setState(() {
-  // Actualizar las listas con los datos obtenidos
-  nombrep.add(nom_tem);
-  contrap.add(i_tem);
-  niee.add(id_tem);
-
-for (var i = 0; i < nombrep.length; i++) {
-  grado=nombrep[i];
-}
-for (var i = 0; i < contrap.length; i++) {
-  seccion=contrap[i];
-}
-for (var i = 0; i < niee.length; i++) {
-  nie=niee[i];
-}
-
-});
-  }
-    }
-  })();
+  
 }
 
 
@@ -131,10 +90,10 @@ for (var i = 0; i < niee.length; i++) {
                       children: [
                         MaterialButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) =>   Tareas(grado: grado, seccion: seccion, nie: nie)),
-                            );    
+                              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>   const TareasP()),
+                   );
                           },
                           child: const SizedBox(
                               height: 150,
@@ -195,16 +154,10 @@ for (var i = 0; i < niee.length; i++) {
                       children: [
                         MaterialButton(
                           onPressed: () {
-                            print(widget.usuario);
-                            print(widget.contra);
-                            usuariobd = widget.usuario;
-                            contrabd = widget.contra;
-                            print(usuariobd);
-                            print(contrabd);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) =>   ElecEOT(usu: usuariobd, contra: contrabd)),
-                            );
+                        //      Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => const ElecEOT()),
+                        // );
                           },
                           child: const SizedBox(
                               height: 150,

@@ -27,8 +27,8 @@ class _FirstRouteState extends State<FirstRoute> {
 void initState(){
   super.initState();
   (() async{
-    FlutterWindowManager.addFlags(
-    FlutterWindowManager.FLAG_SECURE);
+    //FlutterWindowManager.addFlags(
+    // FlutterWindowManager.FLAG_SECURE);
   })();
 }
 
