@@ -3,6 +3,8 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
 import '../main.dart';
 import 'elec_e_o_t.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 void main() {
   runApp(const MaterialApp(
@@ -19,6 +21,18 @@ class TareasP extends StatefulWidget {
 }
 
 class _TareasPEState extends State<TareasP> {
+  File? imagen;
+
+  Future setimage() async{
+   var picturefile= await ImagePicker().pickImage(source: ImageSource.gallery);  
+
+   setState(() {
+     if(picturefile!=null){
+      imagen=File(picturefile.path);
+     }
+   });  
+  }
+  
   final usuariob = TextEditingController();
   final contrab = TextEditingController();
   final nameac = TextEditingController();
@@ -340,7 +354,9 @@ class _TareasPEState extends State<TareasP> {
           return AlertDialog(
             title: const Text("Seleccionar una imagen"),
             content: MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                setimage();
+              },
               minWidth: 40,
               height: 70,
               child: SizedBox(
@@ -558,4 +574,6 @@ class _TareasPEState extends State<TareasP> {
           );
         });
   }
+
+  
 }

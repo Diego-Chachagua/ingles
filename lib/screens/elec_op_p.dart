@@ -38,37 +38,7 @@ String seccion="";
   @override
 void initState(){
   super.initState();
-  (() async{
-    reslt = await anosec(widget.usuario,widget.contra);
-    if (reslt!="noExisten"){
-      for (var i = 0; i < reslt.length; i++){
-    var dato =reslt[i];
-    print(dato["cod_g"]);
-    print(dato["cod_s"]);
-
-  // ignore: non_constant_identifier_names
-          var nom_tem = dato["cod_g"];
-
-          // ignore: non_constant_identifier_names
-          var i_tem = dato["cod_s"];
-         
-
-setState(() {
-  // Actualizar las listas con los datos obtenidos
-  nombrep.add(nom_tem);
-  contrap.add(i_tem);
-
-for (var i = 0; i < nombrep.length; i++) {
-  grado=nombrep[i];
-}
-for (var i = 0; i < contrap.length; i++) {
-  seccion=contrap[i];
-}
-
-});
-  }
-    }
-  })();
+  
 }
 
 
