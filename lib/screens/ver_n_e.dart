@@ -1,5 +1,5 @@
 // ignore: file_names
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, unused_import, unused_field, prefer_final_fields, await_only_futures, avoid_print, prefer_typing_uninitialized_variables, unused_local_variable
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, unused_import, unused_field, prefer_final_fields, await_only_futures, avoid_print, prefer_typing_uninitialized_variables, unused_local_variable, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
 import 'package:ingles/developer/consultad.dart';
@@ -29,8 +29,10 @@ class _VerNotasEEState extends State<VerNotasE> {
   String usuariobd = "";
   String contrabd = "";
   var resultado;
-  var dato = "";
+  var dato;
   List<String> nombre = [];
+  List<String> nota = [];
+
 @override
 void initState() {
   super.initState();
@@ -39,21 +41,22 @@ void initState() {
     contrabd = widget.contra;
     resultado = await historialestu(usuariobd, contrabd);
     if (resultado != null) {
-      for (dato in resultado) {
+      for (var dato in resultado) {
         print(dato);
-      
-      var nombre_p = dato;
+        var nombre_p = dato['nombre'];
+        var nota_p = dato['nota'];
 
-    setState(() {
-      nombre.add(nombre_p);
-    });
+        setState(() {
+          nombre.add(nombre_p);
+          nota.add(nota_p);
+        });
       }
     } else {
       print("El resultado es nulo.");
     }
-
   })();
 }
+
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +117,7 @@ void initState() {
                 Row(
                   children: const [
                     SizedBox(
-                      width: 20,
+                      width: 40,
                     ),
                   ],
                 ),
@@ -134,68 +137,50 @@ void initState() {
                 
                 
                 for (var i = 0; i < nombre.length; i++)
-                 MaterialButton(
-                  onPressed: ()async{
-                  },
-                  
-                  child: Container(
-                    width: 320,
-                    height: 80,
-                    decoration: BoxDecoration(
+                  MaterialButton(
+                    onPressed: () async {
+                      // Aquí puedes agregar la lógica para el onPressed si es necesario
+                    },
+                    padding: EdgeInsets.only(top: 16.0),
+                    child: Container(
+                      width: 320,
+                      height: 60,
+                      decoration: BoxDecoration(
                         borderRadius: const BorderRadius.all(Radius.circular(15)),
                         color: Color.fromARGB(255, 249, 249, 249),
                         border: Border.all(
                           width: 2,
                           color: Colors.black,
-                        )),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row( 
-                          children: [
-                            const SizedBox(
-                              width: 30,
-                            ),
-                              Text(nombre[i], style: TextStyle(fontSize: 15)),
-                              const SizedBox(
-                              width: 90,
-                            ),
-                            Column(
-                              children: const[
-                                 SizedBox(
-                              height: 40,
-                            ),
-                                Text("U1",style: TextStyle(fontSize: 15),),
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                
-                            //espacio para definición de linea horizontal
-                            Container(
-                              width: 2,
-                              height: 76,
-                              decoration: BoxDecoration(
-                                  border:
-                                      Border.all(width: 2, color: Colors.black)
-                                  //fin de espacio de linea horizontal
-                                  ),
-                            ),
-                            const SizedBox(width:6),
-                            const Text("0/10",style: TextStyle(fontSize: 15),),
-                          ],
                         ),
-                      ],
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 30,
+                            top: 20,
+                            child: Text(nombre[i], style: TextStyle(fontSize: 15)),
+                          ),
+                          Positioned(
+                            left: 255,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              width: 2,
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 2, color: Colors.black),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: 270,
+                            top: 20,
+                            child: Text(nota[i] + "/10"),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                
-                //fin de definición de contenedor 
-
+                  ), //fin de definición de contenedor 
               ],
             ))));
   }
-
- 
 }
