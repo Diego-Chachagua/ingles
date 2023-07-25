@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
@@ -5,6 +7,7 @@ import '../main.dart';
 import 'elec_e_o_t.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'dart:convert';
 
 void main() {
   runApp(const MaterialApp(
@@ -23,14 +26,19 @@ class TareasP extends StatefulWidget {
 class _TareasPEState extends State<TareasP> {
   File? imagen;
 
-  Future setimage() async{
+//future para buscar y almacenar imagen
+  Future setimage(var ask) async{
    var picturefile= await ImagePicker().pickImage(source: ImageSource.gallery);  
 
    setState(() {
      if(picturefile!=null){
       imagen=File(picturefile.path);
+     }else{
+      print("no se agregado nada");
      }
    });  
+   agregarImg(ask,imagen);
+
   }
   
   final usuariob = TextEditingController();
@@ -47,6 +55,8 @@ class _TareasPEState extends State<TareasP> {
   String ask = "Escribe tu pregunta aqui";
   var reslt;
   List preguntas = [];
+  List imagenes=[];
+  List images=[];
   List cod_p = [];
   @override
   void initState() {
@@ -66,9 +76,17 @@ class _TareasPEState extends State<TareasP> {
           var dato = reslt[i];
           var nom_tem = dato["pregunta"];
           var cod = dato["cod_p_a"];
-          preguntas.add(nom_tem);
+          var img=dato["img"];
 
+          preguntas.add(nom_tem);
+          imagenes.add(img);
           cod_p.add(cod);
+          if(img!=null){
+            Uint8List bytes = base64.decode(img);
+            images.add(bytes);
+          }
+          
+          
 
           // Agregar las nuevas preguntas a la lista
         }
@@ -153,6 +171,7 @@ class _TareasPEState extends State<TareasP> {
                   for (i = 0; i < preguntas.length; i++)
                     Column(
                       children: [
+                        imagenes[i]==null ?
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -165,15 +184,45 @@ class _TareasPEState extends State<TareasP> {
                                   borderRadius: BorderRadius.circular(10)),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 5),
-                              child: Column(
+                              child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
+                                  
+                                  Text(
+                                    "${i}  -  ${preguntas[i]}",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color.fromARGB(
+                                            255, 238, 234, 234)),
+                                  ),
+                                  Text("${cod_p[i]}"),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ):
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 330,
+                              height: 300,
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 167, 137, 194),
+                                  border: Border.all(width: 2),
+                                  borderRadius: BorderRadius.circular(10)),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 20,),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      
                                       Text(
                                         "${i}  -  ${preguntas[i]}",
                                         style: TextStyle(
@@ -182,8 +231,17 @@ class _TareasPEState extends State<TareasP> {
                                                 255, 238, 234, 234)),
                                       ),
                                       Text("${cod_p[i]}"),
+                                     
                                     ],
                                   ),
+                                  const SizedBox(height: 20,),
+                                  if(i<images.length)
+                                   Container(
+                                        width: 300,
+                                        height: 200,
+                                        color: Colors.black,
+                                        child: Image.memory(images[i]),
+                                      )
                                 ],
                               ),
                             ),
@@ -345,7 +403,7 @@ class _TareasPEState extends State<TareasP> {
         });
   }
 
-  //widget para crear una pregunta
+  //espacio para añadir imagen con titulo
 
   void _elegirImg(BuildContext context) {
     showDialog(
@@ -353,25 +411,50 @@ class _TareasPEState extends State<TareasP> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text("Seleccionar una imagen"),
-            content: MaterialButton(
-              onPressed: () {
-                setimage();
-              },
-              minWidth: 40,
-              height: 70,
-              child: SizedBox(
-                width: 150,
-                height: 50,
-                child: Center(
-                    child: Row(
-                  children: const [
-                    Text("Elegir imagen"),
-                    const SizedBox(
-                      width: 30,
+            content: Container(
+              width: 100,
+              height: 150,
+              child: Column(
+                children: [
+                  Container(
+                      width: 150,
+                      height: 50,
+                      child: TextField(
+                        controller: nameask,
+                        textAlign: TextAlign.center,
+                        cursorColor: Colors.black,
+                        
+                        maxLines: 2,
+                        decoration: const InputDecoration.collapsed(
+                            hintText: "Escribe la pregunta aqui",
+                            hintStyle: TextStyle(fontSize: 15)),
+                      ),
                     ),
-                    Icon(Icons.image)
-                  ],
-                )),
+                  MaterialButton(
+                    onPressed: () {
+                      var ask=nameask.text;
+                      setimage(ask);
+                      nameask.text="";
+                      
+                    },
+                    minWidth: 40,
+                    height: 70,
+                    child: SizedBox(
+                      width: 150,
+                      height: 50,
+                      child: Center(
+                          child: Row(
+                        children: const [
+                          Text("Elegir imagen"),
+                          const SizedBox(
+                            width: 30,
+                          ),
+                          Icon(Icons.image)
+                        ],
+                      )),
+                    ),
+                  ),
+                ],
               ),
             ),
             actions: [
@@ -458,6 +541,8 @@ class _TareasPEState extends State<TareasP> {
         });
   }
 
+
+//espacio para elegir una opcion , si elegir una imagen o una pregunta
   void _elegirAsk(BuildContext context) {
     showDialog(
         context: context,

@@ -15,9 +15,34 @@ Future<dynamic> agregarAskActivity(var pregunta) async{
     body: <String, dynamic>{
       "ask": pregunta,
       
+      
     },
     );
 }
+
+Future<void> agregarImg(var pregunta, File? imagen) async {
+  print(pregunta);
+
+  if (imagen == null) {
+    print("No image selected");
+    return;
+  }
+
+  List<int> imageBytes = await imagen.readAsBytes();
+  String base64Image = base64Encode(imageBytes);
+
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_ask_img.php'),
+    body: <String, String>{
+      "ask": pregunta,
+      "img": base64Image,
+    },
+  );
+
+  // Handle the response here if needed
+}
+
+
 
 Future<dynamic> mostrarAct() async{
   http.Response enviar = await http.post(
