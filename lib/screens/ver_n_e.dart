@@ -137,47 +137,42 @@ void initState() {
                 
                 
                 for (var i = 0; i < nombre.length; i++)
-                  MaterialButton(
-                    onPressed: () async {
-                      // Aquí puedes agregar la lógica para el onPressed si es necesario
-                    },
-                    padding: EdgeInsets.only(top: 16.0),
-                    child: Container(
-                      width: 320,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(15)),
-                        color: Color.fromARGB(255, 249, 249, 249),
-                        border: Border.all(
-                          width: 2,
-                          color: Colors.black,
-                        ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    width: 320,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                      color: Color.fromARGB(255, 249, 249, 249),
+                      border: Border.all(
+                        width: 2,
+                        color: Colors.black,
                       ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 30,
-                            top: 20,
-                            child: Text(nombre[i], style: TextStyle(fontSize: 15)),
-                          ),
-                          Positioned(
-                            left: 255,
-                            top: 0,
-                            bottom: 0,
-                            child: Container(
-                              width: 2,
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 2, color: Colors.black),
-                              ),
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 30,
+                          top: 20,
+                          child: Text(nombre[i], style: TextStyle(fontSize: 15)),
+                        ),
+                        Positioned(
+                          left: 255,
+                          top: 0,
+                          bottom: 0,
+                          child: Container(
+                            width: 2,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2, color: Colors.black),
                             ),
                           ),
-                          Positioned(
-                            left: 270,
-                            top: 20,
-                            child: Text(nota[i] + "/10"),
-                          ),
-                        ],
-                      ),
+                        ),
+                        Positioned(
+                          left: 270,
+                          top: 20,
+                          child: Text(nota[i] + "/10"),
+                        ),
+                      ],
                     ),
                   ), //fin de definición de contenedor 
               ],
