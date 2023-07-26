@@ -44,16 +44,18 @@ Future<void> agregarImg(var pregunta, File? imagen) async {
 
 
 
-Future<dynamic> mostrarAct() async{
+Future<dynamic> mostrarAct(var nameT) async{
+  print(nameT);
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_ask_act.php'),
     body: <String, dynamic>{
+      "name":nameT,
 
     },
   );
   var resultado = jsonDecode(enviar.body);
   
-
+print(resultado);
     return resultado;
   
 }
@@ -73,4 +75,53 @@ Future<dynamic> editAsk(var pregunta,var cod) async{
 
     );
     return enviar.body;
+}
+//actualizar imagen
+Future<void> updateImg(var cod,var pregunta, File? imagen) async {
+  print(pregunta);
+  print(cod);
+
+  if (imagen == null) {
+    print("No image selected");
+    return;
+  }
+
+  List<int> imageBytes = await imagen.readAsBytes();
+  String base64Image = base64Encode(imageBytes);
+
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/update_ask_img.php'),
+    body: <String, String>{
+      "cod":cod,
+      "ask": pregunta,
+      "img": base64Image,
+    },
+  );
+
+  // Handle the response here if needed
+}
+
+//crear nueva actividad
+Future<dynamic> addTask(var name) async{
+  print(name);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_Task.php'),
+    body: <String, dynamic>{  
+      "name":name,
+    },
+
+    );
+    
+}
+//extraer codigo de actividad
+Future<dynamic> extraerNameTask(var name) async{
+  print(name);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_Task.php'),
+    body: <String, dynamic>{  
+      "name":name,
+    },
+
+    );
+    
 }

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/tareas.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import '../developer/consultasf.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
 import 'elec_e_o_t.dart';
@@ -40,9 +41,6 @@ void initState(){
   super.initState();
   
 }
-
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -90,6 +88,8 @@ void initState(){
                       children: [
                         MaterialButton(
                           onPressed: () {
+                            var name="NAME OF ACTIVITY/TASK";
+                            addTask(name);
                               Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) =>   const TareasP()),
@@ -165,7 +165,8 @@ void initState(){
                               child: Image(image: AssetImage('assets/ver notas.png'))),
                         ),
                         GradientText(
-                          'Ver mis notas',
+                          
+                          '              Ver mis \nactividades/examenes',
                           style: const TextStyle(
                             fontSize: 30.0,
                           ),

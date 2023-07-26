@@ -24,17 +24,39 @@ class TareasP extends StatefulWidget {
 }
 
 class _TareasPEState extends State<TareasP> {
+   String nameA="NAME OF ACTIVITY/TASK";
+  //generar validacion de formularios
+  GlobalKey<FormState> valueupdateimg = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formchangeask = GlobalKey<FormState>();
   File? imagen;
-
 //future para buscar y almacenar imagen
   Future setimage(var ask) async {
+    var picturefile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (picturefile != null) {
+        imagen = File(picturefile.path);
+        agregarImg(ask, imagen);
+      } else {
+        setState(() {
+          final snackBar =
+              SnackBar(content: Text("No se agrego ninguna imagen"));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        });
+      }
+    });
+  }
+
+//funcion para actualizar una imagen en la base datos
+  Future updateimage(var ask, var cod) async {
     var picturefile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     setState(() {
       if (picturefile != null) {
         imagen = File(picturefile.path);
-        agregarImg(ask, imagen);
+        updateImg(cod, ask, imagen);
       } else {
         setState(() {
           final snackBar =
@@ -56,7 +78,7 @@ class _TareasPEState extends State<TareasP> {
   String cod_ask = "";
   String usuariobd = "";
   String contrabd = "";
-  String nameA = "NAME OF ACTIVITY/TASK";
+  
   int number = 1;
   String ask = "Escribe tu pregunta aqui";
   var reslt;
@@ -71,9 +93,11 @@ class _TareasPEState extends State<TareasP> {
   }
 
   Future<void> obtenerpreguntas() async {
-    reslt = await mostrarAct();
+    nameA="NAME OF ACTIVITY/TASK";
+    reslt = await mostrarAct(nameA);
 
     setState(() {
+      
       preguntas.clear();
       imagenes.clear();
       images.clear();
@@ -130,14 +154,11 @@ class _TareasPEState extends State<TareasP> {
                         Container(
                           width: 250,
                           height: 60,
-                          child: TextField(
-                            enabled: false,
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            decoration: InputDecoration.collapsed(
-                                hintText: nameA,
-                                hintStyle: TextStyle(fontSize: 20)),
-                          ),
+                          child: 
+                          Text(nameA,style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),),
                         ),
                         const SizedBox(
                           width: 30,
@@ -170,7 +191,6 @@ class _TareasPEState extends State<TareasP> {
                       children: [
                         MaterialButton(
                           onPressed: () {
-                            
                             _op_askimage(context);
                           },
                           child: Container(
@@ -401,6 +421,7 @@ class _TareasPEState extends State<TareasP> {
 
   void _changeask(BuildContext context) {
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -414,55 +435,81 @@ class _TareasPEState extends State<TareasP> {
                     child: Container(
                       width: 250,
                       height: 158,
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: cod_changeask,
-                            keyboardType: TextInputType.number,
-                            textAlign: TextAlign.center,
-                            cursorColor: Colors.black,
-                            maxLength: 4,
-                            maxLines: 1,
-                            decoration: const InputDecoration(
-                                hintText: "Escribe el codigo de la pregunta",
-                                hintStyle: TextStyle(fontSize: 15)),
-                          ),
-                          Padding(padding: EdgeInsets.all(5)),
-                          TextField(
-                            controller: changeask,
-                            textAlign: TextAlign.center,
-                            cursorColor: Colors.black,
-                            maxLength: 40,
-                            maxLines: 2,
-                            decoration: const InputDecoration(
-                                hintText: "Escribe la pregunta aqui",
-                                hintStyle: TextStyle(fontSize: 15)),
-                          ),
-                        ],
+                      child: Form(
+                        key: formchangeask,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Campo requerido";
+                                }
+                              },
+                              controller: cod_changeask,
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              maxLength: 4,
+                              maxLines: 1,
+                              decoration: const InputDecoration(
+                                  hintText: "Escribe el codigo de la pregunta",
+                                  hintStyle: TextStyle(fontSize: 15)),
+                            ),
+                            Padding(padding: EdgeInsets.all(5)),
+                            TextFormField(
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Campo requerido";
+                                }
+                              },
+                              controller: changeask,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              maxLength: 40,
+                              maxLines: 2,
+                              decoration: const InputDecoration(
+                                  hintText: "Escribe la pregunta aqui",
+                                  hintStyle: TextStyle(fontSize: 15)),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   Center(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-
-                        if (changeask.text != "" && cod_changeask != "") {
-                          ask = changeask.text;
-                          cod_ask = cod_changeask.text;
-                          editAsk(ask, cod_ask);
-                          final snackBar = SnackBar(
-                              content: Text(
-                                  "Cambio exitoso.\nRefresca la pantalla "));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          changeask.text = "";
-                          cod_changeask.text = "";
-                        }
-                      },
-                      child: const Text(
-                        'Aceptar',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            if (formchangeask.currentState!.validate()) {
+                              ask = changeask.text;
+                              cod_ask = cod_changeask.text;
+                              editAsk(ask, cod_ask);
+                              final snackBar = SnackBar(
+                                  content: Text(
+                                      "Cambio exitoso.\nRefresca la pantalla "));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              changeask.text = "";
+                              cod_changeask.text = "";
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: const Text(
+                            'Aceptar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              changeask.text = "";
+                              cod_changeask.text = "";
+                              Navigator.pop(context);
+                            },
+                            child: Text("Cancelar",
+                                style: TextStyle(color: Colors.white)))
+                      ],
                     ),
                   ),
                 ],
@@ -476,6 +523,7 @@ class _TareasPEState extends State<TareasP> {
 
   void _elegirImg(BuildContext context) {
     showDialog(
+      barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -486,27 +534,33 @@ class _TareasPEState extends State<TareasP> {
               child: Column(
                 children: [
                   Container(
-                    width: 150,
-                    height: 50,
-                    child: TextField(
-                      controller: nameask,
-                      textAlign: TextAlign.center,
-                      cursorColor: Colors.black,
-                      maxLines: 2,
-                      decoration: const InputDecoration.collapsed(
-                          hintText: "Escribe la pregunta aqui",
-                          hintStyle: TextStyle(fontSize: 15)),
-                    ),
-                  ),
+                      width: 150,
+                      height: 50,
+                      child: Form(
+                        key: formKey,
+                        child: TextFormField(
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return "campo requerido";
+                            }
+                          },
+                          controller: nameask,
+                          textAlign: TextAlign.center,
+                          cursorColor: Colors.black,
+                          maxLines: 2,
+                          decoration: const InputDecoration.collapsed(
+                              hintText: "Escribe la pregunta aqui",
+                              hintStyle: TextStyle(fontSize: 15)),
+                        ),
+                      )),
                   MaterialButton(
                     onPressed: () {
                       var ask = nameask.text;
-                      if ( ask != "") {
+                      if (formKey.currentState!.validate()) {
                         setimage(ask);
+                        nameask.text = "";
+                        Navigator.pop(context);
                       }
-
-                      nameask.text = "";
-                      Navigator.pop(context);
                     },
                     minWidth: 40,
                     height: 70,
@@ -545,6 +599,7 @@ class _TareasPEState extends State<TareasP> {
   //para agregar pregunta
   void _nameask(BuildContext context) {
     showDialog(
+      barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -613,7 +668,7 @@ class _TareasPEState extends State<TareasP> {
   }
 
 //espacio para elegir una opcion , si elegir una imagen o una pregunta
-   void _op_askimage(BuildContext context) {
+  void _op_askimage(BuildContext context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -621,7 +676,7 @@ class _TareasPEState extends State<TareasP> {
               title: const Text("Cambiar imagen o pregunta"),
               content: Container(
                   width: 400,
-                  height: 180,
+                  height: 188,
                   child: Column(children: [
                     MaterialButton(
                       onPressed: () {
@@ -647,11 +702,10 @@ class _TareasPEState extends State<TareasP> {
                         )),
                       ),
                     ),
-
                     MaterialButton(
                       onPressed: () {
                         setState(() {
-                          _changeask(context);
+                          _updateImg(context);
                         });
                       },
                       minWidth: 25,
@@ -672,7 +726,117 @@ class _TareasPEState extends State<TareasP> {
                         )),
                       ),
                     ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Center(
+                          child: Text("Cancelar"),
+                        ))
                   ])));
+        });
+  }
+
+  void _updateImg(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Seleccionar una imagen"),
+            content: Container(
+              width: 100,
+              height: 180,
+              child: Column(
+                children: [
+                  Form(
+                      key: valueupdateimg,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 150,
+                            height: 50,
+                            child: TextFormField(
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Campo requerido";
+                                }
+                              },
+                              keyboardType: TextInputType.number,
+                              controller: cod_changeask,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              maxLines: 2,
+                              decoration: const InputDecoration(
+                                  hintText:
+                                      "Escribe el codigo de la pregunta aqui",
+                                  hintStyle: TextStyle(fontSize: 15)),
+                            ),
+                          ),
+                          Container(
+                            width: 150,
+                            height: 50,
+                            child: TextFormField(
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Campo requerido";
+                                }
+                              },
+                              controller: nameask,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              maxLines: 2,
+                              decoration: const InputDecoration(
+                                  hintText: "Escribe la pregunta aqui",
+                                  hintStyle: TextStyle(fontSize: 15)),
+                            ),
+                          ),
+                        ],
+                      )),
+                  const SizedBox(height: 10,),
+                  MaterialButton(
+                    
+                    color: Color.fromARGB(255, 209, 200, 218),
+                    onPressed: () {
+                      var ask = nameask.text;
+                      var cod=cod_changeask.text;
+                      if (valueupdateimg.currentState!.validate()) {
+                       updateimage(ask,cod);
+                       Navigator.pop(context);
+                      }
+                      cod_changeask.text="";
+                      nameask.text = "";
+                    },
+                    
+                    child: SizedBox(
+                      width: 150,
+                      height: 50,
+                      child: Center(
+                          child: Row(
+                        children: const [
+                          Text("Elegir imagen"),
+                          const SizedBox(
+                            width: 30,
+                          ),
+                          Icon(Icons.image)
+                        ],
+                      )),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancelar'),
+                ),
+              )
+            ],
+          );
         });
   }
 }
