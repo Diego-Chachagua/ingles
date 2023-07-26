@@ -58,15 +58,19 @@ Future<dynamic> mostrarAct() async{
   
 }
 
-Future<dynamic> editAsk(var pregunta) async{
+Future<dynamic> editAsk(var pregunta,var cod) async{
   print(pregunta);
+  print(cod);
   
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/edit_ask_act.php'),
     body: <String, dynamic>{
       "ask": pregunta,
+      "cod":cod,
       
       
     },
+
     );
+    return enviar.body;
 }
