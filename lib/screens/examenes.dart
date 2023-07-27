@@ -1,5 +1,8 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:ingles/developer/consultaso.dart';
+
+import '../main.dart';
 // import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 void main() {
@@ -66,7 +69,7 @@ setState(() {
       ),
       child: Scaffold(
         appBar:  PreferredSize(
-    preferredSize: Size.fromHeight(150),
+    preferredSize: Size.fromHeight(130),
     child: AppBar(
       centerTitle: true,
       //MODIFICACION DEL CONTAINER DEL APPBAR
@@ -77,7 +80,6 @@ setState(() {
     ),
     //MODIFICACION DE LA IMAGEN DEL APPBAR
   flexibleSpace: ClipRRect(
-  borderRadius: BorderRadius.only(bottomRight: Radius.circular(30),bottomLeft: Radius.circular(30)),
      child: Container(
     decoration: BoxDecoration(
       image: DecorationImage(
@@ -102,41 +104,60 @@ setState(() {
               Container(
               height: 5,
               width: 1000,
-              color: Color.fromARGB(255, 15, 152, 161),
+              color: Color.fromARGB(255, 0, 0, 0),
               ),
               //Apartado del cuadro con imagen
-              Row(
+              for (var i = 0; i < examen.length; i++)
+              Column(
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 20, right: 20),
-                    height: 120,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      color:  Color.fromARGB(255, 185, 91, 91),
-                      borderRadius: BorderRadius.circular(300),
-                      border: Border.all(width: 2, color: Color.fromARGB(255, 24, 3, 119)),
-                      image: const DecorationImage(
-                      image: AssetImage('assets/xam.png'),),
-                      
-                      ),
-                    ),
-                    Container(
-                      //Apartado del boton
-                      margin: EdgeInsets.only(top: 20),
-                      height: 50,
-                      width: 250,
-                      color: const Color.fromARGB(255, 135, 8, 160),
-                      child:  MaterialButton(onPressed: (){
+                  Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 20, right: 20),
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          image: const DecorationImage(
+                          image: AssetImage('assets/xam.png'),),
+                          
+                          ),
+                        ),
+                        Container(
+                          //Apartado del boton
+                          margin: EdgeInsets.only(top: 20),
+                          height: 50,
+                          width: 200,
+                          color: const Color.fromARGB(255, 135, 8, 160),
+                          child:  MaterialButton(onPressed: () async{
+                              dynamic respuesta = await comprobarexamen(cod[i],widget.nie);
+                    if (respuesta == "error") {
+                        _mensaje(context);
 
-                      },
-                      child: const Text("Tarea asignada", style: TextStyle(color: Colors.white)),
+                      //se produjo un error
+                    }
+                    if (respuesta == "noExiste") {
+                      //ya realizo la prueba
+                      _mensajeUsu(context);
+                    } else {
+                         if(respuesta == "exito"){
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FirstRoute()),
+                   );
+                      }
+                    }
+                          },
+                          child: Center(child: Text(examen[i], style: const TextStyle(fontSize: 20, color: Colors.white))),
 
-                        
-                      
+                            
+                          
 
-                      )
-                      ),
+                          )
+                          ),
         
+                    ],
+                  ),
                 ],
               ),
             ],
@@ -145,5 +166,53 @@ setState(() {
       ),
     );
   }
+
+  void _mensajeUsu(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("REALIZADO"),
+            content: const Text(
+                'Ya realizaste esta tarea'),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  void _mensaje(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("REALIZADO"),
+            content:
+                const Text('Ya realizaste esta tarea'),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
   
 }
