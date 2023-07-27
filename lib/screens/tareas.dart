@@ -210,7 +210,7 @@ setState(() {
           return AlertDialog(
             title: const Text("REALIZADO"),
             content:
-                const Text('Ya realizaste esta tarea'),
+                const Text('Ya realizaste este examen'),
             actions: [
               Center(
                 child: TextButton(

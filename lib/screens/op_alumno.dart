@@ -165,11 +165,7 @@ class _OpAlumEState extends State<OpAlum> {
                       children: [
                         MaterialButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Examenes()),
-                            );
+
                           },
                           child: const SizedBox(
                               height: 150,
@@ -196,49 +192,45 @@ class _OpAlumEState extends State<OpAlum> {
                     //fin de espacio de contenedor para ver examenes
                   ],
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
-                //contenedor para la opcion de tareas
-                Column(
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        print(widget.usuario);
-                        print(widget.contra);
-                        usuariobd = widget.usuario;
-                        contrabd = widget.contra;
-                        print(usuariobd);
-                        print(contrabd);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ElecEOT(usu: usuariobd, contra: contrabd)),
-                        );
-                      },
-                      child: const SizedBox(
-                          height: 150,
-                          width: 145,
-                          child:
-                              Image(image: AssetImage('assets/ver notas.png'))),
-                    ),
-                    GradientText(
-                      'Ver mis notas',
-                      style: const TextStyle(
-                        fontSize: 30.0,
-                      ),
-                      gradientType: GradientType.linear,
-                      gradientDirection: GradientDirection.ttb,
-                      radius: 3.5,
-                      colors: const [
-                        Color.fromARGB(255, 170, 63, 233),
-                        Color.fromARGB(255, 66, 91, 233),
-                        Color.fromARGB(255, 60, 135, 221),
+                const SizedBox(height: 40,),
+                 //contenedor para la opcion de tareas   
+                    Column(
+                      children: [
+                        MaterialButton(
+                          onPressed: () {
+                            print(widget.usuario);
+                            print(widget.contra);
+                            usuariobd = widget.usuario;
+                            contrabd = widget.contra;
+                            print(usuariobd);
+                            print(contrabd);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>   ElecEOT(usu: usuariobd, contra: contrabd)),
+                            );
+                          },
+                          child: const SizedBox(
+                              height: 150,
+                              width: 145,
+                              child: Image(image: AssetImage('assets/ver notas.png'))),
+                        ),
+                        GradientText(
+                          'Ver mis notas',
+                          style: const TextStyle(
+                            fontSize: 30.0,
+                          ),
+                          gradientType: GradientType.linear,
+                          gradientDirection: GradientDirection.ttb,
+                          radius: 3.5,
+                          colors: const [
+                            Color.fromARGB(255, 170, 63, 233),
+                            Color.fromARGB(255, 66, 91, 233),
+                            Color.fromARGB(255, 60, 135, 221),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
+                
               ]),
             ))));
   }
