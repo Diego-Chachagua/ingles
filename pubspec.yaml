@@ -38,6 +38,7 @@ dependencies:
   simple_gradient_text: ^1.2.4
   http: ^0.13.6
   flutter_windowmanager: ^0.2.0
+  image_picker: ^1.0.1
 
 dev_dependencies:
   flutter_test:

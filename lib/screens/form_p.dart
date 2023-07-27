@@ -3,6 +3,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
+import 'elec_op_p.dart';
 import 'tareasM.dart';
 import 'unidades.dart';
 
@@ -111,7 +112,7 @@ final contrab =TextEditingController();
                         // ignore: use_build_context_synchronously
                         Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TareasP()),
+                  MaterialPageRoute(builder: (context) =>  ProfeOp()),
                    );
                       }
                     }

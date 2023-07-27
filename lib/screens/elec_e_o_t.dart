@@ -76,10 +76,12 @@ class _ElecEOTEState extends State<ElecEOT> {
                           children: [
                             MaterialButton(
                               onPressed: () {
-                                 Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const VerNotasA()),
-                        );
+                                 usuariob = widget.usu;
+                                contrab = widget.contra;
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>   VerNotasA(usuario: usuariob, contra: contrab)),
+                              );
                               },
                               child: const SizedBox(
                                   height: 150,
