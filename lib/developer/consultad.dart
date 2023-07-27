@@ -1,11 +1,11 @@
 // ignore_for_file: non_constant_identifier_names, unused_local_variable, unused_impor, avoid_print, unused_import, prefer_const_declarations
 
 import 'package:http/http.dart' as http;
-//Libreria que nos permitira usar funciones async
+
 import 'dart:async';
-//Libreria que nos permitira decodificar los archivos JSON
+
 import 'dart:convert';
-//Libreria que nos permitira usar Colecciones (array y MAP)
+
 import 'dart:collection';
 
 import 'dart:io';
@@ -43,6 +43,23 @@ Future<dynamic> registro(String nnie, String nom, String apell, String g, dynami
 Future<dynamic> historialestu(String usuariobd ,String contrabd) async{
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/historialES.php'),
+    body: <String, dynamic>{
+      "usu": usuariobd,
+      "contra": contrabd,
+    },
+    );
+    print(enviar.body);
+    var resultado = jsonDecode(enviar.body);
+      if (enviar.statusCode == 201) {
+      return "error";
+    } else {
+      return resultado;
+    }
+}
+
+Future<dynamic> historialestu2(String usuariobd ,String contrabd) async{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/historialact.php'),
     body: <String, dynamic>{
       "usu": usuariobd,
       "contra": contrabd,
