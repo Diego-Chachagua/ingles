@@ -112,7 +112,7 @@ final contrab =TextEditingController();
                         // ignore: use_build_context_synchronously
                         Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  ElecOP(usuario: usuariobd,contra: contrabd,)),
+                  MaterialPageRoute(builder: (context) =>  ProfeOp()),
                    );
                       }
                     }

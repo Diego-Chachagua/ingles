@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
@@ -9,26 +8,35 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
 
+import 'elec_op_p.dart';
+
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: TareasP(),
+    home: TareasP(cod: ''),
   ));
 }
 
 class TareasP extends StatefulWidget {
-  const TareasP({super.key});
+  String cod;
+  
+  TareasP({ required this.cod});
 
   @override
   State<TareasP> createState() => _TareasPEState();
 }
 
 class _TareasPEState extends State<TareasP> {
-   String nameA="NAME OF ACTIVITY/TASK";
+  String nameA = "NAME OF ACTIVITY/TASK";
+//campos para elegir el año y la seccion
+String _seleccionada2 = 'Año';
+    String _seleccionada = 'Seccion';
   //generar validacion de formularios
   GlobalKey<FormState> valueupdateimg = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formchangeask = GlobalKey<FormState>();
+  GlobalKey<FormState> nameact = GlobalKey<FormState>();
+  GlobalKey<FormState> aniosec = GlobalKey<FormState>();
   File? imagen;
 //future para buscar y almacenar imagen
   Future setimage(var ask) async {
@@ -37,7 +45,7 @@ class _TareasPEState extends State<TareasP> {
     setState(() {
       if (picturefile != null) {
         imagen = File(picturefile.path);
-        agregarImg(ask, imagen);
+        agregarImg(ask, imagen, widget.cod);
       } else {
         setState(() {
           final snackBar =
@@ -73,12 +81,14 @@ class _TareasPEState extends State<TareasP> {
   final changeask = TextEditingController();
   final cod_changeask = TextEditingController();
   final nameask = TextEditingController();
+  final anio = TextEditingController();
+  final seccion = TextEditingController();
   int opactual = 0;
   var i = 0;
   String cod_ask = "";
   String usuariobd = "";
   String contrabd = "";
-  
+
   int number = 1;
   String ask = "Escribe tu pregunta aqui";
   var reslt;
@@ -86,6 +96,7 @@ class _TareasPEState extends State<TareasP> {
   List imagenes = [];
   List images = [];
   List cod_p = [];
+
   @override
   void initState() {
     super.initState();
@@ -93,11 +104,9 @@ class _TareasPEState extends State<TareasP> {
   }
 
   Future<void> obtenerpreguntas() async {
-    nameA="NAME OF ACTIVITY/TASK";
-    reslt = await mostrarAct(nameA);
+    reslt = await mostrarAct(widget.cod);
 
     setState(() {
-      
       preguntas.clear();
       imagenes.clear();
       images.clear();
@@ -106,13 +115,21 @@ class _TareasPEState extends State<TareasP> {
       if (reslt != "noExisten") {
         for (var i = 0; i < reslt.length; i++) {
           var dato = reslt[i];
+          var nombreAct = dato["nombre"];
+
           var nom_tem = dato["pregunta"];
           var cod = dato["cod_p_a"];
           var img = dato["img"];
           print(img);
           preguntas.add(nom_tem);
           imagenes.add(img);
+          if (nombreAct != "") {
+            nameA = nombreAct;
+          } else {
+            nameA = "Name of activity";
+          }
 
+          print(nameA);
           cod_p.add(cod);
           if (img != null) {
             Uint8List bytes = base64.decode(img);
@@ -136,7 +153,21 @@ class _TareasPEState extends State<TareasP> {
               image: AssetImage('assets/fondop.jpg'), fit: BoxFit.cover),
         ),
         child: Scaffold(
+          
           appBar: AppBar(
+            leading: MaterialButton(onPressed: (){
+              if(nameA == "NAME OF ACTIVITY/TASK") {
+                              final snackBar = SnackBar(
+                                    content:
+                                        Text("Es necesario cambiar el nombre"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                _changename(context);                                                   
+                            }else  {
+                               
+                            }
+            },
+            child: SizedBox(width: 30,height: 30,child: Icon(Icons.arrow_back_outlined),),),
             title: Center(child: Text("Crear Actividad o tarea")),
             elevation: 0,
             backgroundColor: const Color.fromARGB(0, 255, 255, 255),
@@ -154,11 +185,13 @@ class _TareasPEState extends State<TareasP> {
                         Container(
                           width: 250,
                           height: 60,
-                          child: 
-                          Text(nameA,style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),),
+                          child: Text(
+                            nameA,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           width: 30,
@@ -324,7 +357,51 @@ class _TareasPEState extends State<TareasP> {
                       ),
 
                     const SizedBox(
-                      height: 100,
+                      height: 40,
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        MaterialButton(
+                          onPressed: ()  {
+                            if(nameA == "NAME OF ACTIVITY/TASK") {
+                              final snackBar = SnackBar(
+                                    content:
+                                        Text("Es necesario cambiar el nombre"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                _changename(context);
+                               
+                              
+                            }else if (i < 2) {
+                               final snackBar = SnackBar(
+                                    content: Text(
+                                        "Debes contener almenos 10 preguntas"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                
+                               }else {
+                                _addcodSG(context);
+                               
+                              }
+                            
+                          },
+                          child: Container(
+                            width: 70,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 225, 204, 243),
+                                border: Border.all(width: 2),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Center(
+                              child: Text("Guardar"),
+                            ),
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(right: 20))
+                      ],
                     )
 
                     //edicion de patalla
@@ -378,36 +455,54 @@ class _TareasPEState extends State<TareasP> {
                     child: Container(
                       width: 250,
                       height: 80,
-                      child: TextField(
-                        controller: nameac,
-                        textCapitalization: TextCapitalization.characters,
-                        textAlign: TextAlign.center,
-                        cursorColor: Colors.black,
-                        maxLength: 40,
-                        maxLines: 2,
-                        decoration: const InputDecoration.collapsed(
-                            hintText: "NAME OF ACTIVITY/TASK",
-                            hintStyle: TextStyle(fontSize: 15)),
+                      child: Form(
+                        key: nameact,
+                        child: TextFormField(
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return "Campo requerido";
+                            }
+                          },
+                          controller: nameac,
+                          textCapitalization: TextCapitalization.characters,
+                          textAlign: TextAlign.center,
+                          cursorColor: Colors.black,
+                          maxLength: 40,
+                          maxLines: 2,
+                          decoration: const InputDecoration.collapsed(
+                              hintText: "Nombre de la actividad",
+                              hintStyle: TextStyle(fontSize: 15)),
+                        ),
                       ),
                     ),
                   ),
                   Center(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        setState(() {
-                          if (nameac.text == "") {
-                            nameA = "NAME OF ACTIVITY/TASK";
-                          } else {
-                            nameA = nameac.text;
-                            ;
-                          }
-                        });
-                      },
-                      child: const Text(
-                        'Aceptar',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            if (nameact.currentState!.validate()) {
+                              Navigator.pop(context);
+                              var nombre = nameac.text;
+                              editname(nombre, widget.cod);
+                            }
+                          },
+                          child: const Text(
+                            'Aceptar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Cancelar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -523,7 +618,7 @@ class _TareasPEState extends State<TareasP> {
 
   void _elegirImg(BuildContext context) {
     showDialog(
-      barrierDismissible: false,
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -599,7 +694,7 @@ class _TareasPEState extends State<TareasP> {
   //para agregar pregunta
   void _nameask(BuildContext context) {
     showDialog(
-      barrierDismissible: false,
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -647,7 +742,7 @@ class _TareasPEState extends State<TareasP> {
                                 ask = "Escribe tu pregunta aqui";
                               } else {
                                 ask = nameask.text;
-                                agregarAskActivity(ask);
+                                agregarAskActivity(ask, widget.cod);
                                 nameask.text = "";
                               }
                             });
@@ -739,7 +834,7 @@ class _TareasPEState extends State<TareasP> {
 
   void _updateImg(BuildContext context) {
     showDialog(
-      barrierDismissible: false,
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -793,21 +888,21 @@ class _TareasPEState extends State<TareasP> {
                           ),
                         ],
                       )),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   MaterialButton(
-                    
                     color: Color.fromARGB(255, 209, 200, 218),
                     onPressed: () {
                       var ask = nameask.text;
-                      var cod=cod_changeask.text;
+                      var cod = cod_changeask.text;
                       if (valueupdateimg.currentState!.validate()) {
-                       updateimage(ask,cod);
-                       Navigator.pop(context);
+                        updateimage(ask, cod);
+                        Navigator.pop(context);
                       }
-                      cod_changeask.text="";
+                      cod_changeask.text = "";
                       nameask.text = "";
                     },
-                    
                     child: SizedBox(
                       width: 150,
                       height: 50,
@@ -834,6 +929,160 @@ class _TareasPEState extends State<TareasP> {
                   },
                   child: const Text('Cancelar'),
                 ),
+              )
+            ],
+          );
+        });
+  }
+  void _addcodSG(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Agregar pregunta"),
+            actions: [
+              Column(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 250,
+                      height: 80,
+                      child :Form(
+                        key: aniosec,
+                        child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: 80,
+                            height: 30,
+                            child: TextFormField(
+                              validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Campo requerido";
+                                  }
+                                },
+                                controller: anio,
+                                textAlign: TextAlign.center,
+                                cursorColor: Colors.black,
+                                
+                                decoration: const InputDecoration(
+                                    hintText: "1",
+                                    hintStyle: TextStyle(fontSize: 15),
+                                    helperText: "Escribe el año"
+                                    ), 
+                            ),
+                          ),
+                          Container(
+                            width: 90,
+                            height: 30,
+                            child: TextFormField(
+                              validator: (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Campo requerido";
+                                  }
+                                },
+                                controller:seccion,
+                                textAlign: TextAlign.center,
+                                cursorColor: Colors.black,
+                                
+                                decoration: const InputDecoration(
+                                    hintText: "K",
+                                    hintStyle: TextStyle(fontSize: 15),
+                                    helperText: "Escribe la seccion"
+                                    ),           
+                            ),
+                          ),
+                          
+                        ],
+                      )),
+                    ),
+                  ),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            setState(() {});
+                          },
+                          child: const Text(
+                            'Cancelar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            
+                            if (aniosec.currentState!.validate()) {
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>  ProfeOp() ),
+                            ); 
+                            }
+                            
+                          },
+                          child: const Text(
+                            'Aceptar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
+  }
+  void wishExit(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Cambia el nombre de la actividad"),
+            actions: [
+              Column(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 250,
+                      height: 80,
+                      child: Text("¿Estas seguro de salir?")
+                    ),
+                  ),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                           
+                          },
+                          child: const Text(
+                            'Aceptar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Cancelar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               )
             ],
           );
