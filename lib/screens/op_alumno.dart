@@ -7,6 +7,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
 import 'elec_e_o_t.dart';
+import 'examenes.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -163,7 +164,10 @@ for (var i = 0; i < niee.length; i++) {
                       children: [
                         MaterialButton(
                           onPressed: () {
-
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>   Examenes(grado: grado, seccion: seccion, nie: nie)),
+                            ); 
                           },
                           child: const SizedBox(
                               height: 150,
@@ -191,40 +195,82 @@ for (var i = 0; i < niee.length; i++) {
                 ),
                 const SizedBox(height: 40,),
                  //contenedor para la opcion de tareas   
-                    Column(
+                    Row(
                       children: [
-                        MaterialButton(
-                          onPressed: () {
-                            print(widget.usuario);
-                            print(widget.contra);
-                            usuariobd = widget.usuario;
-                            contrabd = widget.contra;
-                            print(usuariobd);
-                            print(contrabd);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) =>   ElecEOT(usu: usuariobd, contra: contrabd)),
-                            );
-                          },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
-                              child: Image(image: AssetImage('assets/ver notas.png'))),
-                        ),
-                        GradientText(
-                          'Ver mis notas',
-                          style: const TextStyle(
-                            fontSize: 30.0,
-                          ),
-                          gradientType: GradientType.linear,
-                          gradientDirection: GradientDirection.ttb,
-                          radius: 3.5,
-                          colors: const [
-                            Color.fromARGB(255, 170, 63, 233),
-                            Color.fromARGB(255, 66, 91, 233),
-                            Color.fromARGB(255, 60, 135, 221),
+                        Column(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {
+                                print(widget.usuario);
+                                print(widget.contra);
+                                usuariobd = widget.usuario;
+                                contrabd = widget.contra;
+                                print(usuariobd);
+                                print(contrabd);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) =>   ElecEOT(usu: usuariobd, contra: contrabd)),
+                                );
+                              },
+                              child: const SizedBox(
+                                  height: 150,
+                                  width: 145,
+                                  child: Image(image: AssetImage('assets/ver notas.png'))),
+                            ),
+                            GradientText(
+                              'Ver mis notas',
+                              style: const TextStyle(
+                                fontSize: 30.0,
+                              ),
+                              gradientType: GradientType.linear,
+                              gradientDirection: GradientDirection.ttb,
+                              radius: 3.5,
+                              colors: const [
+                                Color.fromARGB(255, 170, 63, 233),
+                                Color.fromARGB(255, 66, 91, 233),
+                                Color.fromARGB(255, 60, 135, 221),
+                              ],
+                            ),
                           ],
                         ),
+
+                        Column(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {
+                                print(widget.usuario);
+                                print(widget.contra);
+                                usuariobd = widget.usuario;
+                                contrabd = widget.contra;
+                                print(usuariobd);
+                                print(contrabd);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) =>   ElecEOT(usu: usuariobd, contra: contrabd)),
+                                );
+                              },
+                              child: const SizedBox(
+                                  height: 150,
+                                  width: 145,
+                                  child: Image(image: AssetImage('assets/play.png'))),
+                            ),
+                            GradientText(
+                              'Ver más',
+                              style: const TextStyle(
+                                fontSize: 30.0,
+                              ),
+                              gradientType: GradientType.linear,
+                              gradientDirection: GradientDirection.ttb,
+                              radius: 3.5,
+                              colors: const [
+                                Color.fromARGB(255, 170, 63, 233),
+                                Color.fromARGB(255, 66, 91, 233),
+                                Color.fromARGB(255, 60, 135, 221),
+                              ],
+                            ),
+                          ],
+                        ),
+
                       ],
                     ),
                 
