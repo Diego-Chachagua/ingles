@@ -117,17 +117,7 @@ Future<dynamic> addTask(var name) async{
     
 }
 //extraer codigo de actividad
-Future<dynamic> extraerNameTask(var name) async{
-  print(name);
-  http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_Task.php'),
-    body: <String, dynamic>{  
-      "name":name,
-    },
 
-    );
-    
-}
 
 Future<dynamic> editname(var nombre,var cod) async{
   print(nombre);
@@ -162,4 +152,20 @@ Future<dynamic> insertcodes(var grado,var seccion) async{
 
     );
     return enviar.body;
+}
+Future<dynamic> showActs(var cod) async{
+  print(cod);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_name_act.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  
+print(resultado);
+    return resultado;
+  
+
 }

@@ -13,14 +13,15 @@ import 'elec_op_p.dart';
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: TareasP(cod: ''),
+    home: TareasP(cod: '',cod_p: '',),
   ));
 }
 
 class TareasP extends StatefulWidget {
   String cod;
+  String cod_p;
   
-  TareasP({ required this.cod});
+  TareasP({ required this.cod, required this.cod_p});
 
   @override
   State<TareasP> createState() => _TareasPEState();
@@ -104,6 +105,7 @@ String _seleccionada2 = 'Año';
   }
 
   Future<void> obtenerpreguntas() async {
+    print(widget.cod_p);
     reslt = await mostrarAct(widget.cod);
 
     setState(() {
@@ -1020,7 +1022,7 @@ String _seleccionada2 = 'Año';
                             if (aniosec.currentState!.validate()) {
                               Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>  ProfeOp() ),
+                              MaterialPageRoute(builder: (context) =>  ProfeOp(cod_p: widget.cod_p,) ),
                             ); 
                             }
                             

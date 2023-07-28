@@ -10,7 +10,7 @@ import 'dart:collection';
 // ignore: unused_import
 import 'dart:io';
 
-Future<dynamic> comprobara(String usuariobd, String contrabd) async{
+Future<dynamic> comprobara(String usuariobd, String contrabd) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/forma.php'),
     body: <String, dynamic>{
@@ -18,15 +18,14 @@ Future<dynamic> comprobara(String usuariobd, String contrabd) async{
       "contra": contrabd,
     },
   );
-   if (enviar.statusCode == 201) {
+  if (enviar.statusCode == 201) {
     return "error";
   } else {
-
     return enviar.body;
   }
 }
 
-Future<dynamic> comprobare(String usuariobd, String contrabd) async{
+Future<dynamic> comprobare(String usuariobd, String contrabd) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/forme.php'),
     body: <String, dynamic>{
@@ -34,15 +33,14 @@ Future<dynamic> comprobare(String usuariobd, String contrabd) async{
       "contra": contrabd,
     },
   );
-   if (enviar.statusCode == 201) {
+  if (enviar.statusCode == 201) {
     return "error";
   } else {
-
     return enviar.body;
   }
 }
 
-Future<dynamic> comprobarp(String usuariobd, String contrabd) async{
+Future<dynamic> comprobarp(String usuariobd, String contrabd) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/formp.php'),
     body: <String, dynamic>{
@@ -50,31 +48,29 @@ Future<dynamic> comprobarp(String usuariobd, String contrabd) async{
       "contra": contrabd,
     },
   );
-   if (enviar.statusCode == 201) {
+  if (enviar.statusCode == 201) {
     return "error";
   } else {
-
-    return enviar.body;
-  }
-}
-
-Future<dynamic> consultarup() async{
-  http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/consultarup.php'),
-    body: <String, dynamic>{
-
-    },
-  );
-  var resultado = jsonDecode(enviar.body);
-   if (enviar.statusCode == 201) {
-    return "error";
-  } else {
-
+    var resultado = jsonDecode(enviar.body);
+    print(resultado);
     return resultado;
   }
 }
 
-Future<dynamic> enviarusu(String seccione2,String gradoe2) async{
+Future<dynamic> consultarup() async {
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/consultarup.php'),
+    body: <String, dynamic>{},
+  );
+  var resultado = jsonDecode(enviar.body);
+  if (enviar.statusCode == 201) {
+    return "error";
+  } else {
+    return resultado;
+  }
+}
+
+Future<dynamic> enviarusu(String seccione2, String gradoe2) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/usuycontra.php'),
     body: <String, dynamic>{
@@ -83,15 +79,14 @@ Future<dynamic> enviarusu(String seccione2,String gradoe2) async{
     },
   );
   var resultado = jsonDecode(enviar.body);
-   if (enviar.statusCode == 201) {
+  if (enviar.statusCode == 201) {
     return "error";
   } else {
-
     return resultado;
   }
 }
 
-Future<dynamic> anosec(String usuario,String contra) async{
+Future<dynamic> anosec(String usuario, String contra) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/grasecc.php'),
     body: <String, dynamic>{
@@ -100,15 +95,14 @@ Future<dynamic> anosec(String usuario,String contra) async{
     },
   );
   var resultado = jsonDecode(enviar.body);
-   if (enviar.statusCode == 201) {
+  if (enviar.statusCode == 201) {
     return "error";
   } else {
-
     return resultado;
   }
 }
 
-Future<dynamic> tareasd(String grado,String seccion) async{
+Future<dynamic> tareasd(String grado, String seccion) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/tareas.php'),
     body: <String, dynamic>{
@@ -117,15 +111,14 @@ Future<dynamic> tareasd(String grado,String seccion) async{
     },
   );
   var resultado = jsonDecode(enviar.body);
-   if (enviar.statusCode == 201) {
+  if (enviar.statusCode == 201) {
     return "error";
   } else {
-
     return resultado;
   }
 }
 
-Future<dynamic> comprobartarea(String nombret, String nie) async{
+Future<dynamic> comprobartarea(String nombret, String nie) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/comprobart.php'),
     body: <String, dynamic>{
@@ -133,15 +126,14 @@ Future<dynamic> comprobartarea(String nombret, String nie) async{
       "nie": nie,
     },
   );
-   if (enviar.statusCode == 201) {
+  if (enviar.statusCode == 201) {
     return "error";
   } else {
-
     return enviar.body;
   }
 }
 
-Future<dynamic> examenes(String grado,String seccion) async{
+Future<dynamic> examenes(String grado, String seccion) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/examen.php'),
     body: <String, dynamic>{
@@ -150,15 +142,14 @@ Future<dynamic> examenes(String grado,String seccion) async{
     },
   );
   var resultado = jsonDecode(enviar.body);
-   if (enviar.statusCode == 201) {
+  if (enviar.statusCode == 201) {
     return "error";
   } else {
-
     return resultado;
   }
 }
 
-Future<dynamic> comprobarexamen(String nombret, String nie) async{
+Future<dynamic> comprobarexamen(String nombret, String nie) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/comprobart.php'),
     body: <String, dynamic>{
@@ -166,10 +157,9 @@ Future<dynamic> comprobarexamen(String nombret, String nie) async{
       "nie": nie,
     },
   );
-   if (enviar.statusCode == 201) {
+  if (enviar.statusCode == 201) {
     return "error";
   } else {
-
     return enviar.body;
   }
 }

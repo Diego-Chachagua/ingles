@@ -2,7 +2,7 @@
 // ignore_for_file: unused_import, prefer_typing_uninitialized_variables, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:ingles/screens/showaacts.dart';
+
 import 'package:ingles/screens/tareas.dart';
 import 'package:ingles/screens/tareasM.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -12,15 +12,15 @@ import '../main.dart';
 
 
 void main() {
-  runApp(const MaterialApp(
+  runApp( MaterialApp(
     title: 'Navigation Basics',
-    home: ProfeOp(),
+    home: ProfeOp(cod_p: '',),
   ));
 }
 
 class ProfeOp extends StatefulWidget {
-
-  const ProfeOp({super.key});
+String cod_p;
+   ProfeOp({super.key, required this.cod_p});
 
   
 
@@ -81,7 +81,7 @@ var cod;
                         MaterialButton(
                           onPressed: () async{
                              var name = "NAME OF ACTIVITY/TASK";
-
+  
                             reslt = await addTask(name);
                             if (reslt != "noExisten") {
                               for (var i = 0; i < reslt.length; i++) {
@@ -94,8 +94,10 @@ var cod;
                             }
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>  TareasP(cod: cod,) ),
-                            );    
+                              MaterialPageRoute(builder: (context) =>  TareasP(cod: cod,cod_p: widget.cod_p, ),
+
+                            )   
+                            );
                           },
                           child: const SizedBox(
                               height: 150,
@@ -156,10 +158,10 @@ var cod;
                       children: [
                         MaterialButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => VerAct() ),
-                            ); 
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => VerAct(cod_p: widget.cod_p,) ),
+                            // ); 
                             
                           },
                           child: const SizedBox(
