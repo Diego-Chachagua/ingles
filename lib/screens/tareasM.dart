@@ -13,15 +13,18 @@ import 'elec_op_p.dart';
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: TareasP(cod: '',cod_p: '',),
+    home: TareasP(
+      cod: '',
+      cod_p: '',
+    ),
   ));
 }
 
 class TareasP extends StatefulWidget {
   String cod;
   String cod_p;
-  
-  TareasP({ required this.cod, required this.cod_p});
+
+  TareasP({required this.cod, required this.cod_p});
 
   @override
   State<TareasP> createState() => _TareasPEState();
@@ -30,8 +33,8 @@ class TareasP extends StatefulWidget {
 class _TareasPEState extends State<TareasP> {
   String nameA = "NAME OF ACTIVITY/TASK";
 //campos para elegir el año y la seccion
-String _seleccionada2 = 'Año';
-    String _seleccionada = 'Seccion';
+  String _seleccionada2 = 'Año';
+  String _seleccionada = 'Seccion';
   //generar validacion de formularios
   GlobalKey<FormState> valueupdateimg = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -155,25 +158,30 @@ String _seleccionada2 = 'Año';
               image: AssetImage('assets/fondop.jpg'), fit: BoxFit.cover),
         ),
         child: Scaffold(
-          
           appBar: AppBar(
-            leading: MaterialButton(onPressed: (){
-              if(nameA == "NAME OF ACTIVITY/TASK") {
-                              final snackBar = SnackBar(
-                                    content:
-                                        Text("Es necesario cambiar el nombre"));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                                _changename(context);                                                   
-                            }else  {
-                              Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) =>  ProfeOp(cod_p: widget.cod_p,) ),
-                            );
-                               
-                            }
-            },
-            child: SizedBox(width: 30,height: 30,child: Icon(Icons.arrow_back_outlined),),),
+            leading: MaterialButton(
+              onPressed: () {
+                if (nameA == "NAME OF ACTIVITY/TASK") {
+                  final snackBar =
+                      SnackBar(content: Text("Es necesario cambiar el nombre"));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  _changename(context);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfeOp(
+                              cod_p: widget.cod_p,
+                            )),
+                  );
+                }
+              },
+              child: SizedBox(
+                width: 30,
+                height: 30,
+                child: Icon(Icons.arrow_back_outlined),
+              ),
+            ),
             title: Center(child: Text("Crear Actividad o tarea")),
             elevation: 0,
             backgroundColor: const Color.fromARGB(0, 255, 255, 255),
@@ -267,7 +275,7 @@ String _seleccionada2 = 'Año';
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 330,
+                                      width: 350,
                                       height: 50,
                                       decoration: BoxDecoration(
                                           color: Color.fromARGB(
@@ -288,7 +296,9 @@ String _seleccionada2 = 'Año';
                                                 color: Color.fromARGB(
                                                     255, 238, 234, 234)),
                                           ),
-                                          Text("${cod_p[i]}"),
+                                          Text(cod_p[i]),
+                                          
+                                          
                                         ],
                                       ),
                                     ),
@@ -371,28 +381,23 @@ String _seleccionada2 = 'Año';
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         MaterialButton(
-                          onPressed: ()  {
-                            if(nameA == "NAME OF ACTIVITY/TASK") {
+                          onPressed: () {
+                            if (nameA == "NAME OF ACTIVITY/TASK") {
                               final snackBar = SnackBar(
-                                    content:
-                                        Text("Es necesario cambiar el nombre"));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                                _changename(context);
-                               
-                              
-                            }else if (i < 2) {
-                               final snackBar = SnackBar(
-                                    content: Text(
-                                        "Debes contener almenos 10 preguntas"));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                                
-                               }else {
-                                _addcodSG(context);
-                               
-                              }
-                            
+                                  content:
+                                      Text("Es necesario cambiar el nombre"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              _changename(context);
+                            } else if (i < 2) {
+                              final snackBar = SnackBar(
+                                  content: Text(
+                                      "Debes contener almenos 10 preguntas"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            } else {
+                              _addcodSG(context);
+                            }
                           },
                           child: Container(
                             width: 70,
@@ -488,11 +493,13 @@ String _seleccionada2 = 'Año';
                       children: [
                         TextButton(
                           onPressed: () {
-                            if (nameact.currentState!.validate()) {
-                              Navigator.pop(context);
-                              var nombre = nameac.text;
-                              editname(nombre, widget.cod);
-                            }
+                            setState(() {
+                              if (nameact.currentState!.validate()) {
+                                Navigator.pop(context);
+                                var nombre = nameac.text;
+                                editname(nombre, widget.cod);
+                              }
+                            });
                           },
                           child: const Text(
                             'Aceptar',
@@ -540,7 +547,8 @@ String _seleccionada2 = 'Año';
                         key: formchangeask,
                         child: Column(
                           children: [
-                            TextFormField(
+                            Padding(padding: EdgeInsets.all(5)),
+                             TextFormField(
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
                                   return "Campo requerido";
@@ -556,7 +564,6 @@ String _seleccionada2 = 'Año';
                                   hintText: "Escribe el codigo de la pregunta",
                                   hintStyle: TextStyle(fontSize: 15)),
                             ),
-                            Padding(padding: EdgeInsets.all(5)),
                             TextFormField(
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
@@ -585,15 +592,15 @@ String _seleccionada2 = 'Año';
                           onPressed: () {
                             if (formchangeask.currentState!.validate()) {
                               ask = changeask.text;
-                              cod_ask = cod_changeask.text;
-                              editAsk(ask, cod_ask);
+                              cod_ask=cod_changeask.text;
+                              editAsk(ask,cod_ask);
                               final snackBar = SnackBar(
                                   content: Text(
                                       "Cambio exitoso.\nRefresca la pantalla "));
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                               changeask.text = "";
-                              cod_changeask.text = "";
+                              
                               Navigator.pop(context);
                             }
                           },
@@ -940,6 +947,7 @@ String _seleccionada2 = 'Año';
           );
         });
   }
+
   void _addcodSG(BuildContext context) {
     showDialog(
         barrierDismissible: false,
@@ -956,54 +964,49 @@ String _seleccionada2 = 'Año';
                     child: Container(
                       width: 250,
                       height: 80,
-                      child :Form(
-                        key: aniosec,
-                        child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 30,
-                            child: TextFormField(
-                              validator: (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Campo requerido";
-                                  }
-                                },
-                                controller: anio,
-                                textAlign: TextAlign.center,
-                                cursorColor: Colors.black,
-                                
-                                decoration: const InputDecoration(
-                                    hintText: "1",
-                                    hintStyle: TextStyle(fontSize: 15),
-                                    helperText: "Escribe el año"
-                                    ), 
-                            ),
-                          ),
-                          Container(
-                            width: 90,
-                            height: 30,
-                            child: TextFormField(
-                              validator: (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Campo requerido";
-                                  }
-                                },
-                                controller:seccion,
-                                textAlign: TextAlign.center,
-                                cursorColor: Colors.black,
-                                
-                                decoration: const InputDecoration(
-                                    hintText: "K",
-                                    hintStyle: TextStyle(fontSize: 15),
-                                    helperText: "Escribe la seccion"
-                                    ),           
-                            ),
-                          ),
-                          
-                        ],
-                      )),
+                      child: Form(
+                          key: aniosec,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                width: 80,
+                                height: 30,
+                                child: TextFormField(
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Campo requerido";
+                                    }
+                                  },
+                                  controller: anio,
+                                  textAlign: TextAlign.center,
+                                  cursorColor: Colors.black,
+                                  decoration: const InputDecoration(
+                                      hintText: "1",
+                                      hintStyle: TextStyle(fontSize: 15),
+                                      helperText: "Escribe el año"),
+                                ),
+                              ),
+                              Container(
+                                width: 90,
+                                height: 30,
+                                child: TextFormField(
+                                  validator: (String? value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Campo requerido";
+                                    }
+                                  },
+                                  controller: seccion,
+                                  textAlign: TextAlign.center,
+                                  cursorColor: Colors.black,
+                                  decoration: const InputDecoration(
+                                      hintText: "K",
+                                      hintStyle: TextStyle(fontSize: 15),
+                                      helperText: "Escribe la seccion"),
+                                ),
+                              ),
+                            ],
+                          )),
                     ),
                   ),
                   Center(
@@ -1022,14 +1025,15 @@ String _seleccionada2 = 'Año';
                         ),
                         TextButton(
                           onPressed: () {
-                            
                             if (aniosec.currentState!.validate()) {
                               Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) =>  ProfeOp(cod_p: widget.cod_p,) ),
-                            ); 
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfeOp(
+                                          cod_p: widget.cod_p,
+                                        )),
+                              );
                             }
-                            
                           },
                           child: const Text(
                             'Aceptar',
@@ -1045,6 +1049,7 @@ String _seleccionada2 = 'Año';
           );
         });
   }
+
   void wishExit(BuildContext context) {
     showDialog(
         context: context,
@@ -1058,19 +1063,16 @@ String _seleccionada2 = 'Año';
                 children: [
                   Center(
                     child: Container(
-                      width: 250,
-                      height: 80,
-                      child: Text("¿Estas seguro de salir?")
-                    ),
+                        width: 250,
+                        height: 80,
+                        child: Text("¿Estas seguro de salir?")),
                   ),
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         TextButton(
-                          onPressed: () {
-                           
-                          },
+                          onPressed: () {},
                           child: const Text(
                             'Aceptar',
                             style: TextStyle(color: Colors.white),
