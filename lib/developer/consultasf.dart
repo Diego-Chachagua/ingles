@@ -8,21 +8,19 @@ import 'dart:collection';
 
 import 'dart:io';
 
-Future<dynamic> agregarAskActivity(var pregunta, var cod) async{
+Future<dynamic> agregarAskActivity(var pregunta, var cod) async {
   print(pregunta);
   print(cod);
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/add_ask_act.php'),
     body: <String, dynamic>{
       "ask": pregunta,
-      "cod":cod,
-      
-      
+      "cod": cod,
     },
-    );
+  );
 }
 
-Future<void> agregarImg(var pregunta, File? imagen,var cod) async {
+Future<void> agregarImg(var pregunta, File? imagen, var cod) async {
   print(pregunta);
   print(cod);
   if (imagen == null) {
@@ -37,49 +35,46 @@ Future<void> agregarImg(var pregunta, File? imagen,var cod) async {
     body: <String, String>{
       "ask": pregunta,
       "img": base64Image,
-      "cod":cod,
+      "cod": cod,
     },
   );
 
   // Handle the response here if needed
 }
 
-
-
-Future<dynamic> mostrarAct(var cod) async{
+Future<dynamic> mostrarAct(var cod) async {
   print(cod);
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_ask_act.php'),
     body: <String, dynamic>{
-      "cod":cod,
-
+      "cod": cod,
     },
   );
   var resultado = jsonDecode(enviar.body);
-  
-print(resultado);
-    return resultado;
-  
+
+  print(resultado);
+  return resultado;
 }
 
-Future<dynamic> editAsk(var pregunta,var cod) async{
+Future<dynamic> editAsk(var pregunta, var cod) async {
   print(pregunta);
   print(cod);
-  
+
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/edit_ask_act.php'),
     body: <String, dynamic>{
       "ask": pregunta,
-      "cod":cod,   
+      "cod": cod,
     },
-    );
-    return enviar.body;
+  );
+  return enviar.body;
 }
+
 //actualizar imagen
-Future<void> updateImg(var cod,var pregunta, File? imagen) async {
+Future<void> updateImg(var cod, var pregunta, File? imagen) async {
   print(pregunta);
   print(cod);
-;
+  ;
 
   if (imagen == null) {
     print("No image selected");
@@ -92,7 +87,7 @@ Future<void> updateImg(var cod,var pregunta, File? imagen) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/update_ask_img.php'),
     body: <String, String>{
-      "cod":cod,
+      "cod": cod,
       "ask": pregunta,
       "img": base64Image,
     },
@@ -102,70 +97,61 @@ Future<void> updateImg(var cod,var pregunta, File? imagen) async {
 }
 
 //crear nueva actividad
-Future<dynamic> addTask(var name) async{
+Future<dynamic> addTask(var name,var cod_p) async {
   print(name);
+  print(cod_p);
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/add_Task.php'),
-    body: <String, dynamic>{  
-      "name":name,
+    body: <String, dynamic>{
+      "name": name,
+      "cod_p":cod_p,
     },
-  
-    );
-    var resultado = jsonDecode(enviar.body);
-   print(resultado);
-   return resultado;
-    
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
 }
 //extraer codigo de actividad
 
-
-Future<dynamic> editname(var nombre,var cod) async{
+Future<dynamic> editname(var nombre, var cod) async {
   print(nombre);
   print(cod);
-  
+
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/change_name_act.php'),
     body: <String, dynamic>{
       "name": nombre,
-      "cod":cod,
-    
-      
-      
+      "cod": cod,
     },
-
-    );
-    return enviar.body;
+  );
+  return enviar.body;
 }
 
-
-
-Future<dynamic> insertcodes(var grado,var seccion) async{
+Future<dynamic> insertcodes(var grado, var seccion) async {
   print(grado);
   print(seccion);
-  
+
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/change_name_act.php'),
     body: <String, dynamic>{
       "grado": grado,
-      "secc":seccion,
+      "secc": seccion,
     },
-
-    );
-    return enviar.body;
+  );
+  return enviar.body;
 }
-Future<dynamic> showActs(var cod) async{
+
+//extraer actividades
+Future<dynamic> showActivitys(var cod) async {
   print(cod);
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_name_act.php'),
     body: <String, dynamic>{
-      "cod":cod,
-
+      "cod": cod,
     },
   );
   var resultado = jsonDecode(enviar.body);
-  
-print(resultado);
-    return resultado;
-  
-
+  print(resultado);
+  return resultado;
 }
+

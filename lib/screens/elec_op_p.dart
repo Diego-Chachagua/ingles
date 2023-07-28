@@ -2,6 +2,7 @@
 // ignore_for_file: unused_import, prefer_typing_uninitialized_variables, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/show_act.dart';
 
 import 'package:ingles/screens/tareas.dart';
 import 'package:ingles/screens/tareasM.dart';
@@ -33,8 +34,11 @@ class _ProfeOpEState extends State<ProfeOp> {
 var reslt;
 var cod;
 
+
   @override
   Widget build(BuildContext context) {
+    var cod_profe=widget.cod_p;
+    
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -82,16 +86,18 @@ var cod;
                           onPressed: () async{
                              var name = "NAME OF ACTIVITY/TASK";
   
-                            reslt = await addTask(name);
+                            reslt = await addTask(name,widget.cod_p);
                             if (reslt != "noExisten") {
                               for (var i = 0; i < reslt.length; i++) {
                                 var dato = reslt[i];
                                 var codigo=dato["cod_act"];
                                 setState(() {
                                    cod=codigo;
+                                   print(cod);
                                 });
                               }
                             }
+                            
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) =>  TareasP(cod: cod,cod_p: widget.cod_p, ),
@@ -158,10 +164,10 @@ var cod;
                       children: [
                         MaterialButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => VerAct(cod_p: widget.cod_p,) ),
-                            // ); 
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => VerAct(cod: cod_profe,) ),
+                            ); 
                             
                           },
                           child: const SizedBox(

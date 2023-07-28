@@ -166,6 +166,10 @@ String _seleccionada2 = 'Año';
                                     .showSnackBar(snackBar);
                                 _changename(context);                                                   
                             }else  {
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>  ProfeOp(cod_p: widget.cod_p,) ),
+                            );
                                
                             }
             },
