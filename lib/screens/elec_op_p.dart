@@ -2,6 +2,7 @@
 // ignore_for_file: unused_import, prefer_typing_uninitialized_variables, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/showaacts.dart';
 import 'package:ingles/screens/tareas.dart';
 import 'package:ingles/screens/tareasM.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -155,6 +156,10 @@ var cod;
                       children: [
                         MaterialButton(
                           onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => VerAct() ),
+                            ); 
                             
                           },
                           child: const SizedBox(
@@ -163,7 +168,7 @@ var cod;
                               child: Image(image: AssetImage('assets/ver notas.png'))),
                         ),
                         GradientText(
-                          'Ver mis notas',
+                          '          Ver mis \nactividades/tareas',
                           style: const TextStyle(
                             fontSize: 30.0,
                           ),
