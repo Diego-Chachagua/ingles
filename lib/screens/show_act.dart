@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingles/developer/consultad.dart';
 import 'package:ingles/screens/tareasM.dart';
+import 'package:ingles/screens/vertarea.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
 import '../main.dart';
@@ -129,7 +130,7 @@ class _VerActEState extends State<VerAct> {
                  MaterialButton(onPressed: (){
                   Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>  TareasP(cod_p: widget.cod, cod: cod_act[i],) ),
+                              MaterialPageRoute(builder: (context) =>  VerTarea(cod_p: widget.cod, cod: cod_act[i],) ),
                             );
                  },
                  child: Container(
