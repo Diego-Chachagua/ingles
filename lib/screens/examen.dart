@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart'; // Importa el paquete para seleccionar imágenes
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'dart:io';
 
-import 'package:simple_gradient_text/simple_gradient_text.dart';
-
-class Unidades extends StatelessWidget {
-  const Unidades({super.key});
+class Examenes extends StatelessWidget {
+  const Examenes({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +24,51 @@ class _examenState extends State<examen> {
   final TextEditingController pregunta1 = TextEditingController();
   final TextEditingController respuesta1 = TextEditingController();
   bool expanded1 = false;
-  bool expanded2 = false;
-  bool expanded3 = false;
-  bool expanded4 = false;
+  FlutterSoundRecorder? _audioRecorder; // Objeto para grabar audio
+  bool _isRecording = false;
+
 
   String textValue1 = '';
   String audioPath1 = '';
   File? imageFile1;
 
   final ImagePicker _imagePicker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    _audioRecorder = FlutterSoundRecorder(); // Inicializar el objeto para grabar audio
+  }
+
+  @override
+  void dispose() {
+    _audioRecorder?.closeRecorder(); // Cerrar la sesión de grabación de audio al salir de la pantalla
+    super.dispose();
+  }
+
+  Future<void> _startRecording() async {
+    try {
+      await _audioRecorder?.openRecorder();
+      await _audioRecorder?.startRecorder(toFile: 'audio_recording.aac', codec: Codec.aacMP4);
+      setState(() {
+        _isRecording = true;
+      });
+    } catch (e) {
+      // Manejar el error en caso de que la grabación falle
+    }
+  }
+
+  Future<void> _stopRecording() async {
+    try {
+      String? audioFilePath = await _audioRecorder?.stopRecorder();
+      setState(() {
+        _isRecording = false;
+        audioPath1 = audioFilePath ?? '';
+      });
+    } catch (e) {
+      // Manejar el error en caso de que detener la grabación falle
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +136,8 @@ class _examenState extends State<examen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                onPressed: () async {
-                  // Lógica para grabar audio
-                  // Puedes usar un paquete de grabación de audio o implementar tu propia lógica
-                  // y actualizar el estado de 'audioPath1' con la ruta del archivo de audio grabado.
-                },
-                child: Text('Grabar Audio'),
+                onPressed: _isRecording ? _stopRecording : _startRecording,
+                child: Text(_isRecording ? 'Detener Grabación' : 'Grabar Audio'),
               ),
               ElevatedButton(
                 onPressed: () async {
