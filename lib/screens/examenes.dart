@@ -94,11 +94,13 @@ setState(() {
     )
         ),
         backgroundColor: Colors.transparent,
-        body:  SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Column(
             children: [
-            //Definicion de la linea
-              const SizedBox(height: 5,),
+              //Definicion de la linea
+              const SizedBox(
+                height: 5,
+              ),
               Container(
               height: 5,
               width: 1000,
@@ -158,19 +160,11 @@ setState(() {
                   ),
                 ],
               ),
-              
-            
-        
             ],
-        
           ),
         ),
-       
       ),
     );
-    
-  
-
   }
 
   void _mensajeUsu(BuildContext context) {

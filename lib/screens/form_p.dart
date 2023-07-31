@@ -26,7 +26,8 @@ class _FormPState extends State<FormP> {
    bool _obscureText = true;
 final usuariob =TextEditingController();
 final contrab =TextEditingController();
-
+var reslt;
+var cod;
 
   String usuariobd = "";
   String contrabd = "";
@@ -99,22 +100,33 @@ final contrab =TextEditingController();
                     //comprobacion de usuario y contraseña
                     if (usuariobd.isNotEmpty || contrabd.isNotEmpty) {
                     dynamic respuesta = await comprobarp(usuariobd,contrabd);
+                    if (respuesta != "noExisten") {
+                              for (var i = 0; i < respuesta.length; i++) {
+                                var dato = respuesta[i];
+                                var codigo=dato["cod_profe"];
+                                
+                                setState(() {
+                                   cod=codigo;
+                                   
+                                });
+                              }
+                            }
+
                     if (respuesta == "error") {
                         _mensaje(context);
 
                       //se produjo un error
                     }
-                    if (respuesta == "noExiste") {
+                    if (cod==0) {
                       //no hay usuario con ese nombre
                       _mensajeUsu(context);
-                    } else {
-                         if(respuesta == "profe"){
-                        // ignore: use_build_context_synchronously
+                    } else {            
+                        
+                      
                         Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  ProfeOp()),
-                   );
-                      }
+                  MaterialPageRoute(builder: (context) =>  ProfeOp(cod_p: cod)),
+                   );             
                     }
                     }
                   },
