@@ -67,9 +67,9 @@ class _VideosState extends State<Videos> {
             backgroundColor: Colors.transparent,
           body: SingleChildScrollView(
             child:  Padding(
-              padding: const EdgeInsets.all(7.0),
+              padding: const EdgeInsets.all(2.0),
             child: Table(
-              columnWidths: const {0: FractionColumnWidth(0.3)},
+              columnWidths: const {0: FractionColumnWidth(0.4)},
               border: TableBorder.all(),
               children:  [
                 TableRow(
@@ -93,13 +93,102 @@ class _VideosState extends State<Videos> {
                                 },
                                 child: Text(
                                   'https://youtu.be/bpMELj9caNY',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                     
+                  ]
+                 ),
+
+                 TableRow(
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 255, 255, 255)
+                  ),
+                  children: [
+                    medio(),
+                     InkWell(
+                                onTap: () {
+                                  String userData =
+                                      'https://youtu.be/qHMf1yLe_BU';
+                                  copyToClipboard(userData);
+                                },
+                                child: Text(
+                                  'https://youtu.be/qHMf1yLe_BU',
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                     
+                  ]
+                 ),
+
+                  TableRow(
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 255, 255, 255)
+                  ),
+                  children: [
+                    avanzado(),
+                     InkWell(
+                                onTap: () {
+                                  String userData =
+                                      'https://youtu.be/8UUsGGwrNCY';
+                                  copyToClipboard(userData);
+                                },
+                                child: Text(
+                                  'https://youtu.be/8UUsGGwrNCY',
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                     
+                  ]
+                 ),
+
+                  TableRow(
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 255, 255, 255)
+                  ),
+                  children: [
+                    MUSICA(),
+                     InkWell(
+                                onTap: () {
+                                  String userData =
+                                      'https://youtu.be/LaaOaTuiU_s';
+                                  copyToClipboard(userData);
+                                },
+                                child: Text(
+                                  'https://youtu.be/LaaOaTuiU_s',
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                     
+                  ]
+                 ),
+
+                  TableRow(
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 255, 255, 255)
+                  ),
+                  children: [
+                    paginas(),
+                     InkWell(
+                                onTap: () {
+                                  String userData =
+                                      'https://www.juegosparaaprenderingles.org/';
+                                  copyToClipboard(userData);
+                                },
+                                child: Text(
+                                  'https://www.juegosparaaprenderingles.org/',
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 12),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                      
                   ]
                  )
+
               ],
             ),
             ),
@@ -111,41 +200,41 @@ class _VideosState extends State<Videos> {
 
 Widget medio() {
     return Container(
-        color: const Color.fromARGB(255, 150, 70, 255),
+        color: Color.fromARGB(255, 255, 255, 255),
         child: const Center(
-            child: Text('Nivel Medio',style: TextStyle(fontSize: 20, color: Colors.white),
+            child: Text('Nivel Medio',style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
         )));
   }
 
   Widget Basico() {
     return Container(
-        color: const Color.fromARGB(255, 150, 70, 255),
+        color: Color.fromARGB(255, 255, 255, 255),
         child: const Center(
-            child: Text('Nivel Básico',style: TextStyle(fontSize: 20, color: Colors.white),
+            child: Text('Nivel Básico',style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
         )));
   }
 
   Widget MUSICA() {
     return Container(
-        color: const Color.fromARGB(255, 150, 70, 255),
+        color: Color.fromARGB(255, 255, 255, 255),
         child: const Center(
-            child: Text('Música',style: TextStyle(fontSize: 20, color: Colors.white),
+            child: Text('Música',style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
         )));
   }
 
   Widget avanzado() {
     return Container(
-        color: const Color.fromARGB(255, 150, 70, 255),
+        color: Color.fromARGB(255, 255, 255, 255),
         child: const Center(
-            child: Text('Nivel Avanzado',style: TextStyle(fontSize: 20, color: Colors.white),
+            child: Text('Nivel Avanzado',style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
         )));
   }
 
   Widget paginas() {
     return Container(
-        color: const Color.fromARGB(255, 150, 70, 255),
+        color: Color.fromARGB(255, 255, 255, 255),
         child: const Center(
-            child: Text('Pagina web',style: TextStyle(fontSize: 20, color: Colors.white),
+            child: Text('Juegos',style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
         )));
   }
 
@@ -153,7 +242,7 @@ Widget medio() {
     return Container(
         color: const Color.fromARGB(255, 150, 70, 255),
         child: const Center(
-            child: Text('Opciones de aprendizaje',style: TextStyle(fontSize: 20, color: Colors.white),
+            child: Text('Aprendizaje',style: TextStyle(fontSize: 20, color: Colors.white),
         )));
   }
 
