@@ -1,66 +1,62 @@
 // ignore: file_names
+
 import 'package:flutter/material.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
-import '../main.dart';
 import 'package:ingles/developer/consultad.dart';
+import 'package:ingles/screens/tareasM.dart';
+import 'package:ingles/screens/vertarea.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
+import '../developer/consultasf.dart';
+import '../main.dart';
 
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
-    home: VerNotasA(usuario: '', contra: '',),
+    home: VerAct(cod: ''),
   ));
 }
 
-class VerNotasA extends StatefulWidget {
-  final String contra;
-  final String usuario;
-  const VerNotasA({super.key, required this.contra, required this.usuario, });
+class VerAct extends StatefulWidget {
+  final String cod;
+  const VerAct({super.key, required this.cod});
 
   @override
-  State<VerNotasA> createState() => _VerNotasAEState();
+  State<VerAct> createState() => _VerActEState();
 }
 
-class _VerNotasAEState extends State<VerNotasA> {
-  final usuariob = TextEditingController();
-  final contrab = TextEditingController();
-
-  String usuariobd = "";
-  String contrabd = "";
+class _VerActEState extends State<VerAct> {
   var resultado;
-  var dato;
-  List<String> nombre = [];
-  List<String> nota = [];
+  List nombre_act = [];
+  List cod_act = [];
 
-@override
-void initState() {
-  super.initState();
-  (() async {
-    usuariobd = widget.usuario;
-    contrabd = widget.contra;
-    resultado = await historialestu2(usuariobd, contrabd);
-    if (resultado != null) {
-      for (var dato in resultado) {
-        print(dato);
-        var nombre_p = dato['nombre'];
-        var nota_p = dato['nota'];
+  @override
+  void initState() {
+    super.initState();
+    getActivitys();
+  }
 
+  Future<void> getActivitys() async {
+    resultado = await showActivitys(widget.cod);
+    if (resultado != "noExisten") {
+      for (var i = 0; i < resultado.length; i++) {
+        var dato = resultado[i];
+        var codigo = dato["cod_act"];
+        var nombre = dato["nombre_act"];
         setState(() {
-          nombre.add(nombre_p);
-          nota.add(nota_p);
+          cod_act.add(codigo);
+          nombre_act.add(nombre);
         });
       }
-    } else {
-      print("El resultado es nulo.");
     }
-  })();
-}
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.cod);
+    print(nombre_act);
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/fondo_v.jpg'), fit: BoxFit.cover),
+              image: AssetImage('assets/fondof.jpg'), fit: BoxFit.cover),
         ),
         child: Scaffold(
             appBar: AppBar(
@@ -71,7 +67,7 @@ void initState() {
                 child: Column(
                   children: [
                     GradientText(
-                      'HOMEWORK GRADES',
+                      'EXAM SCORES',
                       style: const TextStyle(
                         fontSize: 30.0,
                       ),
@@ -85,7 +81,7 @@ void initState() {
                       ],
                     ),
                     GradientText(
-                      '(Calificaciones de tarea)',
+                      '(calificaciones del examen)',
                       style: const TextStyle(
                         fontSize: 20.0,
                       ),
@@ -109,6 +105,13 @@ void initState() {
                 const SizedBox(
                   height: 20,
                 ),
+                Row(
+                  children: const [
+                    SizedBox(
+                      width: 40,
+                    ),
+                  ],
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -117,11 +120,20 @@ void initState() {
                   color: Colors.black,
                   height: 2,
                 ),
+                //fin de espacio para definicion de linea
                 const SizedBox(
                   height: 20,
                 ),
-                for (var i = 0; i < nombre.length; i++)
-                Container(
+                //espacio para definición de contenedor para mostrar historial
+
+                for (var i = 0; i < nombre_act.length; i++)
+                 MaterialButton(onPressed: (){
+                  Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>  VerTarea(cod_p: widget.cod, cod: cod_act[i],) ),
+                            );
+                 },
+                 child: Container(
                     margin: EdgeInsets.only(top: 20),
                     width: 320,
                     height: 60,
@@ -138,7 +150,8 @@ void initState() {
                         Positioned(
                           left: 30,
                           top: 20,
-                          child: Text(nombre[i], style: TextStyle(fontSize: 15)),
+                          child: Text(nombre_act[i],
+                              style: TextStyle(fontSize: 15)),
                         ),
                         Positioned(
                           left: 255,
@@ -154,13 +167,15 @@ void initState() {
                         Positioned(
                           left: 270,
                           top: 20,
-                          child: Text(nota[i] + "/10"),
+                          child: Text(cod_act[i]),
                         ),
                       ],
                     ),
-                  ),
+                  ),)
+                   //fin de definición de contenedor
               ],
-            ))));
+            ))
+            )
+            );
   }
-
 }

@@ -1,50 +1,44 @@
 // ignore: file_names
+// ignore_for_file: unused_import, prefer_typing_uninitialized_variables, avoid_print
+
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/show_act.dart';
+
 import 'package:ingles/screens/tareas.dart';
+import 'package:ingles/screens/tareasM.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import '../developer/consultasf.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
-import 'elec_e_o_t.dart';
-import 'tareasM.dart';
+
 
 void main() {
-  runApp(const MaterialApp(
+  runApp( MaterialApp(
     title: 'Navigation Basics',
-    home: ElecOP(usuario: '',contra: '',),
+    home: ProfeOp(cod_p: '',),
   ));
 }
 
-class ElecOP extends StatefulWidget {
-  final String usuario;
-  final String contra;
-  const ElecOP({super.key, required this.usuario, required this.contra});
+class ProfeOp extends StatefulWidget {
+String cod_p;
+   ProfeOp({super.key, required this.cod_p});
 
   
 
   @override
-  State<ElecOP> createState() => _ElecOPEState();
+  State<ProfeOp> createState() => _ProfeOpEState();
 }
 
-class _ElecOPEState extends State<ElecOP> {
-  String usuariobd = "";
-  String contrabd = "";
-  List<String> contrap = [];
-List<String> nombrep= [];
+class _ProfeOpEState extends State<ProfeOp> {
+ 
 var reslt;
-String grado="";
-String seccion="";
-
-
-  @override
-void initState(){
-  super.initState();
-  
-}
-
+var cod;
 
 
   @override
   Widget build(BuildContext context) {
+    var cod_profe=widget.cod_p;
+    
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -89,11 +83,27 @@ void initState(){
                     Column(
                       children: [
                         MaterialButton(
-                          onPressed: () {
-                              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>   const TareasP()),
-                   );
+                          onPressed: () async{
+                             var name = "NAME OF ACTIVITY/TASK";
+  
+                            reslt = await addTask(name,widget.cod_p);
+                            if (reslt != "noExisten") {
+                              for (var i = 0; i < reslt.length; i++) {
+                                var dato = reslt[i];
+                                var codigo=dato["cod_act"];
+                                setState(() {
+                                   cod=codigo;
+                                   print(cod);
+                                });
+                              }
+                            }
+                            
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>  TareasP(cod: cod,cod_p: widget.cod_p, ),
+
+                            )   
+                            );
                           },
                           child: const SizedBox(
                               height: 150,
@@ -154,10 +164,11 @@ void initState(){
                       children: [
                         MaterialButton(
                           onPressed: () {
-                        //      Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => const ElecEOT()),
-                        // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => VerAct(cod: cod_profe,) ),
+                            ); 
+                            
                           },
                           child: const SizedBox(
                               height: 150,
@@ -165,7 +176,7 @@ void initState(){
                               child: Image(image: AssetImage('assets/ver notas.png'))),
                         ),
                         GradientText(
-                          'Ver mis notas',
+                          '          Ver mis \nactividades/tareas',
                           style: const TextStyle(
                             fontSize: 30.0,
                           ),

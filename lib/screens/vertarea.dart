@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/show_act.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
 import '../main.dart';
@@ -13,24 +14,24 @@ import 'elec_op_p.dart';
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: TareasP(
+    home: VerTarea(
       cod: '',
       cod_p: '',
     ),
   ));
 }
 
-class TareasP extends StatefulWidget {
+class VerTarea extends StatefulWidget {
   String cod;
   String cod_p;
 
-  TareasP({required this.cod, required this.cod_p});
+  VerTarea({required this.cod, required this.cod_p});
 
   @override
-  State<TareasP> createState() => _TareasPEState();
+  State<VerTarea> createState() => _VerTareaEState();
 }
 
-class _TareasPEState extends State<TareasP> {
+class _VerTareaEState extends State<VerTarea> {
   String nameA = "NAME OF ACTIVITY/TASK";
 //campos para elegir el año y la seccion
   String _seleccionada2 = 'Año';
@@ -1019,12 +1020,12 @@ class _TareasPEState extends State<TareasP> {
                           onPressed: () {
                             if (aniosec.currentState!.validate()) {
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfeOp(
-                                          cod_p: widget.cod_p,
-                                        )),
-                              );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VerAct(
+                                    cod: widget.cod_p,
+                                  )),
+                        );
                             }
                           },
                           child: const Text(
@@ -1070,8 +1071,8 @@ class _TareasPEState extends State<TareasP> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfeOp(
-                                    cod_p: widget.cod_p,
+                              builder: (context) => VerAct(
+                                    cod: widget.cod_p,
                                   )),
                         );
                       },

@@ -39,6 +39,7 @@ dependencies:
   http: ^0.13.6
   flutter_windowmanager: ^0.2.0
   image_picker: ^1.0.1
+  flutter_sound: ^9.2.13
 
 dev_dependencies:
   flutter_test:
@@ -111,6 +112,7 @@ flutter:
   - assets/Banner_app.png
   - assets/tareaso.png
   - assets/icon/logo.png
+  - assets/play.png
 
   
 
