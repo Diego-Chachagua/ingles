@@ -2,6 +2,7 @@
 // ignore_for_file: unused_import, prefer_typing_uninitialized_variables, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/aprender.dart';
 import 'package:ingles/screens/tareas.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultaso.dart';
@@ -238,15 +239,10 @@ for (var i = 0; i < niee.length; i++) {
                           children: [
                             MaterialButton(
                               onPressed: () {
-                                print(widget.usuario);
-                                print(widget.contra);
-                                usuariobd = widget.usuario;
-                                contrabd = widget.contra;
-                                print(usuariobd);
-                                print(contrabd);
+                                
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) =>   ElecEOT(usu: usuariobd, contra: contrabd)),
+                                  MaterialPageRoute(builder: (context) =>   Videos()),
                                 );
                               },
                               child: const SizedBox(
