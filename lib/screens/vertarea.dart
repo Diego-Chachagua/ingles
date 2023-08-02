@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/save_act.dart';
 import 'package:ingles/screens/show_act.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
@@ -32,16 +33,13 @@ class VerTarea extends StatefulWidget {
 }
 
 class _VerTareaEState extends State<VerTarea> {
-  String nameA = "NAME OF ACTIVITY/TASK";
-//campos para elegir el año y la seccion
-  String _seleccionada2 = 'Año';
-  String _seleccionada = 'Seccion';
+  String nameA = "";
+
   //generar validacion de formularios
   GlobalKey<FormState> valueupdateimg = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formchangeask = GlobalKey<FormState>();
   GlobalKey<FormState> nameact = GlobalKey<FormState>();
-  GlobalKey<FormState> aniosec = GlobalKey<FormState>();
   File? imagen;
 //future para buscar y almacenar imagen
   Future setimage(var ask) async {
@@ -60,12 +58,10 @@ class _VerTareaEState extends State<VerTarea> {
       }
     });
   }
-
 //funcion para actualizar una imagen en la base datos
   Future updateimage(var ask, var cod) async {
     var picturefile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
-
     setState(() {
       if (picturefile != null) {
         imagen = File(picturefile.path);
@@ -79,7 +75,6 @@ class _VerTareaEState extends State<VerTarea> {
       }
     });
   }
-
   final usuariob = TextEditingController();
   final contrab = TextEditingController();
   final nameac = TextEditingController();
@@ -93,7 +88,6 @@ class _VerTareaEState extends State<VerTarea> {
   String cod_ask = "";
   String usuariobd = "";
   String contrabd = "";
-
   int number = 1;
   String ask = "Escribe tu pregunta aqui";
   var reslt;
@@ -101,28 +95,23 @@ class _VerTareaEState extends State<VerTarea> {
   List imagenes = [];
   List images = [];
   List cod_p = [];
-
   @override
   void initState() {
     super.initState();
     obtenerpreguntas();
   }
-
   Future<void> obtenerpreguntas() async {
     print(widget.cod_p);
     reslt = await mostrarAct(widget.cod);
-
     setState(() {
       preguntas.clear();
       imagenes.clear();
       images.clear();
       cod_p.clear(); // Limpiar la lista antes de agregar las nuevas preguntas
-
       if (reslt != "noExisten") {
         for (var i = 0; i < reslt.length; i++) {
           var dato = reslt[i];
           var nombreAct = dato["nombre"];
-
           var nom_tem = dato["pregunta"];
           var cod = dato["cod_p_a"];
           var img = dato["img"];
@@ -134,23 +123,19 @@ class _VerTareaEState extends State<VerTarea> {
           } else {
             nameA = "Name of activity";
           }
-
           print(nameA);
           cod_p.add(cod);
           if (img != null) {
             Uint8List bytes = base64.decode(img);
-
             images.add(bytes);
           } else {
             images.add("no e se puede");
           }
-
           // Agregar las nuevas preguntas a la lista
         }
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -389,7 +374,11 @@ class _VerTareaEState extends State<VerTarea> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                             } else {
-                              _addcodSG(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SaveAct()),
+                              );
                             }
                           },
                           child: Container(
@@ -935,108 +924,6 @@ class _VerTareaEState extends State<VerTarea> {
                   },
                   child: const Text('Cancelar'),
                 ),
-              )
-            ],
-          );
-        });
-  }
-
-  void _addcodSG(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shadowColor: Color.fromARGB(255, 170, 63, 233),
-            backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("Agregar pregunta"),
-            actions: [
-              Column(
-                children: [
-                  Center(
-                    child: Container(
-                      width: 250,
-                      height: 80,
-                      child: Form(
-                          key: aniosec,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 30,
-                                child: TextFormField(
-                                  validator: (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Campo requerido";
-                                    }
-                                  },
-                                  controller: anio,
-                                  textAlign: TextAlign.center,
-                                  cursorColor: Colors.black,
-                                  decoration: const InputDecoration(
-                                      hintText: "1",
-                                      hintStyle: TextStyle(fontSize: 15),
-                                      helperText: "Escribe el año"),
-                                ),
-                              ),
-                              Container(
-                                width: 90,
-                                height: 30,
-                                child: TextFormField(
-                                  validator: (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Campo requerido";
-                                    }
-                                  },
-                                  controller: seccion,
-                                  textAlign: TextAlign.center,
-                                  cursorColor: Colors.black,
-                                  decoration: const InputDecoration(
-                                      hintText: "K",
-                                      hintStyle: TextStyle(fontSize: 15),
-                                      helperText: "Escribe la seccion"),
-                                ),
-                              ),
-                            ],
-                          )),
-                    ),
-                  ),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            setState(() {});
-                          },
-                          child: const Text(
-                            'Cancelar',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            if (aniosec.currentState!.validate()) {
-                              Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VerAct(
-                                    cod: widget.cod_p,
-                                  )),
-                        );
-                            }
-                          },
-                          child: const Text(
-                            'Aceptar',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
               )
             ],
           );
