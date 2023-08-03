@@ -377,7 +377,7 @@ class _VerTareaEState extends State<VerTarea> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SaveAct()),
+                                    builder: (context) => SaveAct(nombre_act: nameA,cod_act:widget.cod ,)),
                               );
                             }
                           },
