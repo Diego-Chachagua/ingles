@@ -28,14 +28,18 @@ class _SaveActState extends State<SaveAct> {
   void callDataPicker() async {
     var selectedDate = await getDatePickerWidget();
     setState(() {
-      selectDate = selectedDate!;
+      if(selectedDate!=null){
+        selectDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+      }
     });
   }
 
   void callTimePicker() async {
     var selectTimes = await getDateTime();
     setState(() {
-      selectTime = selectTimes!;
+      if(selectTimes!=null){
+         selectTime = selectTimes;
+      }
     });
   }
 
@@ -96,7 +100,7 @@ class _SaveActState extends State<SaveAct> {
                 Padding(padding: EdgeInsets.all(20)),
                 Text(
                   'Selecciona año y sección a enviar la actividad',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                   style: TextStyle(fontSize: 20),
                 ),
                 Padding(padding: EdgeInsets.all(20)),
                 Row(
@@ -148,30 +152,58 @@ class _SaveActState extends State<SaveAct> {
                     Padding(padding: EdgeInsets.all(20)),
                     Text(
                   'Seleccione una hora y fecha limite\n                      de entrega',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(fontSize: 20),
                 ),
                 Padding(padding: EdgeInsets.all(20)),
-                selectDate==null && selectTime==null?
-                Text('Fecha')
-                :
-                Text("$selectDate"),
-                Text("$selectTime"),
+                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        Text('Fecha:'),
+                        Text("$selectDate"),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text("Hora:"),
+                        Text("$selectTime"),
+                      ],
+                    ),
+                  ],
+                 ),
                 Padding(padding: EdgeInsets.all(20)),
-                SafeArea(child: 
-                 MaterialButton(onPressed: callDataPicker,
-                      child: Container(child: 
-                      Text('Agregar fecha'),
-                      ),)
-                ),
-                Padding(padding: EdgeInsets.all(20)),
-                SafeArea(child: 
-                 MaterialButton(onPressed: callTimePicker,
-                      child: Container(child: 
-                      Text('Agregar hora'),
-                      ),)
-                ),
-               
-                
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SafeArea(
+                        child: MaterialButton(
+                      onPressed: callDataPicker,
+                      child: Container(
+                        width: 100,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 193, 156, 228),
+                            border: Border.all(width: 0.5),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(child: Text('Agregar fecha')),
+                      ),
+                    )),
+                    SafeArea(
+                        child: MaterialButton(
+                      onPressed: callTimePicker,
+                      child: Container(
+                        width: 100,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 193, 156, 228),
+                            border: Border.all(width: 0.5),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(child: Text('Agregar hora')),
+                      ),
+                    )),
+                  ],
+                ),          
               ],
             )
                 //cuerpo del formulario
