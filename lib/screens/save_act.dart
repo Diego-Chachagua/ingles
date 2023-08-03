@@ -1,12 +1,12 @@
 // ignore: file_names
-import 'package:ingles/services/notification_1.dart';
+
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-void main() async{
-WidgetsFlutterBinding.ensureInitialized();
-  await comprobacion();
+
+import '../developer/consultasf.dart';
+void main() {
   runApp( MaterialApp(
     title: 'Navigation Basics',
     home: SaveAct(
@@ -26,9 +26,9 @@ SaveAct({super.key, required this.nombre_act, required this.cod_act});
 }
 
 class _SaveActState extends State<SaveAct> {
-  String _seleccionada = 'Año';
+  String seleccionada = 'Año';
   List anios = ['Año', '1', '2','3'];
-  String _seleccionada2 = 'Seccion';
+  String seleccionada2 = 'Seccion';
   List seccion = ['Seccion', 'A', 'E', 'K', 'G', 'D', 'O','L','M','N','F'];
   String formattedDate = "YYYY-MM-DD";
    var selectDate = DateTime.now();
@@ -142,11 +142,11 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                           child: DropdownButton(
                             borderRadius: BorderRadius.circular(10),
                             dropdownColor: Color.fromARGB(255, 208, 171, 241),
-                            value: _seleccionada,
+                            value: seleccionada,
                             items: GetOptionsDropDownButton(),
                             onChanged: (value) {
                               setState(() {
-                                _seleccionada = value.toString();
+                                seleccionada = value.toString();
                               });
                             },
                           ),
@@ -163,39 +163,39 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                           child: DropdownButton(
                             borderRadius: BorderRadius.circular(10),
                             dropdownColor: Color.fromARGB(255, 208, 171, 241),
-                            value: _seleccionada2,
+                            value: seleccionada2,
                             items: GetOptionsDropDownButton2(),
                             onChanged: (value) {
                               setState(() {
                                
-                                _seleccionada2 = value.toString();
-                                 if(_seleccionada2=="A"){
+                                seleccionada2 = value.toString();
+                                 if(seleccionada2=="A"){
                                   a="1";
-                                }else if(_seleccionada2=="E"){
+                                }else if(seleccionada2=="E"){
                                   a="2";
                                 }
-                                else if(_seleccionada2=="K"){
+                                else if(seleccionada2=="K"){
                                   a="3";
                                 }
-                                else if(_seleccionada2=="G"){
+                                else if(seleccionada2=="G"){
                                   a="4";
                                 }
-                                else if(_seleccionada2=="D"){
+                                else if(seleccionada2=="D"){
                                   a="5";
                                 }
-                                else if(_seleccionada2=="O"){
+                                else if(seleccionada2=="O"){
                                   a="6";
                                 }
-                                else if(_seleccionada2=="L"){
+                                else if(seleccionada2=="L"){
                                   a="7";
                                 }
-                                else if(_seleccionada2=="M"){
+                                else if(seleccionada2=="M"){
                                   a="8";
                                 }
-                                else if(_seleccionada2=="N"){
+                                else if(seleccionada2=="N"){
                                   a="9";
                                 }
-                                else if(_seleccionada2=="F"){
+                                else if(seleccionada2=="F"){
                                   a="10";
                                 }
                               });
@@ -268,7 +268,11 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                               Text("La hora debe ser diferente a la actual"));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else{
-
+                      final snackBar = SnackBar(
+                          content:
+                              Text("Actividad Guardada con exito"));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      insertcodes(seleccionada,seleccionada2,formattedDate,formateTime);
                     }
                   },
                   child: Container(

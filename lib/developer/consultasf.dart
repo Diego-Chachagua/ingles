@@ -127,9 +127,11 @@ Future<dynamic> editname(var nombre, var cod) async {
   return enviar.body;
 }
 
-Future<dynamic> insertcodes(var grado, var seccion) async {
+Future<dynamic> insertcodes(var grado, var seccion,var anio, var tiempo) async {
   print(grado);
   print(seccion);
+  var date = anio.tiempo;
+  print(date);
 
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/change_name_act.php'),
@@ -154,4 +156,6 @@ Future<dynamic> showActivitys(var cod) async {
   print(resultado);
   return resultado;
 }
+
+//guardar año y seccion
 
