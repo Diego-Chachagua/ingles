@@ -22,6 +22,44 @@ class _SaveActState extends State<SaveAct> {
   String _seleccionada2 = 'Seccion';
   List seccion = ['Seccion', 'A', 'F', 'E', 'H', 'G', 'D'];
 
+   var selectDate = DateTime.now();
+  var selectTime= TimeOfDay.now();
+  
+  void callDataPicker() async {
+    var selectedDate = await getDatePickerWidget();
+    setState(() {
+      selectDate = selectedDate!;
+    });
+  }
+
+  void callTimePicker() async {
+    var selectTimes = await getDateTime();
+    setState(() {
+      selectTime = selectTimes!;
+    });
+  }
+
+  Future<DateTime?> getDatePickerWidget() {
+    return showDatePicker(
+      context: context,
+      initialDate: selectDate,
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2030),
+      initialEntryMode:DatePickerEntryMode.calendar,
+      );
+     
+    
+  }
+//tiempo
+  Future<TimeOfDay?> getDateTime() {
+    return showTimePicker(
+      context: context, 
+      initialTime: selectTime
+    );
+     
+    
+  }
+
   String a = "";
   @override
   Widget build(BuildContext context) {
@@ -113,6 +151,26 @@ class _SaveActState extends State<SaveAct> {
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 Padding(padding: EdgeInsets.all(20)),
+                selectDate==null && selectTime==null?
+                Text('Fecha')
+                :
+                Text("$selectDate"),
+                Text("$selectTime"),
+                Padding(padding: EdgeInsets.all(20)),
+                SafeArea(child: 
+                 MaterialButton(onPressed: callDataPicker,
+                      child: Container(child: 
+                      Text('Agregar fecha'),
+                      ),)
+                ),
+                Padding(padding: EdgeInsets.all(20)),
+                SafeArea(child: 
+                 MaterialButton(onPressed: callTimePicker,
+                      child: Container(child: 
+                      Text('Agregar hora'),
+                      ),)
+                ),
+               
                 
               ],
             )
