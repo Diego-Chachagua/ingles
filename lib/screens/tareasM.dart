@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/save_act.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
 import '../main.dart';
@@ -176,7 +177,7 @@ class _TareasPEState extends State<TareasP> {
                 child: Icon(Icons.arrow_back_outlined),
               ),
             ),
-            title: Center(child: Text("Crear Actividad o tarea")),
+            title: Center(child: Text("Crear actividad o tarea")),
             elevation: 0,
             backgroundColor: const Color.fromARGB(0, 255, 255, 255),
           ),
@@ -388,7 +389,11 @@ class _TareasPEState extends State<TareasP> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                             } else {
-                              _addcodSG(context);
+                               Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SaveAct(nombre_act: nameA,cod_act:widget.cod ,cod_p: widget.cod_p,)),
+                              );
                             }
                           },
                           child: Container(
@@ -940,107 +945,7 @@ class _TareasPEState extends State<TareasP> {
         });
   }
 
-  void _addcodSG(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shadowColor: Color.fromARGB(255, 170, 63, 233),
-            backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("Agregar pregunta"),
-            actions: [
-              Column(
-                children: [
-                  Center(
-                    child: Container(
-                      width: 250,
-                      height: 80,
-                      child: Form(
-                          key: aniosec,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 30,
-                                child: TextFormField(
-                                  validator: (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Campo requerido";
-                                    }
-                                  },
-                                  controller: anio,
-                                  textAlign: TextAlign.center,
-                                  cursorColor: Colors.black,
-                                  decoration: const InputDecoration(
-                                      hintText: "1",
-                                      hintStyle: TextStyle(fontSize: 15),
-                                      helperText: "Escribe el año"),
-                                ),
-                              ),
-                              Container(
-                                width: 90,
-                                height: 30,
-                                child: TextFormField(
-                                  validator: (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Campo requerido";
-                                    }
-                                  },
-                                  controller: seccion,
-                                  textAlign: TextAlign.center,
-                                  cursorColor: Colors.black,
-                                  decoration: const InputDecoration(
-                                      hintText: "K",
-                                      hintStyle: TextStyle(fontSize: 15),
-                                      helperText: "Escribe la seccion"),
-                                ),
-                              ),
-                            ],
-                          )),
-                    ),
-                  ),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            setState(() {});
-                          },
-                          child: const Text(
-                            'Cancelar',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            if (aniosec.currentState!.validate()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfeOp(
-                                          cod_p: widget.cod_p,
-                                        )),
-                              );
-                            }
-                          },
-                          child: const Text(
-                            'Aceptar',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          );
-        });
-  }
+  
 
   void _wishExit(BuildContext context) {
     showDialog(

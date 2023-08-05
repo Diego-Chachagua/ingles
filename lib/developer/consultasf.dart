@@ -126,18 +126,21 @@ Future<dynamic> editname(var nombre, var cod) async {
   );
   return enviar.body;
 }
-
-Future<dynamic> insertcodes(var grado, var seccion,var anio, var tiempo) async {
+//guardar año y seccion
+Future<dynamic> insertcodes(var grado, var seccion,var anio, var tiempo,var cod) async {
   print(grado);
   print(seccion);
-  var date = anio.tiempo;
+  var date = anio+" "+tiempo;
   print(date);
+  print(cod);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/change_name_act.php'),
+    Uri.parse('https://incasingles.000webhostapp.com/add_dates_activity.php'),
     body: <String, dynamic>{
       "grado": grado,
       "secc": seccion,
+      "date": date,
+      "cod": cod,
     },
   );
   return enviar.body;
@@ -157,5 +160,17 @@ Future<dynamic> showActivitys(var cod) async {
   return resultado;
 }
 
-//guardar año y seccion
+//eliminar pregunta
+Future<dynamic> deleteAsk(var cod,cod_a) async {
+  
+  print(cod);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/delete_ask.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "cod_a":cod_a,
+    },
+  );
+  return enviar.body;
+}
 

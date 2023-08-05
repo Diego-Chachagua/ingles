@@ -1,17 +1,20 @@
 // ignore: file_names
 
+import 'package:ingles/screens/show_act.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../developer/consultasf.dart';
+import 'elec_op_p.dart';
 void main() {
   runApp( MaterialApp(
     title: 'Navigation Basics',
     home: SaveAct(
     nombre_act: '',
       cod_act: '',
+      cod_p: '',
       ),
   ));
 }
@@ -19,7 +22,8 @@ void main() {
 class SaveAct extends StatefulWidget {
   String nombre_act;
   String cod_act;
-SaveAct({super.key, required this.nombre_act, required this.cod_act});
+  String cod_p;
+SaveAct({super.key, required this.nombre_act, required this.cod_act,required this.cod_p});
 
   @override
   State<SaveAct> createState() => _SaveActState();
@@ -272,7 +276,16 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                           content:
                               Text("Actividad Guardada con exito"));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      insertcodes(seleccionada,seleccionada2,formattedDate,formateTime);
+                      insertcodes(seleccionada,a,formattedDate,formateTime,widget.cod_act);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfeOp(
+                                    cod_p: widget.cod_p,
+                                  )),
+                        );
+
+                      
                     }
                   },
                   child: Container(

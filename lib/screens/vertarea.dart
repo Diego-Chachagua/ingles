@@ -40,6 +40,7 @@ class _VerTareaEState extends State<VerTarea> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   GlobalKey<FormState> formchangeask = GlobalKey<FormState>();
   GlobalKey<FormState> nameact = GlobalKey<FormState>();
+  GlobalKey<FormState> formdeleteask = GlobalKey<FormState>();
   File? imagen;
 //future para buscar y almacenar imagen
   Future setimage(var ask) async {
@@ -162,7 +163,7 @@ class _VerTareaEState extends State<VerTarea> {
                 child: Icon(Icons.arrow_back_outlined),
               ),
             ),
-            title: Center(child: Text("Crear Actividad o tarea")),
+            
             elevation: 0,
             backgroundColor: const Color.fromARGB(0, 255, 255, 255),
           ),
@@ -174,7 +175,7 @@ class _VerTareaEState extends State<VerTarea> {
                 child: Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
                           width: 250,
@@ -183,18 +184,16 @@ class _VerTareaEState extends State<VerTarea> {
                             nameA,
                             style: TextStyle(
                               fontSize: 20,
-                              color: Colors.white,
+                              
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          width: 30,
-                        ),
+                       
                         MaterialButton(
                           onPressed: () {
                             _changename(context);
                           },
-                          minWidth: 20,
+                         
                           child: Container(
                             height: 20,
                             width: 20,
@@ -214,8 +213,26 @@ class _VerTareaEState extends State<VerTarea> {
                       height: 20,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        MaterialButton(onPressed:(){
+                          _deleteAsk(context);
+                        } ,
+                        child: Container(    
+                          width: 80,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color:Color.fromARGB(255, 209, 31, 18),
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            Icons.disabled_by_default_outlined,
+                            size:30,
+                            color: Colors.white,
+                          ),
+                        ),),
+                        Padding(padding: EdgeInsets.all(12)),
                         MaterialButton(
                           onPressed: () {
                             _op_askimage(context);
@@ -377,7 +394,7 @@ class _VerTareaEState extends State<VerTarea> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SaveAct(nombre_act: nameA,cod_act:widget.cod ,)),
+                                    builder: (context) => SaveAct(nombre_act: nameA,cod_act:widget.cod ,cod_p: widget.cod_p,)),
                               );
                             }
                           },
@@ -966,6 +983,88 @@ class _VerTareaEState extends State<VerTarea> {
                       child: Center(
                         child: Text('Si'),
                       )),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
+  void _deleteAsk(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("¿Deseas eliminar una pregunta?"),
+            actions: [
+              Column(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 150,
+                      height: 100,
+                      child: Form(
+                        key: formdeleteask,
+                        child: 
+                            TextFormField(                             
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Campo requerido";
+                                }
+                              },                             
+                              controller: cod_changeask,
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,                  
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                  hintText: "Codigo de pregunta",
+                                  hintStyle: TextStyle(fontSize: 15)),
+                            ),
+                            
+                          
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        
+                        TextButton(
+                            onPressed: () {
+                              changeask.text = "";
+                              cod_changeask.text = "";
+                              Navigator.pop(context);
+                            },
+                            child: Text("Cancelar",
+                                style: TextStyle(color: Colors.white))),
+                                TextButton(
+                          onPressed: () {
+                            if (formdeleteask.currentState!.validate()) {
+                              
+                              cod_ask = cod_changeask.text;
+                             deleteAsk(cod_ask,widget.cod);
+                              final snackBar = SnackBar(
+                                  content: Text(
+                                      "Cambio exitoso.\nRefresca la pantalla "));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              cod_changeask.text = "";
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: const Text(
+                            'Aceptar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               )
             ],
