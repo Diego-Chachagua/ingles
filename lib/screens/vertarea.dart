@@ -495,8 +495,10 @@ class _VerTareaEState extends State<VerTarea> {
                             setState(() {
                               if (nameact.currentState!.validate()) {
                                 Navigator.pop(context);
-                                var nombre = nameac.text;
-                                editname(nombre, widget.cod);
+                                var nombre = nameac.text;  
+                                                      
+                                  editname(nombre, widget.cod);     
+                                  obtenerpreguntas();                     
                               }
                             });
                           },
@@ -756,6 +758,7 @@ class _VerTareaEState extends State<VerTarea> {
                                 ask = nameask.text;
                                 agregarAskActivity(ask, widget.cod);
                                 nameask.text = "";
+
                               }
                             });
                           },
@@ -813,6 +816,7 @@ class _VerTareaEState extends State<VerTarea> {
                       onPressed: () {
                         setState(() {
                           _updateImg(context);
+
                         });
                       },
                       minWidth: 25,
@@ -911,6 +915,11 @@ class _VerTareaEState extends State<VerTarea> {
                       if (valueupdateimg.currentState!.validate()) {
                         updateimage(ask, cod);
                         Navigator.pop(context);
+                        final snackBar = SnackBar(
+                                  content: Text(
+                                      "Es necesario Refrescar la pantalla "));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                       }
                       cod_changeask.text = "";
                       nameask.text = "";
@@ -1047,12 +1056,8 @@ class _VerTareaEState extends State<VerTarea> {
                             if (formdeleteask.currentState!.validate()) {
                               
                               cod_ask = cod_changeask.text;
-                             deleteAsk(cod_ask,widget.cod);
-                              final snackBar = SnackBar(
-                                  content: Text(
-                                      "Cambio exitoso.\nRefresca la pantalla "));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                             deleteAsk(widget.cod,cod_ask);
+                              obtenerpreguntas();
                               cod_changeask.text = "";
                               Navigator.pop(context);
                             }

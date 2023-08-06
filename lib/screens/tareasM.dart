@@ -42,6 +42,7 @@ class _TareasPEState extends State<TareasP> {
   GlobalKey<FormState> formchangeask = GlobalKey<FormState>();
   GlobalKey<FormState> nameact = GlobalKey<FormState>();
   GlobalKey<FormState> aniosec = GlobalKey<FormState>();
+  GlobalKey<FormState> formdeleteask = GlobalKey<FormState>();
   File? imagen;
 //future para buscar y almacenar imagen
   Future setimage(var ask) async {
@@ -51,6 +52,7 @@ class _TareasPEState extends State<TareasP> {
       if (picturefile != null) {
         imagen = File(picturefile.path);
         agregarImg(ask, imagen, widget.cod);
+        
       } else {
         setState(() {
           final snackBar =
@@ -198,7 +200,7 @@ class _TareasPEState extends State<TareasP> {
                             nameA,
                             style: TextStyle(
                               fontSize: 20,
-                              color: Colors.white,
+                              
                             ),
                           ),
                         ),
@@ -231,6 +233,24 @@ class _TareasPEState extends State<TareasP> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                         MaterialButton(onPressed:(){
+                          _deleteAsk(context);
+                        } ,
+                        child: Container(    
+                          width: 80,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color:Color.fromARGB(255, 209, 31, 18),
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            Icons.disabled_by_default_outlined,
+                            size:30,
+                            color: Colors.white,
+                          ),
+                        ),),
+                        Padding(padding: EdgeInsets.all(12)),
                         MaterialButton(
                           onPressed: () {
                             _op_askimage(context);
@@ -495,6 +515,7 @@ class _TareasPEState extends State<TareasP> {
                                 Navigator.pop(context);
                                 var nombre = nameac.text;
                                 editname(nombre, widget.cod);
+                                obtenerpreguntas();
                               }
                             });
                           },
@@ -591,14 +612,11 @@ class _TareasPEState extends State<TareasP> {
                               ask = changeask.text;
                               cod_ask = cod_changeask.text;
                               editAsk(ask, cod_ask);
-                              final snackBar = SnackBar(
-                                  content: Text(
-                                      "Cambio exitoso.\nRefresca la pantalla "));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                              
                               changeask.text = "";
 
                               Navigator.pop(context);
+                              obtenerpreguntas();
                             }
                           },
                           child: const Text(
@@ -665,6 +683,7 @@ class _TareasPEState extends State<TareasP> {
                         setimage(ask);
                         nameask.text = "";
                         Navigator.pop(context);
+                        obtenerpreguntas();
                       }
                     },
                     minWidth: 40,
@@ -754,6 +773,7 @@ class _TareasPEState extends State<TareasP> {
                                 ask = nameask.text;
                                 agregarAskActivity(ask, widget.cod);
                                 nameask.text = "";
+                              obtenerpreguntas();
                               }
                             });
                           },
@@ -909,6 +929,7 @@ class _TareasPEState extends State<TareasP> {
                       if (valueupdateimg.currentState!.validate()) {
                         updateimage(ask, cod);
                         Navigator.pop(context);
+                        obtenerpreguntas();
                       }
                       cod_changeask.text = "";
                       nameask.text = "";
@@ -983,6 +1004,84 @@ class _TareasPEState extends State<TareasP> {
                       child: Center(
                         child: Text('Si'),
                       )),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
+  void _deleteAsk(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("¿Deseas eliminar una pregunta?"),
+            actions: [
+              Column(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 150,
+                      height: 100,
+                      child: Form(
+                        key: formdeleteask,
+                        child: 
+                            TextFormField(                             
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Campo requerido";
+                                }
+                              },                             
+                              controller: cod_changeask,
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,                  
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                  hintText: "Codigo de pregunta",
+                                  hintStyle: TextStyle(fontSize: 15)),
+                            ),
+                            
+                          
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        
+                        TextButton(
+                            onPressed: () {
+                              changeask.text = "";
+                              cod_changeask.text = "";
+                              Navigator.pop(context);
+                            },
+                            child: Text("Cancelar",
+                                style: TextStyle(color: Colors.white))),
+                                TextButton(
+                          onPressed: () {
+                            if (formdeleteask.currentState!.validate()) {
+                              
+                              cod_ask = cod_changeask.text;
+                             deleteAsk(cod_ask,widget.cod);
+                              obtenerpreguntas();
+                              cod_changeask.text = "";
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: const Text(
+                            'Aceptar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               )
             ],

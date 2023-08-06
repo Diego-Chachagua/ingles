@@ -174,3 +174,64 @@ Future<dynamic> deleteAsk(var cod,cod_a) async {
   return enviar.body;
 }
 
+//mostrar resultados segun filtros
+Future<dynamic> showActivitysgrade(var cod,var grade) async {
+  print(cod);
+  print(grade);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_activitygrade.php'),
+    body: <String, dynamic>{
+      "cod": cod,
+      "grade":grade,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}
+
+Future<dynamic> showActivityssection(var cod,var section) async {
+  print(cod);
+  print(section);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_activitysection.php'),
+    body: <String, dynamic>{
+      "cod": cod,
+      "section":section,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}
+Future<dynamic> showActivitysSG(var cod,var section,var grade) async {
+  print(cod);
+  print(section);
+  print(grade);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_activitySG.php'),
+    body: <String, dynamic>{
+      "cod": cod,
+      "section":section,
+      "grade":grade,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}
+
+//borrar actividades
+Future<dynamic> deleteTask(var cod_a,var cod_p) async {
+  
+ 
+  print(cod_a);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/deleteTask.php'),
+    body: <String, dynamic>{
+      "cod":cod_a,
+      "cod_a":cod_p,
+    },
+  );
+  return enviar.body;
+}
