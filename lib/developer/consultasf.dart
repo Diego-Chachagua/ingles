@@ -71,30 +71,7 @@ Future<dynamic> editAsk(var pregunta, var cod) async {
 }
 
 //actualizar imagen
-Future<void> updateImg(var cod, var pregunta, File? imagen) async {
-  print(pregunta);
-  print(cod);
-  ;
 
-  if (imagen == null) {
-    print("No image selected");
-    return;
-  }
-
-  List<int> imageBytes = await imagen.readAsBytes();
-  String base64Image = base64Encode(imageBytes);
-
-  http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/update_ask_img.php'),
-    body: <String, String>{
-      "cod": cod,
-      "ask": pregunta,
-      "img": base64Image,
-    },
-  );
-
-  // Handle the response here if needed
-}
 
 //crear nueva actividad
 Future<dynamic> addTask(var name,var cod_p) async {
@@ -224,8 +201,6 @@ Future<dynamic> showActivitysSG(var cod,var section,var grade) async {
 
 //borrar actividades
 Future<dynamic> deleteTask(var cod_a,var cod_p) async {
-  
- 
   print(cod_a);
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/deleteTask.php'),
@@ -236,3 +211,25 @@ Future<dynamic> deleteTask(var cod_a,var cod_p) async {
   );
   return enviar.body;
 }
+//agregar imagen a pregunta
+
+Future<void> addImg(var cod_p, File? imagen, var cod) async {
+  print(cod_p);
+  print(cod);
+  if (imagen == null) {
+    print("No image selected");
+    return;
+  }
+  List<int> imageBytes = await imagen.readAsBytes();
+  String base64Image = base64Encode(imageBytes);
+
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_imagen.php'),
+    body: <String, String>{
+      "cod_p": cod_p,
+      "img": base64Image,
+      "cod": cod,
+    },
+  );
+}
+
