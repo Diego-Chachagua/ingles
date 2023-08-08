@@ -28,15 +28,9 @@ class VerTarea extends StatefulWidget {
 }
 
 class _VerTareaEState extends State<VerTarea> {
-  final recorder = FlutterSoundRecorder();
   String nameA = "";
 //variables de audio
-Future record() async{
-  await recorder.startRecorder(toFile: 'audio');
-}
-Future stop() async{
-  await recorder.stopRecorder();
-}
+
   var audio;
 
   //generar validacion de formularios
@@ -97,6 +91,7 @@ Future stop() async{
   String contrabd = "";
   int number = 1;
   String ask = "Escribe tu pregunta aqui";
+  String pregunta = "";
   var reslt;
   List preguntas = [];
   List imagenes = [];
@@ -105,23 +100,8 @@ Future stop() async{
   @override
   void initState() {
     super.initState();
-    initRecorder();
+
     obtenerpreguntas();
-  }
-
-  @override
-  void dispose(){
-    recorder.closeRecorder();
-    super.dispose();
-  }
-
-  Future initRecorder()async{
-    final status = await Permission.microphone.request();
-    if(status != PermissionStatus.granted){
-      throw 'Microphone permission not granted';
-    }
-
-    await recorder.openRecorder();
   }
 
   Future<void> obtenerpreguntas() async {
@@ -139,7 +119,7 @@ Future stop() async{
           var nom_tem = dato["pregunta"];
           var cod = dato["cod_p_a"];
           var img = dato["img"];
-          print(img);
+
           preguntas.add(nom_tem);
           imagenes.add(img);
           if (nombreAct != "") {
@@ -147,7 +127,7 @@ Future stop() async{
           } else {
             nameA = "Name of activity";
           }
-          print(nameA);
+
           cod_p.add(cod);
           if (img != null) {
             Uint8List bytes = base64.decode(img);
@@ -234,54 +214,7 @@ Future stop() async{
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        MaterialButton(
-                          onPressed: () {
-                            _deleteAsk(context);
-                          },
-                          child: Container(
-                            width: 80,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 209, 31, 18),
-                              border: Border.all(width: 1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Icon(
-                              Icons.disabled_by_default_outlined,
-                              size: 30,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(12)),
-                        MaterialButton(
-                          onPressed: () {
-                            _op_askimage(context);
-                          },
-                          child: Container(
-                            width: 210,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 185, 160, 209),
-                                border: Border.all(width: 2),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Editar una pregunta/imagen"),
-                                Padding(padding: EdgeInsets.all(5)),
-                                Container(
-                                  width: 30,
-                                  height: 30,
-                                  child: Icon(Icons.edit),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(5)),
-                      ],
+                      children: [],
                     ),
 
                     Padding(padding: EdgeInsets.all(10)),
@@ -291,32 +224,69 @@ Future stop() async{
                         children: [
                           imagenes[i] == null
                               ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
+                                    MaterialButton(
+                                      onPressed: () {
+                                        var c = cod_p.length;
+                                        for (var n = 0; n < c; n++) {
+                                          _changeask2(context, cod_p[n]);
+                                        }
+                                      },
+                                      child: Container(
+                                        width: 280,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            color: Color.fromARGB(
+                                                255, 167, 137, 194),
+                                            border: Border.all(width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 5),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "${i}  -  ${preguntas[i]}",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Color.fromARGB(
+                                                      255, 238, 234, 234)),
+                                            ),
+                                            
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                     Container(
-                                      width: 350,
+                                      width: 70,
                                       height: 50,
-                                      decoration: BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 167, 137, 194),
-                                          border: Border.all(width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "${i}  -  ${preguntas[i]}",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color.fromARGB(
-                                                    255, 238, 234, 234)),
+                                      
+                                          decoration: BoxDecoration(
+                                            color: Color.fromARGB(
+                                                255, 209, 31, 18),
+                                            border: Border.all(width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
-                                          Text(cod_p[i]),
-                                        ],
+                                      child: MaterialButton(
+                                        onPressed: () {
+                                          var c = cod_p.length;
+                                          for (var n = 0; n < c; n++) {
+                                            _deleteAsk(context, cod_p[n]);
+                                          }
+                                        },
+                                        child: Container(
+                                          
+                                          child: Icon(
+                                            Icons.disabled_by_default_outlined,
+                                            size: 30,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -393,87 +363,52 @@ Future stop() async{
                       height: 40,
                     ),
 
-                    if (audio == "grabando")
-                      Column(
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 80,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        MaterialButton(
+                          onPressed: () {
+                            if (nameA == "NAME OF ACTIVITY/TASK") {
+                              final snackBar = SnackBar(
+                                  content:
+                                      Text("Es necesario cambiar el nombre"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              _changename(context);
+                            } else if (i < 2) {
+                              final snackBar = SnackBar(
+                                  content: Text(
+                                      "Debes contener almenos 10 preguntas"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SaveAct(
+                                          nombre_act: nameA,
+                                          cod_act: widget.cod,
+                                          cod_p: widget.cod_p,
+                                        )),
+                              );
+                            }
+                          },
+                          child: Container(
+                            width: 70,
+                            height: 40,
                             decoration: BoxDecoration(
-                                color: Colors.amber,
-                                border: Border.all(width: 1),
+                                color: Color.fromARGB(255, 225, 204, 243),
+                                border: Border.all(width: 2),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: MaterialButton(
-                              onPressed: () async {
-                                if(recorder.isRecording){
-                                  await stop();
-                                }else{
-                                  await record();
-                                }
-                                setState(() {
-                                  
-                                });
-                              },
-                              child: Icon(recorder.isRecording? Icons.stop: Icons.mic),
-                            ),
-                          ),
-                          MaterialButton(
-                            onPressed: () {},
                             child: Center(
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(width: 1)),
-                                    child: Text("Guardar"))),
-                          )
-                        ],
-                      )
-                    else
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          MaterialButton(
-                            onPressed: () {
-                              if (nameA == "NAME OF ACTIVITY/TASK") {
-                                final snackBar = SnackBar(
-                                    content:
-                                        Text("Es necesario cambiar el nombre"));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                                _changename(context);
-                              } else if (i < 2) {
-                                final snackBar = SnackBar(
-                                    content: Text(
-                                        "Debes contener almenos 10 preguntas"));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SaveAct(
-                                            nombre_act: nameA,
-                                            cod_act: widget.cod,
-                                            cod_p: widget.cod_p,
-                                          )),
-                                );
-                              }
-                            },
-                            child: Container(
-                              width: 70,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 225, 204, 243),
-                                  border: Border.all(width: 2),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                child: Text("Guardar"),
-                              ),
+                              child: Text("Guardar"),
                             ),
                           ),
-                          Padding(padding: EdgeInsets.only(right: 20))
-                        ],
-                      ),
+                        ),
+                        Padding(padding: EdgeInsets.only(right: 20))
+                      ],
+                    ),
 
                     //edicion de patalla
                   ],
@@ -592,106 +527,6 @@ Future stop() async{
   }
 
 //mensaje emergente para mostrar una pantalla emergente para cambiar la pregunta
-
-  void _changeask(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shadowColor: Color.fromARGB(255, 170, 63, 233),
-            backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("Cambia la pregunta"),
-            actions: [
-              Column(
-                children: [
-                  Center(
-                    child: Container(
-                      width: 250,
-                      height: 158,
-                      child: Form(
-                        key: formchangeask,
-                        child: Column(
-                          children: [
-                            Padding(padding: EdgeInsets.all(5)),
-                            TextFormField(
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Campo requerido";
-                                }
-                              },
-                              controller: cod_changeask,
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              cursorColor: Colors.black,
-                              maxLength: 4,
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                  hintText: "Escribe el codigo de la pregunta",
-                                  hintStyle: TextStyle(fontSize: 15)),
-                            ),
-                            TextFormField(
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Campo requerido";
-                                }
-                              },
-                              controller: changeask,
-                              textAlign: TextAlign.center,
-                              cursorColor: Colors.black,
-                              maxLength: 40,
-                              maxLines: 2,
-                              decoration: const InputDecoration(
-                                  hintText: "Escribe la pregunta aqui",
-                                  hintStyle: TextStyle(fontSize: 15)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            if (formchangeask.currentState!.validate()) {
-                              ask = changeask.text;
-                              cod_ask = cod_changeask.text;
-                              editAsk(ask, cod_ask);
-                              final snackBar = SnackBar(
-                                  content: Text(
-                                      "Cambio exitoso.\nRefresca la pantalla "));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                              changeask.text = "";
-
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: const Text(
-                            'Aceptar',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              changeask.text = "";
-                              cod_changeask.text = "";
-                              Navigator.pop(context);
-                            },
-                            child: Text("Cancelar",
-                                style: TextStyle(color: Colors.white)))
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          );
-        });
-  }
 
   //espacio para añadir imagen con titulo
 
@@ -842,74 +677,6 @@ Future stop() async{
   }
 
 //espacio para elegir una opcion , si elegir una imagen o una pregunta
-  void _op_askimage(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: const Text("Cambiar imagen o pregunta"),
-              content: Container(
-                  width: 400,
-                  height: 188,
-                  child: Column(children: [
-                    MaterialButton(
-                      onPressed: () {
-                        setState(() {
-                          _changeask(context);
-                        });
-                      },
-                      minWidth: 25,
-                      height: 70,
-                      child: SizedBox(
-                        width: 190,
-                        height: 50,
-                        child: Center(
-                            child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text("Actualizar pregunta"),
-                            const SizedBox(
-                              width: 30,
-                            ),
-                            Icon(Icons.edit)
-                          ],
-                        )),
-                      ),
-                    ),
-                    MaterialButton(
-                      onPressed: () {
-                        setState(() {
-                          _updateImg(context);
-                        });
-                      },
-                      minWidth: 25,
-                      height: 70,
-                      child: SizedBox(
-                        width: 190,
-                        height: 50,
-                        child: Center(
-                            child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text("Actualizar imagen"),
-                            const SizedBox(
-                              width: 30,
-                            ),
-                            Icon(Icons.post_add_rounded)
-                          ],
-                        )),
-                      ),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Center(
-                          child: Text("Cancelar"),
-                        ))
-                  ])));
-        });
-  }
 
   void _updateImg(BuildContext context) {
     showDialog(
@@ -1061,7 +828,7 @@ Future stop() async{
         });
   }
 
-  void _deleteAsk(BuildContext context) {
+  void _deleteAsk(BuildContext context, var cod_ask) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -1069,29 +836,57 @@ Future stop() async{
           return AlertDialog(
             shadowColor: Color.fromARGB(255, 170, 63, 233),
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("¿Deseas eliminar una pregunta?"),
+            title: const Text("¿Estas seguro que quieres borrar la pregunta?"),
+            actions: [
+              Row(
+                children: [
+                  TextButton(onPressed: () {}, child: Text("NO")),
+                  TextButton(
+                      onPressed: () {
+                        print(widget.cod);
+                        print(cod_ask);
+                        deleteAsk(widget.cod, cod_ask);
+                        Navigator.pop(context);
+                      },
+                      child: Text("SI")),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
+  String _changeask2(BuildContext context, var cod_ask) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Cambia la pregunta"),
             actions: [
               Column(
                 children: [
                   Center(
                     child: Container(
                       width: 150,
-                      height: 100,
+                      height: 158,
                       child: Form(
-                        key: formdeleteask,
+                        key: formchangeask,
                         child: TextFormField(
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
                               return "Campo requerido";
                             }
                           },
-                          controller: cod_changeask,
-                          keyboardType: TextInputType.number,
+                          controller: changeask,
                           textAlign: TextAlign.center,
                           cursorColor: Colors.black,
+                          maxLength: 40,
+                          maxLines: 2,
                           decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Codigo de pregunta",
+                              hintText: "Escribe la pregunta aqui",
                               hintStyle: TextStyle(fontSize: 15)),
                         ),
                       ),
@@ -1102,21 +897,14 @@ Future stop() async{
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         TextButton(
-                            onPressed: () {
-                              changeask.text = "";
-                              cod_changeask.text = "";
-                              Navigator.pop(context);
-                            },
-                            child: Text("Cancelar",
-                                style: TextStyle(color: Colors.white))),
-                        TextButton(
                           onPressed: () {
-                            if (formdeleteask.currentState!.validate()) {
-                              cod_ask = cod_changeask.text;
-                              deleteAsk(widget.cod, cod_ask);
-                              obtenerpreguntas();
-                              cod_changeask.text = "";
+                            if (formchangeask.currentState!.validate()) {
+                              pregunta = changeask.text;
+                              editAsk(pregunta, cod_ask);
+                              changeask.text = "";
+
                               Navigator.pop(context);
+                              obtenerpreguntas();
                             }
                           },
                           child: const Text(
@@ -1124,6 +912,14 @@ Future stop() async{
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
+                        TextButton(
+                            onPressed: () {
+                              changeask.text = "";
+                              cod_changeask.text = "";
+                              Navigator.pop(context);
+                            },
+                            child: Text("Cancelar",
+                                style: TextStyle(color: Colors.white)))
                       ],
                     ),
                   ),
@@ -1132,5 +928,6 @@ Future stop() async{
             ],
           );
         });
+    return pregunta;
   }
 }

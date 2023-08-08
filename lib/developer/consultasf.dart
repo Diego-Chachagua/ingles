@@ -52,7 +52,7 @@ Future<dynamic> mostrarAct(var cod) async {
   );
   var resultado = jsonDecode(enviar.body);
 
-  print(resultado);
+
   return resultado;
 }
 
@@ -164,6 +164,7 @@ Future<dynamic> showActivitys(var cod) async {
 Future<dynamic> deleteAsk(var cod,cod_a) async {
   
   print(cod);
+  print(cod_a);
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/delete_ask.php'),
     body: <String, dynamic>{
