@@ -2,15 +2,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/save_act.dart';
 import 'package:ingles/screens/show_act.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
-import '../main.dart';
-import 'elec_e_o_t.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
-
-import 'elec_op_p.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -25,15 +22,22 @@ void main() {
 class VerTarea extends StatefulWidget {
   String cod;
   String cod_p;
-
   VerTarea({required this.cod, required this.cod_p});
-
   @override
   State<VerTarea> createState() => _VerTareaEState();
 }
 
 class _VerTareaEState extends State<VerTarea> {
+  final recorder = FlutterSoundRecorder();
   String nameA = "";
+//variables de audio
+Future record() async{
+  await recorder.startRecorder(toFile: 'audio');
+}
+Future stop() async{
+  await recorder.stopRecorder();
+}
+  var audio;
 
   //generar validacion de formularios
   GlobalKey<FormState> valueupdateimg = GlobalKey<FormState>();
@@ -59,6 +63,7 @@ class _VerTareaEState extends State<VerTarea> {
       }
     });
   }
+
 //funcion para actualizar una imagen en la base datos
   Future updateimage(var ask, var cod) async {
     var picturefile =
@@ -76,6 +81,7 @@ class _VerTareaEState extends State<VerTarea> {
       }
     });
   }
+
   final usuariob = TextEditingController();
   final contrab = TextEditingController();
   final nameac = TextEditingController();
@@ -99,8 +105,25 @@ class _VerTareaEState extends State<VerTarea> {
   @override
   void initState() {
     super.initState();
+    initRecorder();
     obtenerpreguntas();
   }
+
+  @override
+  void dispose(){
+    recorder.closeRecorder();
+    super.dispose();
+  }
+
+  Future initRecorder()async{
+    final status = await Permission.microphone.request();
+    if(status != PermissionStatus.granted){
+      throw 'Microphone permission not granted';
+    }
+
+    await recorder.openRecorder();
+  }
+
   Future<void> obtenerpreguntas() async {
     print(widget.cod_p);
     reslt = await mostrarAct(widget.cod);
@@ -137,6 +160,7 @@ class _VerTareaEState extends State<VerTarea> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -163,7 +187,6 @@ class _VerTareaEState extends State<VerTarea> {
                 child: Icon(Icons.arrow_back_outlined),
               ),
             ),
-            
             elevation: 0,
             backgroundColor: const Color.fromARGB(0, 255, 255, 255),
           ),
@@ -184,16 +207,13 @@ class _VerTareaEState extends State<VerTarea> {
                             nameA,
                             style: TextStyle(
                               fontSize: 20,
-                              
                             ),
                           ),
                         ),
-                       
                         MaterialButton(
                           onPressed: () {
                             _changename(context);
                           },
-                         
                           child: Container(
                             height: 20,
                             width: 20,
@@ -215,23 +235,25 @@ class _VerTareaEState extends State<VerTarea> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        MaterialButton(onPressed:(){
-                          _deleteAsk(context);
-                        } ,
-                        child: Container(    
-                          width: 80,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color:Color.fromARGB(255, 209, 31, 18),
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.circular(10),
+                        MaterialButton(
+                          onPressed: () {
+                            _deleteAsk(context);
+                          },
+                          child: Container(
+                            width: 80,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 209, 31, 18),
+                              border: Border.all(width: 1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Icon(
+                              Icons.disabled_by_default_outlined,
+                              size: 30,
+                              color: Colors.white,
+                            ),
                           ),
-                          child: Icon(
-                            Icons.disabled_by_default_outlined,
-                            size:30,
-                            color: Colors.white,
-                          ),
-                        ),),
+                        ),
                         Padding(padding: EdgeInsets.all(12)),
                         MaterialButton(
                           onPressed: () {
@@ -371,48 +393,87 @@ class _VerTareaEState extends State<VerTarea> {
                       height: 40,
                     ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        MaterialButton(
-                          onPressed: () {
-                            if (nameA == "NAME OF ACTIVITY/TASK") {
-                              final snackBar = SnackBar(
-                                  content:
-                                      Text("Es necesario cambiar el nombre"));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                              _changename(context);
-                            } else if (i < 2) {
-                              final snackBar = SnackBar(
-                                  content: Text(
-                                      "Debes contener almenos 10 preguntas"));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SaveAct(nombre_act: nameA,cod_act:widget.cod ,cod_p: widget.cod_p,)),
-                              );
-                            }
-                          },
-                          child: Container(
-                            width: 70,
-                            height: 40,
+                    if (audio == "grabando")
+                      Column(
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 80,
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 225, 204, 243),
-                                border: Border.all(width: 2),
+                                color: Colors.amber,
+                                border: Border.all(width: 1),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                              child: Text("Guardar"),
+                            child: MaterialButton(
+                              onPressed: () async {
+                                if(recorder.isRecording){
+                                  await stop();
+                                }else{
+                                  await record();
+                                }
+                                setState(() {
+                                  
+                                });
+                              },
+                              child: Icon(recorder.isRecording? Icons.stop: Icons.mic),
                             ),
                           ),
-                        ),
-                        Padding(padding: EdgeInsets.only(right: 20))
-                      ],
-                    )
+                          MaterialButton(
+                            onPressed: () {},
+                            child: Center(
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(width: 1)),
+                                    child: Text("Guardar"))),
+                          )
+                        ],
+                      )
+                    else
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          MaterialButton(
+                            onPressed: () {
+                              if (nameA == "NAME OF ACTIVITY/TASK") {
+                                final snackBar = SnackBar(
+                                    content:
+                                        Text("Es necesario cambiar el nombre"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                _changename(context);
+                              } else if (i < 2) {
+                                final snackBar = SnackBar(
+                                    content: Text(
+                                        "Debes contener almenos 10 preguntas"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SaveAct(
+                                            nombre_act: nameA,
+                                            cod_act: widget.cod,
+                                            cod_p: widget.cod_p,
+                                          )),
+                                );
+                              }
+                            },
+                            child: Container(
+                              width: 70,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 225, 204, 243),
+                                  border: Border.all(width: 2),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: Text("Guardar"),
+                              ),
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(right: 20))
+                        ],
+                      ),
 
                     //edicion de patalla
                   ],
@@ -441,8 +502,12 @@ class _VerTareaEState extends State<VerTarea> {
               ),
               FloatingActionButton(
                 heroTag: 'tag3',
-                onPressed: () {},
-                child: Icon(Icons.add_link_rounded),
+                onPressed: () {
+                  setState(() {
+                    audio = "grabando";
+                  });
+                },
+                child: Icon(Icons.mic),
               ),
             ],
           ),
@@ -495,10 +560,10 @@ class _VerTareaEState extends State<VerTarea> {
                             setState(() {
                               if (nameact.currentState!.validate()) {
                                 Navigator.pop(context);
-                                var nombre = nameac.text;  
-                                                      
-                                  editname(nombre, widget.cod);     
-                                  obtenerpreguntas();                     
+                                var nombre = nameac.text;
+
+                                editname(nombre, widget.cod);
+                                obtenerpreguntas();
                               }
                             });
                           },
@@ -758,7 +823,6 @@ class _VerTareaEState extends State<VerTarea> {
                                 ask = nameask.text;
                                 agregarAskActivity(ask, widget.cod);
                                 nameask.text = "";
-
                               }
                             });
                           },
@@ -816,7 +880,6 @@ class _VerTareaEState extends State<VerTarea> {
                       onPressed: () {
                         setState(() {
                           _updateImg(context);
-
                         });
                       },
                       minWidth: 25,
@@ -916,10 +979,9 @@ class _VerTareaEState extends State<VerTarea> {
                         updateimage(ask, cod);
                         Navigator.pop(context);
                         final snackBar = SnackBar(
-                                  content: Text(
-                                      "Es necesario Refrescar la pantalla "));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                            content:
+                                Text("Es necesario Refrescar la pantalla "));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                       cod_changeask.text = "";
                       nameask.text = "";
@@ -1017,24 +1079,21 @@ class _VerTareaEState extends State<VerTarea> {
                       height: 100,
                       child: Form(
                         key: formdeleteask,
-                        child: 
-                            TextFormField(                             
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Campo requerido";
-                                }
-                              },                             
-                              controller: cod_changeask,
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              cursorColor: Colors.black,                  
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                  hintText: "Codigo de pregunta",
-                                  hintStyle: TextStyle(fontSize: 15)),
-                            ),
-                            
-                          
+                        child: TextFormField(
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return "Campo requerido";
+                            }
+                          },
+                          controller: cod_changeask,
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          cursorColor: Colors.black,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "Codigo de pregunta",
+                              hintStyle: TextStyle(fontSize: 15)),
+                        ),
                       ),
                     ),
                   ),
@@ -1042,7 +1101,6 @@ class _VerTareaEState extends State<VerTarea> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        
                         TextButton(
                             onPressed: () {
                               changeask.text = "";
@@ -1051,12 +1109,11 @@ class _VerTareaEState extends State<VerTarea> {
                             },
                             child: Text("Cancelar",
                                 style: TextStyle(color: Colors.white))),
-                                TextButton(
+                        TextButton(
                           onPressed: () {
                             if (formdeleteask.currentState!.validate()) {
-                              
                               cod_ask = cod_changeask.text;
-                             deleteAsk(widget.cod,cod_ask);
+                              deleteAsk(widget.cod, cod_ask);
                               obtenerpreguntas();
                               cod_changeask.text = "";
                               Navigator.pop(context);
