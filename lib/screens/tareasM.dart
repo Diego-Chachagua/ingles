@@ -64,23 +64,7 @@ class _TareasPEState extends State<TareasP> {
   }
 
 //funcion para actualizar una imagen en la base datos
-  Future updateimage(var ask, var cod) async {
-    var picturefile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (picturefile != null) {
-        imagen = File(picturefile.path);
-        updateImg(cod, ask, imagen);
-      } else {
-        setState(() {
-          final snackBar =
-              SnackBar(content: Text("No se agrego ninguna imagen"));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        });
-      }
-    });
-  }
+ 
 
   final usuariob = TextEditingController();
   final contrab = TextEditingController();
@@ -927,7 +911,7 @@ class _TareasPEState extends State<TareasP> {
                       var ask = nameask.text;
                       var cod = cod_changeask.text;
                       if (valueupdateimg.currentState!.validate()) {
-                        updateimage(ask, cod);
+                        
                         Navigator.pop(context);
                         obtenerpreguntas();
                       }

@@ -18,7 +18,6 @@ void main() {
     ),
   ));
 }
-
 class VerTarea extends StatefulWidget {
   String cod;
   String cod_p;
@@ -31,7 +30,7 @@ class _VerTareaEState extends State<VerTarea> {
   String nameA = "";
 //variables de audio
 
-  var audio;
+  
 
   //generar validacion de formularios
   GlobalKey<FormState> valueupdateimg = GlobalKey<FormState>();
@@ -90,15 +89,10 @@ class _VerTareaEState extends State<VerTarea> {
   final changeask = TextEditingController();
   final cod_changeask = TextEditingController();
   final nameask = TextEditingController();
-  final anio = TextEditingController();
-  final seccion = TextEditingController();
   final deleteask = TextEditingController();
-  int opactual = 0;
   var i = 0;
-
   String usuariobd = "";
   String contrabd = "";
-  int number = 1;
   String ask = "Escribe tu pregunta aqui";
   String pregunta = "";
   var reslt;
@@ -109,10 +103,8 @@ class _VerTareaEState extends State<VerTarea> {
   @override
   void initState() {
     super.initState();
-
     obtenerpreguntas();
   }
-
   Future<void> obtenerpreguntas() async {
     print(widget.cod_p);
     reslt = await mostrarAct(widget.cod);
@@ -136,7 +128,6 @@ class _VerTareaEState extends State<VerTarea> {
           } else {
             nameA = "Name of activity";
           }
-
           cod_p.add(cod);
           if (img != null) {
             Uint8List bytes = base64.decode(img);
@@ -246,9 +237,7 @@ class _VerTareaEState extends State<VerTarea> {
                         Padding(padding: EdgeInsets.all(10)),
                       ],
                     ),
-
                     Padding(padding: EdgeInsets.all(10)),
-
                     for (i = 0; i < preguntas.length; i++)
                       Column(
                         children: [
@@ -362,11 +351,9 @@ class _VerTareaEState extends State<VerTarea> {
                           ),
                         ],
                       ),
-
                     const SizedBox(
                       height: 40,
                     ),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -443,7 +430,7 @@ class _VerTareaEState extends State<VerTarea> {
                 heroTag: 'tag3',
                 onPressed: () {
                   setState(() {
-                    audio = "grabando";
+                   
                   });
                 },
                 child: Icon(Icons.mic),
