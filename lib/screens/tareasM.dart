@@ -668,6 +668,11 @@ class _TareasPEState extends State<TareasP> {
                         nameask.text = "";
                         Navigator.pop(context);
                         obtenerpreguntas();
+                         final snackBar = SnackBar(
+                                  content:
+                                      Text("Es necesario cambiar el nombre"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                       }
                     },
                     minWidth: 40,
@@ -750,6 +755,12 @@ class _TareasPEState extends State<TareasP> {
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);
+                            obtenerpreguntas();
+                             final snackBar = SnackBar(
+                                  content:
+                                      Text("Es necesario refrescar la pantalla"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                             setState(() {
                               if (nameask.text == "") {
                                 ask = "Escribe tu pregunta aqui";
@@ -757,8 +768,10 @@ class _TareasPEState extends State<TareasP> {
                                 ask = nameask.text;
                                 agregarAskActivity(ask, widget.cod);
                                 nameask.text = "";
-                              obtenerpreguntas();
+
+                              
                               }
+                              
                             });
                           },
                           child: const Text(

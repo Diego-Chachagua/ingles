@@ -8,14 +8,15 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../developer/consultasf.dart';
 import 'elec_op_p.dart';
+
 void main() {
-  runApp( MaterialApp(
+  runApp(MaterialApp(
     title: 'Navigation Basics',
     home: SaveAct(
-    nombre_act: '',
+      nombre_act: '',
       cod_act: '',
       cod_p: '',
-      ),
+    ),
   ));
 }
 
@@ -23,7 +24,11 @@ class SaveAct extends StatefulWidget {
   String nombre_act;
   String cod_act;
   String cod_p;
-SaveAct({super.key, required this.nombre_act, required this.cod_act,required this.cod_p});
+  SaveAct(
+      {super.key,
+      required this.nombre_act,
+      required this.cod_act,
+      required this.cod_p});
 
   @override
   State<SaveAct> createState() => _SaveActState();
@@ -31,19 +36,19 @@ SaveAct({super.key, required this.nombre_act, required this.cod_act,required thi
 
 class _SaveActState extends State<SaveAct> {
   String seleccionada = 'Año';
-  List anios = ['Año', '1', '2','3'];
+  List anios = ['Año', '1', '2', '3'];
   String seleccionada2 = 'Seccion';
-  List seccion = ['Seccion', 'A', 'E', 'K', 'G', 'D', 'O','L','M','N','F'];
+  List seccion = ['Seccion', 'A', 'E', 'K', 'G', 'D', 'O', 'L', 'M', 'N', 'F'];
   String formattedDate = "YYYY-MM-DD";
-   var selectDate = DateTime.now();
- var selectTime = TimeOfDay.now();
+  var selectDate = DateTime.now();
+  var selectTime = TimeOfDay.now();
   //variable de uso de comparacion
   var timenow = TimeOfDay.now();
-  
+
   void callDataPicker() async {
     var selectedDate = await getDatePickerWidget();
     setState(() {
-       if (selectedDate != null) {
+      if (selectedDate != null) {
         selectDate =
             DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
       }
@@ -53,8 +58,8 @@ class _SaveActState extends State<SaveAct> {
   void callTimePicker() async {
     var selectTimes = await getDateTime();
     setState(() {
-      if(selectTimes!=null){
-         selectTime = selectTimes;
+      if (selectTimes != null) {
+        selectTime = selectTimes;
       }
     });
   }
@@ -65,25 +70,19 @@ class _SaveActState extends State<SaveAct> {
       initialDate: selectDate,
       firstDate: DateTime(2022),
       lastDate: DateTime(2030),
-      initialEntryMode:DatePickerEntryMode.calendar,
-      );
-     
-    
+      initialEntryMode: DatePickerEntryMode.calendar,
+    );
   }
+
 //tiempo
   Future<TimeOfDay?> getDateTime() {
-    return showTimePicker(
-      context: context, 
-      initialTime: selectTime
-    );
-     
-    
+    return showTimePicker(context: context, initialTime: selectTime);
   }
 
   String a = "";
   @override
   Widget build(BuildContext context) {
-formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
+    formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
     String formateTime = selectTime.format(context);
     String nowtime = timenow.format(context);
     return Container(
@@ -129,7 +128,7 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                 Padding(padding: EdgeInsets.all(20)),
                 Text(
                   'Selecciona año y sección a enviar la actividad',
-                   style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20),
                 ),
                 Padding(padding: EdgeInsets.all(20)),
                 Row(
@@ -138,10 +137,9 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                       Container(
                         width: 70,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 208, 171, 241),
-                          border: Border.all(width: 1),
-                          borderRadius: BorderRadius.circular(10)
-                        ),
+                            color: Color.fromARGB(255, 208, 171, 241),
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: DropdownButton(
                             borderRadius: BorderRadius.circular(10),
@@ -159,10 +157,9 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                       Container(
                         width: 100,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 208, 171, 241),
-                          border: Border.all(width: 1),
-                          borderRadius: BorderRadius.circular(10)
-                        ),
+                            color: Color.fromARGB(255, 208, 171, 241),
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: DropdownButton(
                             borderRadius: BorderRadius.circular(10),
@@ -171,36 +168,27 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                             items: GetOptionsDropDownButton2(),
                             onChanged: (value) {
                               setState(() {
-                               
                                 seleccionada2 = value.toString();
-                                 if(seleccionada2=="A"){
-                                  a="1";
-                                }else if(seleccionada2=="E"){
-                                  a="2";
-                                }
-                                else if(seleccionada2=="K"){
-                                  a="3";
-                                }
-                                else if(seleccionada2=="G"){
-                                  a="4";
-                                }
-                                else if(seleccionada2=="D"){
-                                  a="5";
-                                }
-                                else if(seleccionada2=="O"){
-                                  a="6";
-                                }
-                                else if(seleccionada2=="L"){
-                                  a="7";
-                                }
-                                else if(seleccionada2=="M"){
-                                  a="8";
-                                }
-                                else if(seleccionada2=="N"){
-                                  a="9";
-                                }
-                                else if(seleccionada2=="F"){
-                                  a="10";
+                                if (seleccionada2 == "A") {
+                                  a = "1";
+                                } else if (seleccionada2 == "E") {
+                                  a = "2";
+                                } else if (seleccionada2 == "K") {
+                                  a = "3";
+                                } else if (seleccionada2 == "G") {
+                                  a = "4";
+                                } else if (seleccionada2 == "D") {
+                                  a = "5";
+                                } else if (seleccionada2 == "O") {
+                                  a = "6";
+                                } else if (seleccionada2 == "L") {
+                                  a = "7";
+                                } else if (seleccionada2 == "M") {
+                                  a = "8";
+                                } else if (seleccionada2 == "N") {
+                                  a = "9";
+                                } else if (seleccionada2 == "F") {
+                                  a = "10";
                                 }
                               });
                             },
@@ -208,29 +196,53 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                         ),
                       ),
                     ]),
-                    Padding(padding: EdgeInsets.all(20)),
-                    Text(
+                Padding(padding: EdgeInsets.all(20)),
+                Text(
                   'Seleccione una hora y fecha limite\n                      de entrega',
                   style: TextStyle(fontSize: 20),
                 ),
                 Padding(padding: EdgeInsets.all(20)),
-                 Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Column(
-                      children: [
-                        Text('Fecha:'),
-                        Text("$formattedDate"),
-                      ],
+                    Container(
+                      width: 100,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Column(
+                        children: [
+                          Text('Fecha:'),
+                          Text(
+                            "$formattedDate",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.black,
+                                fontSize: 15),
+                          ),
+                        ],
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Text("Hora:"),
-                        Text("$formateTime"),
-                      ],
+                    Container(
+                      width: 100,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Column(
+                        children: [
+                          Text("Hora:"),
+                          Text("$formateTime",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.black,
+                                fontSize: 15),),
+                        ],
+                      ),
                     ),
                   ],
-                 ),
+                ),
                 Padding(padding: EdgeInsets.all(20)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -262,7 +274,7 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                       ),
                     )),
                   ],
-                ),    
+                ),
                 Padding(padding: EdgeInsets.all(40)),
                 MaterialButton(
                   onPressed: () {
@@ -271,21 +283,19 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                           content:
                               Text("La hora debe ser diferente a la actual"));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    } else{
+                    } else {
                       final snackBar = SnackBar(
-                          content:
-                              Text("Actividad Guardada con exito"));
+                          content: Text("Actividad Guardada con exito"));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      insertcodes(seleccionada,a,formattedDate,formateTime,widget.cod_act);
+                      insertcodes(seleccionada, a, formattedDate, formateTime,
+                          widget.cod_act);
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfeOp(
-                                    cod_p: widget.cod_p,
-                                  )),
-                        );
-
-                      
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfeOp(
+                                  cod_p: widget.cod_p,
+                                )),
+                      );
                     }
                   },
                   child: Container(
@@ -297,7 +307,7 @@ formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
                         borderRadius: BorderRadius.circular(10)),
                     child: Center(child: Text("Aceptar")),
                   ),
-                )      
+                )
               ],
             )
                 //cuerpo del formulario

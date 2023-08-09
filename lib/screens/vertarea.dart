@@ -18,6 +18,7 @@ void main() {
     ),
   ));
 }
+
 class VerTarea extends StatefulWidget {
   String cod;
   String cod_p;
@@ -29,8 +30,6 @@ class VerTarea extends StatefulWidget {
 class _VerTareaEState extends State<VerTarea> {
   String nameA = "";
 //variables de audio
-
-  
 
   //generar validacion de formularios
   GlobalKey<FormState> valueupdateimg = GlobalKey<FormState>();
@@ -49,6 +48,7 @@ class _VerTareaEState extends State<VerTarea> {
       if (picturefile != null) {
         imagen = File(picturefile.path);
         agregarImg(ask, imagen, widget.cod);
+        obtenerpreguntas();
       } else {
         setState(() {
           final snackBar =
@@ -67,9 +67,15 @@ class _VerTareaEState extends State<VerTarea> {
       if (picturefile != null) {
         imagen = File(picturefile.path);
         addImg(cod, imagen, widget.cod);
-        final snackBar =
-            SnackBar(content: Text("Es necesario refrescar la pantalla"));
+        final snackBar = SnackBar(
+            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+            shape: Border.all(width: 1),
+            showCloseIcon: true,
+            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+            content: Text("Es necesario refrescar la pantalla"));
+
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        obtenerpreguntas();
       } else {
         setState(() {
           final snackBar =
@@ -81,7 +87,6 @@ class _VerTareaEState extends State<VerTarea> {
   }
 
 //funcion para actualizar una imagen en la base datos
- 
 
   final usuariob = TextEditingController();
   final contrab = TextEditingController();
@@ -105,6 +110,7 @@ class _VerTareaEState extends State<VerTarea> {
     super.initState();
     obtenerpreguntas();
   }
+
   Future<void> obtenerpreguntas() async {
     print(widget.cod_p);
     reslt = await mostrarAct(widget.cod);
@@ -286,7 +292,7 @@ class _VerTareaEState extends State<VerTarea> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
-                                        width: 330,
+                                        width: 350,
                                         height: 300,
                                         decoration: BoxDecoration(
                                             color: Color.fromARGB(
@@ -323,9 +329,11 @@ class _VerTareaEState extends State<VerTarea> {
                                             ),
                                             if (i < images.length)
                                               Container(
-                                                width: 300,
-                                                height: 200,
+                                                width: 340,
+                                                height: 220,
                                                 decoration: BoxDecoration(
+                                                  border: Border.all(width: 3),
+                                                  borderRadius: BorderRadius.circular(5),
                                                   image: DecorationImage(
                                                       image: MemoryImage(
                                                           images[i]),
@@ -429,9 +437,7 @@ class _VerTareaEState extends State<VerTarea> {
               FloatingActionButton(
                 heroTag: 'tag3',
                 onPressed: () {
-                  setState(() {
-                   
-                  });
+                  setState(() {});
                 },
                 child: Icon(Icons.mic),
               ),
@@ -527,15 +533,17 @@ class _VerTareaEState extends State<VerTarea> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("Seleccionar una imagen"),
             content: Container(
               width: 100,
-              height: 150,
+              height: 240,
               child: Column(
                 children: [
                   Container(
                       width: 150,
-                      height: 50,
+                      height: 100,
                       child: Form(
                         key: formKey,
                         child: TextFormField(
@@ -548,8 +556,10 @@ class _VerTareaEState extends State<VerTarea> {
                           textAlign: TextAlign.center,
                           cursorColor: Colors.black,
                           maxLines: 2,
-                          decoration: const InputDecoration.collapsed(
-                              hintText: "Escribe la pregunta aqui",
+                          maxLength: 40,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                              hintText: "Escribir pregunta",
                               hintStyle: TextStyle(fontSize: 15)),
                         ),
                       )),
@@ -560,38 +570,60 @@ class _VerTareaEState extends State<VerTarea> {
                         setimage(ask);
                         nameask.text = "";
                         Navigator.pop(context);
+                        obtenerpreguntas();
+                        final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            showCloseIcon: true,
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content:
+                                Text("Es necesario refrescar la pantalla"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                     minWidth: 40,
                     height: 70,
-                    child: SizedBox(
-                      width: 150,
-                      height: 50,
+                    child:Container(
+                      width: 160,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: Center(
                           child: Row(
+                            mainAxisAlignment:MainAxisAlignment.spaceEvenly ,
                         children: const [
                           Text("Elegir imagen"),
-                          const SizedBox(
-                            width: 30,
-                          ),
                           Icon(Icons.image)
                         ],
                       )),
                     ),
                   ),
+                  Padding(padding: EdgeInsets.all(10)),
+                  MaterialButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 150,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Icon(Icons.arrow_back),
+                          ],
+                        ),
+                      ),
+                    )
                 ],
               ),
             ),
-            actions: [
-              Center(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancelar'),
-                ),
-              )
-            ],
+            
           );
         });
   }
@@ -619,9 +651,11 @@ class _VerTareaEState extends State<VerTarea> {
                         cursorColor: Colors.black,
                         maxLength: 40,
                         maxLines: 2,
-                        decoration: const InputDecoration.collapsed(
-                            hintText: "Escribe la pregunta aqui",
-                            hintStyle: TextStyle(fontSize: 15)),
+                        decoration: const InputDecoration(
+                            hintText: "Escribir pregunta",
+                            hintStyle: TextStyle(fontSize: 15),
+                            border: OutlineInputBorder()
+                            ),
                       ),
                     ),
                   ),
@@ -650,6 +684,7 @@ class _VerTareaEState extends State<VerTarea> {
                                 agregarAskActivity(ask, widget.cod);
                                 nameask.text = "";
                               }
+                              obtenerpreguntas();
                             });
                           },
                           child: const Text(
@@ -668,8 +703,6 @@ class _VerTareaEState extends State<VerTarea> {
   }
 
 //espacio para elegir una opcion , si elegir una imagen o una pregunta
-
- 
 
   void _wishExit(BuildContext context) {
     showDialog(
@@ -723,10 +756,11 @@ class _VerTareaEState extends State<VerTarea> {
             shadowColor: Color.fromARGB(255, 170, 63, 233),
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("¿Estas seguro que quieres borrar la pregunta?"),
-            content: Container(
+            content: Container(         
               child: Form(
                   key: formdeleteask,
                   child: TextFormField(
+                    textAlign: TextAlign.center,
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
                         return "Campo requerido";
@@ -742,12 +776,13 @@ class _VerTareaEState extends State<VerTarea> {
             ),
             actions: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text("NO")),
+                      child: Text("NO",style: TextStyle(color: Colors.white),)),
                   TextButton(
                       onPressed: () {
                         if (formdeleteask.currentState!.validate()) {
@@ -755,8 +790,26 @@ class _VerTareaEState extends State<VerTarea> {
                           deleteAsk(widget.cod, codigo);
                         }
                         Navigator.pop(context);
+                        obtenerpreguntas();
+                        final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            showCloseIcon: true,
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
-                      child: Text("SI")),
+                      child: Text("SI",style: TextStyle(color: Colors.white))),
                 ],
               )
             ],
@@ -992,6 +1045,7 @@ class _VerTareaEState extends State<VerTarea> {
                         addimage(cod);
                         cod_changeask.text = "";
                       }
+                      obtenerpreguntas();
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -1094,7 +1148,6 @@ class _VerTareaEState extends State<VerTarea> {
                         ),
                       ),
                     ),
-                   
                     Padding(padding: EdgeInsets.all(10)),
                     MaterialButton(
                       onPressed: () {
@@ -1117,6 +1170,50 @@ class _VerTareaEState extends State<VerTarea> {
                     ),
                   ],
                 )),
+          );
+        });
+  }
+
+  void _messaje(BuildContext parentContext) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Sugerencia"),
+            content: Container(
+              height: 172,
+              child: Column(
+                children: [
+                  Text(
+                      "Si en dado caso no se previsualiza un cambio en la pantalla,"),
+                  Text(
+                      "podria ser necesario el recargar la pantalla para poder visualizar los cambios realizados anteriormente"),
+                  Padding(padding: EdgeInsets.all(10)),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.arrow_back),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         });
   }

@@ -173,7 +173,7 @@ var cod;
                           child: const SizedBox(
                               height: 150,
                               width: 145,
-                              child: Image(image: AssetImage('assets/ver notas.png'))),
+                              child: Image(image: AssetImage('assets/historial_medico.png'))),
                         ),
                         GradientText(
                           '          Ver mis \nactividades/tareas',
