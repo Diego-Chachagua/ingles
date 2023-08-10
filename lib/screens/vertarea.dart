@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
+
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
@@ -41,20 +42,22 @@ class _VerTareaEState extends State<VerTarea> {
   File? imagen;
 
   //funciones para almacener archivos de tipo audio
-  Future<void> pickFile() async {
-  FilePickerResult? result = await FilePicker.platform.pickFiles(
-    type: FileType.audio, // Puedes cambiar esto según el tipo de archivo que quieras permitir
-  );
+  Future<void> pickFile(var ask) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType
+          .audio, // Puedes cambiar esto según el tipo de archivo que quieras permitir
+    );
 
-  if (result != null) {
-    String sound = result.files.single.path!;
-    print(sound);
-    
-    // Aquí puedes manejar el archivo seleccionado, por ejemplo, mostrar su nombre o cargarlo
-  } else {
-    // El usuario canceló la selección
+    if (result != null) {
+      String sound = result.files.single.path!;
+      upSound(widget.cod, sound, ask);
+
+      // Aquí puedes manejar el archivo seleccionado, por ejemplo, mostrar su nombre o cargarlo
+    } else {
+      // El usuario canceló la selección
+    }
   }
-}
+
 //future para buscar y almacenar imagen
   Future setimage(var ask) async {
     var picturefile =
@@ -109,6 +112,7 @@ class _VerTareaEState extends State<VerTarea> {
   final changeask = TextEditingController();
   final cod_changeask = TextEditingController();
   final nameask = TextEditingController();
+  final namesound = TextEditingController();
   final deleteask = TextEditingController();
   var i = 0;
   String usuariobd = "";
@@ -120,6 +124,7 @@ class _VerTareaEState extends State<VerTarea> {
   List imagenes = [];
   List images = [];
   List cod_p = [];
+  List audio = [];
   @override
   void initState() {
     super.initState();
@@ -133,6 +138,7 @@ class _VerTareaEState extends State<VerTarea> {
       preguntas.clear();
       imagenes.clear();
       images.clear();
+      audio.clear();
       cod_p.clear(); // Limpiar la lista antes de agregar las nuevas preguntas
       if (reslt != "noExisten") {
         for (var i = 0; i < reslt.length; i++) {
@@ -141,6 +147,7 @@ class _VerTareaEState extends State<VerTarea> {
           var nom_tem = dato["pregunta"];
           var cod = dato["cod_p_a"];
           var img = dato["img"];
+          var sound = dato["audio"];
 
           preguntas.add(nom_tem);
           imagenes.add(img);
@@ -153,10 +160,13 @@ class _VerTareaEState extends State<VerTarea> {
           if (img != null) {
             Uint8List bytes = base64.decode(img);
             images.add(bytes);
-          } else {
-            images.add("no e se puede");
-          }
+          } else {}
           // Agregar las nuevas preguntas a la lista
+          if (sound != null) {
+            audio.add(sound);
+          } else {
+            audio.add("no existe audio");
+          }
         }
       }
     });
@@ -262,7 +272,7 @@ class _VerTareaEState extends State<VerTarea> {
                     for (i = 0; i < preguntas.length; i++)
                       Column(
                         children: [
-                          imagenes[i] == null
+                          imagenes[i] == null && audio[i] == null
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -299,76 +309,116 @@ class _VerTareaEState extends State<VerTarea> {
                                     ),
                                   ],
                                 )
-                              : MaterialButton(
-                                  onPressed: () {
-                                    _opEditImg(context);
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: 350,
-                                        height: 300,
-                                        decoration: BoxDecoration(
-                                            color: Color.fromARGB(
-                                                255, 167, 137, 194),
-                                            border: Border.all(width: 2),
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 5),
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                              : audio[i] == null
+                                  ? MaterialButton(
+                                      onPressed: () {
+                                        _opEditImg(context);
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 350,
+                                            height: 300,
+                                            decoration: BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    255, 167, 137, 194),
+                                                border: Border.all(width: 2),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 5),
+                                            child: Column(
                                               children: [
-                                                Text(
-                                                  "${i}  -  ${preguntas[i]}",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Color.fromARGB(
-                                                          255, 238, 234, 234)),
+                                                const SizedBox(
+                                                  height: 20,
                                                 ),
-                                                Text("${cod_p[i]}"),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "${i}  -  ${preguntas[i]}",
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              238,
+                                                              234,
+                                                              234)),
+                                                    ),
+                                                    Text("${cod_p[i]}"),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                if (i < images.length)
+                                                  Container(
+                                                    width: 340,
+                                                    height: 220,
+                                                    decoration: BoxDecoration(
+                                                      border:
+                                                          Border.all(width: 3),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      image: DecorationImage(
+                                                          image: MemoryImage(
+                                                              images[i]),
+                                                          fit: BoxFit.cover),
+                                                    ),
+                                                  )
+                                                else
+                                                  Container(
+                                                    width: 300,
+                                                    height: 200,
+                                                    child: Center(
+                                                        child: Text(
+                                                            "No se puede mostrar la imagen")),
+                                                  ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : MaterialButton(
+                                      onPressed: () {},
+                                      child: Container(
+                                          width: 350,
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  255, 167, 137, 194),
+                                              border: Border.all(width: 2),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "${i}  -  ${preguntas[i]}",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Color.fromARGB(
+                                                      255, 238, 234, 234)),
                                             ),
-                                            if (i < images.length)
-                                              Container(
-                                                width: 340,
-                                                height: 220,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(width: 3),
-                                                  borderRadius: BorderRadius.circular(5),
-                                                  image: DecorationImage(
-                                                      image: MemoryImage(
-                                                          images[i]),
-                                                      fit: BoxFit.cover),
-                                                ),
-                                              )
-                                            else
-                                              Container(
-                                                width: 300,
-                                                height: 200,
-                                                child: Center(
-                                                    child: Text(
-                                                        "No se puede mostrar la imagen")),
-                                              ),
+                                            Text(cod_p[i]),
                                           ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                        Padding(padding: EdgeInsets.all(10)),
+                                              Text(audio[i]),
+                                            ],
+                                          )),
+                                    ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -575,7 +625,7 @@ class _VerTareaEState extends State<VerTarea> {
                           maxLines: 2,
                           maxLength: 40,
                           decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
+                              border: OutlineInputBorder(),
                               hintText: "Escribir pregunta",
                               hintStyle: TextStyle(fontSize: 15)),
                         ),
@@ -600,7 +650,7 @@ class _VerTareaEState extends State<VerTarea> {
                     },
                     minWidth: 40,
                     height: 70,
-                    child:Container(
+                    child: Container(
                       width: 160,
                       height: 60,
                       decoration: BoxDecoration(
@@ -609,7 +659,7 @@ class _VerTareaEState extends State<VerTarea> {
                       ),
                       child: Center(
                           child: Row(
-                            mainAxisAlignment:MainAxisAlignment.spaceEvenly ,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: const [
                           Text("Elegir imagen"),
                           Icon(Icons.image)
@@ -619,28 +669,27 @@ class _VerTareaEState extends State<VerTarea> {
                   ),
                   Padding(padding: EdgeInsets.all(10)),
                   MaterialButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        width: 150,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 2),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Icon(Icons.arrow_back),
-                          ],
-                        ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 150,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    )
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.arrow_back),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
-            
           );
         });
   }
@@ -671,8 +720,7 @@ class _VerTareaEState extends State<VerTarea> {
                         decoration: const InputDecoration(
                             hintText: "Escribir pregunta",
                             hintStyle: TextStyle(fontSize: 15),
-                            border: OutlineInputBorder()
-                            ),
+                            border: OutlineInputBorder()),
                       ),
                     ),
                   ),
@@ -773,7 +821,7 @@ class _VerTareaEState extends State<VerTarea> {
             shadowColor: Color.fromARGB(255, 170, 63, 233),
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("¿Estas seguro que quieres borrar la pregunta?"),
-            content: Container(         
+            content: Container(
               child: Form(
                   key: formdeleteask,
                   child: TextFormField(
@@ -799,7 +847,10 @@ class _VerTareaEState extends State<VerTarea> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text("NO",style: TextStyle(color: Colors.white),)),
+                      child: Text(
+                        "NO",
+                        style: TextStyle(color: Colors.white),
+                      )),
                   TextButton(
                       onPressed: () {
                         if (formdeleteask.currentState!.validate()) {
@@ -826,7 +877,7 @@ class _VerTareaEState extends State<VerTarea> {
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
-                      child: Text("SI",style: TextStyle(color: Colors.white))),
+                      child: Text("SI", style: TextStyle(color: Colors.white))),
                 ],
               )
             ],
@@ -1261,25 +1312,25 @@ class _VerTareaEState extends State<VerTarea> {
                               return "campo requerido";
                             }
                           },
-                          controller: nameask,
+                          controller: namesound,
                           textAlign: TextAlign.center,
                           cursorColor: Colors.black,
                           maxLines: 2,
                           maxLength: 40,
                           decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
+                              border: OutlineInputBorder(),
                               hintText: "Escribir pregunta",
                               hintStyle: TextStyle(fontSize: 15)),
                         ),
                       )),
                   MaterialButton(
                     onPressed: () {
-                      var ask = nameask.text;
+                      var ask = namesound.text;
                       if (addsound.currentState!.validate()) {
-                        pickFile();
+                        pickFile(ask);
                         nameask.text = "";
                         Navigator.pop(context);
-                        obtenerpreguntas();
+
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
@@ -1292,7 +1343,7 @@ class _VerTareaEState extends State<VerTarea> {
                     },
                     minWidth: 40,
                     height: 70,
-                    child:Container(
+                    child: Container(
                       width: 160,
                       height: 60,
                       decoration: BoxDecoration(
@@ -1301,7 +1352,7 @@ class _VerTareaEState extends State<VerTarea> {
                       ),
                       child: Center(
                           child: Row(
-                            mainAxisAlignment:MainAxisAlignment.spaceEvenly ,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: const [
                           Text("Elegir sonido"),
                           Icon(Icons.music_note_sharp)
@@ -1311,28 +1362,27 @@ class _VerTareaEState extends State<VerTarea> {
                   ),
                   Padding(padding: EdgeInsets.all(10)),
                   MaterialButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        width: 150,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 2),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Icon(Icons.arrow_back),
-                          ],
-                        ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 150,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    )
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.arrow_back),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
-            
           );
         });
   }

@@ -233,3 +233,21 @@ Future<void> addImg(var cod_p, File? imagen, var cod) async {
   );
 }
 
+//subir un archivo de sonido
+Future<dynamic> upSound(var cod_a,var sound, var ask) async {
+  print(cod_a);
+  if(sound==null){
+    print("no se imprime adui");
+  }
+  print(sound);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_sound.php'),
+    body: <String, dynamic>{
+      "cod":cod_a,
+      "sound":sound,
+      "ask":ask,
+    },
+  );
+  return enviar.body;
+}
+
