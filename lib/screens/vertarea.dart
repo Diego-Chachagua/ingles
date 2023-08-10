@@ -6,9 +6,7 @@ import '../developer/consultasf.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'package:flutter_sound/flutter_sound.dart';
-import 'package:permission_handler/permission_handler.dart';
-
+import 'package:file_picker/file_picker.dart';
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
@@ -39,7 +37,24 @@ class _VerTareaEState extends State<VerTarea> {
   GlobalKey<FormState> formdeleteask = GlobalKey<FormState>();
   GlobalKey<FormState> deleteimg = GlobalKey<FormState>();
   GlobalKey<FormState> addimg = GlobalKey<FormState>();
+  GlobalKey<FormState> addsound = GlobalKey<FormState>();
   File? imagen;
+
+  //funciones para almacener archivos de tipo audio
+  Future<void> pickFile() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    type: FileType.audio, // Puedes cambiar esto según el tipo de archivo que quieras permitir
+  );
+
+  if (result != null) {
+    String sound = result.files.single.path!;
+    print(sound);
+    
+    // Aquí puedes manejar el archivo seleccionado, por ejemplo, mostrar su nombre o cargarlo
+  } else {
+    // El usuario canceló la selección
+  }
+}
 //future para buscar y almacenar imagen
   Future setimage(var ask) async {
     var picturefile =
@@ -437,7 +452,9 @@ class _VerTareaEState extends State<VerTarea> {
               FloatingActionButton(
                 heroTag: 'tag3',
                 onPressed: () {
-                  setState(() {});
+                  setState(() {
+                    _elegirSound(context);
+                  });
                 },
                 child: Icon(Icons.mic),
               ),
@@ -1214,6 +1231,108 @@ class _VerTareaEState extends State<VerTarea> {
                 ],
               ),
             ),
+          );
+        });
+  }
+
+  //elegir archivo
+  void _elegirSound(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Seleccionar un sonido/audio"),
+            content: Container(
+              width: 100,
+              height: 240,
+              child: Column(
+                children: [
+                  Container(
+                      width: 150,
+                      height: 100,
+                      child: Form(
+                        key: addsound,
+                        child: TextFormField(
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return "campo requerido";
+                            }
+                          },
+                          controller: nameask,
+                          textAlign: TextAlign.center,
+                          cursorColor: Colors.black,
+                          maxLines: 2,
+                          maxLength: 40,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                              hintText: "Escribir pregunta",
+                              hintStyle: TextStyle(fontSize: 15)),
+                        ),
+                      )),
+                  MaterialButton(
+                    onPressed: () {
+                      var ask = nameask.text;
+                      if (addsound.currentState!.validate()) {
+                        pickFile();
+                        nameask.text = "";
+                        Navigator.pop(context);
+                        obtenerpreguntas();
+                        final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            showCloseIcon: true,
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content:
+                                Text("Es necesario refrescar la pantalla"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    },
+                    minWidth: 40,
+                    height: 70,
+                    child:Container(
+                      width: 160,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                          child: Row(
+                            mainAxisAlignment:MainAxisAlignment.spaceEvenly ,
+                        children: const [
+                          Text("Elegir sonido"),
+                          Icon(Icons.music_note_sharp)
+                        ],
+                      )),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(10)),
+                  MaterialButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 150,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Icon(Icons.arrow_back),
+                          ],
+                        ),
+                      ),
+                    )
+                ],
+              ),
+            ),
+            
           );
         });
   }
