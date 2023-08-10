@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -29,6 +30,13 @@ class VerTarea extends StatefulWidget {
 class _VerTareaEState extends State<VerTarea> {
   String nameA = "";
 //variables de audio
+var audios=AudioPlayer();
+
+void  playaudio(var sonido) async{
+    await audios.play(UrlSource(sonido)); 
+    
+}
+
 
   //generar validacion de formularios
   GlobalKey<FormState> valueupdateimg = GlobalKey<FormState>();
@@ -76,6 +84,7 @@ class _VerTareaEState extends State<VerTarea> {
       }
     });
   }
+  //variables y funciones para audio
 
   //funcion para añadir imagen a una pregunta sin imagen
   Future addimage(var cod) async {
@@ -124,12 +133,15 @@ class _VerTareaEState extends State<VerTarea> {
   List imagenes = [];
   List images = [];
   List cod_p = [];
-  List audio = [];
+  String audio="";
   @override
   void initState() {
     super.initState();
     obtenerpreguntas();
+    
   }
+
+
 
   Future<void> obtenerpreguntas() async {
     print(widget.cod_p);
@@ -138,7 +150,7 @@ class _VerTareaEState extends State<VerTarea> {
       preguntas.clear();
       imagenes.clear();
       images.clear();
-      audio.clear();
+      audio="";
       cod_p.clear(); // Limpiar la lista antes de agregar las nuevas preguntas
       if (reslt != "noExisten") {
         for (var i = 0; i < reslt.length; i++) {
@@ -163,9 +175,9 @@ class _VerTareaEState extends State<VerTarea> {
           } else {}
           // Agregar las nuevas preguntas a la lista
           if (sound != null) {
-            audio.add(sound);
+            audio=sound;
           } else {
-            audio.add("no existe audio");
+            audio="no existe audio";
           }
         }
       }
@@ -272,7 +284,7 @@ class _VerTareaEState extends State<VerTarea> {
                     for (i = 0; i < preguntas.length; i++)
                       Column(
                         children: [
-                          imagenes[i] == null && audio[i] == null
+                          imagenes[i] == null && audio == null
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -309,7 +321,7 @@ class _VerTareaEState extends State<VerTarea> {
                                     ),
                                   ],
                                 )
-                              : audio[i] == null
+                              : audio == null
                                   ? MaterialButton(
                                       onPressed: () {
                                         _opEditImg(context);
@@ -387,38 +399,71 @@ class _VerTareaEState extends State<VerTarea> {
                                         ],
                                       ),
                                     )
-                                  : MaterialButton(
-                                      onPressed: () {},
-                                      child: Container(
-                                          width: 350,
-                                          height: 100,
-                                          decoration: BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 167, 137, 194),
-                                              border: Border.all(width: 2),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Column(
+                                  : 
+                                  Padding(
+                                              padding: EdgeInsets.all(5)),
+                                  if(imagenes==null && audio!=null)
+                                  Container(
+                                      width: 350,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                          color: Color.fromARGB(
+                                              255, 167, 137, 194),
+                                          border: Border.all(width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
                                             children: [
-                                              Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "${i}  -  ${preguntas[i]}",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Color.fromARGB(
-                                                      255, 238, 234, 234)),
-                                            ),
-                                            Text(cod_p[i]),
-                                          ],
-                                        ),
-                                        Padding(padding: EdgeInsets.all(10)),
-                                              Text(audio[i]),
+                                              Text(
+                                                "${i}  -  ${preguntas[i]}",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Color.fromARGB(
+                                                        255,
+                                                        238,
+                                                        234,
+                                                        234)),
+                                              ),
+                                              Text(cod_p[i]),
                                             ],
-                                          )),
-                                    ),
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.all(10)),
+                                         Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                           children: [
+                                             ElevatedButton(onPressed: (){
+                                                
+                                                setState(() {
+                                                  playaudio('https://drive.google.com/uc?id=1H_9XNVmSElCryi1cDCy00J0Pp3RP1Dpm');
+                                                  
+                                                });
+                                                
+                                              },
+                                              
+                                              child: Container(
+                                                child: Icon(Icons.play_arrow),
+                                              ),),
+                                              ElevatedButton(onPressed: (){
+                                                
+                                                setState(() {
+                                                  audios.stop();
+                                                });
+                                                
+                                              },
+                                              
+                                              child: Container(
+                                                child: Icon(Icons.stop),
+                                              ),),
+                                           ],
+                                         ),
+                                        ],
+                                      )),
                           const SizedBox(
                             height: 10,
                           ),
