@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/save_act.dart';
 import 'package:ingles/screens/show_act.dart';
+import 'package:ingles/screens/use_url.dart';
 import '../developer/consultasf.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -30,12 +31,19 @@ class VerTarea extends StatefulWidget {
 class _VerTareaEState extends State<VerTarea> {
   String nameA = "";
 //variables de audio
-var audios=AudioPlayer();
+  var audios = AudioPlayer();
+  var n1 = 0;
 
-void  playaudio(var sonido) async{
-    await audios.play(UrlSource(sonido)); 
-    
-}
+  void playaudio(var sonido) async {
+    try {
+      if (sonido != null) {
+        await audios.play(UrlSource(sonido)) as List;
+        await Future.delayed(Duration(seconds: 120));
+      }
+    } catch (e) {
+      print("Error [002] $e");
+    }
+  }
 
 
   //generar validacion de formularios
@@ -48,23 +56,6 @@ void  playaudio(var sonido) async{
   GlobalKey<FormState> addimg = GlobalKey<FormState>();
   GlobalKey<FormState> addsound = GlobalKey<FormState>();
   File? imagen;
-
-  //funciones para almacener archivos de tipo audio
-  Future<void> pickFile(var ask) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType
-          .audio, // Puedes cambiar esto según el tipo de archivo que quieras permitir
-    );
-
-    if (result != null) {
-      String sound = result.files.single.path!;
-      upSound(widget.cod, sound, ask);
-
-      // Aquí puedes manejar el archivo seleccionado, por ejemplo, mostrar su nombre o cargarlo
-    } else {
-      // El usuario canceló la selección
-    }
-  }
 
 //future para buscar y almacenar imagen
   Future setimage(var ask) async {
@@ -122,6 +113,7 @@ void  playaudio(var sonido) async{
   final cod_changeask = TextEditingController();
   final nameask = TextEditingController();
   final namesound = TextEditingController();
+  final url = TextEditingController();
   final deleteask = TextEditingController();
   var i = 0;
   String usuariobd = "";
@@ -133,13 +125,16 @@ void  playaudio(var sonido) async{
   List imagenes = [];
   List images = [];
   List cod_p = [];
-  String audio="";
+  List audio = [];
   @override
   void initState() {
     super.initState();
     obtenerpreguntas();
+  
     
   }
+
+  
 
 
 
@@ -150,7 +145,7 @@ void  playaudio(var sonido) async{
       preguntas.clear();
       imagenes.clear();
       images.clear();
-      audio="";
+      audio.clear();
       cod_p.clear(); // Limpiar la lista antes de agregar las nuevas preguntas
       if (reslt != "noExisten") {
         for (var i = 0; i < reslt.length; i++) {
@@ -160,7 +155,6 @@ void  playaudio(var sonido) async{
           var cod = dato["cod_p_a"];
           var img = dato["img"];
           var sound = dato["audio"];
-
           preguntas.add(nom_tem);
           imagenes.add(img);
           if (nombreAct != "") {
@@ -172,14 +166,17 @@ void  playaudio(var sonido) async{
           if (img != null) {
             Uint8List bytes = base64.decode(img);
             images.add(bytes);
-          } else {}
+          } else {
+            images.add("");
+          }
           // Agregar las nuevas preguntas a la lista
           if (sound != null) {
-            audio=sound;
+            audio.add(sound);
           } else {
-            audio="no existe audio";
+            audio.add("no existe");
           }
         }
+        print(audio);
       }
     });
   }
@@ -284,7 +281,7 @@ void  playaudio(var sonido) async{
                     for (i = 0; i < preguntas.length; i++)
                       Column(
                         children: [
-                          imagenes[i] == null && audio == null
+                          images[i] == "" && audio[i] == "no existe"
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -321,7 +318,7 @@ void  playaudio(var sonido) async{
                                     ),
                                   ],
                                 )
-                              : audio == null
+                              : audio[i] == 'no existe' && images[i] != ""
                                   ? MaterialButton(
                                       onPressed: () {
                                         _opEditImg(context);
@@ -373,6 +370,8 @@ void  playaudio(var sonido) async{
                                                   Container(
                                                     width: 340,
                                                     height: 220,
+                                                    padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 5),
                                                     decoration: BoxDecoration(
                                                       border:
                                                           Border.all(width: 3),
@@ -391,7 +390,7 @@ void  playaudio(var sonido) async{
                                                     height: 200,
                                                     child: Center(
                                                         child: Text(
-                                                            "No se puede mostrar la imagen")),
+                                                            "No se puede mostrar la imagen\nOcurrio un error\nCodigo de error[001]")),
                                                   ),
                                               ],
                                             ),
@@ -399,71 +398,82 @@ void  playaudio(var sonido) async{
                                         ],
                                       ),
                                     )
-                                  : 
-                                  Padding(
-                                              padding: EdgeInsets.all(5)),
-                                  if(imagenes==null && audio!=null)
-                                  Container(
-                                      width: 350,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 167, 137, 194),
-                                          border: Border.all(width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                  : audio[i] != "no existe" && images[i] == ""
+                                      ? Container(
+                                          width: 350,
+                                          height: 120,
+                                          padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 5),
+                                          decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  255, 167, 137, 194),
+                                              border: Border.all(width: 2),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Column(
                                             children: [
-                                              Text(
-                                                "${i}  -  ${preguntas[i]}",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color.fromARGB(
-                                                        255,
-                                                        238,
-                                                        234,
-                                                        234)),
+                                              Padding(padding: EdgeInsets.all(5)),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "${i}  -  ${preguntas[i]}",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            238,
+                                                            234,
+                                                            234)),
+                                                  ),
+                                                  Text(cod_p[i]),
+                                                ],
                                               ),
-                                              Text(cod_p[i]),
+                                              Padding(
+                                                  padding: EdgeInsets.all(10)),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        var n = audio.length;
+                                                        for (var a = 0;
+                                                            a < n;
+                                                            a++) {
+                                                          if (audio[a] ==
+                                                              "no existe") {
+                                                          } else {
+                                                            playaudio(audio[a]);
+                                                          }
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      child: Icon(
+                                                          Icons.play_arrow),
+                                                    ),
+                                                  ),
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        audios.stop();
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      child: Icon(Icons.stop),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              
                                             ],
-                                          ),
-                                          Padding(
-                                              padding: EdgeInsets.all(10)),
-                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                           children: [
-                                             ElevatedButton(onPressed: (){
-                                                
-                                                setState(() {
-                                                  playaudio('https://drive.google.com/uc?id=1H_9XNVmSElCryi1cDCy00J0Pp3RP1Dpm');
-                                                  
-                                                });
-                                                
-                                              },
-                                              
-                                              child: Container(
-                                                child: Icon(Icons.play_arrow),
-                                              ),),
-                                              ElevatedButton(onPressed: (){
-                                                
-                                                setState(() {
-                                                  audios.stop();
-                                                });
-                                                
-                                              },
-                                              
-                                              child: Container(
-                                                child: Icon(Icons.stop),
-                                              ),),
-                                           ],
-                                         ),
-                                        ],
-                                      )),
+                                          ))
+                                      : Padding(padding: EdgeInsets.all(10)),
                           const SizedBox(
                             height: 10,
                           ),
@@ -1338,44 +1348,67 @@ void  playaudio(var sonido) async{
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            alignment: AlignmentDirectional.center,
+            scrollable: true,
             shadowColor: Color.fromARGB(255, 170, 63, 233),
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("Seleccionar un sonido/audio"),
+            title: const Text("Añadir sonido/audio"),
             content: Container(
-              width: 100,
-              height: 240,
+              height: 410,
               child: Column(
                 children: [
                   Container(
                       width: 150,
-                      height: 100,
+                      height: 190,
                       child: Form(
                         key: addsound,
-                        child: TextFormField(
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "campo requerido";
-                            }
-                          },
-                          controller: namesound,
-                          textAlign: TextAlign.center,
-                          cursorColor: Colors.black,
-                          maxLines: 2,
-                          maxLength: 40,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Escribir pregunta",
-                              hintStyle: TextStyle(fontSize: 15)),
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "campo requerido";
+                                }
+                              },
+                              controller: namesound,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              maxLines: 2,
+                              maxLength: 40,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Escribir pregunta",
+                                  hintStyle: TextStyle(fontSize: 15)),
+                            ),
+                            TextFormField(
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "campo requerido";
+                                }
+                              },
+                              controller: url,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              maxLines: 2,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Ingresar URL",
+                                  helperText: "Usar una URL directa",
+                                  hintStyle: TextStyle(fontSize: 15)),
+                            ),
+                          ],
                         ),
                       )),
+                  Padding(padding: EdgeInsets.all(10)),
                   MaterialButton(
                     onPressed: () {
                       var ask = namesound.text;
+                      var url_s = url.text;
                       if (addsound.currentState!.validate()) {
-                        pickFile(ask);
-                        nameask.text = "";
+                        namesound.text = "";
+                        url.text = "";
+                        upSound(widget.cod, url_s, ask);
                         Navigator.pop(context);
-
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
@@ -1386,23 +1419,20 @@ void  playaudio(var sonido) async{
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
-                    minWidth: 40,
-                    height: 70,
                     child: Container(
-                      width: 160,
-                      height: 60,
+                      width: 150,
+                      height: 50,
                       decoration: BoxDecoration(
                         border: Border.all(width: 2),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Center(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: const [
-                          Text("Elegir sonido"),
-                          Icon(Icons.music_note_sharp)
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text("Añadir"),
+                          Icon(Icons.music_note),
                         ],
-                      )),
+                      ),
                     ),
                   ),
                   Padding(padding: EdgeInsets.all(10)),
@@ -1424,6 +1454,21 @@ void  playaudio(var sonido) async{
                         ],
                       ),
                     ),
+                  ),
+                  Padding(padding: EdgeInsets.all(5)),
+                  Text("¿Como usar una URL directa?"),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UseURL(
+                                  cod_act: widget.cod,
+                                  cod_p: widget.cod_p,
+                                )),
+                      );
+                    },
+                    child: Text("Presiona aqui"),
                   )
                 ],
               ),
