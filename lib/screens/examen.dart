@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart'; // Importa el paquete para seleccionar imágenes
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'dart:io';
+import '../developer/consultasj.dart';
 
-class Examenes extends StatelessWidget {
-  const Examenes({super.key});
+void main() {
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: 'Navigation Basics',
+    home: Examene(),
+  ));
+}
+
+class Examene extends StatelessWidget {
+  const Examene({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,52 +29,30 @@ class examen extends StatefulWidget {
 }
 
 class _examenState extends State<examen> {
-  final TextEditingController pregunta1 = TextEditingController();
-  final TextEditingController respuesta1 = TextEditingController();
   bool expanded1 = false;
-  FlutterSoundRecorder? _audioRecorder; // Objeto para grabar audio
-  bool _isRecording = false;
-
-
   String textValue1 = '';
-  String audioPath1 = '';
-  File? imageFile1;
+  int numberOfAccordions =
+      20; // Cambia esto según la cantidad de acordeones que tengas
 
   final ImagePicker _imagePicker = ImagePicker();
+  late List<File?> imageFiles;
+  List<String> textsFromDatabase = []; // Inicializar con una lista vacía
 
   @override
   void initState() {
     super.initState();
-    _audioRecorder = FlutterSoundRecorder(); // Inicializar el objeto para grabar audio
+    imageFiles = List.generate(numberOfAccordions, (index) => null);
+    _loadTexts();
   }
 
-  @override
-  void dispose() {
-    _audioRecorder?.closeRecorder(); // Cerrar la sesión de grabación de audio al salir de la pantalla
-    super.dispose();
-  }
-
-  Future<void> _startRecording() async {
+  Future<void> _loadTexts() async {
     try {
-      await _audioRecorder?.openRecorder();
-      await _audioRecorder?.startRecorder(toFile: 'audio_recording.aac', codec: Codec.aacMP4);
+      final texts = await fetchAllTextsFromDatabase();
       setState(() {
-        _isRecording = true;
+        textsFromDatabase = texts;
       });
     } catch (e) {
-      // Manejar el error en caso de que la grabación falle
-    }
-  }
-
-  Future<void> _stopRecording() async {
-    try {
-      String? audioFilePath = await _audioRecorder?.stopRecorder();
-      setState(() {
-        _isRecording = false;
-        audioPath1 = audioFilePath ?? '';
-      });
-    } catch (e) {
-      // Manejar el error en caso de que detener la grabación falle
+      // Manejar errores aquí
     }
   }
 
@@ -81,91 +67,94 @@ class _examenState extends State<examen> {
         backgroundColor: Colors.transparent,
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
-          children: <Widget>[cuerpo()],
+          children: [
+            const SizedBox(height: 15),
+            Center(
+              child: GradientText(
+                'EXAMEN',
+                style: const TextStyle(
+                  fontSize: 36.0,
+                ),
+                gradientType: GradientType.linear,
+                gradientDirection: GradientDirection.ttb,
+                radius: 2.5,
+                colors: const [
+                  Color.fromARGB(255, 170, 63, 233),
+                  Color.fromARGB(255, 66, 91, 233),
+                  Color.fromARGB(255, 60, 135, 221),
+                ],
+              ),
+            ),
+            const SizedBox(height: 30),
+            for (int index = 0; index < textsFromDatabase.length; index++)
+              Column(
+                children: [
+                  _buildAccordion(1, '', expanded1, [
+                    TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          textValue1 = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Escribe la respuesta...',
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            _pickImage(index);
+                          },
+                          child: Text('Subir Imagen'),
+                        ),
+                      ],
+                    ),
+                    if (imageFiles[index] != null)
+                      Image.file(
+                        imageFiles[index]!,
+                        fit: BoxFit.cover,
+                      ),
+                  ]),
+                ],
+              ),
+            SizedBox(height: 20),
+            boton()
+          ],
         ),
       ),
     );
   }
 
-  Widget cuerpo() {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          const SizedBox(height: 15),
-          titulo2(),
-          SizedBox(height: 30),
-          acordeon()
-        ],
+  Widget boton() {
+    return ElevatedButton(
+      onPressed: () async {},
+      child: Text('Enviar'),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(
+            255, 140, 156, 226)), // Establece el color de fondo del botón
+        minimumSize: MaterialStateProperty.all<Size>(
+            const Size(100, 45)), // Establece el ancho y alto del botón
+        textStyle: MaterialStateProperty.all<TextStyle>(
+          const TextStyle(
+              fontSize: 26,
+              color: Color.fromARGB(
+                  255, 12, 7, 167)), // Establece el tamaño y color del texto
+        ),
       ),
     );
   }
 
-  Widget titulo2() {
-    return GradientText(
-      'EXAMEN',
-      style: const TextStyle(
-        fontSize: 36.0,
-      ),
-      gradientType: GradientType.linear,
-      gradientDirection: GradientDirection.ttb,
-      radius: 2.5,
-      colors: const [
-        Color.fromARGB(255, 170, 63, 233),
-        Color.fromARGB(255, 66, 91, 233),
-        Color.fromARGB(255, 60, 135, 221),
-      ],
-    );
-  }
-
-  Widget acordeon() {
-    return Column(
-      children: [
-        _buildAccordion(1, '', expanded1, [
-          TextField(
-            onChanged: (value) {
-              setState(() {
-                textValue1 = value;
-              });
-            },
-            decoration: InputDecoration(
-              labelText: 'Escribe la respuesta...',
-            ),
-          ),
-          SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: _isRecording ? _stopRecording : _startRecording,
-                child: Text(_isRecording ? 'Detener Grabación' : 'Grabar Audio'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  final image =
-                      await _imagePicker.pickImage(source: ImageSource.gallery);
-                  if (image != null) {
-                    setState(() {
-                      imageFile1 = File(image.path);
-                    });
-                  }
-                },
-                child: Text('Subir Imagen'),
-              ),
-            ],
-          ),
-          if (audioPath1.isNotEmpty) Text('Audio grabado 1: $audioPath1'),
-          if (imageFile1 != null)
-            AspectRatio(
-              aspectRatio: 16 /
-                  20, // Ajusta la relación de aspecto según tus necesidades
-              child: Image.file(
-                imageFile1!,
-                fit: BoxFit.cover,
-              ),
-            ),
-        ]),
-      ],
-    );
+  Future<void> _pickImage(int index) async {
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        imageFiles[index] = File(pickedImage.path);
+      });
+    }
   }
 
   Widget _buildAccordion(
