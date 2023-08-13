@@ -85,8 +85,8 @@ var cod;
                         MaterialButton(
                           onPressed: () async{
                              var name = "NAME OF ACTIVITY/TASK";
-  
-                            reslt = await addTask(name,widget.cod_p);
+                            try{
+                               reslt = await addTask(name,widget.cod_p);
                             if (reslt != "noExisten") {
                               for (var i = 0; i < reslt.length; i++) {
                                 var dato = reslt[i];
@@ -97,7 +97,9 @@ var cod;
                                 });
                               }
                             }
-                            
+                            }catch(e){
+                              _msError(context);
+                            }  
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) =>  TareasP(cod: cod,cod_p: widget.cod_p, ),
@@ -194,5 +196,48 @@ var cod;
                 
               ]),
             ))));
+  }
+
+  void _msError(BuildContext parentContext) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("ERROR[003]"),
+            content: Container(
+              height: 160,
+              child: Column(
+                children: [
+                  Text(
+                      "-Ya existe una actividad con el nombre 'NAME OF ACTIVITY/TASK'\n-Para solucionar este problema es recomendado\ncambiar el nombre a la otra actividad que contenga el mismo nombre",
+                      style: TextStyle(fontStyle: FontStyle.italic)),
+                  Padding(padding: EdgeInsets.all(10)),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.arrow_back),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

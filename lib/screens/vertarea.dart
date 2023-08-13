@@ -877,8 +877,17 @@ class _VerTareaEState extends State<VerTarea> {
                             shape: Border.all(width: 1),
                             showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content:
-                                Text("Es necesario refrescar la pantalla"));
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
@@ -1346,6 +1355,23 @@ class _VerTareaEState extends State<VerTarea> {
                         var cod = cod_changeask.text;
                         addimage(cod);
                         cod_changeask.text = "";
+                        final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            showCloseIcon: true,
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                       obtenerpreguntas();
                       Navigator.pop(context);
@@ -1593,8 +1619,18 @@ class _VerTareaEState extends State<VerTarea> {
                             shape: Border.all(width: 1),
                             showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content:
-                                Text("Es necesario refrescar la pantalla"));
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
