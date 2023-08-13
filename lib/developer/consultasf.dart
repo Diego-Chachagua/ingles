@@ -265,3 +265,15 @@ Future<dynamic> upGame(var cod_a,var request, var ask) async {
   );
   return enviar.body;
 }
+Future<dynamic> editRespuesta(var cod_a,var cod_p, var request) async {
+  
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/edit_respuesta_game.php'),
+    body: <String, dynamic>{
+      "cod_a":cod_a,
+      "request":request,
+      "cod_p":cod_p,
+    },
+  );
+  return enviar.body;
+}
