@@ -45,7 +45,6 @@ class _VerTareaEState extends State<VerTarea> {
     }
   }
 
-
   //generar validacion de formularios
   GlobalKey<FormState> valueupdateimg = GlobalKey<FormState>();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -55,6 +54,7 @@ class _VerTareaEState extends State<VerTarea> {
   GlobalKey<FormState> deleteimg = GlobalKey<FormState>();
   GlobalKey<FormState> addimg = GlobalKey<FormState>();
   GlobalKey<FormState> addsound = GlobalKey<FormState>();
+  GlobalKey<FormState> addgame = GlobalKey<FormState>();
   File? imagen;
 
 //future para buscar y almacenar imagen
@@ -115,6 +115,7 @@ class _VerTareaEState extends State<VerTarea> {
   final namesound = TextEditingController();
   final url = TextEditingController();
   final deleteask = TextEditingController();
+  final addaskgame = TextEditingController();
   var i = 0;
   String usuariobd = "";
   String contrabd = "";
@@ -130,13 +131,7 @@ class _VerTareaEState extends State<VerTarea> {
   void initState() {
     super.initState();
     obtenerpreguntas();
-  
-    
   }
-
-  
-
-
 
   Future<void> obtenerpreguntas() async {
     print(widget.cod_p);
@@ -253,11 +248,38 @@ class _VerTareaEState extends State<VerTarea> {
                       height: 20,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        Container(
+                          width: 140,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 142, 93, 219),
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: MaterialButton(
+                            onPressed: () {
+                              _addGame(context);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text("Add Game",style: TextStyle(color: Colors.white),),
+                                Icon(
+                                  Icons.games,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.all(10)),
                         Container(
                           width: 70,
                           height: 50,
+                          
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 209, 31, 18),
                             border: Border.all(width: 1),
@@ -274,7 +296,7 @@ class _VerTareaEState extends State<VerTarea> {
                             ),
                           ),
                         ),
-                        Padding(padding: EdgeInsets.all(10)),
+                        
                       ],
                     ),
                     Padding(padding: EdgeInsets.all(10)),
@@ -290,6 +312,7 @@ class _VerTareaEState extends State<VerTarea> {
                                         _opEdit(context);
                                       },
                                       child: Container(
+                                        
                                         width: 350,
                                         height: 50,
                                         decoration: BoxDecoration(
@@ -370,8 +393,10 @@ class _VerTareaEState extends State<VerTarea> {
                                                   Container(
                                                     width: 340,
                                                     height: 220,
-                                                    padding: const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 5),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 5),
                                                     decoration: BoxDecoration(
                                                       border:
                                                           Border.all(width: 3),
@@ -399,80 +424,142 @@ class _VerTareaEState extends State<VerTarea> {
                                       ),
                                     )
                                   : audio[i] != "no existe" && images[i] == ""
-                                      ? Container(
-                                          width: 350,
-                                          height: 120,
-                                          padding: const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 5),
-                                          decoration: BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 167, 137, 194),
-                                              border: Border.all(width: 2),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Column(
-                                            children: [
-                                              Padding(padding: EdgeInsets.all(5)),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                      ? MaterialButton(
+                                          onPressed: () {},
+                                          child: Container(
+                                              width: 350,
+                                              height: 120,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20,
+                                                      vertical: 5),
+                                              decoration: BoxDecoration(
+                                                  color: Color.fromARGB(
+                                                      255, 167, 137, 194),
+                                                  border: Border.all(width: 2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Column(
                                                 children: [
-                                                  Text(
-                                                    "${i}  -  ${preguntas[i]}",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Color.fromARGB(
-                                                            255,
-                                                            238,
-                                                            234,
-                                                            234)),
+                                                  Padding(
+                                                      padding:
+                                                          EdgeInsets.all(5)),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "${i}  -  ${preguntas[i]}",
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    238,
+                                                                    234,
+                                                                    234)),
+                                                      ),
+                                                      Text(cod_p[i]),
+                                                    ],
                                                   ),
-                                                  Text(cod_p[i]),
+                                                  Padding(
+                                                      padding:
+                                                          EdgeInsets.all(10)),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      ElevatedButton(
+                                                        style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .resolveWith<
+                                                                      Color?>(
+                                                            (Set<MaterialState>
+                                                                states) {
+                                                              if (states.contains(
+                                                                  MaterialState
+                                                                      .pressed)) {
+                                                                return Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        78,
+                                                                        76,
+                                                                        187); // Color cuando se presiona el botón
+                                                              }
+                                                              return Color.fromARGB(
+                                                                  255,
+                                                                  152,
+                                                                  116,
+                                                                  219); // Color predeterminado
+                                                            },
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            var n =
+                                                                audio.length;
+                                                            for (var a = 0;
+                                                                a < n;
+                                                                a++) {
+                                                              if (audio[a] ==
+                                                                  "no existe") {
+                                                              } else {
+                                                                playaudio(
+                                                                    audio[a]);
+                                                              }
+                                                            }
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child: Icon(
+                                                              Icons.play_arrow),
+                                                        ),
+                                                      ),
+                                                      ElevatedButton(
+                                                        style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .resolveWith<
+                                                                      Color?>(
+                                                            (Set<MaterialState>
+                                                                states) {
+                                                              if (states.contains(
+                                                                  MaterialState
+                                                                      .pressed)) {
+                                                                return Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        78,
+                                                                        76,
+                                                                        187); // Color cuando se presiona el botón
+                                                              }
+                                                              return Color.fromARGB(
+                                                                  255,
+                                                                  152,
+                                                                  116,
+                                                                  219); // Color predeterminado
+                                                            },
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            audios.stop();
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          child:
+                                                              Icon(Icons.stop),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ],
-                                              ),
-                                              Padding(
-                                                  padding: EdgeInsets.all(10)),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        var n = audio.length;
-                                                        for (var a = 0;
-                                                            a < n;
-                                                            a++) {
-                                                          if (audio[a] ==
-                                                              "no existe") {
-                                                          } else {
-                                                            playaudio(audio[a]);
-                                                          }
-                                                        }
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      child: Icon(
-                                                          Icons.play_arrow),
-                                                    ),
-                                                  ),
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        audios.stop();
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      child: Icon(Icons.stop),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              
-                                            ],
-                                          ))
+                                              )),
+                                        )
                                       : Padding(padding: EdgeInsets.all(10)),
                           const SizedBox(
                             height: 10,
@@ -1470,6 +1557,107 @@ class _VerTareaEState extends State<VerTarea> {
                     },
                     child: Text("Presiona aqui"),
                   )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+   void _addGame(BuildContext parentContext) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Sugerencia"),
+            content: Container(
+              height: 340,
+              child: Column(
+                children: [
+                  Form(
+                        key: addgame,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "campo requerido";
+                                }
+                              },
+                              controller: nameask,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              maxLines: 2,
+                              maxLength: 40,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Escribir pregunta",
+                                  hintStyle: TextStyle(fontSize: 15)),
+                            ),
+                            TextFormField(
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "campo requerido";
+                                }
+                              },
+                              controller: addaskgame,
+                              textAlign: TextAlign.center,
+                              cursorColor: Colors.black,
+                              maxLines: 2,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Añadir respuesta",
+                                  helperText: "Añade una respuesta a la pregunta",
+                                  hintStyle: TextStyle(fontSize: 15)),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      MaterialButton(
+                    onPressed: () {
+                      var name = nameask.text;
+                      var respuesta=addaskgame.text;
+                      upGame(widget.cod,respuesta,name);
+                    },
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text("Añadir"),
+                          Icon(Icons.add_outlined),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(10)),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.arrow_back),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

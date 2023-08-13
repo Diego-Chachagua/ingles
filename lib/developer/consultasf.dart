@@ -251,3 +251,17 @@ Future<dynamic> upSound(var cod_a,var sound, var ask) async {
   return enviar.body;
 }
 
+
+//añadir juegito
+Future<dynamic> upGame(var cod_a,var request, var ask) async {
+  print(cod_a);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_game.php'),
+    body: <String, dynamic>{
+      "cod":cod_a,
+      "request":request,
+      "ask":ask,
+    },
+  );
+  return enviar.body;
+}
