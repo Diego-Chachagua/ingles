@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/save_Exam.dart';
 import 'package:ingles/screens/save_act.dart';
 import 'package:ingles/screens/use_url.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -595,7 +596,7 @@ class _CreateActState extends State<CreateAct> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SaveAct(
+                                    builder: (context) => SaveExam(
                                           nombre_act: nameE,
                                           cod_act: widget.cod,
                                           cod_p: widget.cod_p,
@@ -631,25 +632,61 @@ class _CreateActState extends State<CreateAct> {
               FloatingActionButton(
                 heroTag: 'tag1',
                 onPressed: () async {
-                  setState(() {
+                  if(i==20){
+                     final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            showCloseIcon: true,
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content:
+                                Text("No se puede agregar mas de 20 preguntas"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }else{
+                    setState(() {
                     _nameask(context);
                   });
+                  }
+                  
                 },
                 child: Icon(Icons.add_comment_outlined),
               ),
               FloatingActionButton(
                 heroTag: 'tag2',
                 onPressed: () {
-                  _elegirImg(context);
+                   if(i==20){
+                     final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            showCloseIcon: true,
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content:
+                                Text("No se puede agregar mas de 20 preguntas"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }else{
+                    _elegirImg(context);
+                  }
+                  
                 },
                 child: Icon(Icons.add_photo_alternate_outlined),
               ),
               FloatingActionButton(
                 heroTag: 'tag3',
                 onPressed: () {
-                  setState(() {
+                   if(i==20){
+                     final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            showCloseIcon: true,
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content:
+                                Text("No se puede agregar mas de 20 preguntas"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }else{
+                    setState(() {
                     _elegirSound(context);
                   });
+                  }
+                  
                 },
                 child: Icon(Icons.mic),
               ),

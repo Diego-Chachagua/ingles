@@ -420,3 +420,22 @@ Future<dynamic> editAskE(var pregunta, var cod) async {
   );
   return enviar.body;
 }
+
+Future<dynamic> insertcodesE(var grado, var seccion,var anio, var tiempo,var cod) async {
+  print(grado);
+  print(seccion);
+  var date = anio+" "+tiempo;
+  print(date);
+  print(cod);
+
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_dates_Exam.php'),
+    body: <String, dynamic>{
+      "grado": grado,
+      "secc": seccion,
+      "date": date,
+      "cod": cod,
+    },
+  );
+  return enviar.body;
+}
