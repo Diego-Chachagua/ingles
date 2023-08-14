@@ -17,24 +17,24 @@ import 'elec_op_p.dart';
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: CreateAct(
+    home: VerExam(
       cod: '',
       cod_p: '',
     ),
   ));
 }
 
-class CreateAct extends StatefulWidget {
+class VerExam extends StatefulWidget {
   String cod;
   String cod_p;
 
-  CreateAct({required this.cod, required this.cod_p});
+  VerExam({required this.cod, required this.cod_p});
 
   @override
-  State<CreateAct> createState() => _CreateActState();
+  State<VerExam> createState() => _VerExamState();
 }
 
-class _CreateActState extends State<CreateAct> {
+class _VerExamState extends State<VerExam> {
  String nameE = "";
 //variables de audio
   var audios = AudioPlayer();

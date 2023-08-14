@@ -3,46 +3,38 @@
 
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/show_act.dart';
+import 'package:ingles/screens/show_exams.dart';
 
 import 'package:ingles/screens/tareas.dart';
 import 'package:ingles/screens/tareasM.dart';
-import 'package:ingles/screens/ver_T_E.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
 import 'createExam.dart';
 
-
 void main() {
-  runApp( MaterialApp(
+  runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: ProfeOp(cod_p: '',),
+    home: ShowElec(
+      cod_p: '',
+    ),
   ));
 }
 
-class ProfeOp extends StatefulWidget {
-String cod_p;
-   ProfeOp({super.key, required this.cod_p});
-
-  
+class ShowElec extends StatefulWidget {
+  String cod_p;
+  ShowElec({super.key, required this.cod_p});
 
   @override
-  State<ProfeOp> createState() => _ProfeOpEState();
+  State<ShowElec> createState() => _ShowElecState();
 }
 
-class _ProfeOpEState extends State<ProfeOp> {
- 
-var reslt;
-var cod;
-var cod2;
-var result1;
-
-
+class _ShowElecState extends State<ShowElec> {
   @override
   Widget build(BuildContext context) {
-    var cod_profe=widget.cod_p;
-    
+    var cod_profe = widget.cod_p;
+
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -74,12 +66,12 @@ var result1;
             body: SingleChildScrollView(
                 child: Center(
               //inicio de definicion de opciones a mostrar al usuario
-
-              child: Column(children: [
-                const SizedBox(
-                  height: 90,
-                ),
+              child: Column(
                 
+                children: [
+                const SizedBox(
+                  height: 250,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -87,34 +79,20 @@ var result1;
                     Column(
                       children: [
                         MaterialButton(
-                          onPressed: () async{
-                             var name = "NAME OF ACTIVITY/TASK";
-                            try{
-                               reslt = await addTask(name,widget.cod_p);
-                            if (reslt != "noExisten") {
-                              for (var i = 0; i < reslt.length; i++) {
-                                var dato = reslt[i];
-                                var codigo=dato["cod_act"];
-                                setState(() {
-                                   cod=codigo;
-                                   print(cod);
-                                });
-                              }
-                            }
-                            }catch(e){
-                              _smsError(context);
-                            }  
+                          onPressed: () async {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>  TareasP(cod: cod,cod_p: widget.cod_p, ),
-
-                            )   
+                              MaterialPageRoute(
+                                  builder: (context) => VerAct(
+                                        cod: cod_profe,
+                                      )),
                             );
                           },
                           child: const SizedBox(
                               height: 150,
                               width: 145,
-                              child: Image(image: AssetImage('assets/tareas.png'))),
+                              child: Image(
+                                  image: AssetImage('assets/tareas.png'))),
                         ),
                         GradientText(
                           'Tareas',
@@ -133,41 +111,21 @@ var result1;
                       ],
                     ),
                     //fin de espacio de contenedor para hacer tareas
-                     //contenedor para la opcion de examenes
+                    //contenedor para la opcion de examenes
                     Column(
                       children: [
                         MaterialButton(
-                          onPressed: () async{
-                             var name = "NAME OF EXAM";
-                            try{
-                               result1 = await addExam(name,widget.cod_p);
-                            if (result1 != "noExisten") {
-                              for (var i = 0; i < result1.length; i++) {
-                                var dato = result1[i];
-                                var codigo=dato["cod_pr"];
-                                setState(() {
-                                   cod2=codigo;
-                                   
-                                });
-                              }
-                            }
-                            }catch(e){
-                              _smsError(context);
-                            }  
-
-                             Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateExam(
-                                     cod_p: widget.cod_p,
-                                     cod: cod2,
-                                  )),
-                             );
+                          onPressed: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => VerExams(cod: cod_profe,) ),
+                            ); 
                           },
                           child: const SizedBox(
                               height: 150,
                               width: 145,
-                              child: Image(image: AssetImage('assets/examen.png'))),
+                              child: Image(
+                                  image: AssetImage('assets/examen.png'))),
                         ),
                         GradientText(
                           'Examenes',
@@ -185,43 +143,13 @@ var result1;
                         ),
                       ],
                     ),
-                    //fin de espacio de contenedor para ver examenes 
+                    //fin de espacio de contenedor para ver examenes
                   ],
                 ),
-                const SizedBox(height: 40,),
-                 //contenedor para la opcion de tareas   
-                    Column(
-                      children: [
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ShowElec(cod_p: cod_profe,) ),
-                            ); 
-                            
-                          },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
-                              child: Image(image: AssetImage('assets/historial_medico.png'))),
-                        ),
-                        GradientText(
-                          '          Ver mis \nactividades/tareas',
-                          style: const TextStyle(
-                            fontSize: 30.0,
-                          ),
-                          gradientType: GradientType.linear,
-                          gradientDirection: GradientDirection.ttb,
-                          radius: 3.5,
-                          colors: const [
-                            Color.fromARGB(255, 170, 63, 233),
-                            Color.fromARGB(255, 66, 91, 233),
-                            Color.fromARGB(255, 60, 135, 221),
-                          ],
-                        ),
-                      ],
-                    ),
-                
+                const SizedBox(
+                  height: 40,
+                ),
+                //contenedor para la opcion de tareas
               ]),
             ))));
   }

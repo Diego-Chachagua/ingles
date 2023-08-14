@@ -439,3 +439,61 @@ Future<dynamic> insertcodesE(var grado, var seccion,var anio, var tiempo,var cod
   );
   return enviar.body;
 }
+
+Future<dynamic> showExam(var cod) async {
+  print(cod);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_name_E.php'),
+    body: <String, dynamic>{
+      "cod": cod,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}
+Future<dynamic> showExamgrade(var cod,var grade) async {
+  print(cod);
+  print(grade);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_examgrade.php'),
+    body: <String, dynamic>{
+      "cod": cod,
+      "grade":grade,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}
+
+Future<dynamic> showExamsection(var cod,var section) async {
+  print(cod);
+  print(section);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_examsection.php'),
+    body: <String, dynamic>{
+      "cod": cod,
+      "section":section,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}
+Future<dynamic> showExamsSG(var cod,var section,var grade) async {
+  print(cod);
+  print(section);
+  print(grade);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_examSG.php'),
+    body: <String, dynamic>{
+      "cod": cod,
+      "section":section,
+      "grade":grade,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}
