@@ -69,10 +69,6 @@ Future<dynamic> editAsk(var pregunta, var cod) async {
   );
   return enviar.body;
 }
-
-//actualizar imagen
-
-
 //crear nueva actividad
 Future<dynamic> addTask(var name,var cod_p) async {
   print(name);
@@ -273,6 +269,153 @@ Future<dynamic> editRespuesta(var cod_a,var cod_p, var request) async {
       "cod_a":cod_a,
       "request":request,
       "cod_p":cod_p,
+    },
+  );
+  return enviar.body;
+}
+
+
+
+
+//inicio de consultas para la pantalla examenes
+
+Future<dynamic> addExam(var name,var cod_p) async {
+  print(name);
+  print(cod_p);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_Exam.php'),
+    body: <String, dynamic>{
+      "name": name,
+      "cod_p":cod_p,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}
+
+Future<dynamic> mostrarExam(var cod) async {
+  print(cod);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_exam.php'),
+    body: <String, dynamic>{
+      "cod": cod,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+
+
+  return resultado;
+}
+
+Future<dynamic> editnameE(var nombre, var cod) async {
+  print(nombre);
+  print(cod);
+
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/change_name_E.php'),
+    body: <String, dynamic>{
+      "name": nombre,
+      "cod": cod,
+    },
+  );
+  return enviar.body;
+}
+
+Future<dynamic> deleteAskE(var cod,cod_a) async {
+  
+  print(cod);
+  print(cod_a);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/delete_askE.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "cod_a":cod_a,
+    },
+  );
+  return enviar.body;
+}
+
+Future<dynamic> agregarAskExam(var pregunta, var cod) async {
+  print(pregunta);
+  print(cod);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_ask_E.php'),
+    body: <String, dynamic>{
+      "ask": pregunta,
+      "cod": cod,
+    },
+  );
+}
+
+Future<void> agregarImgEx(var pregunta, File? imagen, var cod) async {
+  print(pregunta);
+  print(cod);
+  if (imagen == null) {
+    print("No image selected");
+    return;
+  }
+  List<int> imageBytes = await imagen.readAsBytes();
+  String base64Image = base64Encode(imageBytes);
+
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_askImg_E.php'),
+    body: <String, String>{
+      "ask": pregunta,
+      "img": base64Image,
+      "cod": cod,
+    },
+  );
+
+  // Handle the response here if needed
+}
+
+Future<void> addImgEx(var cod_p, File? imagen, var cod) async {
+  print(cod_p);
+  print(cod);
+  if (imagen == null) {
+    print("No image selected");
+    return;
+  }
+  List<int> imageBytes = await imagen.readAsBytes();
+  String base64Image = base64Encode(imageBytes);
+
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_img_E.php'),
+    body: <String, String>{
+      "cod_p": cod_p,
+      "img": base64Image,
+      "cod": cod,
+    },
+  );
+}
+
+Future<dynamic> upSound_E(var cod_a,var sound, var ask) async {
+  print(cod_a);
+  if(sound==null){
+    print("no se imprime adui");
+  }
+  print(sound);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_sound_E.php'),
+    body: <String, dynamic>{
+      "cod":cod_a,
+      "sound":sound,
+      "ask":ask,
+    },
+  );
+  return enviar.body;
+}
+
+Future<dynamic> editAskE(var pregunta, var cod) async {
+  print(pregunta);
+  print(cod);
+
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/edit_ask_E.php'),
+    body: <String, dynamic>{
+      "ask": pregunta,
+      "cod": cod,
     },
   );
   return enviar.body;

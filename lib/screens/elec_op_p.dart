@@ -10,6 +10,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
+import 'createAct.dart';
 
 
 void main() {
@@ -33,6 +34,8 @@ class _ProfeOpEState extends State<ProfeOp> {
  
 var reslt;
 var cod;
+var cod2;
+var result1;
 
 
   @override
@@ -98,7 +101,7 @@ var cod;
                               }
                             }
                             }catch(e){
-                              _msError(context);
+                              _smsError(context);
                             }  
                             Navigator.push(
                               context,
@@ -133,8 +136,32 @@ var cod;
                     Column(
                       children: [
                         MaterialButton(
-                          onPressed: () {
+                          onPressed: () async{
+                             var name = "NAME OF EXAM";
+                            try{
+                               result1 = await addExam(name,widget.cod_p);
+                            if (result1 != "noExisten") {
+                              for (var i = 0; i < result1.length; i++) {
+                                var dato = result1[i];
+                                var codigo=dato["cod_pr"];
+                                setState(() {
+                                   cod2=codigo;
+                                   
+                                });
+                              }
+                            }
+                            }catch(e){
+                              _smsError(context);
+                            }  
 
+                             Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateAct(
+                                     cod_p: widget.cod_p,
+                                     cod: cod2,
+                                  )),
+                             );
                           },
                           child: const SizedBox(
                               height: 150,
@@ -198,7 +225,7 @@ var cod;
             ))));
   }
 
-  void _msError(BuildContext parentContext) async {
+  void _smsError(BuildContext parentContext) async {
     showDialog(
         barrierDismissible: false,
         context: context,
