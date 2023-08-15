@@ -147,6 +147,7 @@ class _VerEstuActState extends State<VerEstuAct> {
                                         nie: nie[i],
                                         anio: widget.anio,
                                         seccion: widget.seccion,
+                                        cod_profe: widget.cod_p,
                                       )),
                             );
                           }

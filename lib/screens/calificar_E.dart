@@ -10,7 +10,8 @@ void main() {
     home: CalificarE(nie: '',
     anio: '',
     seccion: '',
-    nombres: '',),
+    nombres: '',
+    cod_profe: '',),
   ));
 }
 
@@ -19,7 +20,8 @@ class CalificarE extends StatefulWidget {
   final String nie;
   String anio;
   String seccion;
-   CalificarE({super.key, required this.nie,required this.anio,required this.seccion, required this.nombres});
+  String cod_profe;
+   CalificarE({super.key, required this.nie,required this.anio,required this.seccion, required this.nombres, required this.cod_profe});
 
   @override
   State<CalificarE> createState() => _CalificarEState();
@@ -73,7 +75,7 @@ class _CalificarEState extends State<CalificarE> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => VerEstuAct(
-                                          cod_p: widget.nie,
+                                          cod_p: widget.cod_profe,
                                           anio: widget.anio,
                                           seccion: widget.seccion,
                                         )),

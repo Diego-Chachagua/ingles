@@ -742,7 +742,6 @@ class _VerExamState extends State<VerExam> {
                               if (nameact.currentState!.validate()) {
                                 Navigator.pop(context);
                                 var nombre = nameac.text;
-
                                editnameE(nombre, widget.cod);
                                 obtenerpreguntas();
                               }
