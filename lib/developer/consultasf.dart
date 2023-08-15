@@ -497,3 +497,32 @@ Future<dynamic> showExamsSG(var cod,var section,var grade) async {
   print(resultado);
   return resultado;
 }
+
+
+//consultas para la calificacion de actividades
+
+
+Future<dynamic> shownieAlum(var anio, var seccion) async {
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_alum_act.php'),
+    body: <String, dynamic>{
+      "anio": anio,
+      "seccion":seccion,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}
+
+Future<dynamic> showactAlum(var nie) async {
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/show_activitys_A.php'),
+    body: <String, dynamic>{
+      "nie": nie,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}

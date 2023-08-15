@@ -2,8 +2,8 @@
 // ignore_for_file: unused_import, prefer_typing_uninitialized_variables, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/select_A_S.dart';
 import 'package:ingles/screens/show_act.dart';
-
 import 'package:ingles/screens/tareas.dart';
 import 'package:ingles/screens/tareasM.dart';
 import 'package:ingles/screens/ver_T_E.dart';
@@ -190,37 +190,78 @@ var result1;
                 ),
                 const SizedBox(height: 40,),
                  //contenedor para la opcion de tareas   
-                    Column(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        MaterialButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ShowElec(cod_p: cod_profe,) ),
-                            ); 
-                            
-                          },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
-                              child: Image(image: AssetImage('assets/historial_medico.png'))),
+                        Column(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ShowElec(cod_p: cod_profe,) ),
+                                ); 
+                                
+                              },
+                              child: const SizedBox(
+                                  height: 150,
+                                  width: 145,
+                                  child: Image(image: AssetImage('assets/historial_medico.png'))),
+                            ),
+                            GradientText(
+                              '       Ver mis \n    actividades',
+                              style: const TextStyle(
+                                fontSize: 30.0,
+                              ),
+                              gradientType: GradientType.linear,
+                              gradientDirection: GradientDirection.ttb,
+                              radius: 3.5,
+                              colors: const [
+                                Color.fromARGB(255, 170, 63, 233),
+                                Color.fromARGB(255, 66, 91, 233),
+                                Color.fromARGB(255, 60, 135, 221),
+                              ],
+                            ),
+                          ],
                         ),
-                        GradientText(
-                          '          Ver mis \nactividades/tareas',
-                          style: const TextStyle(
-                            fontSize: 30.0,
-                          ),
-                          gradientType: GradientType.linear,
-                          gradientDirection: GradientDirection.ttb,
-                          radius: 3.5,
-                          colors: const [
-                            Color.fromARGB(255, 170, 63, 233),
-                            Color.fromARGB(255, 66, 91, 233),
-                            Color.fromARGB(255, 60, 135, 221),
+
+                        Column(
+                          children: [
+                            MaterialButton(
+                              onPressed: () {
+                                Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => SelectAS(cod_p: cod_profe) ),
+                            ); 
+                                
+                              },
+                              child: const SizedBox(
+                                  height: 150,
+                                  width: 145,
+                                  child: Image(image: AssetImage('assets/calificar1.png'))),
+                            ),
+                            GradientText(
+                              'Calificar',
+                              style: const TextStyle(
+                                fontSize: 30.0,
+                              ),
+                              gradientType: GradientType.linear,
+                              gradientDirection: GradientDirection.ttb,
+                              radius: 3.5,
+                              colors: const [
+                                Color.fromARGB(255, 170, 63, 233),
+                                Color.fromARGB(255, 66, 91, 233),
+                                Color.fromARGB(255, 60, 135, 221),
+                              ],
+                            ),
                           ],
                         ),
                       ],
                     ),
+
+                    
+
+                    
                 
               ]),
             ))));
