@@ -1,6 +1,7 @@
 // ignore: file_names
 
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/show_requestE.dart';
 import 'package:ingles/screens/verEstuAct.dart';
 import '../developer/consultasf.dart';
 
@@ -31,6 +32,7 @@ class _CalificarEState extends State<CalificarE> {
   var resultado;
   List nombre_act = [];
   List cod_act = [];
+  List fecha=[];
   var n1 = 0;
 
   @override
@@ -54,8 +56,15 @@ class _CalificarEState extends State<CalificarE> {
           var dato = resultado[i];
           var codigo = dato["cod_act"];
           var nombre = dato["nombre_act"];
+          var date=dato["fecha"];
           cod_act.add(codigo);
           nombre_act.add(nombre);
+          if(date!=""){
+             fecha.add(date);
+          }else{
+            fecha.add("no posee fecha");
+          }
+         
         }
       }
     });
@@ -110,7 +119,23 @@ class _CalificarEState extends State<CalificarE> {
                     children: [
                       MaterialButton(
                         onPressed: () {
-                          
+                          if(nombre_act[i]=="No hay ninguna actividad todavia"){
+
+                          }else{
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ShowRequestEstu(
+                                      cod_profe: widget.cod_profe,
+                                      cod_act: cod_act[i],
+                                      nombre_act: nombre_act[i],
+                                      nie: widget.nie,
+                                      anio: widget.anio,
+                                      seccion: widget.seccion,
+                                      nombres: widget.nombres,
+                                        )),
+                              );
+                          }
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
@@ -131,7 +156,20 @@ class _CalificarEState extends State<CalificarE> {
                                 left: 30,
                                 top: 20,
                                 child: Text(nombre_act[i],
-                                    style: TextStyle(fontSize: 15)),
+                                    style: TextStyle(fontSize: 15,fontStyle: FontStyle.italic)),
+                              ),
+                              Positioned(
+                                left: 240,
+                                top: 10,
+                                child: Column(
+                                  children: [
+                                    Text("Fecha y hora de creación:",
+                                    style: TextStyle(fontSize: 10,fontStyle: FontStyle.italic)
+                                        ),
+                                        Text("${fecha[i]}",
+                                    style: TextStyle(fontSize: 10,fontStyle: FontStyle.italic)),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
