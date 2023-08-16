@@ -160,7 +160,7 @@ class _CalificarEState extends State<CalificarE> {
                               ),
                               Positioned(
                                 left: 240,
-                                top: 10,
+                                top: 15,
                                 child: Column(
                                   children: [
                                     Text("Fecha y hora de creación:",

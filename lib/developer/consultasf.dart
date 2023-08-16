@@ -527,19 +527,7 @@ Future<dynamic> showactAlum(var nie) async {
   return resultado;
 }
 
-Future<dynamic> showrequestalum(var nie, var cod_act) async {
-  //obtener las respuestas
-  http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_requestAlum.php'),
-    body: <String, dynamic>{
-      "nie": nie,
-      "cod_act":cod_act,
-    },
-  );
-  var resultado = jsonDecode(enviar.body);
-  print(resultado);
-  return resultado;
-}
+
 
 Future<dynamic> showAskAlum(var cod_act) async {
   //mostrar las preguntas
