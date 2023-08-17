@@ -1,254 +1,182 @@
+// ignore: unused_import
 import 'package:flutter/material.dart';
 
-class Unidades extends StatelessWidget {
-  const Unidades({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Unidad(),
-    );
-  }
+void temas() {
+  runApp( MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: 'Navigation Basics',
+    home: Temas(),
+  ));
 }
 
-class Unidad extends StatefulWidget {
-  const Unidad({super.key});
+class Temas extends StatefulWidget {
+   @override
+  _temasState createState() => _temasState();
 
-  @override
-  State<Unidad> createState() => _UnidadState();
 }
 
-class _UnidadState extends State<Unidad> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
+class _temasState extends State<Temas> {
+   int currentStep = 0;
+   @override
+Widget build (BuildContext context) {
+  return Container(
+    decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/fondoa.jpg'), fit: BoxFit.cover),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
-          children: <Widget>[cuerpo()],
-        ),
-      ),
-    );
-  }
-
-  Widget cuerpo() {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          espa(),
-          titulo(),
-          titulo1(),
-          espacio(),
-          boton1y2(),
-          espacio(),
-          boton3y4(),
-          espacio(),
-          boton5y6(),
-          espacio(),
-          boton7y8(),
-        ],
-      ),
-    );
-  }
-
-  Widget espa() {
-    return SizedBox(height: 10);
-  }
-
-  Widget titulo() {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(0),
-        child: const Text(
-          'Seleccione',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 174, 70, 215),
+            image: AssetImage('assets/color1.jpg'), fit: BoxFit.cover),
+            ),
+    
+    child: Scaffold(
+  body: Stepper(
+    
+    currentStep: currentStep,
+    onStepContinue: () {
+      if (currentStep >= 3) return;
+      setState((){
+        currentStep++;
+        });
+    },
+    onStepCancel: (){
+      if (currentStep <= 0) return;
+      setState(() {
+        currentStep--;
+     
+   });
+    },
+    steps:  [
+     Step(title: Text("Unit 1"), 
+      content: SizedBox(
+        width: 130,
+        height: 300,
+        child: Container(
+           alignment: Alignment.centerLeft,
+          child: Column(
+           
+            children: [
+              Text('1-Classroom language'),
+              Text('2-Greetings'),
+              Text('3-The Alphabet'),
+              Text('4-Numbers from 0'),
+              Text('to 20 and phone numbers'),
+        Text('5-Reading email addresses '),
+        Text('6-Basic personal information'),
+        Text('7-Project: Basic introductions ')
+            ],
           ),
         ),
+        
+      )),
+      Step(title: Text("Unit 2"), 
+      content: SizedBox(
+        width: 130,
+        height: 300,
+        child: Container(
+           alignment: Alignment.centerLeft,
+          child: Column(
+           
+            children: [
+              Text('1-Classroom supplies'),
+              Text('2-Singular and plural nouns(fixed manner)'),
+              Text('3-Colors'),
+              Text('4-Verb be (It is / They are)'),
+              Text('5-Numbers from 21 to 100'),
+        Text('6-Basic math operations'),
+        Text('7-Basic personal information'),
+        Text('8-Project: Basic introductions ')
+            ]
+          )
+        )
       ),
-    );
-  }
-
-  Widget titulo1() {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(0),
-        child: const Text(
-          'la unidad',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 174, 70, 215),
-          ),
-        ),
       ),
-    );
-  }
+      Step(title: Text("Unit 3"), 
+      content: SizedBox(
+        width: 130,
+        height: 300,
+        child: Container(
+           alignment: Alignment.centerLeft,
+          child: Column(
+           
+            children: [
+              Text('1-Family members'),
+              Text('2-Family Tree'),
+              Text('3-Verb be and subject pronouns'),
+              Text('4-Extended family members'),
+              Text('5-Other family members'),
+        Text('6-Possessive adjectives '),
+            ]
+          )
+        )
+      )
+      ),
+       Step(title: Text("Unit 4"), 
+      content: SizedBox(
+        width: 130,
+        height: 320,
+        child: Container(
+           alignment: Alignment.centerLeft,
+          child: Column(
+           
+            children: [
+              Text('1-Rooms of a house'),
+              Text('2-Furniture and appliances'),
+              Text('3-Regular plural nouns'),
+              Text('4-Describing rooms in a house: There is/are'),
+              Text('5-There is/are + number + noun'),
+        Text('6-Common prepositions and prepositional phrases of place'),
+        Text('7-Questions with is there/are there'),
+        Text('8-Questions with How many _____ are there?')
+            ]
+          )
+        )
+      )
+      ),
+       Step(title: Text("Unit 5"), 
+      content: SizedBox(
+        width: 130,
+        height: 400,
+        child: Container(
+           alignment: Alignment.centerLeft,
+          child: Column(
+           
+            children: [
+              Text('1-Project: Describing my house'),
+              Text('2-Fortifying my skills: Units 3-4'),
+              Text('3-Daily activities'),
+              Text('4-Days of the week'),
+              Text('5-Simple present tense: affirmative sentences with I, you, we,they'),
+        Text('6-Simple present tense: negative sentences and questions with I, you, we, they'),
+        Text('7-Numbers from 1-100'),
+        Text('8-Telling the time'),
+        Text('9-Frequency time expressions'),
+          Text('10-Connectors of sequence'),
+          Text('11-Project: Describing my day')
+            ]
+          )
+        )
+      )
+      ),
+      Step(title: Text("Unit 6"), 
+      content: SizedBox(
+        width: 130,
+        height: 400,
+        child: Container(
+           alignment: Alignment.centerLeft,
+          child: Column(
+           
+            children: [
+              Text('1-Preferences: food, fruit, music genres'),
+              Text('2-Preferences: pets, hobbies.'),
+              Text('3-Simple present tense (likes/dislikes)'),
+              Text('4-Asking for preferences'),
+              Text('5-Project: All about me'),
+        Text('6-Fortifying my skills: Units 5-6'),
+        Text('7-Achievement fair'),
+            ]
+          )
+        )
+      )
+      )
+    ])));
 
-  Widget espacio() {
-    return const SizedBox(height: 16);
-  }
-
-  Widget boton1y2() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(
-                  8.0), // Margen alrededor del botón completo
-              child: IconButton(
-                iconSize: 98,
-                icon: Image.asset('assets/unidad1.png'),
-                onPressed: () {
-                  // Lógica cuando se presiona el primer botón
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(width: 16),
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(
-                  8.0), // Margen alrededor del botón completo
-              child: IconButton(
-                iconSize: 98,
-                icon: Image.asset('assets/unidad2.png'),
-                onPressed: () {
-                  // Lógica cuando se presiona el segundo botón
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget boton3y4() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(
-                  8.0), // Margen alrededor del botón completo
-              child: IconButton(
-                iconSize: 98,
-                icon: Image.asset('assets/unidad3.png'),
-                onPressed: () {
-                  // Lógica cuando se presiona el primer botón
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(width: 16),
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(
-                  8.0), // Margen alrededor del botón completo
-              child: IconButton(
-                iconSize: 98,
-                icon: Image.asset('assets/unidad4.png'),
-                onPressed: () {
-                  // Lógica cuando se presiona el segundo botón
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget boton5y6() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(
-                  8.0), // Margen alrededor del botón completo
-              child: IconButton(
-                iconSize: 98,
-                icon: Image.asset('assets/unidad5.png'),
-                onPressed: () {
-                  // Lógica cuando se presiona el primer botón
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(width: 16),
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(
-                  8.0), // Margen alrededor del botón completo
-              child: IconButton(
-                iconSize: 98,
-                icon: Image.asset('assets/unidad6.png'),
-                onPressed: () {
-                  // Lógica cuando se presiona el segundo botón
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget boton7y8() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(
-                  8.0), // Margen alrededor del botón completo
-              child: IconButton(
-                iconSize: 98,
-                icon: Image.asset('assets/unidad7.png'),
-                onPressed: () {
-                  // Lógica cuando se presiona el primer botón
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(width: 16),
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(
-                  8.0), // Margen alrededor del botón completo
-              child: IconButton(
-                iconSize: 98,
-                icon: Image.asset('assets/unidad8.png'),
-                onPressed: () {
-                  // Lógica cuando se presiona el segundo botón
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+  
+}
 }

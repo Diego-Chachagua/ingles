@@ -703,7 +703,7 @@ class _CreateExamState extends State<CreateExam> {
           return AlertDialog(
             shadowColor: Color.fromARGB(255, 170, 63, 233),
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("Cambia el nombre de la actividad"),
+            title: const Text("Cambia el nombre de el examen"),
             actions: [
               Column(
                 children: [

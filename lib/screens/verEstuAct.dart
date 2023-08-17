@@ -92,7 +92,7 @@ class _VerEstuActState extends State<VerEstuAct> {
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/fondof.jpg'), fit: BoxFit.cover),
+              image: AssetImage('assets/fondop.jpg'), fit: BoxFit.cover),
         ),
         child: Scaffold(
             appBar: AppBar(

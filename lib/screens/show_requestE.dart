@@ -1,5 +1,8 @@
 // ignore: file_names
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/verEstuAct.dart';
@@ -22,6 +25,7 @@ void main() {
 }
 
 class ShowRequestEstu extends StatefulWidget {
+  
   String nombres;
   final String nie;
   String anio;
@@ -44,6 +48,7 @@ class ShowRequestEstu extends StatefulWidget {
 }
 
 class _ShowRequestEstuState extends State<ShowRequestEstu> {
+
   var audios = AudioPlayer();
   var n1 = 0;
 
@@ -54,10 +59,12 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
         await Future.delayed(Duration(seconds: 120));
       }
     } catch (e) {
-      print("Error [002] $e");
+      _msError(context);
     }
   }
 
+//variables para alto de cajas segun contenido de tablas
+  var heightpregunta = 100.00;
   var resultado;
   var resultado2;
   List respuesta = [];
@@ -69,6 +76,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
   List respuesta_Game = [];
   List notas = [];
 
+
   var i = 0;
 
   @override
@@ -79,6 +87,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
 
   Future<void> getActivitys() async {
     //resultado = await showactAlum(widget.nie);
+    print(widget.cod_act);
     resultado2 = await showAskAlum(widget.cod_act);
     setState(() {
       if (resultado != "noExisten") {
@@ -93,24 +102,30 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
           var audios_pre = dato2["audio"];
           var imagenes_pre = dato2["imagen"];
           var respuestas_G = dato2["respuesta_G"];
-          var respuestas=dato2["respuestas"];
-        var audios=dato2["audio"];
-        var imagenes=dato2["imagen"];
-        var nota=dato2["notas"];
-        if(nota!=null){
-          notas.add(nota);
-        }else{
-          notas.add("0");
-        }
+          var respuestas = dato2["respuestas"];
+          var audios = dato2["audio"];
+          var imagenes = dato2["imagen"];
+          var nota = dato2["notas"];
+          if (nota != null) {
+            notas.add(nota);
+          } else {
+            notas.add("0");
+          }
           //espacio para preguntas
           respuesta_Game.add(respuestas_G);
           pregunta.add(preguntas);
           audio_p.add(audios_pre);
-          imagen_p.add(imagenes_pre);
-        respuesta.add(respuestas);
-        audio.add(audios);
-        imagen.add(imagenes);
-        
+          if(imagenes_pre!=null){
+            Uint8List bytes = base64.decode(imagenes_pre);
+          imagen_p.add(bytes);
+          }else{
+            imagen_p.add("");
+          }
+           
+          respuesta.add(respuestas);
+          audio.add(audios);
+          imagen.add(imagenes);
+          
         }
       }
     });
@@ -121,7 +136,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/fondof.jpg'), fit: BoxFit.cover),
+              image: AssetImage('assets/fondop.jpg'), fit: BoxFit.cover),
         ),
         child: Scaffold(
             appBar: AppBar(
@@ -130,7 +145,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>  CalificarE(
+                        builder: (context) => CalificarE(
                               cod_profe: widget.cod_profe,
                               anio: widget.anio,
                               seccion: widget.seccion,
@@ -169,26 +184,27 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
               const SizedBox(
                 height: 20,
               ),
-
               for (i = 0; i < pregunta.length; i++)
                 Column(
                   children: [
-                    imagen_p[i] == null &&
+                    imagen_p[i] == "" &&
                             audio_p[i] == null &&
                             respuesta_Game[i] == null
-                        ? Row(
-                          
+                        ? 
+                        //definicion de subrespuestas segun si imagen y audio estan vacios mostrar 
+                        
+                        Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                            
                               MaterialButton(
-                                onPressed: ()  {
- 
-                                },
+                                padding: EdgeInsets.all(10),
+                                onPressed: () {},
                                 child: Container(
                                   width: 350,
-                                  height: 80,
+
                                   decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 167, 137, 194),
+                                      color: Color.fromARGB(255, 199, 157, 236),
                                       border: Border.all(width: 2),
                                       borderRadius: BorderRadius.circular(10)),
                                   padding: const EdgeInsets.symmetric(
@@ -201,36 +217,45 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            "${i}  -  ${pregunta[i]}",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color.fromARGB(
-                                                    255, 238, 234, 234)),
+                                          Container(
+                                            width: 255,
+                                            child: TextField(
+                                              maxLines: 3,
+                                              decoration:
+                                                  InputDecoration.collapsed(
+                                                      hintText:
+                                                          "${i} - ${pregunta[i]}"),
+                                            ),
                                           ),
-                                          Text("${notas[i]}/10")
-                                          
+                                          Text("${notas[i]}/10"),
                                         ],
                                       ),
-                                      Text(
-                                          "${respuesta[i]}"),
+                                      respuesta[i] == null &&  imagen[i] == null &&  audio[i] == null
+                                          ? Text("Respuesta vacia")
+                                          :
+                                               Text(
+                                                  "Respuesta:${respuesta[i]}")
+                                              
                                     ],
                                   ),
                                 ),
-                              ),
-                            ],
+                                //si audio es nulo
+                              )
+                            
+                       
+                            ]
                           )
-                        : imagen_p[i] == null &&
+                        : imagen_p[i] == "" &&
                                 audio_p[i] == null &&
                                 respuesta_Game[i] != null
                             ? Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   MaterialButton(
+                                     padding: EdgeInsets.all(10),
                                     onPressed: () {},
                                     child: Container(
                                       width: 350,
-                                      height: 80,
                                       decoration: BoxDecoration(
                                           color: Color.fromARGB(
                                               255, 167, 137, 194),
@@ -247,30 +272,44 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                "${i}  -  ${pregunta[i]}",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color.fromARGB(
-                                                        255, 238, 234, 234)),
-                                              ),
-                                              
+                                               Container(
+                                            width: 255,
+                                            child: TextField(
+                                              maxLines: 3,
+                                              decoration:
+                                                  InputDecoration.collapsed(
+                                                      hintText:
+                                                          "${i} - ${pregunta[i]}"),
+                                            ),
+                                          ),
                                             ],
                                           ),
                                           Text(
-                                            "Respuesta: " + respuesta_Game[i],
+                                            "Respuesta de la pregunta:  " + respuesta_Game[i],
                                             style: TextStyle(
                                               fontStyle: FontStyle.italic,
                                             ),
-                                          )
+                                          ),
+                                          Padding(padding: EdgeInsets.all(5)),
+                                          respuesta[i]==null?
+                                            Text("Respuesta de el estudiante:  Vacia")
+                                          :
+                                          Text(
+                                            "Respuesta de el estudiante:  " + respuesta[i],
+                                            style: TextStyle(
+                                              fontStyle: FontStyle.italic,
+                                            ),
+                                          ),
+                                          Padding(padding: EdgeInsets.all(5)),
                                         ],
                                       ),
                                     ),
                                   ),
                                 ],
                               )
-                            : audio_p[i] == null && imagen_p[i] != null
+                            : audio_p[i] == null && imagen_p[i] != ""
                                 ? MaterialButton(
+                                   padding: EdgeInsets.all(10),
                                     onPressed: () {},
                                     child: Row(
                                       mainAxisAlignment:
@@ -278,7 +317,6 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                       children: [
                                         Container(
                                           width: 350,
-                                          height: 300,
                                           decoration: BoxDecoration(
                                               color: Color.fromARGB(
                                                   255, 167, 137, 194),
@@ -299,26 +337,25 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                    "${i}  -  ${pregunta[i]}",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Color.fromARGB(
-                                                            255,
-                                                            238,
-                                                            234,
-                                                            234)),
-                                                  ),
-                                                  
+                                                   Container(
+                                            width: 300,
+                                            child: TextField(
+                                              maxLines: 3,
+                                              decoration:
+                                                  InputDecoration.collapsed(
+                                                      hintText:
+                                                          "${i} - ${pregunta[i]}"),
+                                            ),
+                                          ),
                                                 ],
                                               ),
                                               const SizedBox(
-                                                height: 20,
+                                                height: 10,
                                               ),
-                                              if (i < imagen_p.length)
+                                              
                                                 Container(
                                                   width: 340,
-                                                  height: 220,
+                                                  height: 400,
                                                   padding: const EdgeInsets
                                                           .symmetric(
                                                       horizontal: 20,
@@ -334,27 +371,31 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                             imagen_p[i]),
                                                         fit: BoxFit.cover),
                                                   ),
-                                                )
-                                              else
-                                                Container(
-                                                  width: 300,
-                                                  height: 200,
-                                                  child: Center(
-                                                      child: Text(
-                                                          "No se puede mostrar la imagen\nOcurrio un error\nCodigo de error[001]")),
                                                 ),
+                                                Padding(padding: EdgeInsets.all(5)),
+                                          respuesta[i]==null?
+                                            Text("Respuesta:  Vacia")
+                                          :
+                                          Text(
+                                            "Respuesta:  " + respuesta[i],
+                                            style: TextStyle(
+                                              fontStyle: FontStyle.italic,
+                                            ),
+                                          ),
+                                          Padding(padding: EdgeInsets.all(5))
+                                            
+                                               
                                             ],
                                           ),
                                         ),
                                       ],
                                     ),
                                   )
-                                : audio_p[i] != null && imagen_p[i] == null
+                                : audio_p[i] != null && imagen_p[i] == ""
                                     ? MaterialButton(
                                         onPressed: () {},
                                         child: Container(
                                             width: 350,
-                                            height: 120,
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 20, vertical: 5),
                                             decoration: BoxDecoration(
@@ -372,17 +413,16 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Text(
-                                                      "${i}  -  ${pregunta[i]}",
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              238,
-                                                              234,
-                                                              234)),
-                                                    ),
-                                                    
+                                                     Container(
+                                            width: 255,
+                                            child: TextField(
+                                              maxLines: 3,
+                                              decoration:
+                                                  InputDecoration.collapsed(
+                                                      hintText:
+                                                          "${i} - ${pregunta[i]}"),
+                                            ),
+                                          ),
                                                   ],
                                                 ),
                                                 Padding(
@@ -474,13 +514,68 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                     ),
                                                   ],
                                                 ),
+                                                Padding(padding: EdgeInsets.all(5)),
+                                          respuesta[i]==null?
+                                            Text("Respuesta de el estudiante:  Vacia")
+                                          :
+                                          Text(
+                                            "Respuesta de el estudiante:  " + respuesta[i],
+                                            style: TextStyle(
+                                              fontStyle: FontStyle.italic,
+                                            ),
+                                          ),
+                                          Padding(padding: EdgeInsets.all(5)),
                                               ],
                                             )),
                                       )
                                     : Padding(padding: EdgeInsets.all(10)),
                     //espacio para definición de contenedor para mostrar historial
                   ],
-                )
+                ),
+                Padding(padding: EdgeInsets.all(20))
             ]))));
+  }
+
+  void _msError(BuildContext parentContext) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("ERROR[002]"),
+            content: Container(
+              height: 160,
+              child: Column(
+                children: [
+                  Text(
+                      "-No se puede reproducir el audio debido a un error en la URL\n-Verifique que la URL ingresada sea valida\n-Elimine el audio y vuelva a intentarlo",
+                      style: TextStyle(fontStyle: FontStyle.italic)),
+                  Padding(padding: EdgeInsets.all(10)),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.arrow_back),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

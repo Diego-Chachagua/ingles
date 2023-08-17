@@ -429,7 +429,6 @@ class _TareasPEState extends State<TareasP> {
                                             children: [
                                               Container(
                                                 width: 350,
-                                                height: 300,
                                                 decoration: BoxDecoration(
                                                     color: Color.fromARGB(
                                                         255, 167, 137, 194),
@@ -475,7 +474,7 @@ class _TareasPEState extends State<TareasP> {
                                                     if (i < images.length)
                                                       Container(
                                                         width: 340,
-                                                        height: 220,
+                                                        height: 400,
                                                         padding:
                                                             const EdgeInsets
                                                                     .symmetric(
@@ -835,8 +834,9 @@ class _TareasPEState extends State<TareasP> {
                                 var nombre = nameac.text;
 
                                 editname(nombre, widget.cod);
-                                obtenerpreguntas();
+                                
                               }
+                              obtenerpreguntas();
                             });
                           },
                           child: const Text(

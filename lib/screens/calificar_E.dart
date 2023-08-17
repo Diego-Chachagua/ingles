@@ -41,6 +41,7 @@ class _CalificarEState extends State<CalificarE> {
     getActivitys();
   }
   Future<void> getActivitys() async {
+    print(widget.nie);
       resultado = await showactAlum(widget.nie);
     setState(() {
       n1 = 0;
@@ -75,7 +76,7 @@ class _CalificarEState extends State<CalificarE> {
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/fondof.jpg'), fit: BoxFit.cover),
+              image: AssetImage('assets/fondop.jpg'), fit: BoxFit.cover),
         ),
         child: Scaffold(
             appBar: AppBar(
