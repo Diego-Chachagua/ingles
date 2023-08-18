@@ -48,6 +48,9 @@ class ShowRequestEstu extends StatefulWidget {
 }
 
 class _ShowRequestEstuState extends State<ShowRequestEstu> {
+    GlobalKey<FormState> formdeleteask = GlobalKey<FormState>();
+    final deleteask = TextEditingController();
+    final nota= TextEditingController();
 
   var audios = AudioPlayer();
   var n1 = 0;
@@ -75,6 +78,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
   List audio_p = [];
   List respuesta_Game = [];
   List notas = [];
+  List cod_res=[];
 
 
   var i = 0;
@@ -88,13 +92,22 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
   Future<void> getActivitys() async {
     //resultado = await showactAlum(widget.nie);
     print(widget.cod_act);
-    resultado2 = await showAskAlum(widget.cod_act);
+    resultado2 = await showAskAlum(widget.cod_act,widget.nie);
     setState(() {
       if (resultado != "noExisten") {
         var n = resultado2.length;
         if (n == null) {
           n = 1;
         }
+        pregunta.clear();
+        respuesta.clear();
+        imagen_p.clear();
+        imagen.clear();
+        audio.clear();
+        audio_p.clear();
+        respuesta_Game.clear();
+        notas.clear();
+        cod_res.clear();
         for (var i = 0; i < n; i++) {
           var dato2 = resultado2[i];
           //espacio para preguntas
@@ -106,6 +119,14 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
           var audios = dato2["audio"];
           var imagenes = dato2["imagen"];
           var nota = dato2["notas"];
+          var codigo=dato2["cod_r"];
+          if(codigo!=null){
+            cod_res.add(codigo);
+            print(cod_res);
+
+          }else{
+            cod_res.add("0");
+          }
           if (nota != null) {
             notas.add(nota);
           } else {
@@ -199,7 +220,9 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                             
                               MaterialButton(
                                 padding: EdgeInsets.all(10),
-                                onPressed: () {},
+                                onPressed: () {
+                                   _addNote(context);
+                                },
                                 child: Container(
                                   width: 350,
 
@@ -220,6 +243,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                           Container(
                                             width: 255,
                                             child: TextField(
+                                              enabled: false,
                                               maxLines: 3,
                                               decoration:
                                                   InputDecoration.collapsed(
@@ -231,10 +255,29 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                         ],
                                       ),
                                       respuesta[i] == null &&  imagen[i] == null &&  audio[i] == null
-                                          ? Text("Respuesta vacia")
+                                          ? Container(
+                                            width: 255,
+                                            child: TextField(
+                                          enabled: false,
+                                          maxLines: 4,
+                                          decoration:
+                                              InputDecoration.collapsed(
+                                                  hintText:
+                                                     "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
+                                            ),
+                                          )
                                           :
-                                               Text(
-                                                  "Respuesta:${respuesta[i]}")
+                                          Container(
+                                            width: 255,
+                                            child: TextField(
+                                          enabled: false,
+                                          maxLines: 4,
+                                          decoration:
+                                              InputDecoration.collapsed(
+                                                  hintText:
+                                                     "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
+                                            ),
+                                          ),
                                               
                                     ],
                                   ),
@@ -253,12 +296,13 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                 children: [
                                   MaterialButton(
                                      padding: EdgeInsets.all(10),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                       _addNote(context);
+                                    },
                                     child: Container(
                                       width: 350,
                                       decoration: BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 167, 137, 194),
+                                           color: Color.fromARGB(255, 199, 157, 236),
                                           border: Border.all(width: 2),
                                           borderRadius:
                                               BorderRadius.circular(10)),
@@ -275,6 +319,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                Container(
                                             width: 255,
                                             child: TextField(
+                                              enabled: false,
                                               maxLines: 3,
                                               decoration:
                                                   InputDecoration.collapsed(
@@ -282,6 +327,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                           "${i} - ${pregunta[i]}"),
                                             ),
                                           ),
+                                          Text("${notas[i]}/10"),
                                             ],
                                           ),
                                           Text(
@@ -290,14 +336,29 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                               fontStyle: FontStyle.italic,
                                             ),
                                           ),
-                                          Padding(padding: EdgeInsets.all(5)),
+                                          Padding(padding: EdgeInsets.all(10)),
                                           respuesta[i]==null?
-                                            Text("Respuesta de el estudiante:  Vacia")
+                                            Container(
+                                            width: 255,
+                                            child: TextField(
+                                          enabled: false,
+                                          maxLines: 4,
+                                          decoration:
+                                              InputDecoration.collapsed(
+                                                  hintText:
+                                                     "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
+                                            ),
+                                            )
                                           :
-                                          Text(
-                                            "Respuesta de el estudiante:  " + respuesta[i],
-                                            style: TextStyle(
-                                              fontStyle: FontStyle.italic,
+                                           Container(
+                                            width: 255,
+                                            child: TextField(
+                                          enabled: false,
+                                          maxLines: 4,
+                                          decoration:
+                                              InputDecoration.collapsed(
+                                                  hintText:
+                                                     "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
                                             ),
                                           ),
                                           Padding(padding: EdgeInsets.all(5)),
@@ -310,7 +371,9 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                             : audio_p[i] == null && imagen_p[i] != ""
                                 ? MaterialButton(
                                    padding: EdgeInsets.all(10),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                       _addNote(context);
+                                    },
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -318,8 +381,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                         Container(
                                           width: 350,
                                           decoration: BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 167, 137, 194),
+                                               color: Color.fromARGB(255, 199, 157, 236),
                                               border: Border.all(width: 2),
                                               borderRadius:
                                                   BorderRadius.circular(10)),
@@ -338,8 +400,9 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                    Container(
-                                            width: 300,
+                                            width: 279,
                                             child: TextField(
+                                              enabled: false,
                                               maxLines: 3,
                                               decoration:
                                                   InputDecoration.collapsed(
@@ -347,6 +410,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                           "${i} - ${pregunta[i]}"),
                                             ),
                                           ),
+                                          Text("${notas[i]}/10"),
                                                 ],
                                               ),
                                               const SizedBox(
@@ -374,12 +438,27 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                 ),
                                                 Padding(padding: EdgeInsets.all(5)),
                                           respuesta[i]==null?
-                                            Text("Respuesta:  Vacia")
+                                            Container(
+                                            width: 255,
+                                            child: TextField(
+                                          enabled: false,
+                                          maxLines: 4,
+                                          decoration:
+                                              InputDecoration.collapsed(
+                                                  hintText:
+                                                     "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
+                                            ),
+                                            )
                                           :
-                                          Text(
-                                            "Respuesta:  " + respuesta[i],
-                                            style: TextStyle(
-                                              fontStyle: FontStyle.italic,
+                                           Container(
+                                            width: 255,
+                                            child: TextField(
+                                          enabled: false,
+                                          maxLines: 4,
+                                          decoration:
+                                              InputDecoration.collapsed(
+                                                  hintText:
+                                                     "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
                                             ),
                                           ),
                                           Padding(padding: EdgeInsets.all(5))
@@ -393,14 +472,15 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                   )
                                 : audio_p[i] != null && imagen_p[i] == ""
                                     ? MaterialButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                           _addNote(context);
+                                        },
                                         child: Container(
                                             width: 350,
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 20, vertical: 5),
                                             decoration: BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    255, 167, 137, 194),
+                                                  color: Color.fromARGB(255, 199, 157, 236),
                                                 border: Border.all(width: 2),
                                                 borderRadius:
                                                     BorderRadius.circular(10)),
@@ -416,6 +496,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                      Container(
                                             width: 255,
                                             child: TextField(
+                                              enabled: false,
                                               maxLines: 3,
                                               decoration:
                                                   InputDecoration.collapsed(
@@ -423,6 +504,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                           "${i} - ${pregunta[i]}"),
                                             ),
                                           ),
+                                          Text("${notas[i]}/10"),
                                                   ],
                                                 ),
                                                 Padding(
@@ -514,14 +596,29 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                     ),
                                                   ],
                                                 ),
-                                                Padding(padding: EdgeInsets.all(5)),
+                                                Padding(padding: EdgeInsets.all(10)),
                                           respuesta[i]==null?
-                                            Text("Respuesta de el estudiante:  Vacia")
+                                            Container(
+                                            width: 255,
+                                            child: TextField(
+                                          enabled: false,
+                                          maxLines: 4,
+                                          decoration:
+                                              InputDecoration.collapsed(
+                                                  hintText:
+                                                     "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
+                                            ),
+                                            )
                                           :
-                                          Text(
-                                            "Respuesta de el estudiante:  " + respuesta[i],
-                                            style: TextStyle(
-                                              fontStyle: FontStyle.italic,
+                                           Container(
+                                            width: 255,
+                                            child: TextField(
+                                          enabled: false,
+                                          maxLines: 4,
+                                          decoration:
+                                              InputDecoration.collapsed(
+                                                  hintText:
+                                                     "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
                                             ),
                                           ),
                                           Padding(padding: EdgeInsets.all(5)),
@@ -552,6 +649,164 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                   Text(
                       "-No se puede reproducir el audio debido a un error en la URL\n-Verifique que la URL ingresada sea valida\n-Elimine el audio y vuelva a intentarlo",
                       style: TextStyle(fontStyle: FontStyle.italic)),
+                  Padding(padding: EdgeInsets.all(10)),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.arrow_back),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+   void _addNote(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Califica la respuesta"),
+            content: Container(
+              height: 155,
+              child: Form(
+                  key: formdeleteask,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return "Campo requerido";
+                          }
+                        },
+                        controller: deleteask,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Codigo Respuesta",
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        validator: (String? value) {
+                          int valor=int.parse(value!);
+                          if (value.isEmpty) {
+                            return "Campo requerido";
+                          }else if(valor > 10){
+                            return "Ingrese un número menor/igual 10";
+                          }else if(valor<0){
+                            return "Ingrese un número mayor/igual a 0";
+                          }
+                        },
+                        controller: nota,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Calificacion 0-10",
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                 MaterialButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 70,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1),
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                "NO",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Icon(Icons.arrow_back)
+                            ],
+                          ),
+                        ),
+                      )),
+                  MaterialButton(
+                      onPressed: () {
+                        if (formdeleteask.currentState!.validate()) {
+                          var codigo = deleteask.text;
+                          var notas=nota.text;
+                           addNotas(notas,codigo,widget.cod_act,widget.nie);
+                           Navigator.pop(context);
+                            getActivitys();
+                       
+                        }
+                       
+                       
+                      },
+                      child: Container(
+                         width: 70,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1),
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text("SI", style: TextStyle(color: Colors.white)),
+                          Icon(Icons.navigate_next_outlined)
+                        ],
+                      ))),
+                ],
+              )
+            ],
+          );
+        });
+  }
+
+  void _messaje(BuildContext parentContext) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Sugerencia"),
+            content: Container(
+              height: 172,
+              child: Column(
+                children: [
+                  Text(
+                      "Si en dado caso no se previsualiza un cambio en la pantalla,"),
+                  Text(
+                      "podria ser necesario el recargar la pantalla para poder visualizar los cambios realizados anteriormente"),
                   Padding(padding: EdgeInsets.all(10)),
                   MaterialButton(
                     onPressed: () {

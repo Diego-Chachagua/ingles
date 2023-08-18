@@ -101,23 +101,9 @@ class _VerActEState extends State<VerAct> {
                 child: Column(
                   children: [
                     GradientText(
-                      'EXAM SCORES',
+                      'Historial de Actividades\nCreadas',
                       style: const TextStyle(
                         fontSize: 30.0,
-                      ),
-                      gradientType: GradientType.linear,
-                      gradientDirection: GradientDirection.ttb,
-                      radius: 3.5,
-                      colors: const [
-                        Color.fromARGB(255, 170, 63, 233),
-                        Color.fromARGB(255, 66, 91, 233),
-                        Color.fromARGB(255, 60, 135, 221),
-                      ],
-                    ),
-                    GradientText(
-                      '(calificaciones del examen)',
-                      style: const TextStyle(
-                        fontSize: 20.0,
                       ),
                       gradientType: GradientType.linear,
                       gradientDirection: GradientDirection.ttb,

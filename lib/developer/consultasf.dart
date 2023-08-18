@@ -529,15 +529,44 @@ Future<dynamic> showactAlum(var nie) async {
 
 
 
-Future<dynamic> showAskAlum(var cod_act) async {
+Future<dynamic> showAskAlum(var cod_act, var nie) async {
   //mostrar las preguntas
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_preguntasR_alum.php'),
     body: <String, dynamic>{
       "cod_act": cod_act,
+      "nie":nie,
     },
   );
   var resultado = jsonDecode(enviar.body);
   print(resultado);
   return resultado;
+}
+
+
+//borrar examen
+Future<dynamic> deleteExam(var cod_a,var cod_p) async {
+  print(cod_a);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/DeleteExam.php'),
+    body: <String, dynamic>{
+      "cod":cod_a,
+      "cod_a":cod_p,
+    },
+  );
+  return enviar.body;
+}
+
+Future<dynamic> addNotas(var nota, var cod_r, var cod_a , var nie) async {
+  print(cod_a);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_nota_Res.php'),
+    body: <String, dynamic>{
+      "cod_a":cod_a,
+      "nota":nota,
+      "nie":nie,
+      "cod_r":cod_r,
+    },
+  );
+  return enviar.body;
 }
