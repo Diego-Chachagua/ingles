@@ -230,7 +230,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                    _addNote(context);
                                 },
                                 child: Container(
-                                  width: 350,
+                                  width: 330,
                                   decoration: BoxDecoration(
                                       color: Color.fromARGB(255, 199, 157, 236),
                                       border: Border.all(width: 2),
