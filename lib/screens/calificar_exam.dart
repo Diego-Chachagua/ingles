@@ -2,13 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/show_requestE.dart';
+import 'package:ingles/screens/showrequestExam.dart';
 import 'package:ingles/screens/verEstuAct.dart';
 import '../developer/consultasf.dart';
 
 void main() {
   runApp( MaterialApp(
     title: 'Navigation Basics',
-    home: CalificarE(nie: '',
+    home: CalificarExam(nie: '',
     anio: '',
     seccion: '',
     nombres: '',
@@ -17,20 +18,20 @@ void main() {
   ));
 }
 
-class CalificarE extends StatefulWidget {
+class CalificarExam extends StatefulWidget {
   String nombres;
   final String nie;
   String anio;
   String seccion;
   String cod_profe;
   String elec;
-   CalificarE({super.key, required this.nie,required this.anio,required this.seccion, required this.nombres, required this.cod_profe, required this.elec});
+   CalificarExam({super.key, required this.nie,required this.anio,required this.seccion, required this.nombres, required this.cod_profe, required this.elec});
 
   @override
-  State<CalificarE> createState() => _CalificarEState();
+  State<CalificarExam> createState() => _CalificarExamState();
 }
 
-class _CalificarEState extends State<CalificarE> {
+class _CalificarExamState extends State<CalificarExam> {
   var resultado;
   List nombre_act = [];
   List cod_act = [];
@@ -44,7 +45,7 @@ class _CalificarEState extends State<CalificarE> {
   }
   Future<void> getActivitys() async {
     print(widget.nie);
-      resultado = await showactAlum(widget.nie);
+      resultado = await showExamAlum(widget.nie);
     setState(() {
       n1 = 0;
       cod_act.clear();
@@ -57,15 +58,15 @@ class _CalificarEState extends State<CalificarE> {
 
         for (var i = 0; i < n; i++) {
           var dato = resultado[i];
-          var codigo = dato["cod_act"];
-          var nombre = dato["nombre_act"];
+          var codigo = dato["cod_pr"];
+          var nombre = dato["nombre_pr"];
           var date=dato["fecha"];
           cod_act.add(codigo);
           nombre_act.add(nombre);
-          if(date!=""){
+          if(date!=null){
              fecha.add(date);
           }else{
-            fecha.add("no posee fecha");
+            fecha.add("0000/00/00-00:00");
           }
          
         }
@@ -102,7 +103,7 @@ class _CalificarEState extends State<CalificarE> {
             body: SingleChildScrollView(
                 child: Column(
               children: [
-                Text("Se muestran actividades de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),),
+                Text("Se muestran Examenes de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),),
                 const SizedBox(
                   height: 30,
                 ),
@@ -129,7 +130,7 @@ class _CalificarEState extends State<CalificarE> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ShowRequestEstu(
+                                    builder: (context) =>  ShowRequestExam(
                                       cod_profe: widget.cod_profe,
                                       cod_act: cod_act[i],
                                       nombre_act: nombre_act[i],

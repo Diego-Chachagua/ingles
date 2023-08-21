@@ -8,11 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:ingles/screens/verEstuAct.dart';
 import '../developer/consultasf.dart';
 import 'calificar_E.dart';
+import 'calificar_exam.dart';
 
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: ShowRequestEstu(
+    home:  ShowRequestExam(
       nie: '',
       anio: '',
       seccion: '',
@@ -25,7 +26,7 @@ void main() {
   ));
 }
 
-class ShowRequestEstu extends StatefulWidget {
+class ShowRequestExam extends StatefulWidget {
   
   String nombres;
   final String nie;
@@ -35,7 +36,7 @@ class ShowRequestEstu extends StatefulWidget {
   String nombre_act;
   String cod_act;
   String elec;
-  ShowRequestEstu(
+   ShowRequestExam(
       {super.key,
       required this.nie,
       required this.anio,
@@ -47,10 +48,10 @@ class ShowRequestEstu extends StatefulWidget {
       required this.elec});
 
   @override
-  State<ShowRequestEstu> createState() => _ShowRequestEstuState();
+  State<ShowRequestExam> createState() => _ShowRequestExamState();
 }
 
-class _ShowRequestEstuState extends State<ShowRequestEstu> {
+class _ShowRequestExamState extends State<ShowRequestExam> {
     GlobalKey<FormState> formdeleteask = GlobalKey<FormState>();
     final deleteask = TextEditingController();
     final nota= TextEditingController();
@@ -95,7 +96,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
   Future<void> getActivitys() async {
     //resultado = await showactAlum(widget.nie);
     print(widget.cod_act);
-    resultado2 = await showAskAlum(widget.cod_act,widget.nie);
+    resultado2 = await showAskExamAlum(widget.cod_act,widget.nie);
     setState(() {
       if (resultado != "noExisten") {
         var n = resultado2.length;
@@ -171,7 +172,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CalificarE(
+                        builder: (context) => CalificarExam(
                               cod_profe: widget.cod_profe,
                               anio: widget.anio,
                               seccion: widget.seccion,
@@ -194,7 +195,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                 height: 70,
                 child: Center(
                   child: Text(
-                    'Se muestra la actividad: "${widget.nombre_act}"\nde el estudiante: "${widget.nombres}"',
+                    'Se muestra El examen: "${widget.nombre_act}"\nde el estudiante: "${widget.nombres}"',
                     style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
                   ),
                 ),
