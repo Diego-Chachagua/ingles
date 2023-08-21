@@ -137,6 +137,7 @@ class _VerEstuActState extends State<VerEstuAct> {
                 ),
                 //espacio para definición de contenedor para mostrar historial
                 for (var i = 0; i < nie.length; i++)
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -175,7 +176,7 @@ class _VerEstuActState extends State<VerEstuAct> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          width: 350,
+                          width: 320,
                           height: 60,
                           decoration: BoxDecoration(
                             borderRadius:

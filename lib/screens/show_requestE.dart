@@ -195,7 +195,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                 child: Center(
                   child: Text(
                     'Se muestra la actividad: "${widget.nombre_act}"\nde el estudiante: "${widget.nombres}"',
-                    style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+                    style: TextStyle(fontSize: 17, fontStyle: FontStyle.italic),
                   ),
                 ),
               ),
@@ -230,7 +230,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                    _addNote(context);
                                 },
                                 child: Container(
-                                  width: 330,
+                                  width: 320,
                                   decoration: BoxDecoration(
                                       color: Color.fromARGB(255, 199, 157, 236),
                                       border: Border.all(width: 2),
@@ -246,7 +246,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
-                                            width: 255,
+                                            width: 220,
                                             child: TextField(
                                               enabled: false,
                                               maxLines: 3,
@@ -259,35 +259,37 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                           Text("${notas[i]}/10"),
                                         ],
                                       ),
-                                      Container(width: 290,height: 2,color: Colors.black,),
+                                      Container(width: 280,height: 2,color: Colors.black,),
                                       Padding(padding: EdgeInsets.all(5)),
                                       //inicio de evaluacion de respuesta
                                       respuesta[i] == null &&  imagen[i] == null &&  audio[i] == null
                                           ? Container(
-                                            width: 255,
+                                            width: 260,
                                             child: TextField(
                                           enabled: false,
                                           maxLines: 4,
                                           decoration:
-                                              InputDecoration.collapsed(
+                                              InputDecoration(
+                                                border: OutlineInputBorder(),
                                                   hintText:
                                                      "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
                                             ),
                                           )
                                           : imagen[i] == null  && audio[i]==null?
                                           Container(
-                                            width: 255,
+                                            width: 260,
                                             child: TextField(
                                           enabled: false,
                                           maxLines: 4,
                                           decoration:
-                                              InputDecoration.collapsed(
+                                              InputDecoration(
+                                                border: OutlineInputBorder(),
                                                   hintText:
                                                      "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
                                             ),
                                           ): audio[i]==null && respuesta[i]==null?       
                                                       Container(
-                                                        width: 340,
+                                                        width: 350,
                                                         height: 400,
                                                         padding:
                                                             const EdgeInsets
@@ -407,9 +409,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                   ),
                                 ),
                                 //si audio es nulo
-                              )
-                            
-                       
+                              )    
                             ]
                           )
                           //juego
@@ -425,7 +425,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                        _addNote(context);
                                     },
                                     child: Container(
-                                      width: 350,
+                                      width: 320,
                                       decoration: BoxDecoration(
                                            color: Color.fromARGB(255, 199, 157, 236),
                                           border: Border.all(width: 2),
@@ -442,7 +442,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                                Container(
-                                            width: 255,
+                                            width: 240,
                                             child: TextField(
                                               enabled: false,
                                               maxLines: 3,
@@ -466,24 +466,26 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                       Padding(padding: EdgeInsets.all(5)),
                                           respuesta[i]==null?
                                             Container(
-                                            width: 255,
+                                            width: 260,
                                             child: TextField(
                                           enabled: false,
                                           maxLines: 4,
                                           decoration:
-                                              InputDecoration.collapsed(
+                                              InputDecoration(
+                                                border: OutlineInputBorder(),
                                                   hintText:
                                                      "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
                                             ),
                                             )
                                           :
                                            Container(
-                                            width: 255,
+                                            width: 250,
                                             child: TextField(
                                           enabled: false,
                                           maxLines: 4,
                                           decoration:
-                                              InputDecoration.collapsed(
+                                              InputDecoration(
+                                                border: OutlineInputBorder(),
                                                   hintText:
                                                      "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
                                             ),
@@ -507,7 +509,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Container(
-                                          width: 350,
+                                          width: 320,
                                           decoration: BoxDecoration(
                                                color: Color.fromARGB(255, 199, 157, 236),
                                               border: Border.all(width: 2),
@@ -528,7 +530,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                    Container(
-                                            width: 279,
+                                            width: 245,
                                             child: TextField(
                                               enabled: false,
                                               maxLines: 3,
@@ -569,24 +571,26 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                       Padding(padding: EdgeInsets.all(5)),
                                          respuesta[i] == null &&  imagen[i] == null &&  audio[i] == null
                                           ? Container(
-                                            width: 255,
+                                            width: 260,
                                             child: TextField(
                                           enabled: false,
                                           maxLines: 4,
                                           decoration:
-                                              InputDecoration.collapsed(
+                                              InputDecoration(
+                                                border: OutlineInputBorder(),
                                                   hintText:
                                                      "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
                                             ),
                                           )
                                           : imagen[i] == null  && audio[i]==null?
                                           Container(
-                                            width: 255,
+                                            width: 260,
                                             child: TextField(
                                           enabled: false,
                                           maxLines: 4,
                                           decoration:
-                                              InputDecoration.collapsed(
+                                              InputDecoration(
+                                                border: OutlineInputBorder(),
                                                   hintText:
                                                      "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
                                             ),
@@ -721,7 +725,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                            _addNote(context);
                                         },
                                         child: Container(
-                                            width: 350,
+                                            width: 320,
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 20, vertical: 5),
                                             decoration: BoxDecoration(
@@ -739,7 +743,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                                           .spaceBetween,
                                                   children: [
                                                      Container(
-                                            width: 255,
+                                            width: 240,
                                             child: TextField(
                                               enabled: false,
                                               maxLines: 3,
@@ -846,24 +850,26 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                                       Padding(padding: EdgeInsets.all(5)),
                                          respuesta[i] == null &&  imagen[i] == null &&  audio[i] == null
                                           ? Container(
-                                            width: 255,
+                                            width: 260,
                                             child: TextField(
                                           enabled: false,
                                           maxLines: 4,
                                           decoration:
-                                              InputDecoration.collapsed(
+                                              InputDecoration(
+                                                border: OutlineInputBorder(),
                                                   hintText:
                                                      "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
                                             ),
                                           )
                                           : imagen[i] == null  && audio[i]==null?
                                           Container(
-                                            width: 255,
+                                            width: 260,
                                             child: TextField(
                                           enabled: false,
                                           maxLines: 4,
                                           decoration:
-                                              InputDecoration.collapsed(
+                                              InputDecoration(
+                                                border: OutlineInputBorder(),
                                                   hintText:
                                                      "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
                                             ),

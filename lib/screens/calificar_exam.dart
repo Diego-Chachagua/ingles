@@ -103,7 +103,7 @@ class _CalificarExamState extends State<CalificarExam> {
             body: SingleChildScrollView(
                 child: Column(
               children: [
-                Text("Se muestran Examenes de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),),
+                Text("Se muestran Examenes de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: 17,fontStyle: FontStyle.italic),),
                 const SizedBox(
                   height: 30,
                 ),
@@ -145,7 +145,7 @@ class _CalificarExamState extends State<CalificarExam> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          width: 350,
+                          width: 320,
                           height: 60,
                           decoration: BoxDecoration(
                             borderRadius:
@@ -169,11 +169,11 @@ class _CalificarExamState extends State<CalificarExam> {
                                 top: 15,
                                 child: Column(
                                   children: [
-                                    Text("Fecha y hora de creación:",
-                                    style: TextStyle(fontSize: 10,fontStyle: FontStyle.italic)
+                                    Text("creación:",
+                                    style: TextStyle(fontSize: 8,fontStyle: FontStyle.italic)
                                         ),
                                         Text("${fecha[i]}",
-                                    style: TextStyle(fontSize: 10,fontStyle: FontStyle.italic)),
+                                    style: TextStyle(fontSize: 8,fontStyle: FontStyle.italic)),
                                   ],
                                 ),
                               ),

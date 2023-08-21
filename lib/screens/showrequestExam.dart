@@ -231,7 +231,7 @@ class _ShowRequestExamState extends State<ShowRequestExam> {
                                    _addNote(context);
                                 },
                                 child: Container(
-                                  width: 350,
+                                  width: 320,
                                   decoration: BoxDecoration(
                                       color: Color.fromARGB(255, 199, 157, 236),
                                       border: Border.all(width: 2),
@@ -247,7 +247,7 @@ class _ShowRequestExamState extends State<ShowRequestExam> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
-                                            width: 255,
+                                            width: 245,
                                             child: TextField(
                                               enabled: false,
                                               maxLines: 3,
