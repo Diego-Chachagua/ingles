@@ -19,6 +19,7 @@ Future<dynamic> guardarprofesor(var nombre ,String apellido) async{
     body: <String, dynamic>{
       "nombre": nombre,
       "apellido": apellido,
-    },
+    },    
     );
+    print(enviar.body);
 }

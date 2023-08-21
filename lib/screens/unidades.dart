@@ -26,11 +26,12 @@ Widget build (BuildContext context) {
             ),
     
     child: Scaffold(
+      backgroundColor: Colors.transparent,
   body: Stepper(
     
     currentStep: currentStep,
     onStepContinue: () {
-      if (currentStep >= 3) return;
+      if (currentStep >= 5) return;
       setState((){
         currentStep++;
         });
