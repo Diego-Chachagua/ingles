@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ingles/screens/select_A_S.dart';
 import '../developer/consultasf.dart';
 import 'calificar_E.dart';
+import 'calificar_exam.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -12,6 +13,7 @@ void main() {
       anio: '',
       seccion: '',
       cod_p: '',
+      select: '',
     ),
   ));
 }
@@ -20,11 +22,13 @@ class VerEstuAct extends StatefulWidget {
   String anio;
   String seccion;
   String cod_p;
+  String select;
   VerEstuAct(
       {super.key,
       required this.anio,
       required this.seccion,
-      required this.cod_p});
+      required this.cod_p,
+      required this.select});
   @override
   State<VerEstuAct> createState() => _VerEstuActState();
 }
@@ -139,7 +143,8 @@ class _VerEstuActState extends State<VerEstuAct> {
                       MaterialButton(
                         onPressed: () async {
                           if (nie[i] != "0") {
-                            Navigator.push(
+                            if(widget.select=="CT"){
+                              Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CalificarE(
@@ -148,8 +153,24 @@ class _VerEstuActState extends State<VerEstuAct> {
                                         anio: widget.anio,
                                         seccion: widget.seccion,
                                         cod_profe: widget.cod_p,
+                                        elec: widget.select,
                                       )),
                             );
+                            }else{
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CalificarExam(
+                                        nombres: nombres[i] +" "+ apellidos[i],
+                                        nie: nie[i],
+                                        anio: widget.anio,
+                                        seccion: widget.seccion,
+                                        cod_profe: widget.cod_p,
+                                        elec: widget.select,
+                                      )),
+                            );
+                            }
+                            
                           }
                         },
                         child: Container(

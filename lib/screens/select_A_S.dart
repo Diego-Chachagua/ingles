@@ -221,6 +221,7 @@ class _SelectASState extends State<SelectAS> {
                                   .showSnackBar(snackBar);
                             } else {
                               if(seleccionada3=="Calificar Tareas"){
+                                var eleccion="CT";
                                  Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -228,10 +229,23 @@ class _SelectASState extends State<SelectAS> {
                                           cod_p: cod_profe,
                                           anio: seleccionada,
                                           seccion: a,
+                                          select: eleccion,
                                         )),
                               );
                               }else{
                                 if(seleccionada3=="Calificar Examenes"){
+                                  var eleccion="CE";
+                                   Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => VerEstuAct(
+                                          cod_p: cod_profe,
+                                          anio: seleccionada,
+                                          seccion: a,
+                                          select: eleccion,
+                                        )),
+                              );
+
 
                                 }
                               }

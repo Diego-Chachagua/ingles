@@ -1666,7 +1666,6 @@ class _VerTareaEState extends State<VerTarea> {
                               ],
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                     child: Container(

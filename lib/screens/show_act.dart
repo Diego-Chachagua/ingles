@@ -255,18 +255,43 @@ class _VerActEState extends State<VerAct> {
                         ),
                       ),
                       MaterialButton(
-                        onPressed: () {
+                        onPressed: () async{
                           n1++;
                           if (n1 == 1) {
-                            final snackBar = SnackBar(
-                                content: Text("Pulse 2 veces para borrar"));
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-
-                            deleteTask(cod_act[i], widget.cod);
+                            var result= await comprobarAct(cod_act[i]);
+                              var dato=result;
+                              if(dato=="true"){
+                                  final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            showCloseIcon: true,
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("!Esta actividad contiene preguntas¡\nPresiona 2 veces mas para borrarla de todos modos"),
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              }else{
+                                final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            showCloseIcon: true,
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Presiona 2 Veces mas para borrar la actividad"),
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              }
+                            
                           }
                           if (n1 == 2) {
-                            getActivitys(seleccionada, seleccionada2, a);
+                            deleteTask(cod_act[i], widget.cod); 
+                          }
+                          if(n1==3){
+                             getActivitys(seleccionada, seleccionada2, a);
                           }
                         },
                         child: Container(
