@@ -10,14 +10,19 @@ import 'dart:collection';
 
 import 'dart:io';
 
-Future<List<String>> fetchAllTextsFromDatabase() async {
-  final response = await http
-      .get(Uri.parse('https://incasingles.000webhostapp.com/examenes.php'));
-  if (response.statusCode == 200) {
-    final List<dynamic> responseData = json.decode(response.body);
-    final List<String> texts = List<String>.from(responseData);
-    texts.shuffle(); // Mezclar los textos aleatoriamente
-    return texts;
+Future<List<String>> fetchAllTextsFromDatabase(var codd) async {
+  http.Response pre = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/examenes.php'),
+    body: <String, List>{
+      "codd": codd,
+    },
+  );
+  if (pre.statusCode == 200) {
+    print(pre);
+    var resultado = jsonDecode(pre.body);
+    final List<String> responseData = json.decode(pre.body);
+    responseData.shuffle(); // Mezclar los textos aleatoriamente
+    return responseData;
   } else {
     throw Exception('Failed to load texts from database');
   }

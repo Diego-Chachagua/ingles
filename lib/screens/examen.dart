@@ -8,22 +8,32 @@ void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Navigation Basics',
-    home: Examene(),
+    home: Examene(
+      codp: '',
+    ),
   ));
 }
 
 class Examene extends StatelessWidget {
-  const Examene({super.key});
+  final String codp;
+  const Examene({
+    super.key,
+    required this.codp,
+  });
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: examen(),
+      home: examen(codp: '',),
     );
   }
 }
 
 class examen extends StatefulWidget {
+  final String codp;
+
+  const examen({super.key, required this.codp});
+
   @override
   _examenState createState() => _examenState();
 }
@@ -31,29 +41,42 @@ class examen extends StatefulWidget {
 class _examenState extends State<examen> {
   bool expanded1 = false;
   String textValue1 = '';
+  String codd = "";
   int numberOfAccordions =
       20; // Cambia esto según la cantidad de acordeones que tengas
 
   final ImagePicker _imagePicker = ImagePicker();
   late List<File?> imageFiles;
-  List<String> textsFromDatabase = []; // Inicializar con una lista vacía
+  List<String> pregunta = []; // Inicializar con una lista vacía
+  List<String> codi = [];
+  List<bool> expandedStates = []; // Lista de estados de expansión
+  var result;
+  var dato;
 
   @override
   void initState() {
     super.initState();
-    imageFiles = List.generate(numberOfAccordions, (index) => null);
-    _loadTexts();
-  }
+    codd = widget.codp;
+    print(codd);
+    imageFiles = List.generate(pregunta as int, (index) => null);
+    expandedStates = List.generate(pregunta as int, (index) => false);
+    (() async {
+      result = await fetchAllTextsFromDatabase(codd);
+      if (result != null) {
+        for (var dato in result) {
+          print(dato);
+          var preguntas = dato['pregunta'];
+          var cod = dato['cod_pr'];
 
-  Future<void> _loadTexts() async {
-    try {
-      final texts = await fetchAllTextsFromDatabase();
-      setState(() {
-        textsFromDatabase = texts;
-      });
-    } catch (e) {
-      // Manejar errores aquí
-    }
+          setState(() {
+            pregunta.add(preguntas);
+            codi.add(cod);
+          });
+        }
+      } else {
+        print('no se encontraron las preguntas');
+      }
+    });
   }
 
   @override
@@ -86,10 +109,10 @@ class _examenState extends State<examen> {
               ),
             ),
             const SizedBox(height: 30),
-            for (int index = 0; index < textsFromDatabase.length; index++)
+            for (var i = 0; i < pregunta.length; i++)
               Column(
                 children: [
-                  _buildAccordion(1, '', expanded1, [
+                  _buildAccordion(i, pregunta[i], expandedStates[i], [
                     TextField(
                       onChanged: (value) {
                         setState(() {
@@ -106,15 +129,15 @@ class _examenState extends State<examen> {
                       children: [
                         ElevatedButton(
                           onPressed: () async {
-                            _pickImage(index);
+                            _pickImage(i);
                           },
                           child: Text('Subir Imagen'),
                         ),
                       ],
                     ),
-                    if (imageFiles[index] != null)
+                    if (imageFiles[i] != null)
                       Image.file(
-                        imageFiles[index]!,
+                        imageFiles[i]!,
                         fit: BoxFit.cover,
                       ),
                   ]),
@@ -162,18 +185,15 @@ class _examenState extends State<examen> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          switch (index) {
-            case 1:
-              expanded1 = !expanded1;
-              break;
-          }
+          // Cambia el estado de expansión del acordeón actual
+          expandedStates[index] = !expandedStates[index];
         });
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         margin: const EdgeInsets.all(8.0),
         child: Card(
-          color: expanded
+          color: expandedStates[index]
               ? Color.fromARGB(255, 235, 234, 237)
               : Color.fromARGB(255, 129, 129, 233),
           child: Column(
