@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:ingles/developer/consultad.dart';
 import 'package:ingles/screens/tareasM.dart';
+import 'package:ingles/screens/ver_T_E.dart';
+import 'package:ingles/screens/ver_exam.dart';
 import 'package:ingles/screens/vertarea.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
@@ -12,22 +14,22 @@ import 'elec_op_p.dart';
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
-    home: VerAct(cod: ''),
+    home: VerExams(cod: ''),
   ));
 }
 
-class VerAct extends StatefulWidget {
+class VerExams extends StatefulWidget {
   final String cod;
-  const VerAct({super.key, required this.cod});
+  const VerExams({super.key, required this.cod});
 
   @override
-  State<VerAct> createState() => _VerActEState();
+  State<VerExams> createState() => _VerExamsState();
 }
 
-class _VerActEState extends State<VerAct> {
+class _VerExamsState extends State<VerExams> {
   var resultado;
-  List nombre_act = [];
-  List cod_act = [];
+  List nombre_p = [];
+  List cod_p = [];
   String seleccionada = 'Año';
   List anios = ['Año', '1', '2', '3'];
   String seleccionada2 = 'Seccion';
@@ -43,21 +45,21 @@ class _VerActEState extends State<VerAct> {
 
   Future<void> getActivitys(var grado, var seccion, var cod) async {
     if (seleccionada == "Año" && seleccionada2 == "Seccion") {
-      resultado = await showActivitys(widget.cod);
+      resultado = await showExam(widget.cod);
     } else if (seleccionada != "Año" && seleccionada2 == "Seccion") {
-      resultado = await showActivitysgrade(widget.cod, seleccionada);
+      resultado = await showExamgrade(widget.cod, seleccionada);
     } else if (seleccionada2 != "Seccion" && seleccionada == "Año") {
-      resultado = await showActivityssection(widget.cod, a);
+      resultado = await showExamsection(widget.cod, a);
     } else if (seleccionada != "Año" && seleccionada2 != "Seccion") {
-      resultado = await showActivitysSG(widget.cod, a, seleccionada);
+      resultado = await showExamsSG(widget.cod, a, seleccionada);
     }
     print(seleccionada);
     print(seleccionada2);
     print(a);
     setState(() {
       n1 = 0;
-      cod_act.clear();
-      nombre_act.clear();
+      cod_p.clear();
+      nombre_p.clear();
       if (resultado != "noExisten") {
         var n = resultado.length;
         if (n == null) {
@@ -66,11 +68,11 @@ class _VerActEState extends State<VerAct> {
 
         for (var i = 0; i < n; i++) {
           var dato = resultado[i];
-          var codigo = dato["cod_act"];
-          var nombre = dato["nombre_act"];
+          var codigo = dato["cod_pr"];
+          var nombre = dato["nombre_p"];
 
-          cod_act.add(codigo);
-          nombre_act.add(nombre);
+          cod_p.add(codigo);
+          nombre_p.add(nombre);
         }
       }
     });
@@ -89,7 +91,7 @@ class _VerActEState extends State<VerAct> {
                 Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfeOp(
+                              builder: (context) => ShowElec(
                                     cod_p: widget.cod,
                                   )),
                         );
@@ -101,7 +103,7 @@ class _VerActEState extends State<VerAct> {
                 child: Column(
                   children: [
                     GradientText(
-                      'Historial de Actividades\nCreadas',
+                      'Historial de Examenes\nCreados',
                       style: const TextStyle(
                         fontSize: 30.0,
                       ),
@@ -114,6 +116,7 @@ class _VerActEState extends State<VerAct> {
                         Color.fromARGB(255, 60, 135, 221),
                       ],
                     ),
+                   
                   ],
                 ),
               ),
@@ -214,7 +217,7 @@ class _VerActEState extends State<VerAct> {
                 ),
                 //espacio para definición de contenedor para mostrar historial
 
-                for (var i = 0; i < nombre_act.length; i++)
+                for (var i = 0; i < nombre_p.length; i++)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -223,9 +226,8 @@ class _VerActEState extends State<VerAct> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VerTarea(
-                                      cod_p: widget.cod,
-                                      cod: cod_act[i],
+                                builder: (context) => VerExam(cod: cod_p[i],
+                                cod_p: widget.cod,
                                     )),
                           );
                         },
@@ -247,7 +249,7 @@ class _VerActEState extends State<VerAct> {
                               Positioned(
                                 left: 30,
                                 top: 20,
-                                child: Text(nombre_act[i],
+                                child: Text(nombre_p[i],
                                     style: TextStyle(fontSize: 15)),
                               ),
                             ],
@@ -255,43 +257,25 @@ class _VerActEState extends State<VerAct> {
                         ),
                       ),
                       MaterialButton(
-                        onPressed: () async{
+                        onPressed: () {
                           n1++;
                           if (n1 == 1) {
-                            var result= await comprobarAct(cod_act[i]);
-                              var dato=result;
-                              if(dato=="true"){
-                                  final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            showCloseIcon: true,
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("!Esta actividad contiene preguntas¡\nPresiona 2 veces mas para borrarla de todos modos"),
-                              ],
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }else{
-                                final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            showCloseIcon: true,
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("Presiona 2 Veces mas para borrar la actividad"),
-                              ],
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }
-                            
+                            final snackBar = SnackBar(
+                                content: Text("Pulse 2 veces para borrar"));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+
+                            deleteExam(cod_p[i], widget.cod);
                           }
                           if (n1 == 2) {
-                            deleteTask(cod_act[i], widget.cod); 
+                            getActivitys(seleccionada, seleccionada2, a);
                           }
                           if(n1==3){
-                             getActivitys(seleccionada, seleccionada2, a);
+                            final snackBar = SnackBar(
+                                content: Text("No se puede borrar"));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                                n1=0;
                           }
                         },
                         child: Container(

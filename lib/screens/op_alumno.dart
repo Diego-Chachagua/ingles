@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/aprender.dart';
 import 'package:ingles/screens/tareas.dart';
+import 'package:ingles/screens/unidades.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
@@ -200,82 +201,114 @@ class _OpAlumEState extends State<OpAlum> {
                     //fin de espacio de contenedor para ver examenes
                   ],
                 ),
-                const SizedBox(height: 40,),
-                 //contenedor para la opcion de tareas   
-                    Row(
+                const SizedBox(
+                  height: 40,
+                ),
+                //contenedor para la opcion de tareas
+                Row(
+                  children: [
+                    Column(
                       children: [
-                        Column(
-                          children: [
-                            MaterialButton(
-                              onPressed: () {
-                                print(widget.usuario);
-                                print(widget.contra);
-                                usuariobd = widget.usuario;
-                                contrabd = widget.contra;
-                                print(usuariobd);
-                                print(contrabd);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) =>   ElecEOT(usu: usuariobd, contra: contrabd)),
-                                );
-                              },
-                              child: const SizedBox(
-                                  height: 150,
-                                  width: 145,
-                                  child: Image(image: AssetImage('assets/ver notas.png'))),
-                            ),
-                            GradientText(
-                              'Ver mis notas',
-                              style: const TextStyle(
-                                fontSize: 30.0,
-                              ),
-                              gradientType: GradientType.linear,
-                              gradientDirection: GradientDirection.ttb,
-                              radius: 3.5,
-                              colors: const [
-                                Color.fromARGB(255, 170, 63, 233),
-                                Color.fromARGB(255, 66, 91, 233),
-                                Color.fromARGB(255, 60, 135, 221),
-                              ],
-                            ),
-
-                          
+                        MaterialButton(
+                          onPressed: () {
+                            print(widget.usuario);
+                            print(widget.contra);
+                            usuariobd = widget.usuario;
+                            contrabd = widget.contra;
+                            print(usuariobd);
+                            print(contrabd);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ElecEOT(
+                                      usu: usuariobd, contra: contrabd)),
+                            );
+                          },
+                          child: const SizedBox(
+                              height: 150,
+                              width: 145,
+                              child: Image(
+                                  image: AssetImage('assets/ver notas.png'))),
+                        ),
+                        GradientText(
+                          'Ver mis notas',
+                          style: const TextStyle(
+                            fontSize: 30.0,
+                          ),
+                          gradientType: GradientType.linear,
+                          gradientDirection: GradientDirection.ttb,
+                          radius: 3.5,
+                          colors: const [
+                            Color.fromARGB(255, 170, 63, 233),
+                            Color.fromARGB(255, 66, 91, 233),
+                            Color.fromARGB(255, 60, 135, 221),
                           ],
                         ),
-                         Column(
-                              children: [
-                                MaterialButton(
-                                  onPressed: () {
-                                    
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) =>   Videos()),
-                                    );
-                                  },
-                                  child: const SizedBox(
-                                      height: 150,
-                                      width: 145,
-                                      child: Image(image: AssetImage('assets/play.png'))),
-                                ),
-                                GradientText(
-                                  'Ver más',
-                                  style: const TextStyle(
-                                    fontSize: 30.0,
-                                  ),
-                                  gradientType: GradientType.linear,
-                                  gradientDirection: GradientDirection.ttb,
-                                  radius: 3.5,
-                                  colors: const [
-                                    Color.fromARGB(255, 170, 63, 233),
-                                    Color.fromARGB(255, 66, 91, 233),
-                                    Color.fromARGB(255, 60, 135, 221),
-                                  ],
-                                ),
-                              ],
-                            ),
                       ],
                     ),
-                
+                    Column(
+                      children: [
+                        MaterialButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Videos()),
+                            );
+                          },
+                          child: const SizedBox(
+                              height: 150,
+                              width: 145,
+                              child:
+                                  Image(image: AssetImage('assets/play.png'))),
+                        ),
+                        GradientText(
+                          'Ver más',
+                          style: const TextStyle(
+                            fontSize: 30.0,
+                          ),
+                          gradientType: GradientType.linear,
+                          gradientDirection: GradientDirection.ttb,
+                          radius: 3.5,
+                          colors: const [
+                            Color.fromARGB(255, 170, 63, 233),
+                            Color.fromARGB(255, 66, 91, 233),
+                            Color.fromARGB(255, 60, 135, 221),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    MaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Temas()),
+                        );
+                      },
+                      child: const SizedBox(
+                          height: 150,
+                          width: 145,
+                          child: Image(image: AssetImage('assets/play.png'))),
+                    ),
+                    GradientText(
+                      'Unidades',
+                      style: const TextStyle(
+                        fontSize: 30.0,
+                      ),
+                      gradientType: GradientType.linear,
+                      gradientDirection: GradientDirection.ttb,
+                      radius: 3.5,
+                      colors: const [
+                        Color.fromARGB(255, 170, 63, 233),
+                        Color.fromARGB(255, 66, 91, 233),
+                        Color.fromARGB(255, 60, 135, 221),
+                      ],
+                    ),
+                  ],
+                ),
               ]),
             ))));
   }

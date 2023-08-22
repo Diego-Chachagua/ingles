@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/registro_profe.dart';
 import 'package:ingles/screens/verusu.dart';
 
 import 'eliminar.dart';
@@ -163,7 +164,10 @@ class _AdministracionState extends State<Administracion> {
         child: ElevatedButton(
       onPressed: () {
         // Acción al presionar el botón
-        
+        Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Registro_Profe()),
+                   );
       },
       child: Text('Profesor'),
       style: ButtonStyle(

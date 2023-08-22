@@ -1,34 +1,41 @@
 import 'dart:typed_data';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/save_Exam.dart';
 import 'package:ingles/screens/save_act.dart';
-import 'package:ingles/screens/show_act.dart';
 import 'package:ingles/screens/use_url.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
+import '../main.dart';
+import 'elec_e_o_t.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'package:audioplayers/audioplayers.dart';
+
+import 'elec_op_p.dart';
 
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: VerTarea(
+    home: CreateExam(
       cod: '',
       cod_p: '',
     ),
   ));
 }
 
-class VerTarea extends StatefulWidget {
+class CreateExam extends StatefulWidget {
   String cod;
   String cod_p;
-  VerTarea({required this.cod, required this.cod_p});
+
+  CreateExam({required this.cod, required this.cod_p});
+
   @override
-  State<VerTarea> createState() => _VerTareaEState();
+  State<CreateExam> createState() => _CreateExamState();
 }
 
-class _VerTareaEState extends State<VerTarea> {
-  String nameA = "";
+class _CreateExamState extends State<CreateExam> {
+ String nameE = "";
 //variables de audio
   var audios = AudioPlayer();
   var n1 = 0;
@@ -65,7 +72,7 @@ class _VerTareaEState extends State<VerTarea> {
     setState(() {
       if (picturefile != null) {
         imagen = File(picturefile.path);
-        agregarImg(ask, imagen, widget.cod);
+        agregarImgEx(ask, imagen, widget.cod);
         obtenerpreguntas();
       } else {
         setState(() {
@@ -85,7 +92,7 @@ class _VerTareaEState extends State<VerTarea> {
     setState(() {
       if (picturefile != null) {
         imagen = File(picturefile.path);
-        addImg(cod, imagen, widget.cod);
+        addImgEx(cod, imagen, widget.cod);
         final snackBar = SnackBar(
             backgroundColor: Color.fromARGB(255, 155, 118, 214),
             shape: Border.all(width: 1),
@@ -129,7 +136,6 @@ class _VerTareaEState extends State<VerTarea> {
   List images = [];
   List cod_p = [];
   List audio = [];
-  List request = [];
   @override
   void initState() {
     super.initState();
@@ -137,37 +143,29 @@ class _VerTareaEState extends State<VerTarea> {
   }
 
   Future<void> obtenerpreguntas() async {
-    print(widget.cod_p);
-    reslt = await mostrarAct(widget.cod);
+    print(widget.cod);
+    reslt = await mostrarExam(widget.cod);
     setState(() {
       preguntas.clear();
       imagenes.clear();
       images.clear();
       audio.clear();
-      request.clear();
       cod_p.clear(); // Limpiar la lista antes de agregar las nuevas preguntas
       if (reslt != "noExisten") {
         for (var i = 0; i < reslt.length; i++) {
           var dato = reslt[i];
-          var nombreAct = dato["nombre"];
+          var nombreExam = dato["nombre"];
+          print(nombreExam);
           var nom_tem = dato["pregunta"];
-          var cod = dato["cod_p_a"];
+          var cod = dato["cod_pre"];
           var img = dato["img"];
           var sound = dato["audio"];
-          var respuesta = dato["request"];
           preguntas.add(nom_tem);
           imagenes.add(img);
-
-          if (respuesta != null) {
-            request.add(respuesta);
+          if (nombreExam != "") {
+            nameE = nombreExam;
           } else {
-            request.add("vacio");
-          }
-
-          if (nombreAct != "") {
-            nameA = nombreAct;
-          } else {
-            nameA = "Name of activity";
+            nameE = "NAME OF EXAM";
           }
           cod_p.add(cod);
           if (img != null) {
@@ -190,7 +188,6 @@ class _VerTareaEState extends State<VerTarea> {
 
   @override
   Widget build(BuildContext context) {
-    print(request);
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -200,7 +197,7 @@ class _VerTareaEState extends State<VerTarea> {
           appBar: AppBar(
             leading: MaterialButton(
               onPressed: () {
-                if (nameA == "NAME OF ACTIVITY/TASK") {
+                if (nameE == "NAME OF EXAM") {
                   final snackBar =
                       SnackBar(content: Text("Es necesario cambiar el nombre"));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -232,7 +229,7 @@ class _VerTareaEState extends State<VerTarea> {
                           width: 250,
                           height: 60,
                           child: Text(
-                            nameA,
+                            nameE,
                             style: TextStyle(
                               fontSize: 20,
                             ),
@@ -261,37 +258,8 @@ class _VerTareaEState extends State<VerTarea> {
                       height: 20,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Container(
-                          width: 140,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 142, 93, 219),
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: MaterialButton(
-                            onPressed: () {
-                              _addGame(context);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  "Add Game",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                Icon(
-                                  Icons.games,
-                                  size: 25,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(10)),
                         Container(
                           width: 70,
                           height: 50,
@@ -311,6 +279,7 @@ class _VerTareaEState extends State<VerTarea> {
                             ),
                           ),
                         ),
+                        Padding(padding: EdgeInsets.all(10)),
                       ],
                     ),
                     Padding(padding: EdgeInsets.all(10)),
@@ -318,8 +287,7 @@ class _VerTareaEState extends State<VerTarea> {
                       Column(
                         children: [
                           images[i] == "" &&
-                                  audio[i] == "no existe" &&
-                                  request[i] == "vacio"
+                                  audio[i] == "no existe" 
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -356,62 +324,6 @@ class _VerTareaEState extends State<VerTarea> {
                                     ),
                                   ],
                                 )
-                              : images[i] == "" &&
-                                      audio[i] == "no existe" &&
-                                      request[i] != "vacio"
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        MaterialButton(
-                                          onPressed: () {
-                                            _opEditGame(context);
-                                          },
-                                          child: Container(
-                                            width: 350,
-                                            height: 80,
-                                            decoration: BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    255, 167, 137, 194),
-                                                border: Border.all(width: 2),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 5),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      "${i}  -  ${preguntas[i]}",
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              238,
-                                                              234,
-                                                              234)),
-                                                    ),
-                                                    Text(cod_p[i]),
-                                                  ],
-                                                ),
-                                                Text(
-                                                  "Respuesta: " + request[i],
-                                                  style: TextStyle(
-                                                    fontStyle: FontStyle.italic,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
                                   : audio[i] == 'no existe' && images[i] != ""
                                       ? MaterialButton(
                                           onPressed: () {
@@ -423,6 +335,7 @@ class _VerTareaEState extends State<VerTarea> {
                                             children: [
                                               Container(
                                                 width: 350,
+                                                height: 300,
                                                 decoration: BoxDecoration(
                                                     color: Color.fromARGB(
                                                         255, 167, 137, 194),
@@ -468,7 +381,7 @@ class _VerTareaEState extends State<VerTarea> {
                                                     if (i < images.length)
                                                       Container(
                                                         width: 340,
-                                                        height: 400,
+                                                        height: 220,
                                                         padding:
                                                             const EdgeInsets
                                                                     .symmetric(
@@ -666,7 +579,7 @@ class _VerTareaEState extends State<VerTarea> {
                       children: [
                         MaterialButton(
                           onPressed: () {
-                            if (nameA == "NAME OF ACTIVITY/TASK") {
+                            if (nameE == "NAME OF EXAM") {
                               final snackBar = SnackBar(
                                   content:
                                       Text("Es necesario cambiar el nombre"));
@@ -683,8 +596,8 @@ class _VerTareaEState extends State<VerTarea> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SaveAct(
-                                          nombre_act: nameA,
+                                    builder: (context) => SaveExam(
+                                          nombre_act: nameE,
                                           cod_act: widget.cod,
                                           cod_p: widget.cod_p,
                                         )),
@@ -719,7 +632,7 @@ class _VerTareaEState extends State<VerTarea> {
               FloatingActionButton(
                 heroTag: 'tag1',
                 onPressed: () async {
-                   if(i==20){
+                  if(i==20){
                      final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
@@ -729,11 +642,11 @@ class _VerTareaEState extends State<VerTarea> {
                                 Text("No se puede agregar mas de 20 preguntas"));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }else{
-                     setState(() {
+                    setState(() {
                     _nameask(context);
                   });
                   }
-                 
+                  
                 },
                 child: Icon(Icons.add_comment_outlined),
               ),
@@ -750,9 +663,9 @@ class _VerTareaEState extends State<VerTarea> {
                                 Text("No se puede agregar mas de 20 preguntas"));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }else{
-                     _elegirImg(context);
+                    _elegirImg(context);
                   }
-                 
+                  
                 },
                 child: Icon(Icons.add_photo_alternate_outlined),
               ),
@@ -790,7 +703,7 @@ class _VerTareaEState extends State<VerTarea> {
           return AlertDialog(
             shadowColor: Color.fromARGB(255, 170, 63, 233),
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("Cambia el nombre de la actividad"),
+            title: const Text("Cambia el nombre de el examen"),
             actions: [
               Column(
                 children: [
@@ -830,7 +743,7 @@ class _VerTareaEState extends State<VerTarea> {
                                 Navigator.pop(context);
                                 var nombre = nameac.text;
 
-                                editname(nombre, widget.cod);
+                               editnameE(nombre, widget.cod);
                                 obtenerpreguntas();
                               }
                             });
@@ -1024,7 +937,7 @@ class _VerTareaEState extends State<VerTarea> {
                                 ask = "Escribe tu pregunta aqui";
                               } else {
                                 ask = nameask.text;
-                                agregarAskActivity(ask, widget.cod);
+                                agregarAskExam(ask, widget.cod);
                                 nameask.text = "";
                               }
                               obtenerpreguntas();
@@ -1075,8 +988,8 @@ class _VerTareaEState extends State<VerTarea> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => VerAct(
-                                    cod: widget.cod_p,
+                              builder: (context) => ProfeOp(
+                                     cod_p: widget.cod_p,
                                   )),
                         );
                       },
@@ -1133,7 +1046,7 @@ class _VerTareaEState extends State<VerTarea> {
                       onPressed: () {
                         if (formdeleteask.currentState!.validate()) {
                           var codigo = deleteask.text;
-                          deleteAsk(widget.cod, codigo);
+                          deleteAskE(widget.cod, codigo);
                         }
                         Navigator.pop(context);
                         obtenerpreguntas();
@@ -1247,7 +1160,7 @@ class _VerTareaEState extends State<VerTarea> {
                                         .validate()) {
                                       pregunta = changeask.text;
                                       var cod = cod_changeask.text;
-                                      editAsk(pregunta, cod);
+                                      editAskE(pregunta, cod);
                                       changeask.text = "";
                                       Navigator.pop(context);
                                       obtenerpreguntas();
@@ -1390,7 +1303,10 @@ class _VerTareaEState extends State<VerTarea> {
                         var cod = cod_changeask.text;
                         addimage(cod);
                         cod_changeask.text = "";
-                        final snackBar = SnackBar(
+                      }
+                      obtenerpreguntas();
+                      Navigator.pop(context);
+                      final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
                             showCloseIcon: true,
@@ -1407,9 +1323,6 @@ class _VerTareaEState extends State<VerTarea> {
                               ],
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                      obtenerpreguntas();
-                      Navigator.pop(context);
                     },
                     child: Container(
                       width: 150,
@@ -1647,26 +1560,18 @@ class _VerTareaEState extends State<VerTarea> {
                       if (addsound.currentState!.validate()) {
                         namesound.text = "";
                         url.text = "";
-                        upSound(widget.cod, url_s, ask);
+                        upSound_E(widget.cod, url_s, ask);
                         Navigator.pop(context);
-                        final snackBar = SnackBar(
+                       
+                      }
+                       final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
                             showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("Podria ser necesario recargar"),
-                                MaterialButton(
-                                  onPressed: () {
-                                    _messaje(context);
-                                  },
-                                  child: Text("¿Saber mas?"),
-                                )
-                              ],
-                            ));
+                            content:
+                                Text("Es necesario refrescar la pantalla"));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
                     },
                     child: Container(
                       width: 150,
@@ -1726,111 +1631,7 @@ class _VerTareaEState extends State<VerTarea> {
         });
   }
 
-  void _addGame(BuildContext parentContext) async {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shadowColor: Color.fromARGB(255, 170, 63, 233),
-            backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("Sugerencia"),
-            content: Container(
-              height: 340,
-              child: Column(
-                children: [
-                  Form(
-                    key: addgame,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "campo requerido";
-                            }
-                          },
-                          controller: nameask,
-                          textAlign: TextAlign.center,
-                          cursorColor: Colors.black,
-                          maxLines: 2,
-                          maxLength: 40,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Escribir pregunta",
-                              hintStyle: TextStyle(fontSize: 15)),
-                        ),
-                        TextFormField(
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "campo requerido";
-                            }
-                          },
-                          controller: addaskgame,
-                          textAlign: TextAlign.center,
-                          cursorColor: Colors.black,
-                          maxLines: 2,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Añadir respuesta",
-                              helperText: "Añade una respuesta a la pregunta",
-                              hintStyle: TextStyle(fontSize: 15)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.all(10)),
-                  MaterialButton(
-                    onPressed: () {
-                      var name = nameask.text;
-                      var respuesta = addaskgame.text;
-                      if (addgame.currentState!.validate()) {
-                        upGame(widget.cod, respuesta, name);
-                        obtenerpreguntas();
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Container(
-                      width: 180,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text("Añadir"),
-                          Icon(Icons.add_outlined),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.all(10)),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      width: 180,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(Icons.arrow_back),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+
 
   void _msError(BuildContext parentContext) async {
     showDialog(
@@ -1875,194 +1676,7 @@ class _VerTareaEState extends State<VerTarea> {
         });
   }
 
-  void _opEditGame(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shadowColor: Color.fromARGB(255, 170, 63, 233),
-            backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("¿Que deseas hacer?"),
-            content: Container(
-                height: 190,
-                child: Column(
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        _changeask2(context);
-                      },
-                      child: Container(
-                        width: 180,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 2),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text("Editar pregunta"),
-                            Icon(Icons.edit),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.all(10)),
-                    MaterialButton(
-                      onPressed: () {
-                        _editRequest(context);
-                      },
-                      child: Container(
-                        width: 180,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 2),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text("Editar respuesta"),
-                            Icon(Icons.mode_edit),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.all(10)),
-                    MaterialButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        width: 180,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 2),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Icon(Icons.arrow_back),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                )),
-          );
-        });
-  }
+  
 
-  void _editRequest(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shadowColor: Color.fromARGB(255, 170, 63, 233),
-            backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("Seleccionar una imagen"),
-            content: Container(
-              height: 320,
-              child: Column(
-                children: [
-                  Form(
-                      key: editRequest,
-                      child: Column(children: [
-                        Container(
-                          width: 150,
-                          child: TextFormField(
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return "Campo requerido";
-                              }
-                            },
-                            controller: cod_changeask,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Codigo pregunta",
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                        ),
-                        Container(
-                          width: 200,
-                          child: TextFormField(
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return "Campo requerido";
-                              }
-                            },
-                            controller: newrquest,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nueva respuesta",
-                            ),
-                          ),
-                        ),
-                      ])),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      var cod = cod_changeask.text;
-                      var respuesta = newrquest.text;
-                      if (editRequest.currentState!.validate()) {
-                        editRespuesta(widget.cod, cod, respuesta);
-                        obtenerpreguntas();
-                        Navigator.pop(context);
-                        newrquest.text = "";
-                        cod_changeask.text = "";
-                      }
-                    },
-                    child: Container(
-                      width: 180,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text("Añadir"),
-                          Icon(Icons.add_outlined),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      width: 150,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(Icons.arrow_back),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  
 }
