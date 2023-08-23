@@ -100,11 +100,9 @@ Future<dynamic> editname(var nombre, var cod) async {
   return enviar.body;
 }
 //guardar año y seccion
-Future<dynamic> insertcodes(var grado, var seccion,var anio, var tiempo,var cod) async {
+Future<dynamic> insertcodes(var grado, var seccion,var cod) async {
   print(grado);
   print(seccion);
-  var date = anio+" "+tiempo;
-  print(date);
   print(cod);
 
   http.Response enviar = await http.post(
@@ -112,7 +110,6 @@ Future<dynamic> insertcodes(var grado, var seccion,var anio, var tiempo,var cod)
     body: <String, dynamic>{
       "grado": grado,
       "secc": seccion,
-      "date": date,
       "cod": cod,
     },
   );
@@ -421,11 +418,9 @@ Future<dynamic> editAskE(var pregunta, var cod) async {
   return enviar.body;
 }
 
-Future<dynamic> insertcodesE(var grado, var seccion,var anio, var tiempo,var cod) async {
+Future<dynamic> insertcodesE(var grado, var seccion,var cod) async {
   print(grado);
   print(seccion);
-  var date = anio+" "+tiempo;
-  print(date);
   print(cod);
 
   http.Response enviar = await http.post(
@@ -433,7 +428,6 @@ Future<dynamic> insertcodesE(var grado, var seccion,var anio, var tiempo,var cod
     body: <String, dynamic>{
       "grado": grado,
       "secc": seccion,
-      "date": date,
       "cod": cod,
     },
   );
@@ -607,6 +601,19 @@ Future<dynamic> showAskExamAlum(var cod_pr, var nie) async {
     body: <String, dynamic>{
       "cod_pr": cod_pr,
       "nie":nie,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+}
+
+Future<dynamic> comprobarExam(var cod_a) async {
+  print(cod_a);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/comprobrar_askOf_Exams.php'),
+    body: <String, dynamic>{
+      "cod_act":cod_a,
     },
   );
   var resultado = jsonDecode(enviar.body);

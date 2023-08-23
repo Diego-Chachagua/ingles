@@ -260,11 +260,10 @@ class _VerActEState extends State<VerAct> {
                           if (n1 == 1) {
                             var result= await comprobarAct(cod_act[i]);
                               var dato=result;
-                              if(dato=="true"){
+                              if(dato=="borrar"){
                                   final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [
@@ -272,11 +271,23 @@ class _VerActEState extends State<VerAct> {
                               ],
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }else{
+                              }else if(dato=="no borrar"){
                                 final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("No se puede borrar esta actividad\ndebido a que esta actividad ya ha sido respondida\npor estudiantes"),
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        getActivitys(seleccionada, seleccionada2, a);
+                              }
+                              else if (dato=="false"){
+                                final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [

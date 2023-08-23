@@ -258,51 +258,64 @@ class _VerExamsState extends State<VerExams> {
                       ),
                       MaterialButton(
                         onPressed: () async{
-                           final snackBar = SnackBar(
+                        //    final snackBar = SnackBar(
+                        //     backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                        //     shape: Border.all(width: 1),
+                        //     closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                        //     content: Row(
+                        //       children: [
+                        //         Text("Desactivado por el momento"),
+                        //       ],
+                        //     ));
+                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          n1++;
+                          if (n1 == 1) {
+                            var result= await comprobarExam(cod_p[i]);
+                              var dato=result;
+                              if(dato=="borrar"){
+                                  final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [
-                                Text("Desactivado por el momento"),
+                                Text("!Esta actividad contiene preguntas¡\nPresiona 2 veces mas para borrarla de todos modos"),
                               ],
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        //   n1++;
-                        //   if (n1 == 1) {
-                        //     var result= await deleteExam(cod_p[i], widget.cod);
-                        //       var dato=result;
-                        //       if(dato=="true"){
-                        //           final snackBar = SnackBar(
-                        //     backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                        //     shape: Border.all(width: 1),
-                        //     closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                        //     content: Row(
-                        //       children: [
-                        //         Text("!Esta actividad contiene preguntas¡\nPresiona 2 veces mas para borrarla de todos modos"),
-                        //       ],
-                        //     ));
-                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        //       }else{
-                        //         final snackBar = SnackBar(
-                        //     backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                        //     shape: Border.all(width: 1),
-                        //     closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                        //     content: Row(
-                        //       children: [
-                        //         Text("Presiona 2 Veces mas para borrar la actividad"),
-                        //       ],
-                        //     ));
-                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        //       }
+                              }else if(dato=="no borrar"){
+                                final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("No se puede borrar esta actividad\ndebido a que esta actividad ya ha sido respondida\npor estudiantes"),
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              }
+                              else if (dato=="false"){
+                                final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Presiona 2 Veces mas para borrar la actividad"),
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              }
                             
-                        //   }
-                        //   if (n1 == 2) {
-                        //     deleteTask(cod_p[i], widget.cod); 
-                        //   }
-                        //   if(n1==3){
-                        //      getActivitys(seleccionada, seleccionada2, a);
-                        //   }
+                          }
+                          if (n1 == 2) {
+
+                            deleteExam(cod_p[i], widget.cod); 
+                          }
+                          if(n1==3){
+                             getActivitys(seleccionada, seleccionada2, a);
+                          }
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),

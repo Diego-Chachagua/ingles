@@ -33,7 +33,7 @@ class _UseURLState extends State<UseURL> {
         child: Scaffold(
             appBar: AppBar(
               title: Text(
-                "USO DE URL/ENLACE DIRECTO",
+                "USO DE URL/\nENLACE DIRECTO",
                 textAlign: TextAlign.center,
               ),
               elevation: 0,
@@ -46,25 +46,25 @@ class _UseURLState extends State<UseURL> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(padding: EdgeInsets.all(20)),
-                  Text("¿Como obtener una URL/enlace Directo?",style: TextStyle(fontSize: 22,fontStyle:FontStyle.italic),),
+                  Text("¿Como obtener una URL/\nenlace Directo?",style: TextStyle(fontSize: 22,fontStyle:FontStyle.italic),),
                   Padding(padding: EdgeInsets.all(20)),
                   Text("1.Sube la Canción a Google Drive:",style: TextStyle(fontSize: 18,fontStyle:FontStyle.italic)),
                   Padding(padding: EdgeInsets.all(5)),
-                  Center(child: Text(style: TextStyle(fontSize: 15),"Sube la canción que deseas reproducir a tu cuenta\nde Google Drive.Puedes hacerlo arrastrando y\nsoltando el archivo en la interfaz web de Google Drive.")),
+                  Center(child: Text(style: TextStyle(fontSize: 15),"Sube la canción que deseas reproducir a tu\ncuenta de Google Drive.Puedes hacerlo\narrastrando y soltando el archivo en\nla interfaz web de Google Drive.")),
                   Padding(padding: EdgeInsets.all(10)),
                   Text("2.Comparte el Archivo:",style: TextStyle(fontSize: 18,fontStyle:FontStyle.italic)),
                   Padding(padding: EdgeInsets.all(5)),
-                  Center(child: Text(style: TextStyle(fontSize: 15),"Una vez que el archivo esté en tu Google Drive, haz clic\nderecho sobre él y selecciona 'Obtener enlace\ncompartido' o 'Compartir'. Asegúrate de configurar\nel enlace para que cualquier persona con el enlace\npueda acceder al archivo."),),
+                  Center(child: Text(style: TextStyle(fontSize: 15),"Una vez que el archivo esté en tu Google\nDrive, haz clic derecho sobre él y\nselecciona 'Obtener enlace compartido'\no 'Compartir'. Asegúrate de configurar\nel enlace para que cualquier persona\ncon el enlace pueda acceder al archivo."),),
                   Padding(padding: EdgeInsets.all(10)),
                   Text("3.Obtener el Enlace Directo:",style: TextStyle(fontSize: 18,fontStyle:FontStyle.italic)),
                   Padding(padding: EdgeInsets.all(5)),
-                  Center(child:Text(style: TextStyle(fontSize: 15),"Después de compartir el archivo, obtendrás un enlace\ncompartido. Sin embargo, este enlacepuede no\nser directo.Para obtener un enlace directo,\nmodifica la URL reemplazando /view por /uc."),),
+                  Center(child:Text(style: TextStyle(fontSize: 15),"Después de compartir el archivo, obtendrás\nun enlace compartido. Sin embargo,\neste enlacepuede no ser directo.\nPara obtener un enlace directo,\nmodifica la URL reemplazando /view por /uc."),),
                   Padding(padding: EdgeInsets.all(10)),
                   Text("Por Ejemplo:",style: TextStyle(fontSize: 18,fontStyle:FontStyle.italic)),
                   Padding(padding: EdgeInsets.all(10)),
                   Text("Original:",style: TextStyle(fontSize: 18,fontStyle:FontStyle.italic)),
                   Padding(padding: EdgeInsets.all(5)),
-                  Text("https://drive.google.com/file/d/ID_DEL_ARCHIVO/view.",style: TextStyle(fontSize: 15)),
+                  Text("https://drive.google.com/file/d/\nID_DEL_ARCHIVO/view.",style: TextStyle(fontSize: 15)),
                   Padding(padding: EdgeInsets.all(10)),
                   Text("Enlace Directo:",style: TextStyle(fontSize: 18,fontStyle:FontStyle.italic)),
                   Padding(padding: EdgeInsets.all(5)),
@@ -93,6 +93,7 @@ class _UseURLState extends State<UseURL> {
                       ),
                     ),
                   ),
+                  Padding(padding: EdgeInsets.all(20))
                 ],
               ),
             )

@@ -96,7 +96,6 @@ class _CreateExamState extends State<CreateExam> {
         final snackBar = SnackBar(
             backgroundColor: Color.fromARGB(255, 155, 118, 214),
             shape: Border.all(width: 1),
-            showCloseIcon: true,
             closeIconColor: Color.fromARGB(255, 230, 230, 230),
             content: Text("Es necesario refrescar la pantalla"));
 
@@ -636,7 +635,6 @@ class _CreateExamState extends State<CreateExam> {
                      final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content:
                                 Text("No se puede agregar mas de 20 preguntas"));
@@ -657,7 +655,6 @@ class _CreateExamState extends State<CreateExam> {
                      final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content:
                                 Text("No se puede agregar mas de 20 preguntas"));
@@ -823,7 +820,6 @@ class _CreateExamState extends State<CreateExam> {
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [
@@ -1053,7 +1049,6 @@ class _CreateExamState extends State<CreateExam> {
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [
@@ -1309,7 +1304,6 @@ class _CreateExamState extends State<CreateExam> {
                       final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [
@@ -1507,12 +1501,12 @@ class _CreateExamState extends State<CreateExam> {
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("Añadir sonido/audio"),
             content: Container(
-              height: 410,
+              height: 420,
               child: Column(
                 children: [
                   Container(
                       width: 150,
-                      height: 190,
+                      height: 200,
                       child: Form(
                         key: addsound,
                         child: Column(
@@ -1567,7 +1561,6 @@ class _CreateExamState extends State<CreateExam> {
                        final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content:
                                 Text("Es necesario refrescar la pantalla"));

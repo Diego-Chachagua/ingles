@@ -127,7 +127,7 @@ class _SaveExamState extends State<SaveExam> {
                 ),
                 Padding(padding: EdgeInsets.all(20)),
                 Text(
-                  'Selecciona año y sección a enviar el examen',
+                  'Selecciona año y sección a enviar \nel examen',
                   style: TextStyle(fontSize: 20),
                 ),
                 Padding(padding: EdgeInsets.all(20)),
@@ -197,11 +197,20 @@ class _SaveExamState extends State<SaveExam> {
                       ),
                     ]),
                 Padding(padding: EdgeInsets.all(20)),
-                Text(
-                  'Seleccione una hora y fecha limite\n                      de entrega',
-                  style: TextStyle(fontSize: 20),
-                ),
-                Padding(padding: EdgeInsets.all(20)),
+                Container(
+                  width: 350,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Seleccione una hora y fecha limite\n                      de entrega',
+                        style: TextStyle(fontSize: 20,color: Colors.black38),
+                        
+                      ),
+                       Padding(padding: EdgeInsets.all(20)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -213,12 +222,12 @@ class _SaveExamState extends State<SaveExam> {
                           borderRadius: BorderRadius.circular(5)),
                       child: Column(
                         children: [
-                          Text('Fecha:'),
+                          Text('Fecha:',style: TextStyle(color: Colors.black38),),
                           Text(
                             "$formattedDate",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.black,
+                                color: Colors.black38,
                                 fontSize: 15),
                           ),
                         ],
@@ -232,11 +241,11 @@ class _SaveExamState extends State<SaveExam> {
                           borderRadius: BorderRadius.circular(5)),
                       child: Column(
                         children: [
-                          Text("Hora:"),
+                          Text("Hora:",style: TextStyle(color: Colors.black38)),
                           Text("$formateTime",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.black,
+                                color: Colors.black38,
                                 fontSize: 15),),
                         ],
                       ),
@@ -249,12 +258,12 @@ class _SaveExamState extends State<SaveExam> {
                   children: [
                     SafeArea(
                         child: MaterialButton(
-                      onPressed: callDataPicker,
+                      onPressed: null,
                       child: Container(
                         width: 100,
                         height: 40,
                         decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 193, 156, 228),
+                            color: Color.fromARGB(255, 206, 200, 200),
                             border: Border.all(width: 0.5),
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(child: Text('Agregar fecha')),
@@ -262,12 +271,13 @@ class _SaveExamState extends State<SaveExam> {
                     )),
                     SafeArea(
                         child: MaterialButton(
-                      onPressed: callTimePicker,
+                          enableFeedback: false,
+                      onPressed: null,
                       child: Container(
                         width: 100,
                         height: 40,
                         decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 193, 156, 228),
+                            color: Color.fromARGB(255, 206, 200, 200),
                             border: Border.all(width: 0.5),
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(child: Text('Agregar hora')),
@@ -275,20 +285,18 @@ class _SaveExamState extends State<SaveExam> {
                     )),
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(40)),
+                Text("¡COMING SOON!",style: TextStyle(fontSize: 25,fontStyle: FontStyle.italic),),
+                    ],
+                  ),
+                ),
+               
+                Padding(padding: EdgeInsets.all(25)),
                 MaterialButton(
-                  onPressed: () {
-                    if (formateTime == nowtime) {
-                      final snackBar = SnackBar(
-                          content:
-                              Text("La hora debe ser diferente a la actual"));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    } else {
+                  onPressed: () {  
                       final snackBar = SnackBar(
                           content: Text("Actividad Guardada con exito"));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                     // insertcodesE(seleccionada, a, formattedDate, formateTime,
-                         // widget.cod_act);
+                     insertcodesE(seleccionada, a,widget.cod_act);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -296,7 +304,6 @@ class _SaveExamState extends State<SaveExam> {
                                   cod_p: widget.cod_p,
                                 )),
                       );
-                    }
                   },
                   child: Container(
                     width: 100,
