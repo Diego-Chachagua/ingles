@@ -95,7 +95,6 @@ class _TareasPEState extends State<TareasP> {
         final snackBar = SnackBar(
             backgroundColor: Color.fromARGB(255, 155, 118, 214),
             shape: Border.all(width: 1),
-            showCloseIcon: true,
             closeIconColor: Color.fromARGB(255, 230, 230, 230),
             content: Text("Es necesario refrescar la pantalla"));
 
@@ -235,14 +234,15 @@ class _TareasPEState extends State<TareasP> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          width: 250,
+                          width: 200,
                           height: 60,
-                          child: Text(
-                            nameA,
-                            style: TextStyle(
-                              fontSize: 20,
+                          child: TextField(
+                            maxLines: 2,
+                            enabled: false,
+                            decoration: InputDecoration.collapsed(
+                              hintText: "${nameA}"
                             ),
-                          ),
+                          )
                         ),
                         MaterialButton(
                           onPressed: () {
@@ -267,7 +267,7 @@ class _TareasPEState extends State<TareasP> {
                       height: 20,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
                           width: 140,
@@ -334,7 +334,7 @@ class _TareasPEState extends State<TareasP> {
                                         _opEdit(context);
                                       },
                                       child: Container(
-                                        width: 350,
+                                        width: 320,
                                         height: 50,
                                         decoration: BoxDecoration(
                                             color: Color.fromARGB(
@@ -374,7 +374,7 @@ class _TareasPEState extends State<TareasP> {
                                             _opEditGame(context);
                                           },
                                           child: Container(
-                                            width: 350,
+                                            width: 320,
                                             height: 80,
                                             decoration: BoxDecoration(
                                                 color: Color.fromARGB(
@@ -428,7 +428,7 @@ class _TareasPEState extends State<TareasP> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Container(
-                                                width: 350,
+                                                width: 320,
                                                 decoration: BoxDecoration(
                                                     color: Color.fromARGB(
                                                         255, 167, 137, 194),
@@ -914,7 +914,6 @@ class _TareasPEState extends State<TareasP> {
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [
@@ -923,7 +922,7 @@ class _TareasPEState extends State<TareasP> {
                                   onPressed: () {
                                     _messaje(context);
                                   },
-                                  child: Text("¿Saber mas?"),
+                                  child: Text("¿mas?",style: TextStyle(fontSize: 15),),
                                 )
                               ],
                             ));
@@ -1144,7 +1143,6 @@ class _TareasPEState extends State<TareasP> {
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [
@@ -1581,12 +1579,12 @@ class _TareasPEState extends State<TareasP> {
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("Añadir sonido/audio"),
             content: Container(
-              height: 410,
+              height: 420,
               child: Column(
                 children: [
                   Container(
                       width: 150,
-                      height: 190,
+                      height: 200,
                       child: Form(
                         key: addsound,
                         child: Column(
@@ -1639,7 +1637,6 @@ class _TareasPEState extends State<TareasP> {
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content:
                                 Text("Es necesario refrescar la pantalla"));

@@ -103,7 +103,7 @@ class _VerActEState extends State<VerAct> {
                     GradientText(
                       'Historial de Actividades\nCreadas',
                       style: const TextStyle(
-                        fontSize: 30.0,
+                        fontSize: 25.0,
                       ),
                       gradientType: GradientType.linear,
                       gradientDirection: GradientDirection.ttb,
@@ -231,7 +231,7 @@ class _VerActEState extends State<VerAct> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          width: 260,
+                          width: 240,
                           height: 60,
                           decoration: BoxDecoration(
                             borderRadius:

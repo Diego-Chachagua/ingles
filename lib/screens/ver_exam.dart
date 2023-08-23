@@ -96,7 +96,6 @@ class _VerExamState extends State<VerExam> {
         final snackBar = SnackBar(
             backgroundColor: Color.fromARGB(255, 155, 118, 214),
             shape: Border.all(width: 1),
-            showCloseIcon: true,
             closeIconColor: Color.fromARGB(255, 230, 230, 230),
             content: Text("Es necesario refrescar la pantalla"));
 
@@ -226,14 +225,15 @@ class _VerExamState extends State<VerExam> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          width: 250,
+                          width: 200,
                           height: 60,
-                          child: Text(
-                            nameE,
-                            style: TextStyle(
-                              fontSize: 20,
+                          child: TextField(
+                            maxLines: 2,
+                            enabled: false,
+                            decoration: InputDecoration.collapsed(
+                              hintText: "${nameE}"
                             ),
-                          ),
+                          )
                         ),
                         MaterialButton(
                           onPressed: () {
@@ -296,7 +296,7 @@ class _VerExamState extends State<VerExam> {
                                         _opEdit(context);
                                       },
                                       child: Container(
-                                        width: 350,
+                                        width: 320,
                                         height: 50,
                                         decoration: BoxDecoration(
                                             color: Color.fromARGB(
@@ -334,7 +334,7 @@ class _VerExamState extends State<VerExam> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Container(
-                                                width: 350,
+                                                width: 320,
                                                 height: 300,
                                                 decoration: BoxDecoration(
                                                     color: Color.fromARGB(
@@ -422,7 +422,7 @@ class _VerExamState extends State<VerExam> {
                                           ? MaterialButton(
                                               onPressed: () {},
                                               child: Container(
-                                                  width: 350,
+                                                  width: 320,
                                                   height: 120,
                                                   padding:
                                                       const EdgeInsets
@@ -822,7 +822,6 @@ class _VerExamState extends State<VerExam> {
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [
@@ -1052,7 +1051,6 @@ class _VerExamState extends State<VerExam> {
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [
@@ -1308,7 +1306,6 @@ class _VerExamState extends State<VerExam> {
                       final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content: Row(
                               children: [
@@ -1506,12 +1503,12 @@ class _VerExamState extends State<VerExam> {
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("Añadir sonido/audio"),
             content: Container(
-              height: 410,
+              height: 420,
               child: Column(
                 children: [
                   Container(
                       width: 150,
-                      height: 190,
+                      height: 200,
                       child: Form(
                         key: addsound,
                         child: Column(
@@ -1566,7 +1563,6 @@ class _VerExamState extends State<VerExam> {
                        final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
-                            showCloseIcon: true,
                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                             content:
                                 Text("Es necesario refrescar la pantalla"));
