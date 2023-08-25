@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:ingles/screens/request_ask.dart';
 
 import '../developer/consultaso.dart';
 import '../main.dart';
@@ -32,7 +33,7 @@ List<String> cod= [];
 void initState(){
   super.initState();
   (() async{
-    reslt = await tareasd(widget.grado,widget.seccion);
+    reslt = await tareasd(widget.nie);
     if (reslt!="noExisten"){
       for (var i = 0; i < reslt.length; i++){
     var dato =reslt[i];
@@ -148,7 +149,7 @@ setState(() {
                         // ignore: use_build_context_synchronously
                         Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const FirstRoute()),
+                  MaterialPageRoute(builder: (context) => RespoderTaskEstu(nie: widget.nie,cod_act: cod[i],nombre_act: tareas[i],)),
                    );
                       }
                     }

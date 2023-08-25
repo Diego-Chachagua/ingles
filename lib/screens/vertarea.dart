@@ -369,7 +369,7 @@ class _VerTareaEState extends State<VerTarea> {
                                             _opEditGame(context);
                                           },
                                           child: Container(
-                                            width: 350,
+                                            width: 320,
                                             height: 80,
                                             decoration: BoxDecoration(
                                                 color: Color.fromARGB(
@@ -423,7 +423,7 @@ class _VerTareaEState extends State<VerTarea> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Container(
-                                                width: 350,
+                                                width: 320,
                                                 decoration: BoxDecoration(
                                                     color: Color.fromARGB(
                                                         255, 167, 137, 194),
@@ -510,7 +510,7 @@ class _VerTareaEState extends State<VerTarea> {
                                           ? MaterialButton(
                                               onPressed: () {},
                                               child: Container(
-                                                  width: 350,
+                                                  width: 320,
                                                   height: 120,
                                                   padding:
                                                       const EdgeInsets

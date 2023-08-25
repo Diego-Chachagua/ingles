@@ -524,6 +524,8 @@ Future<dynamic> showactAlum(var nie) async {
 
 
 Future<dynamic> showAskAlum(var cod_act, var nie) async {
+  print(cod_act);
+  print(nie);
   //mostrar las preguntas
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_preguntasR_alum.php'),
@@ -619,4 +621,17 @@ Future<dynamic> comprobarExam(var cod_a) async {
   var resultado = jsonDecode(enviar.body);
   print(resultado);
   return resultado;
+}
+
+Future<dynamic> addrequestGame(var cod, var respuesta) async {
+  print(cod);
+  print(respuesta);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_request_game.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "request":respuesta,
+    },
+  );
+  return enviar.body;
 }

@@ -60,13 +60,13 @@ class _CalificarExamState extends State<CalificarExam> {
           var dato = resultado[i];
           var codigo = dato["cod_pr"];
           var nombre = dato["nombre_pr"];
-          var date=dato["fecha"];
+          var date=dato["estado"];
           cod_act.add(codigo);
           nombre_act.add(nombre);
           if(date!=null){
              fecha.add(date);
           }else{
-            fecha.add("0000/00/00-00:00");
+            fecha.add("no disponible");
           }
          
         }
@@ -165,15 +165,15 @@ class _CalificarExamState extends State<CalificarExam> {
                                     style: TextStyle(fontSize: 15,fontStyle: FontStyle.italic)),
                               ),
                               Positioned(
-                                left: 240,
+                                left: 250,
                                 top: 15,
                                 child: Column(
                                   children: [
-                                    Text("creación:",
-                                    style: TextStyle(fontSize: 8,fontStyle: FontStyle.italic)
+                                    Text("Estado:",
+                                    style: TextStyle(fontSize: 10,fontStyle: FontStyle.italic)
                                         ),
                                         Text("${fecha[i]}",
-                                    style: TextStyle(fontSize: 8,fontStyle: FontStyle.italic)),
+                                    style: TextStyle(fontSize: 10,fontStyle: FontStyle.italic)),
                                   ],
                                 ),
                               ),

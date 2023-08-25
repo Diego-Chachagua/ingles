@@ -289,7 +289,7 @@ class _SaveActState extends State<SaveAct> {
                     ],
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(40)),
+                Padding(padding: EdgeInsets.all(20)),
                 MaterialButton(
                   onPressed: () {
                    

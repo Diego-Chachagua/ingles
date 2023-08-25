@@ -102,12 +102,12 @@ Future<dynamic> anosec(String usuario, String contra) async {
   }
 }
 
-Future<dynamic> tareasd(String grado, String seccion) async {
+Future<dynamic> tareasd(var nie) async {
+  print(nie);
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/tareas.php'),
     body: <String, dynamic>{
-      "grado": grado,
-      "seccion": seccion,
+      "nie":nie,
     },
   );
   var resultado = jsonDecode(enviar.body);

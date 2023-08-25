@@ -59,13 +59,13 @@ class _CalificarEState extends State<CalificarE> {
           var dato = resultado[i];
           var codigo = dato["cod_act"];
           var nombre = dato["nombre_act"];
-          var date=dato["fecha"];
+          var date=dato["estado"];
           cod_act.add(codigo);
           nombre_act.add(nombre);
           if(date!=""){
              fecha.add(date);
           }else{
-            fecha.add("no posee fecha");
+            fecha.add("estado:0");
           }
          
         }
@@ -164,11 +164,11 @@ class _CalificarEState extends State<CalificarE> {
                                     style: TextStyle(fontSize: 15,fontStyle: FontStyle.italic)),
                               ),
                               Positioned(
-                                left: 240,
-                                top: 15,
+                                left: 260,
+                                top: 20,
                                 child: Column(
                                   children: [
-                                    Text("creación:",
+                                    Text("Estado:",
                                     style: TextStyle(fontSize: 8,fontStyle: FontStyle.italic)
                                         ),
                                         Text("${fecha[i]}",
