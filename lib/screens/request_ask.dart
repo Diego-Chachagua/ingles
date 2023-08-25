@@ -218,7 +218,6 @@ var contador=0;
                               MaterialButton(
                                 padding: EdgeInsets.all(10),
                                 onPressed: () {
-                                  _opAdk(context,codigo2);
                                 },
                                 child: Container(
                                   width: 320,
@@ -250,7 +249,7 @@ var contador=0;
                                          
                                         ],
                                       ),
-                                      Text("${codigo2 = cod_res[i]}",style: TextStyle(color: Colors.transparent),),
+                                      
                                       Container(width: 280,height: 2,color: Colors.black,),
                                       Padding(padding: EdgeInsets.all(5)),
                                       //inicio de evaluacion de respuesta
@@ -482,7 +481,7 @@ var contador=0;
                                                 }
                                                 if(contador==6){
                                                   valor4=true;
-
+                                                  getActivitys();
                                                   addrequestGame(codigo2,respuestas);
 
                                                 }   
@@ -490,6 +489,7 @@ var contador=0;
                                               }else{
                                                 //falta logica
                                                 addrequestGame(codigo2,respuestas);
+                                                getActivitys();
                                                 final snackBar = SnackBar(
                                                   backgroundColor: Color.fromARGB(255, 155, 118, 214),
                                                   shape: Border.all(width: 1),
@@ -946,7 +946,6 @@ var contador=0;
                                 : audio_p[i] != null && imagen_p[i] == ""
                                     ? MaterialButton(
                                         onPressed: () {
-                                            _opAdk(context,codigo2);
                                         },
                                         child: Container(
                                             width: 320,
@@ -1070,7 +1069,6 @@ var contador=0;
                                                   ],
                                                 ),
                                                 //añadir codigo
-                                                Text("${codigo2 = cod_res[i]}",style: TextStyle(color: Colors.transparent),),
                                                 Padding(padding: EdgeInsets.all(10)),
                                                 Container(width: 290,height: 2,color: Colors.black,),
                                       Padding(padding: EdgeInsets.all(5)),
