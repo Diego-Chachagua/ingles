@@ -495,7 +495,7 @@ Future<dynamic> showExamsSG(var cod,var section,var grade) async {
 
 //consultas para la calificacion de actividades
 
-
+//mostrar alumnos segun año seccion
 Future<dynamic> shownieAlum(var anio, var seccion) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_alum_act.php'),
@@ -509,6 +509,7 @@ Future<dynamic> shownieAlum(var anio, var seccion) async {
   return resultado;
 }
 
+//mostrar actividades del alumno
 Future<dynamic> showactAlum(var nie) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_activitys_A.php'),
@@ -522,7 +523,7 @@ Future<dynamic> showactAlum(var nie) async {
 }
 
 
-
+//mostrar preguntas y respuestas de actividades
 Future<dynamic> showAskAlum(var cod_act, var nie) async {
   print(cod_act);
   print(nie);
@@ -552,7 +553,7 @@ Future<dynamic> deleteExam(var cod_a,var cod_p) async {
   );
   return enviar.body;
 }
-
+//añadir nota a respuesta
 Future<dynamic> addNotas(var nota, var cod_r, var cod_a , var nie) async {
   print(cod_a);
   http.Response enviar = await http.post(
@@ -631,6 +632,50 @@ Future<dynamic> addrequestGame(var cod, var respuesta) async {
     body: <String, dynamic>{
       "cod":cod,
       "request":respuesta,
+    },
+  );
+  return enviar.body;
+}
+
+Future<dynamic> addrequestAsk(var cod, var respuesta, var nie) async {
+  print(cod);
+  print(respuesta);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_dates_reques.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "request":respuesta,
+      "nie":nie,
+    },
+  );
+  return enviar.body;
+}
+
+Future<dynamic> addrequestImagen(var cod, var respuesta, var nie) async {
+
+  print(cod);
+  List<int> imageBytes = await respuesta.readAsBytes();
+  String base64Image = base64Encode(imageBytes);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_dates_resquest_img.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "request":base64Image,
+      "nie":nie,
+    },
+  );
+  return enviar.body;
+}
+
+Future<dynamic> addrequestsound(var cod, var respuesta, var nie) async {
+  print(cod);
+  print(respuesta);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_dates_request_sound.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "request":respuesta,
+      "nie":nie,
     },
   );
   return enviar.body;

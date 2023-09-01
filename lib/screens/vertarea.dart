@@ -1709,8 +1709,6 @@ class _VerTareaEState extends State<VerTarea> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => UseURL(
-                                  cod_act: widget.cod,
-                                  cod_p: widget.cod_p,
                                 )),
                       );
                     },

@@ -6,16 +6,13 @@ void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
     home: UseURL(
-      cod_act: '',
-      cod_p: '',
     ),
   ));
 }
 
 class UseURL extends StatefulWidget {
-  String cod_act;
-  String cod_p;
-  UseURL({super.key, required this.cod_act, required this.cod_p});
+
+  UseURL({super.key});
 
   @override
   State<UseURL> createState() => _UseURLState();
@@ -70,29 +67,7 @@ class _UseURLState extends State<UseURL> {
                   Padding(padding: EdgeInsets.all(5)),
                   Text("https://drive.google.com/uc?id=ID_DEL_ARCHIVO",style: TextStyle(fontSize: 15)),
                   Padding(padding: EdgeInsets.all(20)),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VerTarea(cod: widget.cod_act, cod_p: widget.cod_p)),
-                        );
-                    },
-                    child: Container(
-                      width: 150,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(Icons.arrow_back),
-                        ],
-                      ),
-                    ),
-                  ),
+                  
                   Padding(padding: EdgeInsets.all(20))
                 ],
               ),
