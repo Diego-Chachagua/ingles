@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/request_ask.dart';
 
+import '../developer/consultasf.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
 // import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -136,31 +137,31 @@ setState(() {
                           child:  MaterialButton(onPressed: () async{
                           
                     dynamic respuesta = await comprobartarea(cod[i],widget.nie);
-                    if (respuesta == "error") {
-                        _mensaje(context);
-
-                      //se produjo un error
+                    var estado;
+                    for(i=0; i<respuesta.length;i++){
+                      var dato=respuesta[i];
+                      estado=dato["estado"];
                     }
-                    if (respuesta == "noExiste") {
-                      //ya realizo la prueba
-                      _mensajeUsu(context);
+                    
+                    if(estado == " finalizado"){
+                       _mensajeUsu(context);
                     } else {
-                         if(respuesta == "exito"){
                         // ignore: use_build_context_synchronously
                         Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => RespoderTaskEstu(nie: widget.nie,cod_act: cod[i],nombre_act: tareas[i],)),
                    );
                       }
-                    }
-
-                          },
+                    },
                           child:  Center(child: Text(tareas[i], style: const TextStyle(fontSize: 20, color: Colors.white))),
 
                             
-                          
+                          )
+                        
 
                           )
+
+                    ]
                           ),
         
                     ],
@@ -170,13 +171,11 @@ setState(() {
               
             
         
-            ],
         
           ),
-        ),
+      )
+        );
        
-      ),
-    );
     
   
 

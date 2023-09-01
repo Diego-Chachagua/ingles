@@ -640,6 +640,7 @@ Future<dynamic> addrequestGame(var cod, var respuesta) async {
 Future<dynamic> addrequestAsk(var cod, var respuesta, var nie) async {
   print(cod);
   print(respuesta);
+  print(nie);
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/add_dates_reques.php'),
     body: <String, dynamic>{
@@ -675,6 +676,20 @@ Future<dynamic> addrequestsound(var cod, var respuesta, var nie) async {
     body: <String, dynamic>{
       "cod":cod,
       "request":respuesta,
+      "nie":nie,
+    },
+  );
+  return enviar.body;
+}
+Future<dynamic> changeState(var cod, var estado, var nie) async {
+  print(cod);
+  print(estado);
+  print(nie);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/changeState.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "estado":estado,
       "nie":nie,
     },
   );

@@ -101,6 +101,7 @@ var contador=0;
   List pregunta = [];
   List imagen_p = [];
   List imagen = [];
+  List imagen_cod=[];
   List audio = [];
   List audio_p = [];
   List respuesta_Game = [];
@@ -131,6 +132,7 @@ var contador=0;
         respuesta.clear();
         imagen_p.clear();
         imagen.clear();
+        imagen_cod.clear();
         audio.clear();
         audio_p.clear();
         respuesta_Game.clear();
@@ -177,9 +179,15 @@ var contador=0;
           respuesta.add(respuestas);
           audio.add(audios);
           print(audio);
-
-          imagen.add(imagenes);// respuestas
+          if(imagenes!=null){
+            Uint8List bytes = base64.decode(imagenes);// respuestas
+            imagen.add(bytes);
+          }else{
+            imagen.add("");
+          }
+          imagen_cod.add(imagenes);
           
+          // respuestas
         }
       }
     });
@@ -204,7 +212,7 @@ var contador=0;
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
             ),
             backgroundColor: Colors.transparent,
-            body: SingleChildScrollView(
+            body: RefreshIndicator(child:SingleChildScrollView(
                 child: Column(children: [
               Container(
                 width: 350,
@@ -280,7 +288,7 @@ var contador=0;
                                       Container(width: 280,height: 2,color: Colors.black,),
                                       Padding(padding: EdgeInsets.all(5)),
                                       //inicio de evaluacion de respuesta
-                                      respuesta[i] == null &&  imagen[i] == null &&  audio[i] == null
+                                      respuesta[i] == null &&  imagen_cod[i] == null &&  audio[i] == null
                                           ? Container(
                                             width: 260,
                                             child: TextField(
@@ -293,7 +301,7 @@ var contador=0;
                                                      "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
                                             ),
                                           )
-                                          : imagen[i] == null  && audio[i]==null?
+                                          : imagen_cod[i] == null  && audio[i]==null?
                                           Container(
                                             width: 260,
                                             child: TextField(
@@ -305,29 +313,40 @@ var contador=0;
                                                   hintText:
                                                      "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
                                             ),
-                                          ): audio[i]==null && respuesta[i]==null?       
-                                                      Container(
-                                                        width: 350,
-                                                        height: 400,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal: 20,
-                                                                vertical: 5),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              width: 3),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          image: DecorationImage(
-                                                              image:
-                                                                  MemoryImage(
-                                                                      imagen[i]),
-                                                              fit:BoxFit.cover),
+                                          ): audio[i]==null && respuesta[i]==null?          
+                                                      SizedBox(
+                                                        child: Column(
+                                                          children: [
+                                                            Text("${cod_res[i]}"),
+                                                            if(i < imagen.length)
+                                                            Container(
+                                                              width: 350,
+                                                              height: 400,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .symmetric(
+                                                                      horizontal: 20,
+                                                                      vertical: 5),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border: Border.all(
+                                                                    width: 3),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(5),
+                                                                image: DecorationImage(
+                                                                    image:
+                                                                        MemoryImage(
+                                                                            imagen[i]
+                                                                        ),
+                                                                    fit:BoxFit.cover),
+                                                              ) 
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ): imagen[i]==null && respuesta[i]==null?
+                                                      )
+
+                                                      : imagen_cod[i]==null && respuesta[i]==null?
                                                         Container(
                                                           height: 100,
                                                           decoration: BoxDecoration(border: Border.all(width: 2),borderRadius: BorderRadius.circular(10)),
@@ -431,7 +450,6 @@ var contador=0;
                             ]
                           )
                           //juego
-
                           //apartado para evaluar game
                         : imagen_p[i] == "" &&
                                 audio_p[i] == null &&
@@ -820,7 +838,7 @@ var contador=0;
                                                 Padding(padding: EdgeInsets.all(5)),
                                                 Container(width: 290,height: 2,color: Colors.black,),
                                       Padding(padding: EdgeInsets.all(5)),
-                                         respuesta[i] == null &&  imagen[i] == null &&  audio[i] == null
+                                         respuesta[i] == null &&  imagen_cod[i] == null &&  audio[i] == null
                                           ? Container(
                                             width: 260,
                                             child: TextField(
@@ -833,7 +851,7 @@ var contador=0;
                                                      "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
                                             ),
                                           )
-                                          : imagen[i] == null  && audio[i]==null?
+                                          : imagen_cod[i] == null  && audio[i]==null?
                                           Container(
                                             width: 260,
                                             child: TextField(
@@ -867,7 +885,7 @@ var contador=0;
                                                                       imagen[i]),
                                                               fit:BoxFit.cover),
                                                         ),
-                                                      ): imagen[i]==null && respuesta[i]==null?
+                                                      ): imagen_cod[i]==null && respuesta[i]==null?
                                                        //respuesta audio imagen
 
                                                         Container(
@@ -1100,7 +1118,7 @@ var contador=0;
                                                 Padding(padding: EdgeInsets.all(10)),
                                                 Container(width: 290,height: 2,color: Colors.black,),
                                       Padding(padding: EdgeInsets.all(5)),
-                                         respuesta[i] == null &&  imagen[i] == null &&  audio[i] == null
+                                         respuesta[i] == null &&  imagen_cod[i] == null &&  audio[i] == null
                                           ? Container(
                                             width: 260,
                                             child: TextField(
@@ -1113,7 +1131,7 @@ var contador=0;
                                                      "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
                                             ),
                                           )
-                                          : imagen[i] == null  && audio[i]==null?
+                                          : imagen_cod[i] == null  && audio[i]==null?
                                           Container(
                                             width: 260,
                                             child: TextField(
@@ -1154,7 +1172,7 @@ var contador=0;
                                                             ),
                                                           ),
                                                         ],
-                                                      ): imagen[i]==null && respuesta[i]==null?
+                                                      ): imagen_cod[i]==null && respuesta[i]==null?
                                                         Container(
                                                           height: 100,
                                                           decoration: BoxDecoration(border: Border.all(width: 2),borderRadius: BorderRadius.circular(10)),
@@ -1253,11 +1271,37 @@ var contador=0;
                                             )),
                                       )
                                     : Padding(padding: EdgeInsets.all(10)),
+                                   
                     //espacio para definición de contenedor para mostrar historial
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(20))
-            ])),
+                Padding(padding: EdgeInsets.all(20)),
+                  MaterialButton(onPressed: (){
+                                         changeState(widget.cod_act,"Finalizado",widget.nie);
+                                         Navigator.pop(context);
+                                    },
+                                    child: 
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(width: 1),
+                                        borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      width: 100,
+                                      height: 50,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text("Finalizar"),
+                                          Icon(Icons.check)
+                                        ],
+                                      ),
+                                    ),),
+               Padding(padding: EdgeInsets.all(40))
+                
+            ]
+            )
+            ),  onRefresh: getActivitys)
+            
            
             ));
   }
@@ -1493,7 +1537,8 @@ var contador=0;
                                         .validate()) {
                                       var ask2 = changeask.text;
                                       var cod = cod_changeask.text;
-                                     addrequestAsk(ask2,cod,widget.nie);//funcion para agregar respuesta a la pregunta
+                                      changeState(widget.cod_act,"en proceso",widget.nie);
+                                     addrequestAsk(cod,ask2,widget.nie);//funcion para agregar respuesta a la pregunta
                                       cod_changeask.text="";
                                       changeask.text = "";
                                       Navigator.pop(context);
@@ -1533,7 +1578,9 @@ var contador=0;
                   Container(
                       width: 150,
                       height: 100,
-                      child: TextFormField(
+                      child: Form(
+                        key: formKey,
+                        child: TextFormField(
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
                             return "campo requerido";
@@ -1549,7 +1596,8 @@ var contador=0;
                             border: OutlineInputBorder(),
                             hintText: "codigo",
                             hintStyle: TextStyle(fontSize: 15)),
-                      )),
+                      ) )
+                     ),
                   MaterialButton(
                     onPressed: () {
                       var ask = nameask.text;
