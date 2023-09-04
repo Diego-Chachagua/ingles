@@ -138,8 +138,8 @@ setState(() {
                           
                     dynamic respuesta = await comprobartarea(cod[i],widget.nie);
                     var estado;
-                    for(i=0; i<respuesta.length;i++){
-                      var dato=respuesta[i];
+                    for(var n =0; n<respuesta.length;n++){
+                      var dato=respuesta[n];
                       estado=dato["estado"];
                     }
                     
