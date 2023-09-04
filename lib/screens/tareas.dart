@@ -143,10 +143,11 @@ setState(() {
                       estado=dato["estado"];
                     }
                     
-                    if(estado == " finalizado"){
+                    if(estado == " Finalizado"){
                        _mensajeUsu(context);
                     } else {
                         // ignore: use_build_context_synchronously
+                        changeState(cod[i],"en proceso",widget.nie);
                         Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => RespoderTaskEstu(nie: widget.nie,cod_act: cod[i],nombre_act: tareas[i],)),

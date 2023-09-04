@@ -1531,7 +1531,7 @@ var contador=0;
                                         .validate()) {
                                       var ask2 = changeask.text;
                                       var cod = cod_changeask.text;
-                                      changeState(widget.cod_act,"en proceso",widget.nie);
+                                      
                                      addrequestAsk(cod,ask2,widget.nie);//funcion para agregar respuesta a la pregunta
                                       cod_changeask.text="";
                                       changeask.text = "";
