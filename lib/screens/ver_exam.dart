@@ -805,7 +805,7 @@ class _VerExamState extends State<VerExam> {
                           textAlign: TextAlign.center,
                           cursorColor: Colors.black,
                           maxLines: 2,
-                          maxLength: 40,
+                          maxLength: 70,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "Escribir pregunta",
@@ -905,7 +905,7 @@ class _VerExamState extends State<VerExam> {
                         controller: nameask,
                         textAlign: TextAlign.center,
                         cursorColor: Colors.black,
-                        maxLength: 40,
+                        maxLength: 70,
                         maxLines: 2,
                         decoration: const InputDecoration(
                             hintText: "Escribir pregunta",
@@ -1119,7 +1119,7 @@ class _VerExamState extends State<VerExam> {
                               controller: changeask,
                               textAlign: TextAlign.center,
                               cursorColor: Colors.black,
-                              maxLength: 40,
+                              maxLength: 70,
                               maxLines: 2,
                               decoration: const InputDecoration(
                                 hintText: "Escribir  pregunta",
@@ -1524,7 +1524,7 @@ class _VerExamState extends State<VerExam> {
                               textAlign: TextAlign.center,
                               cursorColor: Colors.black,
                               maxLines: 2,
-                              maxLength: 40,
+                              maxLength: 70,
                               decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   hintText: "Escribir pregunta",

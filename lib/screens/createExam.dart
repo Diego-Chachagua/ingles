@@ -803,7 +803,7 @@ class _CreateExamState extends State<CreateExam> {
                           textAlign: TextAlign.center,
                           cursorColor: Colors.black,
                           maxLines: 2,
-                          maxLength: 40,
+                          maxLength: 70,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "Escribir pregunta",
@@ -903,7 +903,7 @@ class _CreateExamState extends State<CreateExam> {
                         controller: nameask,
                         textAlign: TextAlign.center,
                         cursorColor: Colors.black,
-                        maxLength: 40,
+                        maxLength: 70,
                         maxLines: 2,
                         decoration: const InputDecoration(
                             hintText: "Escribir pregunta",
@@ -1117,7 +1117,7 @@ class _CreateExamState extends State<CreateExam> {
                               controller: changeask,
                               textAlign: TextAlign.center,
                               cursorColor: Colors.black,
-                              maxLength: 40,
+                              maxLength: 70,
                               maxLines: 2,
                               decoration: const InputDecoration(
                                 hintText: "Escribir  pregunta",
@@ -1522,7 +1522,7 @@ class _CreateExamState extends State<CreateExam> {
                               textAlign: TextAlign.center,
                               cursorColor: Colors.black,
                               maxLines: 2,
-                              maxLength: 40,
+                              maxLength: 70,
                               decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   hintText: "Escribir pregunta",
