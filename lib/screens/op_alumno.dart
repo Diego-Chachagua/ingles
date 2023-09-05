@@ -291,7 +291,7 @@ class _OpAlumEState extends State<OpAlum> {
                       child: const SizedBox(
                           height: 150,
                           width: 145,
-                          child: Image(image: AssetImage('assets/play.png'))),
+                          child: Image(image: AssetImage('assets/letra-u.png'))),
                     ),
                     GradientText(
                       'Unidades',
