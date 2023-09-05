@@ -280,7 +280,7 @@ class _OpAlumEState extends State<OpAlum> {
                   ],
                 ),
                 SizedBox(
-                  height: 150,
+                  height: 10,
                 ),
                 Column(
                   children: [
