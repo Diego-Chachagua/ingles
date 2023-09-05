@@ -207,7 +207,7 @@ class _SaveActState extends State<SaveAct> {
                     children: [
                       Text(
                         'Seleccione una hora y fecha limite\n                      de entrega',
-                        style: TextStyle(fontSize: 20,color: Colors.black38),
+                        style: TextStyle(fontSize: 20),
                         
                       ),
                        Padding(padding: EdgeInsets.all(20)),
@@ -222,12 +222,11 @@ class _SaveActState extends State<SaveAct> {
                           borderRadius: BorderRadius.circular(5)),
                       child: Column(
                         children: [
-                          Text('Fecha:',style: TextStyle(color: Colors.black38),),
+                          Text('Fecha:'),
                           Text(
                             "$formattedDate",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.black38,
                                 fontSize: 15),
                           ),
                         ],
@@ -241,11 +240,10 @@ class _SaveActState extends State<SaveAct> {
                           borderRadius: BorderRadius.circular(5)),
                       child: Column(
                         children: [
-                          Text("Hora:",style: TextStyle(color: Colors.black38)),
+                          Text("Hora:"),
                           Text("$formateTime",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.black38,
                                 fontSize: 15),),
                         ],
                       ),
@@ -258,7 +256,10 @@ class _SaveActState extends State<SaveAct> {
                   children: [
                     SafeArea(
                         child: MaterialButton(
-                      onPressed: null,
+                      onPressed: (){
+                        callDataPicker();
+
+                      },
                       child: Container(
                         width: 100,
                         height: 40,
@@ -272,7 +273,10 @@ class _SaveActState extends State<SaveAct> {
                     SafeArea(
                         child: MaterialButton(
                           enableFeedback: false,
-                      onPressed: null,
+                      onPressed: (){
+                        callTimePicker();
+
+                      },
                       child: Container(
                         width: 100,
                         height: 40,
@@ -285,7 +289,6 @@ class _SaveActState extends State<SaveAct> {
                     )),
                   ],
                 ),
-                Text("¡COMING SOON!",style: TextStyle(fontSize: 25,fontStyle: FontStyle.italic),),
                     ],
                   ),
                 ),
@@ -296,7 +299,7 @@ class _SaveActState extends State<SaveAct> {
                       final snackBar = SnackBar(
                           content: Text("Actividad Guardada con exito"));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      insertcodes(seleccionada, a, widget.cod_act);
+                      insertcodes(seleccionada, a, widget.cod_act,formateTime, formattedDate);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

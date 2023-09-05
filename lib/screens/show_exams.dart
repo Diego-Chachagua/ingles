@@ -30,6 +30,7 @@ class _VerExamsState extends State<VerExams> {
   var resultado;
   List nombre_p = [];
   List cod_p = [];
+  List date=[];
   String seleccionada = 'Año';
   List anios = ['Año', '1', '2', '3'];
   String seleccionada2 = 'Seccion';
@@ -70,9 +71,10 @@ class _VerExamsState extends State<VerExams> {
           var dato = resultado[i];
           var codigo = dato["cod_pr"];
           var nombre = dato["nombre_p"];
-
+          var dates = dato["date"];
           cod_p.add(codigo);
           nombre_p.add(nombre);
+          date.add(dates);
         }
       }
     });
@@ -222,6 +224,18 @@ class _VerExamsState extends State<VerExams> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       MaterialButton(
+                        onLongPress: (){
+                          final snackBar = SnackBar(
+                                          backgroundColor: Color.fromARGB(
+                                              255, 155, 118, 214),
+                                          shape: Border.all(width: 1),
+                                          closeIconColor: Color.fromARGB(
+                                              255, 230, 230, 230),
+                                          content: Text(
+                                              "Fecha de creación: ${date[i]}"));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                        },
                         onPressed: () {
                           Navigator.push(
                             context,

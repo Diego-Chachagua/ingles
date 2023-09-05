@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ingles/screens/use_url.dart';
 import 'package:ingles/screens/verEstuAct.dart';
+import 'package:intl/intl.dart';
 import '../developer/consultasf.dart';
 import 'calificar_E.dart';
 
@@ -19,6 +20,7 @@ void main() {
       nie: '',
       cod_act: '',
       nombre_act: '',
+      date: '',
     ),
   ));
 }
@@ -28,10 +30,11 @@ class RespoderTaskEstu extends StatefulWidget {
   final String nie;
   String nombre_act;
   String cod_act;
+  String date;
   RespoderTaskEstu(
       {super.key,
       required this.nie,
-
+      required this.date,
       required this.cod_act,
       required this.nombre_act});
 
@@ -212,9 +215,20 @@ var contador=0;
                 width: 350,
                 height: 70,
                 child: Center(
-                  child: Text(
-                    'Se muestra la actividad: "${widget.nombre_act}"',
-                    style: TextStyle(fontSize: 17, fontStyle: FontStyle.italic),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Se muestra la actividad: "${widget.nombre_act}"',
+                        style: TextStyle(fontSize: 17, fontStyle: FontStyle.italic),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text("Entregar antes de: ${widget.date}")
+                        ],
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -1271,6 +1285,13 @@ var contador=0;
                 ),
                 Padding(padding: EdgeInsets.all(20)),
                   MaterialButton(onPressed: (){
+                      var selectDate = DateTime.now();
+                      var selectTime = TimeOfDay.now();
+                       String formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
+                       String formateTime = selectTime.format(context);
+                       print(formateTime);
+                       print(formattedDate);
+                       addDateAct(widget.cod_act,formattedDate,formateTime,widget.nie);
                                          changeState(widget.cod_act,"Finalizado",widget.nie);
                                          Navigator.pop(context);
                                     },

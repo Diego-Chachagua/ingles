@@ -29,6 +29,7 @@ class _TareasState extends State<Tareas> {
 var reslt;
 List<String> tareas= [];
 List<String> cod= [];
+List date=[];
 
   @override
 void initState(){
@@ -41,10 +42,12 @@ void initState(){
     print(dato["nombre_act"]);
     print(dato["cod_act"]);
 
+
   // ignore: non_constant_identifier_names
           var nom_tem = dato["nombre_act"];
           // ignore: non_constant_identifier_names
           var id_tem = dato["cod_act"];
+          var dates = dato["date"];
 
          
 
@@ -52,6 +55,7 @@ setState(() {
   // Actualizar las listas con los datos obtenidos
   tareas.add(nom_tem);
   cod.add(id_tem);
+  date.add(dates);
 
 
 });
@@ -143,14 +147,16 @@ setState(() {
                       estado=dato["estado"];
                     }
                     
-                    if(estado == " Finalizado"){
+                    if(estado == "Finalizado"){
                        _mensajeUsu(context);
                     } else {
                         // ignore: use_build_context_synchronously
+
                         changeState(cod[i],"en proceso",widget.nie);
                         Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RespoderTaskEstu(nie: widget.nie,cod_act: cod[i],nombre_act: tareas[i],)),
+                  MaterialPageRoute(builder: (context) => RespoderTaskEstu(nie: widget.nie,cod_act: cod[i],nombre_act: tareas[i],
+                  date: date[i],)),
                    );
                       }
                     },

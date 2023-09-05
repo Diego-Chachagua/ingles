@@ -149,15 +149,14 @@ Future<dynamic> examenes(String grado, String seccion) async {
 
 Future<dynamic> comprobarexamen(String nombret, String nie) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/comprobart.php'),
+    Uri.parse('https://incasingles.000webhostapp.com/comprobare.php'),
     body: <String, dynamic>{
       "tarea": nombret,
       "nie": nie,
     },
   );
-  if (enviar.statusCode == 201) {
-    return "error";
-  } else {
-    return enviar.body;
-  }
+     var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+  
 }

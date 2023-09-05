@@ -35,6 +35,8 @@ class _CalificarEState extends State<CalificarE> {
   List nombre_act = [];
   List cod_act = [];
   List fecha=[];
+  List date_final=[];
+  List date=[];
   var n1 = 0;
 
   @override
@@ -59,15 +61,18 @@ class _CalificarEState extends State<CalificarE> {
           var dato = resultado[i];
           var codigo = dato["cod_act"];
           var nombre = dato["nombre_act"];
-          var date=dato["estado"];
+          var estado=dato["estado"];
+          var dates_final=dato["date_final"];
+          var dates=dato["date"];
           cod_act.add(codigo);
           nombre_act.add(nombre);
-          if(date!=""){
-             fecha.add(date);
+          if(estado!=""){
+             fecha.add(estado);
           }else{
             fecha.add("estado:0");
           }
-         
+          date_final.add(dates_final);
+          date.add(dates);
         }
       }
     });
@@ -82,19 +87,7 @@ class _CalificarEState extends State<CalificarE> {
         ),
         child: Scaffold(
             appBar: AppBar(
-              leading: MaterialButton(onPressed: (){
-                 Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => VerEstuAct(
-                                          cod_p: widget.cod_profe,
-                                          anio: widget.anio,
-                                          seccion: widget.seccion,
-                                          select: widget.elec,
-                                        )),
-                              );
-              },
-              child: Center(child:Icon(Icons.arrow_back)),),
+              
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
             ),
@@ -103,7 +96,8 @@ class _CalificarEState extends State<CalificarE> {
                 child: Column(
               children: [
                 Text("Se muestran actividades de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: 17,fontStyle: FontStyle.italic),),
-                const SizedBox(
+              Padding(padding: EdgeInsets.all(10)),
+              const SizedBox(
                   height: 30,
                 ),
                 Container(
@@ -130,6 +124,8 @@ class _CalificarEState extends State<CalificarE> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ShowRequestEstu(
+                                      date: date[i],
+                                      date_final: date_final[i],
                                       cod_profe: widget.cod_profe,
                                       cod_act: cod_act[i],
                                       nombre_act: nombre_act[i],

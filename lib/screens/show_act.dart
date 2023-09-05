@@ -28,6 +28,7 @@ class _VerActEState extends State<VerAct> {
   var resultado;
   List nombre_act = [];
   List cod_act = [];
+  List date=[];
   String seleccionada = 'Año';
   List anios = ['Año', '1', '2', '3'];
   String seleccionada2 = 'Seccion';
@@ -68,9 +69,11 @@ class _VerActEState extends State<VerAct> {
           var dato = resultado[i];
           var codigo = dato["cod_act"];
           var nombre = dato["nombre_act"];
+          var dates = dato["date"];
 
           cod_act.add(codigo);
           nombre_act.add(nombre);
+          date.add(dates);
         }
       }
     });
@@ -219,6 +222,18 @@ class _VerActEState extends State<VerAct> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       MaterialButton(
+                        onLongPress: (){
+                          final snackBar = SnackBar(
+                                          backgroundColor: Color.fromARGB(
+                                              255, 155, 118, 214),
+                                          shape: Border.all(width: 1),
+                                          closeIconColor: Color.fromARGB(
+                                              255, 230, 230, 230),
+                                          content: Text(
+                                              "Fecha de creación: ${date[i]}"));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                        },
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -255,6 +270,7 @@ class _VerActEState extends State<VerAct> {
                         ),
                       ),
                       MaterialButton(
+
                         onPressed: () async{
                           n1++;
                           if (n1 == 1) {

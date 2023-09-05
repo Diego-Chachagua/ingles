@@ -70,14 +70,16 @@ Future<dynamic> editAsk(var pregunta, var cod) async {
   return enviar.body;
 }
 //crear nueva actividad
-Future<dynamic> addTask(var name,var cod_p) async {
+Future<dynamic> addTask(var name,var cod_p, var anio,var hora) async {
   print(name);
+  var date=anio+" "+hora;
   print(cod_p);
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/add_Task.php'),
     body: <String, dynamic>{
       "name": name,
       "cod_p":cod_p,
+      "date":date,
     },
   );
   var resultado = jsonDecode(enviar.body);
@@ -100,10 +102,12 @@ Future<dynamic> editname(var nombre, var cod) async {
   return enviar.body;
 }
 //guardar año y seccion
-Future<dynamic> insertcodes(var grado, var seccion,var cod) async {
+Future<dynamic> insertcodes(var grado, var seccion,var cod, var hora, var anio) async {
   print(grado);
   print(seccion);
+  var date = anio+" "+hora;
   print(cod);
+  print(date);
 
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/add_dates_activity.php'),
@@ -111,6 +115,7 @@ Future<dynamic> insertcodes(var grado, var seccion,var cod) async {
       "grado": grado,
       "secc": seccion,
       "cod": cod,
+      "date":date,
     },
   );
   return enviar.body;
@@ -276,14 +281,16 @@ Future<dynamic> editRespuesta(var cod_a,var cod_p, var request) async {
 
 //inicio de consultas para la pantalla examenes
 
-Future<dynamic> addExam(var name,var cod_p) async {
+Future<dynamic> addExam(var name,var cod_p, var anio, var hora) async {
   print(name);
   print(cod_p);
+  var date = anio+" "+hora;
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/add_Exam.php'),
     body: <String, dynamic>{
       "name": name,
       "cod_p":cod_p,
+      "date":date
     },
   );
   var resultado = jsonDecode(enviar.body);
@@ -685,11 +692,72 @@ Future<dynamic> changeState(var cod, var estado, var nie) async {
   print(cod);
   print(estado);
   print(nie);
+
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/changeState.php'),
     body: <String, dynamic>{
       "cod":cod,
       "estado":estado,
+      "nie":nie,
+    },
+  );
+  return enviar.body;
+}
+
+Future<dynamic> changeStateExam(var cod, var estado, var nie) async {
+  print(cod);
+  print(estado);
+  print(nie);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/changeStateExam.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "estado":estado,
+      "nie":nie,
+    },
+  );
+  return enviar.body;
+}
+
+//responder examen
+Future<dynamic> addrequestAskExam(var cod, var respuesta, var nie) async {
+  print(cod);
+  print(respuesta);
+  print(nie);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/add_dates_reques.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "request":respuesta,
+      "nie":nie,
+    },
+  );
+  return enviar.body;
+}
+Future<dynamic> addDateAct(var cod, var anio, var hora, var nie) async {
+  print(cod);
+ var date = anio+" "+hora;
+  print(nie);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/addDateAct.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "date":date,
+      "nie":nie,
+    },
+  );
+  return enviar.body;
+}
+
+Future<dynamic> addDateExam(var cod, var anio, var hora, var nie) async {
+  print(cod);
+ var date = anio+" "+hora;
+  print(nie);
+  http.Response enviar = await http.post(
+    Uri.parse('https://incasingles.000webhostapp.com/addDateExam.php'),
+    body: <String, dynamic>{
+      "cod":cod,
+      "date":date,
       "nie":nie,
     },
   );

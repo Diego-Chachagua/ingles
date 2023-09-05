@@ -36,6 +36,8 @@ class _CalificarExamState extends State<CalificarExam> {
   List nombre_act = [];
   List cod_act = [];
   List fecha=[];
+  List date=[];
+  List date_final=[];
   var n1 = 0;
 
   @override
@@ -60,11 +62,15 @@ class _CalificarExamState extends State<CalificarExam> {
           var dato = resultado[i];
           var codigo = dato["cod_pr"];
           var nombre = dato["nombre_pr"];
-          var date=dato["estado"];
+          var estado=dato["estado"];
+          var dates_final=dato["date_final"];
+          var dates = dato["date"];
+          date.add(dates);
+          date_final.add(dates_final);
           cod_act.add(codigo);
           nombre_act.add(nombre);
-          if(date!=null){
-             fecha.add(date);
+          if(estado!=null){
+             fecha.add(estado);
           }else{
             fecha.add("no disponible");
           }
@@ -83,19 +89,7 @@ class _CalificarExamState extends State<CalificarExam> {
         ),
         child: Scaffold(
             appBar: AppBar(
-              leading: MaterialButton(onPressed: (){
-                 Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => VerEstuAct(
-                                          cod_p: widget.cod_profe,
-                                          anio: widget.anio,
-                                          seccion: widget.seccion,
-                                          select: widget.elec,
-                                        )),
-                              );
-              },
-              child: Center(child:Icon(Icons.arrow_back)),),
+              
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
             ),
@@ -131,6 +125,8 @@ class _CalificarExamState extends State<CalificarExam> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>  ShowRequestExam(
+                                      date: date[i],
+                                      date_final: date_final[i],
                                       cod_profe: widget.cod_profe,
                                       cod_act: cod_act[i],
                                       nombre_act: nombre_act[i],

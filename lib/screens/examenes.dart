@@ -1,7 +1,9 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:ingles/developer/consultaso.dart';
+import 'package:ingles/screens/request_ask_exam.dart';
 
+import '../developer/consultasf.dart';
 import '../main.dart';
 // import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -27,7 +29,7 @@ class _ExamenesState extends State<Examenes> {
 var reslt;
 List<String> examen= [];
 List<String> cod= [];
-
+List date=[];
 
   @override
 void initState(){
@@ -44,6 +46,7 @@ void initState(){
           var nom_tem = dato["nombre_p"];
           // ignore: non_constant_identifier_names
           var id_tem = dato["cod_pr"];
+          var dates=dato["date"];
 
          
 
@@ -51,6 +54,7 @@ setState(() {
   // Actualizar las listas con los datos obtenidos
   examen.add(nom_tem);
   cod.add(id_tem);
+  date.add(dates);
 
 
 });
@@ -129,24 +133,28 @@ setState(() {
                           width: 200,
                           color: const Color.fromARGB(255, 135, 8, 160),
                           child:  MaterialButton(onPressed: () async{
-                              dynamic respuesta = await comprobarexamen(cod[i],widget.nie);
-                    if (respuesta == "error") {
-                        _mensaje(context);
-
-                      //se produjo un error
-                    }
-                    if (respuesta == "noExiste") {
-                      //ya realizo la prueba
-                      _mensajeUsu(context);
+                              dynamic respuesta = await comprobarexamen(cod[i],widget.nie);//cambiar esto
+                    var estado;
+                    for(var n =0; n<respuesta.length;n++){
+                      var dato=respuesta[n];
+                      estado=dato["estado"];
+                    }      
+                    if(estado == "Finalizado"){
+                       _mensajeUsu(context);
                     } else {
-                         if(respuesta == "exito"){
+                      changeStateExam(cod[i],"en proceso",widget.nie);
                         // ignore: use_build_context_synchronously
                         Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const FirstRoute()),
+                  MaterialPageRoute(builder: (context) =>  RespoderTaskEstuExam(
+                    nie: widget.nie,
+                    cod_act: cod[i],
+                    nombre_act: examen[i],
+                    date: date[i],
+                  )),
                    );
                       }
-                    }
+                    
                           },
                           child: Center(child: Text(examen[i], style: const TextStyle(fontSize: 20, color: Colors.white))),
 

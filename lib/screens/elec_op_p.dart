@@ -7,6 +7,7 @@ import 'package:ingles/screens/show_act.dart';
 import 'package:ingles/screens/tareas.dart';
 import 'package:ingles/screens/tareasM.dart';
 import 'package:ingles/screens/ver_T_E.dart';
+import 'package:intl/intl.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
 import '../developer/consultaso.dart';
@@ -32,7 +33,12 @@ String cod_p;
 }
 
 class _ProfeOpEState extends State<ProfeOp> {
- 
+ String formattedDate = "YYYY-MM-DD";
+
+
+  
+
+  
 var reslt;
 var cod;
 var cod2;
@@ -42,7 +48,6 @@ var result1;
   @override
   Widget build(BuildContext context) {
     var cod_profe=widget.cod_p;
-    
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -88,9 +93,16 @@ var result1;
                       children: [
                         MaterialButton(
                           onPressed: () async{
+                            var selectDate = DateTime.now();
+                            var selectTime = TimeOfDay.now();
+                             formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
+                               String formateTime = selectTime.format(context);
+                            print(formateTime);
+                            print(formattedDate);
+
                              var name = "NAME OF ACTIVITY/TASK";
                             try{
-                               reslt = await addTask(name,widget.cod_p);
+                               reslt = await addTask(name,widget.cod_p,formattedDate,formateTime);
                             if (reslt != "noExisten") {
                               for (var i = 0; i < reslt.length; i++) {
                                 var dato = reslt[i];
@@ -103,7 +115,8 @@ var result1;
                             }
                             }catch(e){
                               _smsError(context);
-                            }  
+                            } 
+                            
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) =>  TareasP(cod: cod,cod_p: widget.cod_p, ),
@@ -138,9 +151,15 @@ var result1;
                       children: [
                         MaterialButton(
                           onPressed: () async{
+                            var selectDate = DateTime.now();
+                            var selectTime = TimeOfDay.now();
+                             String formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
+                               String formateTime = selectTime.format(context);
+                            print(formateTime);
+                            print(formattedDate);
                              var name = "NAME OF EXAM";
                             try{
-                               result1 = await addExam(name,widget.cod_p);
+                               result1 = await addExam(name,widget.cod_p,formattedDate,formateTime);
                             if (result1 != "noExisten") {
                               for (var i = 0; i < result1.length; i++) {
                                 var dato = result1[i];

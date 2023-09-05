@@ -21,6 +21,8 @@ void main() {
       cod_act: '',
       nombre_act: '',
       elec: '',
+      date_final: '',
+      date: '',
     ),
   ));
 }
@@ -35,6 +37,8 @@ class ShowRequestEstu extends StatefulWidget {
   String nombre_act;
   String cod_act;
   String elec;
+  String date_final;
+  String date;
   ShowRequestEstu(
       {super.key,
       required this.nie,
@@ -44,6 +48,8 @@ class ShowRequestEstu extends StatefulWidget {
       required this.cod_profe,
       required this.cod_act,
       required this.nombre_act,
+      required this.date_final,
+      required this.date,
       required this.elec});
 
   @override
@@ -166,23 +172,7 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
         ),
         child: Scaffold(
             appBar: AppBar(
-              leading: MaterialButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CalificarE(
-                              cod_profe: widget.cod_profe,
-                              anio: widget.anio,
-                              seccion: widget.seccion,
-                              nie: widget.nie,
-                              nombres: widget.nombres,
-                              elec: widget.elec,
-                            )),
-                  );
-                },
-                child: Center(child: Icon(Icons.arrow_back)),
-              ),
+              
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
             ),
@@ -191,11 +181,18 @@ class _ShowRequestEstuState extends State<ShowRequestEstu> {
                 child: Column(children: [
               Container(
                 width: 350,
-                height: 70,
+                height: 95,
                 child: Center(
-                  child: Text(
-                    'Se muestra la actividad: "${widget.nombre_act}"\nde el estudiante: "${widget.nombres}"',
-                    style: TextStyle(fontSize: 17, fontStyle: FontStyle.italic),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Se muestra la actividad: "${widget.nombre_act}"\nde el estudiante: "${widget.nombres}"',
+                        style: TextStyle(fontSize: 17, fontStyle: FontStyle.italic),
+                      ),
+                      Padding(padding: EdgeInsets.all(10)),
+                    Text("Fecha asignada: ${widget.date} "),
+                    Text("Fecha de entrega: ${widget.date_final}"),
+                    ],
                   ),
                 ),
               ),
