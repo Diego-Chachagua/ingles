@@ -330,7 +330,6 @@ class _VerTareaEState extends State<VerTarea> {
                                       },
                                       child: Container(
                                         width: 320,
-                                        height: 50,
                                         decoration: BoxDecoration(
                                             color: Color.fromARGB(
                                                 255, 167, 137, 194),
@@ -343,12 +342,16 @@ class _VerTareaEState extends State<VerTarea> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              "${i}  -  ${preguntas[i]}",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Color.fromARGB(
-                                                      255, 238, 234, 234)),
+                                            Container(
+                                              width: 240,
+                                              child: TextField(
+                                                          enabled: false,
+                                                          maxLines: 3,
+                                                          decoration: InputDecoration
+                                                              .collapsed(
+                                                                  hintText:
+                                                                      "${i} - ${preguntas[i]}"),
+                                                        ),
                                             ),
                                             Text(cod_p[i]),
                                           ],
@@ -370,7 +373,6 @@ class _VerTareaEState extends State<VerTarea> {
                                           },
                                           child: Container(
                                             width: 320,
-                                            height: 80,
                                             decoration: BoxDecoration(
                                                 color: Color.fromARGB(
                                                     255, 167, 137, 194),
@@ -388,15 +390,16 @@ class _VerTareaEState extends State<VerTarea> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Text(
-                                                      "${i}  -  ${preguntas[i]}",
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              238,
-                                                              234,
-                                                              234)),
+                                                   Container(
+                                                      width: 240,
+                                                      child: TextField(
+                                                        enabled: false,
+                                                        maxLines: 3,
+                                                        decoration: InputDecoration
+                                                            .collapsed(
+                                                                hintText:
+                                                                    "${i} - ${preguntas[i]}"),
+                                                      ),
                                                     ),
                                                     Text(cod_p[i]),
                                                   ],
@@ -449,17 +452,17 @@ class _VerTareaEState extends State<VerTarea> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text(
-                                                          "${i}  -  ${preguntas[i]}",
-                                                          style: TextStyle(
-                                                              fontSize: 15,
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      238,
-                                                                      234,
-                                                                      234)),
-                                                        ),
+                                                       Container(
+                                                      width: 240,
+                                                      child: TextField(
+                                                        enabled: false,
+                                                        maxLines: 3,
+                                                        decoration: InputDecoration
+                                                            .collapsed(
+                                                                hintText:
+                                                                    "${i} - ${preguntas[i]}"),
+                                                      ),
+                                                    ),
                                                         Text("${cod_p[i]}"),
                                                       ],
                                                     ),
@@ -511,7 +514,6 @@ class _VerTareaEState extends State<VerTarea> {
                                               onPressed: () {},
                                               child: Container(
                                                   width: 320,
-                                                  height: 120,
                                                   padding:
                                                       const EdgeInsets
                                                               .symmetric(
@@ -536,17 +538,17 @@ class _VerTareaEState extends State<VerTarea> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text(
-                                                            "${i}  -  ${preguntas[i]}",
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        238,
-                                                                        234,
-                                                                        234)),
-                                                          ),
+                                                          Container(
+                                                      width: 240,
+                                                      child: TextField(
+                                                        enabled: false,
+                                                        maxLines: 3,
+                                                        decoration: InputDecoration
+                                                            .collapsed(
+                                                                hintText:
+                                                                    "${i} - ${preguntas[i]}"),
+                                                      ),
+                                                    ),
                                                           Text(cod_p[i]),
                                                         ],
                                                       ),

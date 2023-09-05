@@ -296,7 +296,6 @@ class _CreateExamState extends State<CreateExam> {
                                       },
                                       child: Container(
                                         width: 350,
-                                        height: 50,
                                         decoration: BoxDecoration(
                                             color: Color.fromARGB(
                                                 255, 167, 137, 194),
@@ -309,13 +308,17 @@ class _CreateExamState extends State<CreateExam> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              "${i}  -  ${preguntas[i]}",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Color.fromARGB(
-                                                      255, 238, 234, 234)),
-                                            ),
+                                            Container(
+                                                      width: 240,
+                                                      child: TextField(
+                                                        enabled: false,
+                                                        maxLines: 3,
+                                                        decoration: InputDecoration
+                                                            .collapsed(
+                                                                hintText:
+                                                                    "${i} - ${preguntas[i]}"),
+                                                      ),
+                                                    ),
                                             Text(cod_p[i]),
                                           ],
                                         ),
@@ -334,7 +337,6 @@ class _CreateExamState extends State<CreateExam> {
                                             children: [
                                               Container(
                                                 width: 350,
-                                                height: 300,
                                                 decoration: BoxDecoration(
                                                     color: Color.fromARGB(
                                                         255, 167, 137, 194),
@@ -360,17 +362,17 @@ class _CreateExamState extends State<CreateExam> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text(
-                                                          "${i}  -  ${preguntas[i]}",
-                                                          style: TextStyle(
-                                                              fontSize: 15,
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      238,
-                                                                      234,
-                                                                      234)),
-                                                        ),
+                                                        Container(
+                                                      width: 240,
+                                                      child: TextField(
+                                                        enabled: false,
+                                                        maxLines: 3,
+                                                        decoration: InputDecoration
+                                                            .collapsed(
+                                                                hintText:
+                                                                    "${i} - ${preguntas[i]}"),
+                                                      ),
+                                                    ),
                                                         Text("${cod_p[i]}"),
                                                       ],
                                                     ),
@@ -422,7 +424,6 @@ class _CreateExamState extends State<CreateExam> {
                                               onPressed: () {},
                                               child: Container(
                                                   width: 350,
-                                                  height: 120,
                                                   padding:
                                                       const EdgeInsets
                                                               .symmetric(
@@ -447,17 +448,17 @@ class _CreateExamState extends State<CreateExam> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text(
-                                                            "${i}  -  ${preguntas[i]}",
-                                                            style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        238,
-                                                                        234,
-                                                                        234)),
-                                                          ),
+                                                          Container(
+                                                      width: 240,
+                                                      child: TextField(
+                                                        enabled: false,
+                                                        maxLines: 3,
+                                                        decoration: InputDecoration
+                                                            .collapsed(
+                                                                hintText:
+                                                                    "${i} - ${preguntas[i]}"),
+                                                      ),
+                                                    ),
                                                           Text(cod_p[i]),
                                                         ],
                                                       ),
