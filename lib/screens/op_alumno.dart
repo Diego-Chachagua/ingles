@@ -279,6 +279,9 @@ class _OpAlumEState extends State<OpAlum> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 150,
+                ),
                 Column(
                   children: [
                     MaterialButton(
