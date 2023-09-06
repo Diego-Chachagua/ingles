@@ -587,7 +587,7 @@ class _VerExamState extends State<VerExam> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                               _changename(context);
-                            } else if (i < 2) {
+                            } else if (i < 10) {
                               final snackBar = SnackBar(
                                   content: Text(
                                       "Debes contener almenos 10 preguntas"));
