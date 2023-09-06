@@ -120,8 +120,56 @@ flutter:
   - assets/calificar1.png
   - assets/color1.jpg
   - assets/letra-u.png
-
-  
+  - assets/manual.png
+  - assets/fondom.jpg
+  - assets/login.jpg
+  - assets/usu_prof.jpg
+  - assets/usu_estu.jpg
+  - assets/regi_prof.jpg
+  - assets/op_admin.jpg
+  - assets/login_admin.jpg
+  - assets/elimina.jpg
+  - assets/consulta.jpg
+  - assets/add_act.jpg
+  - assets/add_exam.jpg
+  - assets/add_game_act.jpg
+  - assets/add_img_act.jpg
+  - assets/add_img_exam.jpg
+  - assets/add_preg_exam.jpg
+  - assets/add_preg.jpg
+  - assets/add_sound_act.jpg
+  - assets/add_sound_exam.jpg
+  - assets/delete_preg_exam.jpg
+  - assets/delete_preg.jpg
+  - assets/edit_preg_act.jpg
+  - assets/edit_preg_exam.jpg
+  - assets/edit_preg_img_exam.jpg
+  - assets/edit_preg_img_act.jpg
+  - assets/elec_dat_califi_exam.jpg
+  - assets/elec_dat_califi.jpg
+  - assets/history_act.jpg
+  - assets/history_exam.jpg
+  - assets/most_act_estu.jpg
+  - assets/mos_estu.jpg
+  - assets/most_exam.jpg
+  - assets/most_act.jpg
+  - assets/most_exam_estu.jpg
+  - assets/nom_act_rename.jpg
+  - assets/rename_exam.jpg
+  - assets/op_prof.jpg
+  - assets/rename_preg.jpg
+  - assets/save_exam.jpg
+  - assets/act.jpg
+  - assets/acty.jpg
+  - assets/enlace.jpg
+  - assets/ex.jpg
+  - assets/exam.jpg
+  - assets/his_estu.jpg
+  - assets/his_tare.jpg
+  - assets/log_e.jpg
+  - assets/regi_e.jpg
+  - assets/unidades.jpg
+  - assets/op_estu.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
