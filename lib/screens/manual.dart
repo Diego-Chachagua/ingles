@@ -25,13 +25,16 @@ class _ManualState extends State<Manual> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
       decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assets/fondom.jpg'), fit: BoxFit.cover),
       ),
       child: Scaffold(
+        
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          
           elevation: 0,
           title: GradientText(
             '¿Como ingresar?',
@@ -264,14 +267,17 @@ class _ManualState extends State<Manual> {
       children: [
         _buildAccordion(1, '¿Eres estudiante?', expanded1, [
           const Text(
-              '1-Si eres estudiante te apareceran 3 opciones y deberas presionar el de Alumno'),
+              '1-Si eres estudiante te apareceran 3 opciones y deberas presionar el de Alumno',
+              style: TextStyle(color: Color.fromARGB(253, 246, 246, 234))),
           Image.asset(
             'assets/login.jpg',
             width: double.infinity,
             fit: BoxFit.cover,
           ),
           const Text(
-              '3-Te llevara al formulario para iniciar sesion pero si no estas registrado le das en no poseo un usuario y  te registras'),
+              '3-Te llevara al formulario para iniciar sesion pero si no estas registrado le das en no poseo un usuario y  te registras',
+              style: TextStyle(color: Color.fromARGB(253, 246, 246, 234))
+              ),
           Image.asset(
             'assets/log_e.jpg',
             width: double.infinity,

@@ -45,7 +45,7 @@ class _temasState extends State<Temas> {
                       title: Text("Unit 1"),
                       content: SizedBox(
                         width: 240,
-                        height: 190,
+                        height: 200,
                         child: Container(
                           alignment: Alignment.topLeft,
                           child: Column(
@@ -178,7 +178,7 @@ class _temasState extends State<Temas> {
                     title: Text("Unit 2"),
                     content: SizedBox(
                         width: 240,
-                        height: 200,
+                        height: 220,
                         child: Container(
                             alignment: Alignment.topLeft,
                             child: Column(
@@ -309,7 +309,7 @@ class _temasState extends State<Temas> {
                       title: Text("Unit 3"),
                       content: SizedBox(
                           width: 240,
-                          height: 135,
+                          height: 165,
                           child: Container(
                               alignment: Alignment.topLeft,
                               child: Column(
@@ -409,7 +409,7 @@ class _temasState extends State<Temas> {
                       title: Text("Unit 4"),
                       content: SizedBox(
                           width: 240,
-                          height: 240,
+                          height: 280,
                           child: Container(
                               alignment: Alignment.topLeft,
                               child: Column(
@@ -539,7 +539,7 @@ class _temasState extends State<Temas> {
                       title: Text("Unit 5"),
                       content: SizedBox(
                           width: 240,
-                          height: 310,
+                          height: 350,
                           child: Container(
                               alignment: Alignment.topLeft,
                               child: Column(
@@ -714,7 +714,7 @@ class _temasState extends State<Temas> {
                       title: Text("Unit 6"),
                       content: SizedBox(
                           width: 240,
-                          height: 200,
+                          height: 220,
                           child: Container(
                               alignment: Alignment.topCenter,
                               child: Column(
