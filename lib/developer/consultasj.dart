@@ -12,7 +12,7 @@ import 'dart:io';
 
 Future<List<String>> fetchAllTextsFromDatabase(var codd) async {
   http.Response pre = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/examenes.php'),
+    Uri.parse('https://incas.site/Speak_Up/examenes.php'),
     body: <String, List>{
       "codd": codd,
     },

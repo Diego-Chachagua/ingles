@@ -34,6 +34,12 @@ void initState(){
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSizep = screenWidth < 340 ? 5.00 : screenWidth > 600? 30.00 : 50.00;//para textos principal
+    double textSize = screenWidth < 340 ? 15.00 : screenWidth > 600? 30.00 : 16.00;//para textos normales
+    double textSize2 = screenWidth < 340 ? 20.0 : screenWidth >600 ? 40.00 : 20.00;//para titulos
+    double textSize3 = screenWidth < 340 ? 15.0 : screenWidth >600 ? 30.00 : 20.00;//para botones
     return Container(
       decoration:  const BoxDecoration(
           image: DecorationImage(
@@ -49,8 +55,8 @@ void initState(){
             title:  Center(
               child: GradientText(
                 'BIENVENIDOS',
-                style: const TextStyle(
-                    fontSize: 55.0,
+                style:  TextStyle(
+                    fontSize: textSizep,
                 ),
                 gradientType: GradientType.linear,
                 gradientDirection: GradientDirection.ttb,
@@ -67,7 +73,26 @@ void initState(){
         body: SingleChildScrollView(
           child: Column(
             children: [
-              inicio(),
+              Container(
+    color: Colors.transparent,
+    child: Center(
+              child: GradientText(
+                '----¿COMO DESEA INICIAR SESION?----',
+                style:  TextStyle(
+                    fontSize: textSize2,
+                ),
+                gradientType: GradientType.linear,
+                gradientDirection: GradientDirection.ttb,
+                radius: 2.5,
+                colors: const [
+                    Color.fromARGB(255, 170, 63, 233),
+                    Color.fromARGB(255, 66, 91, 233),
+                    Color.fromARGB(255, 60, 135, 221),
+                ],
+            ),
+            ),
+    ),
+              
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -97,13 +122,13 @@ void initState(){
                     ),
                       Row(
                           children: [
-                            const SizedBox(
-                              width: 27,
+                             SizedBox(
+                              width: screenSize.width * 0.15,
                             ),
                              GradientText(
                 'PROFESOR',
-                style: const TextStyle(
-                    fontSize: 30.0,
+                style:  TextStyle(
+                    fontSize: textSize,
                 ),
                 gradientType: GradientType.linear,
                 gradientDirection: GradientDirection.ttb,
@@ -114,13 +139,13 @@ void initState(){
                     Color.fromARGB(255, 60, 135, 221),
                 ],
             ),
-            const SizedBox(
-              width: 50,
+             SizedBox(
+              width: screenSize.width * 0.28,
             ),
              GradientText(
                 'ALUMNO',
-                style: const TextStyle(
-                    fontSize: 30.0,
+                style:  TextStyle(
+                    fontSize: textSize,
                 ),
                 gradientType: GradientType.linear,
                 gradientDirection: GradientDirection.ttb,
@@ -150,8 +175,8 @@ void initState(){
 
                      GradientText(
                 'ADMINISTRADOR',
-                style: const TextStyle(
-                    fontSize: 30.0,
+                style:  TextStyle(
+                    fontSize: textSize,
                 ),
                 gradientType: GradientType.linear,
                 gradientDirection: GradientDirection.ttb,
@@ -188,32 +213,13 @@ void initState(){
         ),
       ),
     );
-  }
+  
+
+
+
+
+
+
 }
 
-
-
-Widget inicio(){
-  return Container(
-    color: Colors.transparent,
-    child: Center(
-              child: GradientText(
-                '----¿COMO DESEA INICIAR SESION?----',
-                style: const TextStyle(
-                    fontSize: 23,
-                ),
-                gradientType: GradientType.linear,
-                gradientDirection: GradientDirection.ttb,
-                radius: 2.5,
-                colors: const [
-                    Color.fromARGB(255, 170, 63, 233),
-                    Color.fromARGB(255, 66, 91, 233),
-                    Color.fromARGB(255, 60, 135, 221),
-                ],
-            ),
-            ),
-    );
 }
-
-
-      

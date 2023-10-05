@@ -15,7 +15,7 @@ Future<dynamic> guardarprofesor(var nombre ,String apellido) async{
   print(nombre);
   print(apellido);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/Registro_Profesor.php'),
+    Uri.parse('https://incas.site/Speak_Up/Registro_Profesor.php'),
     body: <String, dynamic>{
       "nombre": nombre,
       "apellido": apellido,

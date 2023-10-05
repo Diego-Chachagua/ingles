@@ -12,7 +12,7 @@ Future<dynamic> agregarAskActivity(var pregunta, var cod) async {
   print(pregunta);
   print(cod);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_ask_act.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_ask_act.php'),
     body: <String, dynamic>{
       "ask": pregunta,
       "cod": cod,
@@ -31,7 +31,7 @@ Future<void> agregarImg(var pregunta, File? imagen, var cod) async {
   String base64Image = base64Encode(imageBytes);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_ask_img.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_ask_img.php'),
     body: <String, String>{
       "ask": pregunta,
       "img": base64Image,
@@ -45,7 +45,7 @@ Future<void> agregarImg(var pregunta, File? imagen, var cod) async {
 Future<dynamic> mostrarAct(var cod) async {
   print(cod);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_ask_act.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_ask_act.php'),
     body: <String, dynamic>{
       "cod": cod,
     },
@@ -61,7 +61,7 @@ Future<dynamic> editAsk(var pregunta, var cod) async {
   print(cod);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/edit_ask_act.php'),
+    Uri.parse('https://incas.site/Speak_Up/edit_ask_act.php'),
     body: <String, dynamic>{
       "ask": pregunta,
       "cod": cod,
@@ -75,7 +75,7 @@ Future<dynamic> addTask(var name,var cod_p, var anio,var hora) async {
   var date=anio+" "+hora;
   print(cod_p);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_Task.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_Task.php'),
     body: <String, dynamic>{
       "name": name,
       "cod_p":cod_p,
@@ -93,7 +93,7 @@ Future<dynamic> editname(var nombre, var cod) async {
   print(cod);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/change_name_act.php'),
+    Uri.parse('https://incas.site/Speak_Up/change_name_act.php'),
     body: <String, dynamic>{
       "name": nombre,
       "cod": cod,
@@ -110,7 +110,7 @@ Future<dynamic> insertcodes(var grado, var seccion,var cod, var hora, var anio) 
   print(date);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_dates_activity.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_dates_activity.php'),
     body: <String, dynamic>{
       "grado": grado,
       "secc": seccion,
@@ -125,7 +125,7 @@ Future<dynamic> insertcodes(var grado, var seccion,var cod, var hora, var anio) 
 Future<dynamic> showActivitys(var cod) async {
   print(cod);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_name_act.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_name_act.php'),
     body: <String, dynamic>{
       "cod": cod,
     },
@@ -141,7 +141,7 @@ Future<dynamic> deleteAsk(var cod,cod_a) async {
   print(cod);
   print(cod_a);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/delete_ask.php'),
+    Uri.parse('https://incas.site/Speak_Up/delete_ask.php'),
     body: <String, dynamic>{
       "cod":cod,
       "cod_a":cod_a,
@@ -155,7 +155,7 @@ Future<dynamic> showActivitysgrade(var cod,var grade) async {
   print(cod);
   print(grade);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_activitygrade.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_activitygrade.php'),
     body: <String, dynamic>{
       "cod": cod,
       "grade":grade,
@@ -170,7 +170,7 @@ Future<dynamic> showActivityssection(var cod,var section) async {
   print(cod);
   print(section);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_activitysection.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_activitysection.php'),
     body: <String, dynamic>{
       "cod": cod,
       "section":section,
@@ -185,7 +185,7 @@ Future<dynamic> showActivitysSG(var cod,var section,var grade) async {
   print(section);
   print(grade);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_activitySG.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_activitySG.php'),
     body: <String, dynamic>{
       "cod": cod,
       "section":section,
@@ -201,7 +201,7 @@ Future<dynamic> showActivitysSG(var cod,var section,var grade) async {
 Future<dynamic> deleteTask(var cod_a,var cod_p) async {
   print(cod_a);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/deleteTask.php'),
+    Uri.parse('https://incas.site/Speak_Up/deleteTask.php'),
     body: <String, dynamic>{
       "cod":cod_a,
       "cod_a":cod_p,
@@ -222,7 +222,7 @@ Future<void> addImg(var cod_p, File? imagen, var cod) async {
   String base64Image = base64Encode(imageBytes);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_imagen.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_imagen.php'),
     body: <String, String>{
       "cod_p": cod_p,
       "img": base64Image,
@@ -239,7 +239,7 @@ Future<dynamic> upSound(var cod_a,var sound, var ask) async {
   }
   print(sound);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_sound.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_sound.php'),
     body: <String, dynamic>{
       "cod":cod_a,
       "sound":sound,
@@ -254,7 +254,7 @@ Future<dynamic> upSound(var cod_a,var sound, var ask) async {
 Future<dynamic> upGame(var cod_a,var request, var ask) async {
   print(cod_a);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_game.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_game.php'),
     body: <String, dynamic>{
       "cod":cod_a,
       "request":request,
@@ -266,7 +266,7 @@ Future<dynamic> upGame(var cod_a,var request, var ask) async {
 Future<dynamic> editRespuesta(var cod_a,var cod_p, var request) async {
   
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/edit_respuesta_game.php'),
+    Uri.parse('https://incas.site/Speak_Up/edit_respuesta_game.php'),
     body: <String, dynamic>{
       "cod_a":cod_a,
       "request":request,
@@ -286,7 +286,7 @@ Future<dynamic> addExam(var name,var cod_p, var anio, var hora) async {
   print(cod_p);
   var date = anio+" "+hora;
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_Exam.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_Exam.php'),
     body: <String, dynamic>{
       "name": name,
       "cod_p":cod_p,
@@ -301,7 +301,7 @@ Future<dynamic> addExam(var name,var cod_p, var anio, var hora) async {
 Future<dynamic> mostrarExam(var cod) async {
   print(cod);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_exam.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_exam.php'),
     body: <String, dynamic>{
       "cod": cod,
     },
@@ -317,7 +317,7 @@ Future<dynamic> editnameE(var nombre, var cod) async {
   print(cod);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/change_name_E.php'),
+    Uri.parse('https://incas.site/Speak_Up/change_name_E.php'),
     body: <String, dynamic>{
       "name": nombre,
       "cod": cod,
@@ -331,7 +331,7 @@ Future<dynamic> deleteAskE(var cod,cod_a) async {
   print(cod);
   print(cod_a);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/delete_askE.php'),
+    Uri.parse('https://incas.site/Speak_Up/delete_askE.php'),
     body: <String, dynamic>{
       "cod":cod,
       "cod_a":cod_a,
@@ -344,7 +344,7 @@ Future<dynamic> agregarAskExam(var pregunta, var cod) async {
   print(pregunta);
   print(cod);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_ask_E.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_ask_E.php'),
     body: <String, dynamic>{
       "ask": pregunta,
       "cod": cod,
@@ -363,7 +363,7 @@ Future<void> agregarImgEx(var pregunta, File? imagen, var cod) async {
   String base64Image = base64Encode(imageBytes);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_askImg_E.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_askImg_E.php'),
     body: <String, String>{
       "ask": pregunta,
       "img": base64Image,
@@ -385,7 +385,7 @@ Future<void> addImgEx(var cod_p, File? imagen, var cod) async {
   String base64Image = base64Encode(imageBytes);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_img_E.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_img_E.php'),
     body: <String, String>{
       "cod_p": cod_p,
       "img": base64Image,
@@ -401,7 +401,7 @@ Future<dynamic> upSound_E(var cod_a,var sound, var ask) async {
   }
   print(sound);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_sound_E.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_sound_E.php'),
     body: <String, dynamic>{
       "cod":cod_a,
       "sound":sound,
@@ -416,7 +416,7 @@ Future<dynamic> editAskE(var pregunta, var cod) async {
   print(cod);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/edit_ask_E.php'),
+    Uri.parse('https://incas.site/Speak_Up/edit_ask_E.php'),
     body: <String, dynamic>{
       "ask": pregunta,
       "cod": cod,
@@ -431,7 +431,7 @@ Future<dynamic> insertcodesE(var grado, var seccion,var cod) async {
   print(cod);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_dates_Exam.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_dates_Exam.php'),
     body: <String, dynamic>{
       "grado": grado,
       "secc": seccion,
@@ -444,7 +444,7 @@ Future<dynamic> insertcodesE(var grado, var seccion,var cod) async {
 Future<dynamic> showExam(var cod) async {
   print(cod);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_name_E.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_name_E.php'),
     body: <String, dynamic>{
       "cod": cod,
     },
@@ -457,7 +457,7 @@ Future<dynamic> showExamgrade(var cod,var grade) async {
   print(cod);
   print(grade);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_examgrade.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_examgrade.php'),
     body: <String, dynamic>{
       "cod": cod,
       "grade":grade,
@@ -472,7 +472,7 @@ Future<dynamic> showExamsection(var cod,var section) async {
   print(cod);
   print(section);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_examsection.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_examsection.php'),
     body: <String, dynamic>{
       "cod": cod,
       "section":section,
@@ -487,7 +487,7 @@ Future<dynamic> showExamsSG(var cod,var section,var grade) async {
   print(section);
   print(grade);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_examSG.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_examSG.php'),
     body: <String, dynamic>{
       "cod": cod,
       "section":section,
@@ -505,7 +505,7 @@ Future<dynamic> showExamsSG(var cod,var section,var grade) async {
 //mostrar alumnos segun año seccion
 Future<dynamic> shownieAlum(var anio, var seccion) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_alum_act.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_alum_act.php'),
     body: <String, dynamic>{
       "anio": anio,
       "seccion":seccion,
@@ -519,7 +519,7 @@ Future<dynamic> shownieAlum(var anio, var seccion) async {
 //mostrar actividades del alumno
 Future<dynamic> showactAlum(var nie) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_activitys_A.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_activitys_A.php'),
     body: <String, dynamic>{
       "nie": nie,
     },
@@ -536,7 +536,7 @@ Future<dynamic> showAskAlum(var cod_act, var nie) async {
   print(nie);
   //mostrar las preguntas
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_preguntasR_alum.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_preguntasR_alum.php'),
     body: <String, dynamic>{
       "cod_act": cod_act,
       "nie":nie,
@@ -552,7 +552,7 @@ Future<dynamic> showAskAlum(var cod_act, var nie) async {
 Future<dynamic> deleteExam(var cod_a,var cod_p) async {
   print(cod_a);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/DeleteExam.php'),
+    Uri.parse('https://incas.site/Speak_Up/DeleteExam.php'),
     body: <String, dynamic>{
       "cod":cod_a,
       "cod_a":cod_p,
@@ -564,7 +564,7 @@ Future<dynamic> deleteExam(var cod_a,var cod_p) async {
 Future<dynamic> addNotas(var nota, var cod_r, var cod_a , var nie) async {
   print(cod_a);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_nota_Res.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_nota_Res.php'),
     body: <String, dynamic>{
       "cod_a":cod_a,
       "nota":nota,
@@ -580,7 +580,7 @@ Future<dynamic> addNotas(var nota, var cod_r, var cod_a , var nie) async {
 Future<dynamic> comprobarAct(var cod_a) async {
   print(cod_a);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/comprobate_asksofTask.php'),
+    Uri.parse('https://incas.site/Speak_Up/comprobate_asksofTask.php'),
     body: <String, dynamic>{
       "cod_act":cod_a,
     },
@@ -593,7 +593,7 @@ Future<dynamic> comprobarAct(var cod_a) async {
 //ver las actividades de un alumno
 Future<dynamic> showExamAlum(var nie) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_exams_A.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_exams_A.php'),
     body: <String, dynamic>{
       "nie": nie,
     },
@@ -607,7 +607,7 @@ Future<dynamic> showExamAlum(var nie) async {
 Future<dynamic> showAskExamAlum(var cod_pr, var nie) async {
   //mostrar las preguntas
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/show_preguntasR_exam.php'),
+    Uri.parse('https://incas.site/Speak_Up/show_preguntasR_exam.php'),
     body: <String, dynamic>{
       "cod_pr": cod_pr,
       "nie":nie,
@@ -621,7 +621,7 @@ Future<dynamic> showAskExamAlum(var cod_pr, var nie) async {
 Future<dynamic> comprobarExam(var cod_a) async {
   print(cod_a);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/comprobrar_askOf_Exams.php'),
+    Uri.parse('https://incas.site/Speak_Up/comprobrar_askOf_Exams.php'),
     body: <String, dynamic>{
       "cod_act":cod_a,
     },
@@ -635,7 +635,7 @@ Future<dynamic> addrequestGame(var cod, var respuesta) async {
   print(cod);
   print(respuesta);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_request_game.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_request_game.php'),
     body: <String, dynamic>{
       "cod":cod,
       "request":respuesta,
@@ -649,7 +649,7 @@ Future<dynamic> addrequestAsk(var cod, var respuesta, var nie) async {
   print(respuesta);
   print(nie);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_dates_reques.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_dates_reques.php'),
     body: <String, dynamic>{
       "cod":cod,
       "request":respuesta,
@@ -665,7 +665,7 @@ Future<dynamic> addrequestImagen(var cod, var respuesta, var nie) async {
   List<int> imageBytes = await respuesta.readAsBytes();
   String base64Image = base64Encode(imageBytes);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_dates_resquest_img.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_dates_resquest_img.php'),
     body: <String, dynamic>{
       "cod":cod,
       "request":base64Image,
@@ -679,7 +679,7 @@ Future<dynamic> addrequestsound(var cod, var respuesta, var nie) async {
   print(cod);
   print(respuesta);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_dates_request_sound.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_dates_request_sound.php'),
     body: <String, dynamic>{
       "cod":cod,
       "request":respuesta,
@@ -694,7 +694,7 @@ Future<dynamic> changeState(var cod, var estado, var nie) async {
   print(nie);
 
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/changeState.php'),
+    Uri.parse('https://incas.site/Speak_Up/changeState.php'),
     body: <String, dynamic>{
       "cod":cod,
       "estado":estado,
@@ -709,7 +709,7 @@ Future<dynamic> changeStateExam(var cod, var estado, var nie) async {
   print(estado);
   print(nie);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/changeStateExam.php'),
+    Uri.parse('https://incas.site/Speak_Up/changeStateExam.php'),
     body: <String, dynamic>{
       "cod":cod,
       "estado":estado,
@@ -725,7 +725,7 @@ Future<dynamic> addrequestAskExam(var cod, var respuesta, var nie) async {
   print(respuesta);
   print(nie);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/add_dates_reques.php'),
+    Uri.parse('https://incas.site/Speak_Up/add_dates_reques.php'),
     body: <String, dynamic>{
       "cod":cod,
       "request":respuesta,
@@ -739,7 +739,7 @@ Future<dynamic> addDateAct(var cod, var anio, var hora, var nie) async {
  var date = anio+" "+hora;
   print(nie);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/addDateAct.php'),
+    Uri.parse('https://incas.site/Speak_Up/addDateAct.php'),
     body: <String, dynamic>{
       "cod":cod,
       "date":date,
@@ -754,7 +754,7 @@ Future<dynamic> addDateExam(var cod, var anio, var hora, var nie) async {
  var date = anio+" "+hora;
   print(nie);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/addDateExam.php'),
+    Uri.parse('https://incas.site/Speak_Up/addDateExam.php'),
     body: <String, dynamic>{
       "cod":cod,
       "date":date,

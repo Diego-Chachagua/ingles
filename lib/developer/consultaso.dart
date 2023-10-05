@@ -12,7 +12,7 @@ import 'dart:io';
 
 Future<dynamic> comprobara(String usuariobd, String contrabd) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/forma.php'),
+    Uri.parse('https://incas.site/Speak_Up/forma.php'),
     body: <String, dynamic>{
       "usuario": usuariobd,
       "contra": contrabd,
@@ -27,7 +27,7 @@ Future<dynamic> comprobara(String usuariobd, String contrabd) async {
 
 Future<dynamic> comprobare(String usuariobd, String contrabd) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/forme.php'),
+    Uri.parse('https://incas.site/Speak_Up/forme.php'),
     body: <String, dynamic>{
       "usuario": usuariobd,
       "contra": contrabd,
@@ -42,7 +42,7 @@ Future<dynamic> comprobare(String usuariobd, String contrabd) async {
 
 Future<dynamic> comprobarp(String usuariobd, String contrabd) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/formp.php'),
+    Uri.parse('https://incas.site/Speak_Up/formp.php'),
     body: <String, dynamic>{
       "usuario": usuariobd,
       "contra": contrabd,
@@ -59,7 +59,7 @@ Future<dynamic> comprobarp(String usuariobd, String contrabd) async {
 
 Future<dynamic> consultarup() async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/consultarup.php'),
+    Uri.parse('https://incas.site/Speak_Up/consultarup.php'),
     body: <String, dynamic>{},
   );
   var resultado = jsonDecode(enviar.body);
@@ -72,7 +72,7 @@ Future<dynamic> consultarup() async {
 
 Future<dynamic> enviarusu(String seccione2, String gradoe2) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/usuycontra.php'),
+    Uri.parse('https://incas.site/Speak_Up/usuycontra.php'),
     body: <String, dynamic>{
       "seccion": seccione2,
       "grado": gradoe2,
@@ -88,7 +88,7 @@ Future<dynamic> enviarusu(String seccione2, String gradoe2) async {
 
 Future<dynamic> anosec(String usuario, String contra) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/grasecc.php'),
+    Uri.parse('https://incas.site/Speak_Up/grasecc.php'),
     body: <String, dynamic>{
       "usu": usuario,
       "contra": contra,
@@ -105,7 +105,7 @@ Future<dynamic> anosec(String usuario, String contra) async {
 Future<dynamic> tareasd(var nie) async {
   print(nie);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/tareas.php'),
+    Uri.parse('https://incas.site/Speak_Up/tareas.php'),
     body: <String, dynamic>{
       "nie":nie,
     },
@@ -120,7 +120,7 @@ Future<dynamic> tareasd(var nie) async {
 
 Future<dynamic> comprobartarea(var nombret, var nie) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/comprobart.php'),
+    Uri.parse('https://incas.site/Speak_Up/comprobart.php'),
     body: <String, dynamic>{
       "tarea": nombret,
       "nie": nie,
@@ -133,7 +133,7 @@ Future<dynamic> comprobartarea(var nombret, var nie) async {
 
 Future<dynamic> examenes(String grado, String seccion) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/examen.php'),
+    Uri.parse('https://incas.site/Speak_Up/examen.php'),
     body: <String, dynamic>{
       "grado": grado,
       "seccion": seccion,
@@ -149,7 +149,7 @@ Future<dynamic> examenes(String grado, String seccion) async {
 
 Future<dynamic> comprobarexamen(String nombret, String nie) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/comprobare.php'),
+    Uri.parse('https://incas.site/Speak_Up/comprobare.php'),
     body: <String, dynamic>{
       "tarea": nombret,
       "nie": nie,

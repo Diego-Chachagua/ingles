@@ -15,7 +15,7 @@ Future<dynamic> eliminarUsu(var usu ,String usu2) async{
   print(usu);
   print(usu2);
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/eliminar.php'),
+    Uri.parse('https://incas.site/Speak_Up/eliminar.php'),
     body: <String, dynamic>{
       "usu": usu,
       "usu2": usu2,
@@ -25,7 +25,7 @@ Future<dynamic> eliminarUsu(var usu ,String usu2) async{
 
 Future<dynamic> registro(String nnie, String nom, String apell, String g, dynamic grado, dynamic seccionb, String usu, String contra) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/registro.php'),
+    Uri.parse('https://incas.site/Speak_Up/registro.php'),
     body: <String, dynamic>{
       "nnie": nnie,
       "nom": nom,
@@ -42,7 +42,7 @@ Future<dynamic> registro(String nnie, String nom, String apell, String g, dynami
 
 Future<dynamic> historialestu(String usuariobd ,String contrabd) async{
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/historialES.php'),
+    Uri.parse('https://incas.site/Speak_Up/historialES.php'),
     body: <String, dynamic>{
       "usu": usuariobd,
       "contra": contrabd,
@@ -59,7 +59,7 @@ Future<dynamic> historialestu(String usuariobd ,String contrabd) async{
 
 Future<dynamic> historialestu2(String usuariobd ,String contrabd) async{
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/historialact.php'),
+    Uri.parse('https://incas.site/Speak_Up/historialact.php'),
     body: <String, dynamic>{
       "usu": usuariobd,
       "contra": contrabd,
