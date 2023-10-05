@@ -682,7 +682,7 @@ class _TareasPEState extends State<TareasP> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                               _changename(context);
-                            } else if (i < 2) {
+                            } else if (i < 10) {
                               final snackBar = SnackBar(
                                   content: Text(
                                       "Debes contener almenos 10 preguntas"));

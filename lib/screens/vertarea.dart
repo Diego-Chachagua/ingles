@@ -9,6 +9,8 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
 
+import 'img_zoom.dart';
+
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
@@ -32,12 +34,10 @@ class _VerTareaEState extends State<VerTarea> {
 //variables de audio
   var audios = AudioPlayer();
   var n1 = 0;
-
   void playaudio(var sonido) async {
     try {
       if (sonido != null) {
-        await audios.play(UrlSource(sonido)) as List;
-        await Future.delayed(Duration(seconds: 120));
+        await audios.play(UrlSource(sonido));
       }
     } catch (e) {
       print("Error [002] $e");
@@ -60,6 +60,7 @@ class _VerTareaEState extends State<VerTarea> {
 
 //future para buscar y almacenar imagen
   Future setimage(var ask) async {
+    try{
     var picturefile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
@@ -75,11 +76,15 @@ class _VerTareaEState extends State<VerTarea> {
         });
       }
     });
+  }catch(e){
+    _messaje(context);
+  }
   }
   //variables y funciones para audio
 
   //funcion para añadir imagen a una pregunta sin imagen
   Future addimage(var cod) async {
+    try{
     var picturefile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
@@ -89,7 +94,6 @@ class _VerTareaEState extends State<VerTarea> {
         final snackBar = SnackBar(
             backgroundColor: Color.fromARGB(255, 155, 118, 214),
             shape: Border.all(width: 1),
-
             closeIconColor: Color.fromARGB(255, 230, 230, 230),
             content: Text("Es necesario refrescar la pantalla"));
 
@@ -103,10 +107,13 @@ class _VerTareaEState extends State<VerTarea> {
         });
       }
     });
+    }catch(e){
+      _messaje(context);
+    }
   }
 
 //funcion para actualizar una imagen en la base datos
-
+int currentIndex=0;
   final usuariob = TextEditingController();
   final contrab = TextEditingController();
   final nameac = TextEditingController();
@@ -130,67 +137,122 @@ class _VerTareaEState extends State<VerTarea> {
   List cod_p = [];
   List audio = [];
   List request = [];
+  //apartado para agregar preguntas de la imagen/audio y su codigo
+  List p_img=[];
+  List coP_img=[];
+  List p_sound=[];
+  List co_Psound=[];
+  //apartado par pregunta de juego y su respuesta con sus debidos codigos
+  List p_Game=[];
+  List co_PGame=[];
+  //fin del aparatado 
+  bool isLoading = true;
+  double duracion=0.0;
+  List position=[];
+  var info;
+  var cant_P;
+  var cant_I;
+  var cant_S;
+  var cant_G;
+  var cantidad;
+  //eventos nuevos
   @override
   void initState() {
     super.initState();
-    obtenerpreguntas();
+    obtenerpreguntas(); 
   }
-
   Future<void> obtenerpreguntas() async {
     print(widget.cod_p);
     reslt = await mostrarAct(widget.cod);
-    setState(() {
-      preguntas.clear();
-      imagenes.clear();
-      images.clear();
-      audio.clear();
-      request.clear();
-      cod_p.clear(); // Limpiar la lista antes de agregar las nuevas preguntas
-      if (reslt != "noExisten") {
-        for (var i = 0; i < reslt.length; i++) {
-          var dato = reslt[i];
-          var nombreAct = dato["nombre"];
-          var nom_tem = dato["pregunta"];
-          var cod = dato["cod_p_a"];
-          var img = dato["img"];
-          var sound = dato["audio"];
-          var respuesta = dato["request"];
-          preguntas.add(nom_tem);
-          imagenes.add(img);
-
-          if (respuesta != null) {
-            request.add(respuesta);
-          } else {
-            request.add("vacio");
+    if (reslt != "Error") {
+      setState(() {
+        p_img.clear();
+        coP_img.clear();
+        p_sound.clear();
+        co_Psound.clear();
+        p_Game.clear();
+        co_PGame.clear();
+        isLoading = false;
+        preguntas.clear();
+        imagenes.clear();
+        images.clear();
+        audio.clear();
+        request.clear();
+        cod_p.clear(); // Limpiar la lista antes de agregar las nuevas preguntas
+        if (reslt != "noExisten") {
+          for (var i = 0; i < reslt.length; i++) {
+            var dato = reslt[i];
+            var nombreAct = dato["nombre"];
+            var nom_tem = dato["pregunta"];
+            var cod = dato["cod_p_a"];
+            var img = dato["img"];
+            var sound = dato["audio"];
+            var respuesta = dato["request"];
+            if(nom_tem!=null && sound == null && respuesta == null && img ==null){
+             preguntas.add(nom_tem);
+             cod_p.add(cod);
+            }
+            imagenes.add(img);
+            if(nom_tem != null && sound ==null && respuesta == null && img != null){
+              p_img.add(nom_tem);//llenar unicamente una lista donde las preguntas pertenezcan a las imagenes
+              coP_img.add(cod);
+            }
+            //if para llenar sonido
+            if(nom_tem != null && sound != null && respuesta == null && img ==null){
+              p_sound.add(nom_tem);
+              co_Psound.add(cod);
+            }
+            //if para llenar solomlos jueguitos
+            if(nom_tem != null && sound ==null && respuesta != null && img ==null){
+              p_Game.add(nom_tem);
+              co_PGame.add(cod);
+            }
+            if (respuesta != null) {
+              request.add(respuesta);
+            }
+            //evento if si en dado caso falla el nombre de la actividad
+            if (nombreAct != "") {
+              nameA = nombreAct;
+            } else {
+              nameA = "Name of activity";
+            }
+            //cod_p es codigo de todas las preguntas
+            if (img != null) {
+              Uint8List bytes = base64.decode(img);
+              images.add(bytes);
+            } 
+            if(sound !=null){
+               audio.add(sound);
+            }  
           }
 
-          if (nombreAct != "") {
-            nameA = nombreAct;
-          } else {
-            nameA = "Name of activity";
-          }
-          cod_p.add(cod);
-          if (img != null) {
-            Uint8List bytes = base64.decode(img);
-            images.add(bytes);
-          } else {
-            images.add("");
-          }
-          // Agregar las nuevas preguntas a la lista
-          if (sound != null) {
-            audio.add(sound);
-          } else {
-            audio.add("no existe");
-          }
         }
-        print(audio);
-      }
-    });
+        cant_G= request.length;
+        cant_P = preguntas.length;
+        cant_I= images.length;
+        cant_S=audio.length;
+        cantidad=cant_G+cant_P+cant_I+cant_S;
+        for(var a=0; a<cant_S;a++){
+          position.add(0.0);
+        }
+
+      });
+    } else {
+      setState(() {
+        info = "Error";
+        isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    print(request);
+    Size screenSize = MediaQuery.of(context).size; //contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340? 8.00: screenWidth > 600? 50.00: 25.00; //titulos
+    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 35.00: 15.00; //boton de guardado
+    double textSize3 = screenWidth < 340? 10.0: screenWidth > 600? 50.00: 15.00; //preguntas
+    double textSize4 = screenWidth < 340? 10.0: screenWidth > 600? 50.00: 15.00; //para titulos en las secciones
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -206,12 +268,12 @@ class _VerTareaEState extends State<VerTarea> {
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   _changename(context);
                 } else {
-                  _wishExit(context);
+                   Navigator.pop(context);
                 }
               },
               child: SizedBox(
-                width: 30,
-                height: 30,
+                width: screenSize.width *0.05,
+                height:screenSize.height*0.05,
                 child: Icon(Icons.arrow_back_outlined),
               ),
             ),
@@ -221,570 +283,711 @@ class _VerTareaEState extends State<VerTarea> {
           backgroundColor: Colors.transparent,
           body: RefreshIndicator(
             onRefresh: obtenerpreguntas,
-            child: ListView(children: [
-              Center(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: 200,
-                          height: 60,
-                          child:TextField(
-                            maxLines: 2,
-                            enabled: false,
-                            decoration: InputDecoration.collapsed(
-                              hintText: "${nameA}"
+            child: Scrollbar(
+              thickness: screenSize.width*0.03,
+              trackVisibility: true,
+              interactive: true,
+              child: ListView(
+                children: [
+                Center(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                              width: screenSize.width*0.7,
+                              height: screenSize.height*0.07,
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                enabled: false,
+                                decoration: InputDecoration.collapsed(
+                                    hintText: "${nameA}"),
+                              )),
+                          MaterialButton(
+                            onPressed: () {
+                              _changename(context);
+                            },
+                            child: Container(
+                              height: screenSize.height*0.05,
+                              width: screenSize.width*0.07,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage("assets/editar.png"))),
                             ),
                           )
-                        ),
-                        MaterialButton(
-                          onPressed: () {
-                            _changename(context);
-                          },
-                          child: Container(
-                            height: 20,
-                            width: 20,
+                        ],
+                      ),
+                      Container(
+                        width: screenSize.width*1,
+                        height: screenSize.height*0.002,
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        height: screenSize.height*0.02,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: screenSize.width*0.4,
+                            height: screenSize.height*0.05,
                             decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage("assets/editar.png"))),
+                              color: Color.fromARGB(255, 142, 93, 219),
+                              border: Border.all(width: screenSize.width*0.003),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: MaterialButton(
+                              onPressed: () {
+                                _addGame(context);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    "Add Game",
+                                    style: TextStyle(color: Colors.white,fontSize: textSize2),
+                                  ),
+                                  Icon(
+                                    Icons.games,
+                                    size: screenSize.width*0.07,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      width: 500,
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          width: 140,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 142, 93, 219),
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: MaterialButton(
-                            onPressed: () {
-                              _addGame(context);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          Padding(padding: EdgeInsets.all(screenSize.width*0.02)),
+                         Text(cantidad!=null?"Cant. Total: ${cantidad}"
+                         : "Cant. Total: 0",style: TextStyle(fontSize: textSize4),)
+                        ],
+                      ),
+                      Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
+                      isLoading
+                          ? Column(
                               children: [
-                                Text(
-                                  "Add Game",
-                                  style: TextStyle(color: Colors.white),
+                                SizedBox(
+                                  height: screenSize.height * 0.3,
                                 ),
-                                Icon(
-                                  Icons.games,
-                                  size: 25,
-                                  color: Colors.white,
+                                const FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: CircularProgressIndicator(
+                                    color: Color.fromARGB(255, 103, 82, 197),
+                                    backgroundColor: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  "Cargando",
+                                  style: TextStyle(
+                                      fontSize: textSize3,
+                                      fontStyle: FontStyle.italic),
+                                )
+                              ],
+                            )
+                          : info == "Error"
+                              ? Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: screenSize.height * 0.3,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              border: Border.all(width: screenSize.width*0.003),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: MaterialButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  info = "";
+                                                  isLoading=true;
+                                                  obtenerpreguntas();
+                                                });
+                                              },
+                                              child: Row(children: [
+                                                Text("Reintentar",style: TextStyle(fontSize: textSize2),),
+                                                Icon(Icons.error)
+                                              ]),
+                                            ),
+                                          ),
+                                          Padding(padding: EdgeInsets.all(10)),
+                                          Text(
+                                              "Error en la red o no estas conectado",style: TextStyle(fontSize: textSize2),),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : 
+                              
+                      Column(
+                        children: [
+                          cant_P!=0?
+                          Container(
+                            width: screenSize.width * 0.9,
+                            height: screenSize.height * 0.35,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: screenSize.width*0.005),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text("Preguntas",style: TextStyle(fontSize: textSize4),),
+                                          Text("Cant. Preguntas : $cant_P",style: TextStyle(fontSize: textSize4),),
+                                        ],
+                                      ),
+                                Container(
+                                  width: screenSize.width * 0.9,
+                                  height: screenSize.height * 0.3,
+                                  child: ListView.builder(
+                                    itemCount: preguntas.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      // Crea un botón para cada elemento en la lista de datos
+                                      return Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                          MaterialButton(
+                                            onPressed: () {
+                                              // Cuando se presiona el botón, identifica el dato correspondiente
+                                              String datoSeleccionado =
+                                                  preguntas[index];
+                                              var codigo = cod_p[index];
+                                              _opEdit(context,codigo);
+                                              print('$datoSeleccionado $codigo');
+                                            },
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(width: screenSize.width*0.003),
+                                                    borderRadius:
+                                                        BorderRadius.circular(5),
+                                                    color: Color.fromARGB(
+                                                        255, 145, 119, 218)),
+                                                width: screenSize.width * 0.8,
+                                                height: screenSize.height * 0.06,
+                                                child: Center(
+                                                  child: Text(
+                                                    preguntas[index],
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(         
+                                                        fontSize: textSize3),
+                                                  ),
+                                                )),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(10)),
-                        Container(
-                          width: 70,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 209, 31, 18),
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: MaterialButton(
-                            onPressed: () {
-                              _deleteAsk(context);
-                            },
-                            child: Icon(
-                              Icons.disabled_by_default_outlined,
-                              size: 25,
-                              color: Colors.white,
+                          ):
+                          Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
+                          Padding(padding: EdgeInsets.all(screenSize.height*0.001)),
+                          cant_I!=0?// si imagenes es diferente de 0
+                          Container(
+                            width: screenSize.width * 0.9,
+                            height: screenSize.height * 0.5,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: screenSize.width*0.005),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(padding: EdgeInsets.all(10)),
-                    for (i = 0; i < preguntas.length; i++)
-                      Column(
-                        children: [
-                          images[i] == "" &&
-                                  audio[i] == "no existe" &&
-                                  request[i] == "vacio"
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    MaterialButton(
-                                      onPressed: () {
-                                        _opEdit(context);
-                                      },
-                                      child: Container(
-                                        width: 320,
-                                        decoration: BoxDecoration(
-                                            color: Color.fromARGB(
-                                                255, 167, 137, 194),
-                                            border: Border.all(width: 2),
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              width: 240,
-                                              child: TextField(
-                                                          enabled: false,
-                                                          maxLines: 3,
-                                                          decoration: InputDecoration
-                                                              .collapsed(
-                                                                  hintText:
-                                                                      "${i} - ${preguntas[i]}"),
-                                                        ),
-                                            ),
-                                            Text(cod_p[i]),
-                                          ],
-                                        ),
+                            child: Column(
+                              children: [
+                                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text("Imagenes",style: TextStyle(fontSize: textSize4),),
+                                          Text("Cant. Imagenes : $cant_I",style: TextStyle(fontSize: textSize4)),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                )
-                              : images[i] == "" &&
-                                      audio[i] == "no existe" &&
-                                      request[i] != "vacio"
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        MaterialButton(
-                                          onPressed: () {
-                                            _opEditGame(context);
-                                          },
-                                          child: Container(
-                                            width: 320,
-                                            decoration: BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    255, 167, 137, 194),
-                                                border: Border.all(width: 2),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 5),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                   Container(
-                                                      width: 240,
-                                                      child: TextField(
-                                                        enabled: false,
-                                                        maxLines: 3,
-                                                        decoration: InputDecoration
-                                                            .collapsed(
-                                                                hintText:
-                                                                    "${i} - ${preguntas[i]}"),
-                                                      ),
-                                                    ),
-                                                    Text(cod_p[i]),
-                                                  ],
-                                                ),
-                                                Text(
-                                                  "Respuesta: " + request[i],
-                                                  style: TextStyle(
-                                                    fontStyle: FontStyle.italic,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : audio[i] == 'no existe' && images[i] != ""
-                                      ? MaterialButton(
-                                          onPressed: () {
-                                            _opEditImg(context);
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                width: 320,
+                                Container(
+                                  width: screenSize.width * 0.9,
+                                  height: screenSize.height * 0.45,
+                                  child: ListView.builder(
+                                    itemCount: images.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      // Crea un botón para cada elemento en la lista de datos
+                                      return Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                          MaterialButton(
+                                            onPressed: () {
+                                              // Cuando se presiona el botón, identifica el dato correspondiente
+                                              String datoSeleccionado =
+                                                  p_img[index];
+                                              var codigo = coP_img[index];
+                                              _opEditImg(context, codigo);
+                                              print('$datoSeleccionado $codigo');
+                                            },
+                                            child: Container(
                                                 decoration: BoxDecoration(
-                                                    color: Color.fromARGB(
-                                                        255, 167, 137, 194),
-                                                    border:
-                                                        Border.all(width: 2),
+                                                    border: Border.all(width: screenSize.width*0.003),
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 20,
-                                                        vertical: 5),
-                                                child: Column(
-                                                  children: [
-                                                    const SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                       Container(
-                                                      width: 240,
-                                                      child: TextField(
-                                                        enabled: false,
-                                                        maxLines: 3,
-                                                        decoration: InputDecoration
-                                                            .collapsed(
-                                                                hintText:
-                                                                    "${i} - ${preguntas[i]}"),
-                                                      ),
-                                                    ),
-                                                        Text("${cod_p[i]}"),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    if (i < images.length)
-                                                      Container(
-                                                        width: 340,
-                                                        height: 400,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal: 20,
-                                                                vertical: 5),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              width: 3),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          image: DecorationImage(
-                                                              image:
-                                                                  MemoryImage(
-                                                                      images[
-                                                                          i]),
-                                                              fit:
-                                                                  BoxFit.cover),
-                                                        ),
-                                                      )
-                                                    else
-                                                      Container(
-                                                        width: 300,
-                                                        height: 200,
-                                                        child: Center(
-                                                            child: Text(
-                                                                "No se puede mostrar la imagen\nOcurrio un error\nCodigo de error[001]")),
-                                                      ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      : audio[i] != "no existe" &&
-                                              images[i] == ""
-                                          ? MaterialButton(
-                                              onPressed: () {},
-                                              child: Container(
-                                                  width: 320,
-                                                  padding:
-                                                      const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 20,
-                                                          vertical: 5),
-                                                  decoration: BoxDecoration(
-                                                      color: Color.fromARGB(
-                                                          255, 167, 137, 194),
-                                                      border:
-                                                          Border.all(width: 2),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
+                                                        BorderRadius.circular(5),
+                                                    color: Color.fromARGB(
+                                                        255, 145, 119, 218)),
+                                                width: screenSize.width * 0.8,
+                                                height: screenSize.height * 0.3,
+                                                child: Center(
                                                   child: Column(
                                                     children: [
-                                                      Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  5)),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Container(
-                                                      width: 240,
-                                                      child: TextField(
-                                                        enabled: false,
-                                                        maxLines: 3,
-                                                        decoration: InputDecoration
-                                                            .collapsed(
-                                                                hintText:
-                                                                    "${i} - ${preguntas[i]}"),
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                                      Text(
+                                                        p_img[index],
+                                                         textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: textSize3),
                                                       ),
-                                                    ),
-                                                          Text(cod_p[i]),
-                                                        ],
-                                                      ),
-                                                      Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  10)),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
-                                                        children: [
-                                                          ElevatedButton(
-                                                            style: ButtonStyle(
-                                                              backgroundColor:
-                                                                  MaterialStateProperty
-                                                                      .resolveWith<
-                                                                          Color?>(
-                                                                (Set<MaterialState>
-                                                                    states) {
-                                                                  if (states.contains(
-                                                                      MaterialState
-                                                                          .pressed)) {
-                                                                    return Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            78,
-                                                                            76,
-                                                                            187); // Color cuando se presiona el botón
-                                                                  }
-                                                                  return Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          152,
-                                                                          116,
-                                                                          219); // Color predeterminado
-                                                                },
-                                                              ),
-                                                            ),
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                var n = audio
-                                                                    .length;
-                                                                for (var a = 0;
-                                                                    a < n;
-                                                                    a++) {
-                                                                  if (audio[
-                                                                          a] ==
-                                                                      "no existe") {
-                                                                  } else {
-                                                                    playaudio(
-                                                                        audio[
-                                                                            a]);
-                                                                  }
-                                                                }
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              child: Icon(Icons
-                                                                  .play_arrow),
-                                                            ),
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                                      MaterialButton(
+                                                        onPressed: (){
+                                                          Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                          builder: (context) => Imagen(imagen: images[index],)),
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          width: screenSize.width * 0.6,
+                                                          height: screenSize.height * 0.2,
+                                                          decoration: 
+                                                          BoxDecoration(
+                                                            borderRadius:BorderRadius.circular(10),
+                                                            border: Border.all(width: screenSize.width*0.005),
+                                                            image: DecorationImage(
+                                                              fit: BoxFit.cover,
+                                                              image: MemoryImage(images[index]) )                             
                                                           ),
-                                                          ElevatedButton(
-                                                            style: ButtonStyle(
-                                                              backgroundColor:
-                                                                  MaterialStateProperty
-                                                                      .resolveWith<
-                                                                          Color?>(
-                                                                (Set<MaterialState>
-                                                                    states) {
-                                                                  if (states.contains(
-                                                                      MaterialState
-                                                                          .pressed)) {
-                                                                    return Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            78,
-                                                                            76,
-                                                                            187); // Color cuando se presiona el botón
-                                                                  }
-                                                                  return Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          152,
-                                                                          116,
-                                                                          219); // Color predeterminado
-                                                                },
-                                                              ),
-                                                            ),
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                audios.stop();
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              child: Icon(
-                                                                  Icons.stop),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
+                                                          
+                                                        ),
+                                                      )
                                                     ],
-                                                  )),
-                                            )
-                                          : Padding(
-                                              padding: EdgeInsets.all(10)),
-                          const SizedBox(
-                            height: 10,
-                          ),
+                                                  ),
+                                                )),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ):
+                          Padding(padding: EdgeInsets.all(0)),//padding sin tomar a cuenta
+                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                          cant_S!=0? // si sonido es diferente de 0
+                           Container(
+                            width: screenSize.width * 0.9,
+                            height: screenSize.height * 0.45,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: screenSize.width*0.005),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text("Sonidos"),
+                                          Text("Cant. Sonidos : $cant_S"),
+                                        ],
+                                      ),
+                                Container(
+                                  width: screenSize.width * 0.9,
+                                  height: screenSize.height * 0.40,
+                                  child: ListView.builder(
+                                    itemCount: audio.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      // Crea un botón para cada elemento en la lista de datos
+                                      return Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                          MaterialButton(
+                                            onPressed: () {
+                                              // Cuando se presiona el botón, identifica el dato correspondiente
+                                              String datoSeleccionado =
+                                                  p_sound[index];
+                                              var codigo = co_Psound[index];
+                                              _opEditSound(context,codigo);
+                                              print('$datoSeleccionado $codigo');
+                                            },
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(width: screenSize.width*0.003),
+                                                    borderRadius:
+                                                        BorderRadius.circular(5),
+                                                    color: Color.fromARGB(
+                                                        255, 145, 119, 218)),
+                                                width: screenSize.width * 0.8,
+                                                height: screenSize.height * 0.3,
+                                                child: Center(
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                                      Text(
+                                                        p_sound[index],
+                                                         textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: textSize3),
+                                                      ),
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                                      MaterialButton(
+                                                        onPressed: (){
+                                                         
+                                                        },
+                                                        child: Container(
+                                                          width: screenSize.width * 0.7,
+                                                          height: screenSize.height * 0.2,
+                                                          decoration: 
+                                                          BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(10),
+                                                            border: Border.all(width: screenSize.width*0.005),
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Slider(//slider o barra de carga
+                                                                activeColor: Color.fromARGB(255, 107, 71, 139),
+                                                                inactiveColor: Color.fromARGB(255, 137, 66, 204),
+                                                                thumbColor: Colors.black,
+                                                                value: position[index], 
+                                                              onChanged: (value){                                                  
+                                                                  audios.seek(Duration(milliseconds: value.toInt()));
+                                                              },
+                                                              min: 0.0,
+                                                              max: duracion,
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                children: [
+                                                                   ElevatedButton(
+                                                                style: ButtonStyle(
+                                                                  backgroundColor:
+                                                                      MaterialStateProperty.resolveWith<Color?>(
+                                                                    (Set<MaterialState>states) {
+                                                                      if (states.contains(MaterialState.pressed)) {
+                                                                        return Color.fromARGB(255,78,76,187); // Color cuando se presiona el botón
+                                                                      }
+                                                                      return Color.fromARGB(255,78,76,187); // Color predeterminado
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  setState(() {    
+                                                                    audios.stop();
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  width: screenSize.width*0.05,
+                                                                  height: screenSize.height*0.03,
+                                                                  child: Center(
+                                                                    child: Icon(Icons
+                                                                        .stop),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                                  ElevatedButton(
+                                                                style: ButtonStyle(
+                                                                  backgroundColor:
+                                                                      MaterialStateProperty.resolveWith<Color?>(
+                                                                    (Set<MaterialState>states) {
+                                                                      if (states.contains(MaterialState.pressed)) {
+                                                                        return Color.fromARGB(255,78,76,187); // Color cuando se presiona el botón
+                                                                      }
+                                                                      return Color.fromARGB(255,78,76,187); // Color predeterminado
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  setState(() {  
+                                                                        playaudio(audio[index]);
+                                                                        audios.onDurationChanged.listen((Duration duration) {
+                                                                  setState(() {
+                                                                        duracion = duration.inMilliseconds.toDouble();
+                                                                  });//fin del setstate
+                                                                });
+                                                                audios.onPositionChanged.listen((Duration duration) { 
+                                                                setState(() {
+                                                                position[index]=duration.inMilliseconds.toDouble();
+                                                                });
+                                                                });
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                   width: screenSize.width*0.05,
+                                                                  height: screenSize.height*0.03,
+                                                                  child: Center(
+                                                                    child: Icon(Icons
+                                                                        .play_arrow),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              ElevatedButton(
+                                                                style: ButtonStyle(
+                                                                  backgroundColor:
+                                                                      MaterialStateProperty.resolveWith<Color?>(
+                                                                    (Set<MaterialState>states) {
+                                                                      if (states.contains(MaterialState.pressed)) {
+                                                                        return Color.fromARGB(255,78,76,187); // Color cuando se presiona el botón
+                                                                      }
+                                                                      return Color.fromARGB(255,78,76,187); // Color predeterminado
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  setState(() {    
+                                                                    audios.pause();
+                                                                  });
+                                                                },
+                                                                child: Center(
+                                                                  child: Container(
+                                                                     width: screenSize.width*0.05,
+                                                                    height: screenSize.height*0.03,
+                                                                    child: Icon(Icons
+                                                                        .pause),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                )),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ):
+                          Padding(padding: EdgeInsets.all(5)),
+                          Padding(padding: EdgeInsets.all(screenSize.height*0.03)),
+                          cant_G !=0?//if para juegos
+                          Container(
+                            width: screenSize.width * 0.9,
+                            height: screenSize.height * 0.3,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: screenSize.width*0.005),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text("Juegos"),
+                                          Text("Cant. Juegos : $cant_G"),
+                                        ],
+                                      ),
+                                Container(
+                                  width: screenSize.width * 0.9,
+                                  height: screenSize.height * 0.25,
+                                  child: ListView.builder(
+                                    itemCount: request.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      // Crea un botón para cada elemento en la lista de datos
+                                      return Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                          MaterialButton(
+                                            onPressed: () {
+                                              // Cuando se presiona el botón, identifica el dato correspondiente
+                                              String datoSeleccionado =
+                                                  p_Game[index];
+                                              var codigo = co_PGame[index];
+                                              _opEditGame(context, codigo);
+                                              print('$datoSeleccionado $codigo');
+                                            },
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(width: screenSize.width*0.003),
+                                                    borderRadius:
+                                                        BorderRadius.circular(5),
+                                                    color: Color.fromARGB(
+                                                        255, 145, 119, 218)),
+                                                width: screenSize.width * 0.8,
+                                                height: screenSize.height * 0.12,
+                                                child: Center(
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
+                                                      Text(
+                                                        p_Game[index],
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: textSize3),
+                                                      ),
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.005)),
+                                                      MaterialButton(
+                                                        onPressed: (){
+                                                          
+                                                        },
+                                                        child: Container(
+                                                          width: screenSize.width * 0.7,
+                                                          height: screenSize.height * 0.05,
+                                                          decoration: 
+                                                          BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(10),
+                                                            border: Border.all(width: screenSize.width*0.003),
+                                                          ),
+                                                          child: Center(child: Text("Respuesta del juego: ${request[index]}")),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                )),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ):
+                          Padding(padding: EdgeInsets.all(2))//padding sin tomar en cuenta   
                         ],
                       ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        MaterialButton(
-                          onPressed: () {
-                            if (nameA == "NAME OF ACTIVITY/TASK") {
-                              final snackBar = SnackBar(
-                                  content:
-                                      Text("Es necesario cambiar el nombre"));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                              _changename(context);
-                            } else if (i < 2) {
-                              final snackBar = SnackBar(
-                                  content: Text(
-                                      "Debes contener almenos 10 preguntas"));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SaveAct(
-                                          nombre_act: nameA,
-                                          cod_act: widget.cod,
-                                          cod_p: widget.cod_p,
-                                        )),
-                              );
-                            }
-                          },
-                          child: Container(
-                            width: 70,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 225, 204, 243),
-                                border: Border.all(width: 2),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                              child: Text("Guardar"),
+                      Padding(padding: EdgeInsets.all(screenSize.width*0.05)),      
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          MaterialButton(
+                            onPressed: () {
+                              if (nameA == "NAME OF ACTIVITY/TASK") {
+                                final snackBar = SnackBar(
+                                    content:
+                                        Text("Es necesario cambiar el nombre"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                _changename(context);
+                              } else if (cantidad < 10) {
+                                final snackBar = SnackBar(
+                                    content: Text(
+                                        "Debes contener almenos 10 preguntas"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SaveAct(
+                                            nombre_act: nameA,
+                                            cod_act: widget.cod,
+                                            cod_p: widget.cod_p,
+                                          )),
+                                );
+                              }
+                            },
+                            child: Container(
+                              width: screenSize.width*0.2,
+                              height: screenSize.height*0.05,
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 225, 204, 243),
+                                  border: Border.all(width: 2),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: Text("Guardar",style: TextStyle(fontSize: textSize3),),
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(padding: EdgeInsets.only(right: 20))
-                      ],
-                    ),
-
-                    //edicion de patalla
-                  ],
+                          Padding(padding: EdgeInsets.only(right: screenSize.width*0.05))
+                        ],
+                      ),
+                      //edicion de patalla
+                      
+                    ],
+                  ),
+                )
+                
+              ]),
+          
+            ),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.black,
+            backgroundColor: Color.fromARGB(255, 114, 83, 155),
+            currentIndex: currentIndex,
+            onTap: _showDialogForItem,
+            items: [
+              BottomNavigationBarItem(
+                backgroundColor: Colors.white,
+                label: "Add Ask",
+                icon: Icon(Icons.add_comment_outlined)
                 ),
-              )
+              BottomNavigationBarItem(
+                label: "Add Image",
+                icon: Icon(Icons.add_photo_alternate_rounded)),
+                BottomNavigationBarItem(
+                label: "Add Sound",
+                icon: Icon(Icons.music_video_sharp))
             ]),
-          ),
-          floatingActionButton: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              FloatingActionButton(
-                heroTag: 'tag1',
-                onPressed: () async {
-                   if(i==20){
-                     final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            showCloseIcon: true,
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content:
-                                Text("No se puede agregar mas de 20 preguntas"));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }else{
-                     setState(() {
-                    _nameask(context);
-                  });
-                  }
-                 
-                },
-                child: Icon(Icons.add_comment_outlined),
-              ),
-              FloatingActionButton(
-                heroTag: 'tag2',
-                onPressed: () {
-                   if(i==20){
-                     final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            showCloseIcon: true,
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content:
-                                Text("No se puede agregar mas de 20 preguntas"));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }else{
-                     _elegirImg(context);
-                  }
-                 
-                },
-                child: Icon(Icons.add_photo_alternate_outlined),
-              ),
-              FloatingActionButton(
-                heroTag: 'tag3',
-                onPressed: () {
-                   if(i==20){
-                     final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            showCloseIcon: true,
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content:
-                                Text("No se puede agregar mas de 20 preguntas"));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }else{
-                    setState(() {
-                    _elegirSound(context);
-                  });
-                  }
-                  
-                },
-                child: Icon(Icons.mic),
-              ),
-            ],
-          ),
-        ));
+        ),
+        
+        );
+        
   }
-
+  void _showDialogForItem(int index) {
+    switch (index) {
+      case 0: if(cantidad == 20){
+         final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Text("Se ha alcanzado el limite de preguntas"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }else{
+         _nameask(context);
+      }
+      break;
+      case 1 : if(cantidad ==20){
+         final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Text("Se ha alcanzado el limite de preguntas"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }else{
+        _elegirImg(context);
+      }
+      break;
+      case 2: if(cantidad==20){
+           final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Text("Se ha alcanzado el limite de preguntas"));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }else{
+         _elegirSound(context);
+      }
+     
+    }
+  }
 //mensaje emergente para cambiar el nombre de la actividad o tarea
   void _changename(BuildContext context) {
     showDialog(
@@ -825,7 +1028,16 @@ class _VerTareaEState extends State<VerTarea> {
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
+                      children: [ 
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Cancelar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                         TextButton(
                           onPressed: () {
                             setState(() {
@@ -833,22 +1045,16 @@ class _VerTareaEState extends State<VerTarea> {
                                 Navigator.pop(context);
                                 var nombre = nameac.text;
 
-                                editname(nombre, widget.cod);
+                               var n= editname(nombre, widget.cod);
+                               if(n!="Error"){
+                                _mensaje(context);
+                               }
                                 obtenerpreguntas();
                               }
                             });
                           },
                           child: const Text(
                             'Aceptar',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'Cancelar',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -861,9 +1067,6 @@ class _VerTareaEState extends State<VerTarea> {
           );
         });
   }
-
-//mensaje emergente para mostrar una pantalla emergente para cambiar la pregunta
-
   //espacio para añadir imagen con titulo
 
   void _elegirImg(BuildContext context) {
@@ -1011,7 +1214,6 @@ class _VerTareaEState extends State<VerTarea> {
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);
-                            setState(() {});
                           },
                           child: const Text(
                             'Cancelar',
@@ -1019,18 +1221,34 @@ class _VerTareaEState extends State<VerTarea> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            setState(() {
+                          onPressed: () {  
                               if (nameask.text == "") {
                                 ask = "Escribe tu pregunta aqui";
+                                nameask.text = "";
                               } else {
                                 ask = nameask.text;
                                 agregarAskActivity(ask, widget.cod);
                                 nameask.text = "";
-                              }
+                                Navigator.pop(context);
+                              
+                               final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               obtenerpreguntas();
-                            });
+                              }    
                           },
                           child: const Text(
                             'Aceptar',
@@ -1047,124 +1265,8 @@ class _VerTareaEState extends State<VerTarea> {
         });
   }
 
-//espacio para elegir una opcion , si elegir una imagen o una pregunta
 
-  void _wishExit(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("¿Quieres salir?"),
-            content: Container(
-              width: 100,
-              height: 30,
-              child: Text('¿Estas seguro que quieres salir?'),
-            ),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Center(
-                        child: Text('No'),
-                      )),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VerAct(
-                                    cod: widget.cod_p,
-                                  )),
-                        );
-                      },
-                      child: Center(
-                        child: Text('Si'),
-                      )),
-                ],
-              )
-            ],
-          );
-        });
-  }
-
-  void _deleteAsk(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shadowColor: Color.fromARGB(255, 170, 63, 233),
-            backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("¿Estas seguro que quieres borrar la pregunta?"),
-            content: Container(
-              child: Form(
-                  key: formdeleteask,
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return "Campo requerido";
-                      }
-                    },
-                    controller: deleteask,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Codigo pregunta",
-                    ),
-                  )),
-            ),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "NO",
-                        style: TextStyle(color: Colors.white),
-                      )),
-                  TextButton(
-                      onPressed: () {
-                        if (formdeleteask.currentState!.validate()) {
-                          var codigo = deleteask.text;
-                          deleteAsk(widget.cod, codigo);
-                        }
-                        Navigator.pop(context);
-                        obtenerpreguntas();
-                        final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("Podria ser necesario recargar"),
-                                MaterialButton(
-                                  onPressed: () {
-                                    _messaje(context);
-                                  },
-                                  child: Text("¿Saber mas?"),
-                                )
-                              ],
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      },
-                      child: Text("SI", style: TextStyle(color: Colors.white))),
-                ],
-              )
-            ],
-          );
-        });
-  }
-
-  void _changeask2(BuildContext context) {
+  void _changeask2(BuildContext context, var cod) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -1179,23 +1281,6 @@ class _VerTareaEState extends State<VerTarea> {
                     key: formchangeask,
                     child: Column(
                       children: [
-                        Container(
-                          width: 200,
-                          child: TextFormField(
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return "Campo requerido";
-                              }
-                            },
-                            controller: cod_changeask,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Codigo pregunta",
-                            ),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.all(10)),
                         Center(
                           child: Container(
                             width: 200,
@@ -1231,7 +1316,6 @@ class _VerTareaEState extends State<VerTarea> {
                                 child: TextButton(
                                     onPressed: () {
                                       changeask.text = "";
-                                      cod_changeask.text = "";
                                       Navigator.pop(context);
                                     },
                                     child: Text("Cancelar",
@@ -1244,13 +1328,27 @@ class _VerTareaEState extends State<VerTarea> {
                                 ),
                                 child: TextButton(
                                   onPressed: () {
-                                    if (formchangeask.currentState!
-                                        .validate()) {
+                                    if (formchangeask.currentState!.validate()) {
                                       pregunta = changeask.text;
-                                      var cod = cod_changeask.text;
                                       editAsk(pregunta, cod);
                                       changeask.text = "";
                                       Navigator.pop(context);
+                                       final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                       obtenerpreguntas();
                                     }
                                   },
@@ -1269,7 +1367,7 @@ class _VerTareaEState extends State<VerTarea> {
         });
   }
 
-  void _opEdit(BuildContext context) {
+  void _opEdit(BuildContext context, var cod) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -1279,12 +1377,12 @@ class _VerTareaEState extends State<VerTarea> {
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("¿Que deseas hacer?"),
             content: Container(
-                height: 190,
+                height: 260,
                 child: Column(
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        _changeask2(context);
+                        _changeask2(context,cod);
                       },
                       child: Container(
                         width: 180,
@@ -1305,7 +1403,25 @@ class _VerTareaEState extends State<VerTarea> {
                     Padding(padding: EdgeInsets.all(10)),
                     MaterialButton(
                       onPressed: () {
-                        _addImg(context);
+                         addimage(cod);
+                        final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);  
+                      obtenerpreguntas();
+                      Navigator.pop(context);
                       },
                       child: Container(
                         width: 180,
@@ -1326,6 +1442,46 @@ class _VerTareaEState extends State<VerTarea> {
                     Padding(padding: EdgeInsets.all(10)),
                     MaterialButton(
                       onPressed: () {
+                        deleteAsk(widget.cod, cod);
+                         final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        obtenerpreguntas();
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 180,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 230, 91, 81),
+                          border: Border.all(width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Eliminar pregunta"),
+                            Icon(Icons.delete_forever),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.all(10)),
+                    MaterialButton(
+                      onPressed: () {
                         Navigator.pop(context);
                       },
                       child: Container(
@@ -1342,122 +1498,17 @@ class _VerTareaEState extends State<VerTarea> {
                           ],
                         ),
                       ),
-                    )
+                    ),
+                    
                   ],
                 )),
           );
         });
   }
 
-  void _addImg(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shadowColor: Color.fromARGB(255, 170, 63, 233),
-            backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("Seleccionar una imagen"),
-            content: Container(
-              height: 200,
-              child: Column(
-                children: [
-                  Form(
-                      key: addimg,
-                      child: Column(children: [
-                        Container(
-                          width: 150,
-                          child: TextFormField(
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return "Campo requerido";
-                              }
-                            },
-                            controller: cod_changeask,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Codigo pregunta",
-                            ),
-                          ),
-                        ),
-                      ])),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      if (addimg.currentState!.validate()) {
-                        var cod = cod_changeask.text;
-                        addimage(cod);
-                        cod_changeask.text = "";
-                        final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("Podria ser necesario recargar"),
-                                MaterialButton(
-                                  onPressed: () {
-                                    _messaje(context);
-                                  },
-                                  child: Text("¿Saber mas?"),
-                                )
-                              ],
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                      obtenerpreguntas();
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      width: 150,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 2),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: const [
-                          Text("Elegir imagen"),
-                          Icon(Icons.image)
-                        ],
-                      )),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      width: 150,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(Icons.arrow_back),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
+  
   //editar una pregunta con imagen
-  void _opEditImg(BuildContext context) {
+  void _opEditImg(BuildContext context, var cod) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -1467,12 +1518,12 @@ class _VerTareaEState extends State<VerTarea> {
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("¿Que deseas hacer?"),
             content: Container(
-                height: 230,
+                height: 270,
                 child: Column(
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        _changeask2(context);
+                        _changeask2(context, cod);
                       },
                       child: Container(
                         width: 180,
@@ -1493,7 +1544,25 @@ class _VerTareaEState extends State<VerTarea> {
                     Padding(padding: EdgeInsets.all(10)),
                     MaterialButton(
                       onPressed: () {
-                        _addImg(context);
+                        addimage(cod);
+                         final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        obtenerpreguntas();
+                        Navigator.pop(context);
                       },
                       child: Container(
                         width: 180,
@@ -1507,6 +1576,46 @@ class _VerTareaEState extends State<VerTarea> {
                           children: [
                             Text("editar imagen"),
                             Icon(Icons.image),
+                          ],
+                        ),
+                      ),
+                    ),
+                     Padding(padding: EdgeInsets.all(10)),
+                    MaterialButton(
+                      onPressed: () {
+                        deleteAsk(widget.cod, cod);
+                        obtenerpreguntas();
+                         final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 180,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 230, 91, 81),
+                          border: Border.all(width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Eliminar pregunta"),
+                            Icon(Icons.delete_forever),
                           ],
                         ),
                       ),
@@ -1536,7 +1645,6 @@ class _VerTareaEState extends State<VerTarea> {
           );
         });
   }
-
   void _messaje(BuildContext parentContext) async {
     showDialog(
         barrierDismissible: false,
@@ -1709,9 +1817,7 @@ class _VerTareaEState extends State<VerTarea> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => UseURL(
-                                )),
+                        MaterialPageRoute(builder: (context) => UseURL()),
                       );
                     },
                     child: Text("Presiona aqui"),
@@ -1781,7 +1887,25 @@ class _VerTareaEState extends State<VerTarea> {
                       var name = nameask.text;
                       var respuesta = addaskgame.text;
                       if (addgame.currentState!.validate()) {
+                        nameask.text="";
+                        addaskgame.text="";
                         upGame(widget.cod, respuesta, name);
+                         final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         obtenerpreguntas();
                         Navigator.pop(context);
                       }
@@ -1839,7 +1963,7 @@ class _VerTareaEState extends State<VerTarea> {
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("ERROR[002]"),
             content: Container(
-              height: 160,
+              height: 190,
               child: Column(
                 children: [
                   Text(
@@ -1872,7 +1996,7 @@ class _VerTareaEState extends State<VerTarea> {
         });
   }
 
-  void _opEditGame(BuildContext context) {
+  void _opEditGame(BuildContext context, var cod) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -1882,12 +2006,12 @@ class _VerTareaEState extends State<VerTarea> {
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("¿Que deseas hacer?"),
             content: Container(
-                height: 190,
+                height: 270,
                 child: Column(
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        _changeask2(context);
+                       _changeask2(context, cod);
                       },
                       child: Container(
                         width: 180,
@@ -1908,7 +2032,7 @@ class _VerTareaEState extends State<VerTarea> {
                     Padding(padding: EdgeInsets.all(10)),
                     MaterialButton(
                       onPressed: () {
-                        _editRequest(context);
+                        _editRequest(context,cod);
                       },
                       child: Container(
                         width: 180,
@@ -1922,6 +2046,50 @@ class _VerTareaEState extends State<VerTarea> {
                           children: [
                             Text("Editar respuesta"),
                             Icon(Icons.mode_edit),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.all(10)),
+                     MaterialButton(
+                      onPressed: () {
+                        var n=deleteAsk(widget.cod, cod);
+                        if(n!="Error"){
+                        obtenerpreguntas();
+                         final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }else{
+                            _mensaje(context);
+                        }
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 180,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 230, 91, 81),
+                          border: Border.all(width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Eliminar pregunta"),
+                            Icon(Icons.delete_forever),
                           ],
                         ),
                       ),
@@ -1952,7 +2120,7 @@ class _VerTareaEState extends State<VerTarea> {
         });
   }
 
-  void _editRequest(BuildContext context) {
+  void _editRequest(BuildContext context,var cod) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -1967,26 +2135,8 @@ class _VerTareaEState extends State<VerTarea> {
                 children: [
                   Form(
                       key: editRequest,
-                      child: Column(children: [
-                        Container(
-                          width: 150,
-                          child: TextFormField(
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return "Campo requerido";
-                              }
-                            },
-                            controller: cod_changeask,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Codigo pregunta",
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                        ),
+                      child: Column(
+                        children: [
                         Container(
                           width: 200,
                           child: TextFormField(
@@ -2008,14 +2158,29 @@ class _VerTareaEState extends State<VerTarea> {
                   ),
                   MaterialButton(
                     onPressed: () {
-                      var cod = cod_changeask.text;
                       var respuesta = newrquest.text;
                       if (editRequest.currentState!.validate()) {
+                        
                         editRespuesta(widget.cod, cod, respuesta);
                         obtenerpreguntas();
+                         final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         Navigator.pop(context);
                         newrquest.text = "";
-                        cod_changeask.text = "";
                       }
                     },
                     child: Container(
@@ -2061,5 +2226,133 @@ class _VerTareaEState extends State<VerTarea> {
             ),
           );
         });
+  }
+
+  void _opEditSound(BuildContext context, var cod) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("¿Que deseas hacer?"),
+            content: Container(
+                height: 190,
+                child: Column(
+                  children: [
+                    MaterialButton(
+                      onPressed: () {
+                       _changeask2(context, cod);
+                      },
+                      child: Container(
+                        width: 180,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Editar pregunta"),
+                            Icon(Icons.edit),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.all(10)),
+                     MaterialButton(
+                      onPressed: () {
+                        deleteAsk(widget.cod, cod);
+                        obtenerpreguntas();
+                         final snackBar = SnackBar(
+                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                            shape: Border.all(width: 1),
+                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                            content: Row(
+                              children: [
+                                Text("Podria ser necesario recargar"),
+                                MaterialButton(
+                                  onPressed: () {
+                                    _messaje(context);
+                                  },
+                                  child: Text("¿Saber mas?"),
+                                )
+                              ],
+                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 180,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 230, 91, 81),
+                          border: Border.all(width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Eliminar pregunta"),
+                            Icon(Icons.delete_forever),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.all(10)),
+                    MaterialButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 180,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Icon(Icons.arrow_back),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                )),
+          );
+        });
+  }
+  void _mensaje(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Error de conexión"),
+            content:
+                const Text('La conexion es lenta\nIntentalo de nuevo mas tarde o conectate a una red WIFI'),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+   @override
+  void dispose() {
+    audios.dispose();
+    super.dispose();
   }
 }

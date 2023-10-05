@@ -1,17 +1,12 @@
-// ignore: file_names
-// ignore_for_file: unused_import, prefer_typing_uninitialized_variables, avoid_print
+
 
 import 'package:flutter/material.dart';
 import 'package:ingles/screens/select_A_S.dart';
-import 'package:ingles/screens/show_act.dart';
-import 'package:ingles/screens/tareas.dart';
 import 'package:ingles/screens/tareasM.dart';
 import 'package:ingles/screens/ver_T_E.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../developer/consultasf.dart';
-import '../developer/consultaso.dart';
-import '../main.dart';
 import 'createExam.dart';
 
 
@@ -47,6 +42,10 @@ var result1;
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 50.00 : 25.00;//titulos
+    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 50.00 : 20.00;//subtitulos
     var cod_profe=widget.cod_p;
     return Container(
         decoration: const BoxDecoration(
@@ -60,9 +59,9 @@ var result1;
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
               title: Center(
                 child: GradientText(
-                  'ELIJA UNA OPCION',
-                  style: const TextStyle(
-                    fontSize: 30.0,
+                  'SELECCIONE UNA OPCION',
+                  style:  TextStyle(
+                    fontSize: textSize,
                   ),
                   gradientType: GradientType.linear,
                   gradientDirection: GradientDirection.ttb,
@@ -81,8 +80,8 @@ var result1;
               //inicio de definicion de opciones a mostrar al usuario
 
               child: Column(children: [
-                const SizedBox(
-                  height: 90,
+                SizedBox(
+                  height: screenSize.height * 0.2,
                 ),
                 
                 Row(
@@ -124,15 +123,15 @@ var result1;
                             )   
                             );
                           },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
+                          child:  SizedBox(
+                              height: screenSize.height * 0.15,
+                              width: screenSize.width * 0.45,
                               child: Image(image: AssetImage('assets/tareas.png'))),
                         ),
                         GradientText(
                           'Tareas',
-                          style: const TextStyle(
-                            fontSize: 30.0,
+                          style:  TextStyle(
+                            fontSize: textSize2,
                           ),
                           gradientType: GradientType.linear,
                           gradientDirection: GradientDirection.ttb,
@@ -183,15 +182,15 @@ var result1;
                                   )),
                              );
                           },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
+                          child:  SizedBox(
+                              height: screenSize.height * 0.15,
+                              width: screenSize.width * 0.38,
                               child: Image(image: AssetImage('assets/examen.png'))),
                         ),
                         GradientText(
                           'Examenes',
-                          style: const TextStyle(
-                            fontSize: 30.0,
+                          style:  TextStyle(
+                            fontSize: textSize2,
                           ),
                           gradientType: GradientType.linear,
                           gradientDirection: GradientDirection.ttb,
@@ -207,7 +206,7 @@ var result1;
                     //fin de espacio de contenedor para ver examenes 
                   ],
                 ),
-                const SizedBox(height: 40,),
+                 SizedBox(height: screenSize.height * 0.1),
                  //contenedor para la opcion de tareas   
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -222,15 +221,15 @@ var result1;
                                 ); 
                                 
                               },
-                              child: const SizedBox(
-                                  height: 150,
-                                  width: 145,
+                              child: SizedBox(
+                                  height: screenSize.height * 0.15,
+                              width: screenSize.width * 0.45,
                                   child: Image(image: AssetImage('assets/historial_medico.png'))),
                             ),
                             GradientText(
                               '       Ver mis \n    actividades',
-                              style: const TextStyle(
-                                fontSize: 30.0,
+                              style:  TextStyle(
+                                fontSize: textSize2,
                               ),
                               gradientType: GradientType.linear,
                               gradientDirection: GradientDirection.ttb,
@@ -254,15 +253,15 @@ var result1;
                             ); 
                                 
                               },
-                              child: const SizedBox(
-                                  height: 150,
-                                  width: 145,
+                              child:  SizedBox(
+                                 height: screenSize.height * 0.15,
+                              width: screenSize.width * 0.38,
                                   child: Image(image: AssetImage('assets/calificar1.png'))),
                             ),
                             GradientText(
                               'Calificar',
-                              style: const TextStyle(
-                                fontSize: 30.0,
+                              style:  TextStyle(
+                                fontSize: textSize2
                               ),
                               gradientType: GradientType.linear,
                               gradientDirection: GradientDirection.ttb,

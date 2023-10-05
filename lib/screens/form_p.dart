@@ -34,6 +34,10 @@ var cod;
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 30.00 : 15.00;//para  botones
+    double textSize2 = screenWidth < 340 ? 20.0 : screenWidth >600 ? 70.00 : 40.00;//para titulos
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -47,8 +51,8 @@ var cod;
           title: Center(
             child: GradientText(
               'WELCOME',
-              style: const TextStyle(
-                fontSize: 50.0,
+              style: TextStyle(
+                fontSize:textSize2,
               ),
               gradientType: GradientType.linear,
               gradientDirection: GradientDirection.ttb,
@@ -66,75 +70,74 @@ var cod;
           child: Column(
             children: [
               //cuerpo del formulario
-              Cuerpo(),
+              Cuerpo(context),
               Row(
                 children: [
-                  const SizedBox(
-                    width: 76,
+                  SizedBox(
+                    width: screenSize.width * 0.15,
                   ),
-                  const SizedBox(
-                    height: 210,
+                  SizedBox(
+                    height: screenSize.height * 0.3,
                   ),
-                  MaterialButton(
-                    color: const Color.fromARGB(255, 135, 8, 160),
-                    onPressed: () {
-                      Navigator.pop(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const FirstRoute()),
-                      );
-                    },
-                    child: const Text(
-                      'Cancelar',
-                      style: TextStyle(color: Colors.white),
+                  Container(
+                    width: screenSize.width*0.25,
+                    height: screenSize.height*0.045,
+                    child: MaterialButton(
+                      color: const Color.fromARGB(255, 135, 8, 160),
+                      onPressed: () {
+                        Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const FirstRoute()),
+                        );
+                      },
+                      child:  Text(
+                        'Cancelar',
+                        style: TextStyle(color: Colors.white,fontSize: textSize),
+                      ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 30,
+                   SizedBox(
+                    width: screenSize.width * 0.2,
                   ),
-                  MaterialButton(
-                  color: const Color.fromARGB(255, 135, 8, 160),
-                  onPressed: () async{
-                     usuariobd = usuariob.text;
-                    contrabd = contrab.text;
-                    //comprobacion de usuario y contraseña
-                    if (usuariobd.isNotEmpty || contrabd.isNotEmpty) {
-                    dynamic respuesta = await comprobarp(usuariobd,contrabd);
-                    if (respuesta != "noExisten") {
-                              for (var i = 0; i < respuesta.length; i++) {
-                                var dato = respuesta[i];
-                                var codigo=dato["cod_profe"];
-                                
-                                setState(() {
-                                   cod=codigo;
-                                   
-                                });
-                              }
-                            }
-
-                    if (respuesta == "error") {
+                  Container(
+                    width: screenSize.width*0.25,
+                    height: screenSize.height*0.045,
+                    child: MaterialButton(
+                    color: const Color.fromARGB(255, 135, 8, 160),
+                    onPressed: () async{
+                       usuariobd = usuariob.text;
+                      contrabd = contrab.text;
+                      //comprobacion de usuario y contraseña
+                      if (usuariobd.isNotEmpty || contrabd.isNotEmpty) {
+                      dynamic respuesta = await comprobarp(usuariobd,contrabd);
+                      print(respuesta);
+                      if(respuesta !="Error") {
+                                for (var i = 0; i < respuesta.length; i++) {
+                                  var dato = respuesta[i];
+                                  var codigo=dato["cod_profe"];   
+                                  setState(() {
+                                     cod=codigo;   
+                                  });
+                                }     
+                      if (cod==0) {
+                        //no hay usuario con ese nombre
+                        _mensajeUsu(context);
+                      } else {                    
+                          Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  ProfeOp(cod_p: cod)),
+                     );             
+                      }
+                      }else{
                         _mensaje(context);
+                      }
+                      }
+                    },
+                    child:  Text('Iniciar', style: TextStyle(color: Colors.white,fontSize: textSize),),
+                    ),
+                  ),
 
-                      //se produjo un error
-                    }
-                    if (cod==0) {
-                      //no hay usuario con ese nombre
-                      _mensajeUsu(context);
-                    } else {            
-                        
-                      
-                        Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>  ProfeOp(cod_p: cod)),
-                   );             
-                    }
-                    }
-                  },
-                  child: const Text('Iniciar', style: TextStyle(color: Colors.white),),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
                 ],
               ),
             ],
@@ -145,28 +148,33 @@ var cod;
   }
 //widgets que forman la aplicacion
 // ignore: non_constant_identifier_names
-  Widget Cuerpo() {
+  Widget Cuerpo(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
     return Center(
       child: Column(children: <Widget>[
-        espacio(),
-        control(),
-        const SizedBox(
-          height: 40,
+        SizedBox(
+      height: screenSize.height * 0.05,
+    ),
+        control(context),
+         SizedBox(
+          height: screenSize.height * 0.05,
         ),
-        usuario(),
-        const SizedBox(
-          height: 10,
+        usuario(context),
+         SizedBox(
+          height: screenSize.height * 0.05,
         ),
-        contrasena(),
+        contrasena(context),
       ]),
     );
   }
 
-  Widget control() {
+  Widget control(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 15.00 : screenWidth > 600? 45.00 : 25.00;//subtitulo
     return GradientText(
       'INICIO DE SESIÓN',
-      style: const TextStyle(
-        fontSize: 25.0,
+      style:  TextStyle(
+        fontSize: textSize,
       ),
       gradientType: GradientType.linear,
       gradientDirection: GradientDirection.ttb,
@@ -179,29 +187,33 @@ var cod;
     );
   }
 
-  Widget espacio() {
-    return const SizedBox(
-      height: 40,
-    );
-  }
 
-  Widget usuario() {
+  Widget usuario(BuildContext context) {
+     double screenWidth = MediaQuery.of(context).size.width;
+     double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 30.00 : 16.00;//para  botones
+     Size screenSize = MediaQuery.of(context).size;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding:  EdgeInsets.symmetric(horizontal: screenSize.width * 0.05, vertical: screenSize.height * 0.01 ),
       child: TextField(
+        style: TextStyle(fontSize: textSize),
         controller: usuariob,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           counterStyle: TextStyle(color: Colors.white),
           hintText: "Usuario",
+          hintStyle: TextStyle(fontSize:textSize)
         ),
       ),
     );
   }
 
-Widget contrasena(){
+Widget contrasena(BuildContext context){
+   double screenWidth = MediaQuery.of(context).size.width;
+  double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 30.00 : 16.00;//para  botones
+   Size screenSize = MediaQuery.of(context).size;
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+    padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.05, vertical: screenSize.height * 0.01 ),
     child: TextField(
+      style: TextStyle(fontSize: textSize),
       controller: contrab,
       obscureText: _obscureText,
       decoration:  InputDecoration(
@@ -212,8 +224,9 @@ Widget contrasena(){
         },
         child: Icon(_obscureText ?Icons.visibility : Icons.visibility_off),
         ),
-        counterStyle: const TextStyle(color: Colors.white),
+        counterStyle: TextStyle(color: Colors.white),
         hintText: "contraseña",
+        hintStyle: TextStyle(fontSize: textSize)
       ),
     ));
   }
@@ -249,16 +262,13 @@ Widget contrasena(){
           return AlertDialog(
             title: const Text("Error de conexión"),
             content:
-                const Text('Ocurrió un error al conectar con la base de datos'
-                    'o consulta errónea.'),
+                const Text('La conexion es lenta\nIntentalo de nuevo mas tarde o conectate a una red WIFI'),
             actions: [
               Center(
                 child: TextButton(
                   onPressed: () {
                     setState(() {
                       Navigator.pop(context);
-                      usuariob.clear();
-                      contrab.clear();
                     });
                   },
                   child: const Text('Aceptar'),
