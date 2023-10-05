@@ -94,7 +94,7 @@ Future<dynamic> addTask(var name,var cod_p, var anio,var hora) async {
 Future<dynamic> editname(var nombre, var cod) async {
   print(nombre);
   print(cod);
-
+try{
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/change_name_act.php'),
     body: <String, dynamic>{
@@ -103,6 +103,9 @@ Future<dynamic> editname(var nombre, var cod) async {
     },
   );
   return enviar.body;
+}catch(e){
+  return "Error";
+}
 }
 //guardar año y seccion
 Future<dynamic> insertcodes(var grado, var seccion,var cod, var hora, var anio) async {
@@ -147,6 +150,7 @@ Future<dynamic> deleteAsk(var cod,cod_a) async {
   
   print(cod);
   print(cod_a);
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/delete_ask.php'),
     body: <String, dynamic>{
@@ -155,6 +159,9 @@ Future<dynamic> deleteAsk(var cod,cod_a) async {
     },
   );
   return enviar.body;
+  }catch(e){
+    return  "Error";
+  }
 }
 
 //mostrar resultados segun filtros

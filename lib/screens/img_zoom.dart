@@ -37,10 +37,6 @@ var cod;
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 30.00 : 15.00;//para  botones
-    double textSize2 = screenWidth < 340 ? 20.0 : screenWidth >600 ? 70.00 : 40.00;//para titulos
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(

@@ -60,6 +60,7 @@ class _VerTareaEState extends State<VerTarea> {
 
 //future para buscar y almacenar imagen
   Future setimage(var ask) async {
+    try{
     var picturefile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
@@ -75,11 +76,15 @@ class _VerTareaEState extends State<VerTarea> {
         });
       }
     });
+  }catch(e){
+    _messaje(context);
+  }
   }
   //variables y funciones para audio
 
   //funcion para añadir imagen a una pregunta sin imagen
   Future addimage(var cod) async {
+    try{
     var picturefile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
@@ -102,6 +107,9 @@ class _VerTareaEState extends State<VerTarea> {
         });
       }
     });
+    }catch(e){
+      _messaje(context);
+    }
   }
 
 //funcion para actualizar una imagen en la base datos
@@ -242,8 +250,9 @@ int currentIndex=0;
     Size screenSize = MediaQuery.of(context).size; //contenedores
     double screenWidth = MediaQuery.of(context).size.width;
     double textSize = screenWidth < 340? 8.00: screenWidth > 600? 50.00: 25.00; //titulos
-    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 50.00: 20.00; //botones
+    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 35.00: 15.00; //boton de guardado
     double textSize3 = screenWidth < 340? 10.0: screenWidth > 600? 50.00: 15.00; //preguntas
+    double textSize4 = screenWidth < 340? 10.0: screenWidth > 600? 50.00: 15.00; //para titulos en las secciones
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -263,8 +272,8 @@ int currentIndex=0;
                 }
               },
               child: SizedBox(
-                width: 30,
-                height: 30,
+                width: screenSize.width *0.05,
+                height:screenSize.height*0.05,
                 child: Icon(Icons.arrow_back_outlined),
               ),
             ),
@@ -275,7 +284,7 @@ int currentIndex=0;
           body: RefreshIndicator(
             onRefresh: obtenerpreguntas,
             child: Scrollbar(
-              thickness: 10,
+              thickness: screenSize.width*0.03,
               trackVisibility: true,
               interactive: true,
               child: ListView(
@@ -287,9 +296,10 @@ int currentIndex=0;
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
-                              width: 200,
-                              height: 60,
+                              width: screenSize.width*0.7,
+                              height: screenSize.height*0.07,
                               child: TextField(
+                                textAlign: TextAlign.center,
                                 maxLines: 2,
                                 enabled: false,
                                 decoration: InputDecoration.collapsed(
@@ -300,8 +310,8 @@ int currentIndex=0;
                               _changename(context);
                             },
                             child: Container(
-                              height: 20,
-                              width: 20,
+                              height: screenSize.height*0.05,
+                              width: screenSize.width*0.07,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       image: AssetImage("assets/editar.png"))),
@@ -310,22 +320,22 @@ int currentIndex=0;
                         ],
                       ),
                       Container(
-                        width: 500,
-                        height: 2,
+                        width: screenSize.width*1,
+                        height: screenSize.height*0.002,
                         color: Colors.black,
                       ),
-                      const SizedBox(
-                        height: 20,
+                      SizedBox(
+                        height: screenSize.height*0.02,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Container(
-                            width: 140,
-                            height: 50,
+                            width: screenSize.width*0.4,
+                            height: screenSize.height*0.05,
                             decoration: BoxDecoration(
                               color: Color.fromARGB(255, 142, 93, 219),
-                              border: Border.all(width: 1),
+                              border: Border.all(width: screenSize.width*0.003),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: MaterialButton(
@@ -337,23 +347,23 @@ int currentIndex=0;
                                 children: [
                                   Text(
                                     "Add Game",
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: Colors.white,fontSize: textSize2),
                                   ),
                                   Icon(
                                     Icons.games,
-                                    size: 25,
+                                    size: screenSize.width*0.07,
                                     color: Colors.white,
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          Padding(padding: EdgeInsets.all(10)),
+                          Padding(padding: EdgeInsets.all(screenSize.width*0.02)),
                          Text(cantidad!=null?"Cant. Total: ${cantidad}"
-                         : "Cant. Total: 0")
+                         : "Cant. Total: 0",style: TextStyle(fontSize: textSize4),)
                         ],
                       ),
-                      Padding(padding: EdgeInsets.all(20)),
+                      Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                       isLoading
                           ? Column(
                               children: [
@@ -387,7 +397,7 @@ int currentIndex=0;
                                           ),
                                           Container(
                                             decoration: BoxDecoration(
-                                              border: Border.all(width: 2),
+                                              border: Border.all(width: screenSize.width*0.003),
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
@@ -400,37 +410,39 @@ int currentIndex=0;
                                                 });
                                               },
                                               child: Row(children: [
-                                                Text("Reintentar"),
+                                                Text("Reintentar",style: TextStyle(fontSize: textSize2),),
                                                 Icon(Icons.error)
                                               ]),
                                             ),
                                           ),
                                           Padding(padding: EdgeInsets.all(10)),
                                           Text(
-                                              "Error en la red o no estas conectado"),
+                                              "Error en la red o no estas conectado",style: TextStyle(fontSize: textSize2),),
                                         ],
                                       ),
                                     ],
                                   ),
                                 )
                               : 
+                              
                       Column(
                         children: [
+                          cant_P!=0?
                           Container(
                             width: screenSize.width * 0.9,
                             height: screenSize.height * 0.35,
                             decoration: BoxDecoration(
-                              border: Border.all(width: 2),
+                              border: Border.all(width: screenSize.width*0.005),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
                               children: [
-                                Padding(padding: EdgeInsets.all(10)),
+                                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                 Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: [
-                                          Text("Preguntas"),
-                                          Text("Cant. Preguntas : $cant_P"),
+                                          Text("Preguntas",style: TextStyle(fontSize: textSize4),),
+                                          Text("Cant. Preguntas : $cant_P",style: TextStyle(fontSize: textSize4),),
                                         ],
                                       ),
                                 Container(
@@ -443,9 +455,8 @@ int currentIndex=0;
                                       return Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Padding(padding: EdgeInsets.all(5)),
+                                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                           MaterialButton(
-
                                             onPressed: () {
                                               // Cuando se presiona el botón, identifica el dato correspondiente
                                               String datoSeleccionado =
@@ -456,7 +467,7 @@ int currentIndex=0;
                                             },
                                             child: Container(
                                                 decoration: BoxDecoration(
-                                                    border: Border.all(width: 1),
+                                                    border: Border.all(width: screenSize.width*0.003),
                                                     borderRadius:
                                                         BorderRadius.circular(5),
                                                     color: Color.fromARGB(
@@ -479,24 +490,25 @@ int currentIndex=0;
                                 ),
                               ],
                             ),
-                          ),
-                          Padding(padding: EdgeInsets.all(10)),
+                          ):
+                          Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
+                          Padding(padding: EdgeInsets.all(screenSize.height*0.001)),
                           cant_I!=0?// si imagenes es diferente de 0
                           Container(
                             width: screenSize.width * 0.9,
                             height: screenSize.height * 0.5,
                             decoration: BoxDecoration(
-                              border: Border.all(width: 2),
+                              border: Border.all(width: screenSize.width*0.005),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
                               children: [
-                                Padding(padding: EdgeInsets.all(10)),
+                                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                 Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: [
-                                          Text("Imagenes"),
-                                          Text("Cant. Imagenes : $cant_I"),
+                                          Text("Imagenes",style: TextStyle(fontSize: textSize4),),
+                                          Text("Cant. Imagenes : $cant_I",style: TextStyle(fontSize: textSize4)),
                                         ],
                                       ),
                                 Container(
@@ -509,10 +521,9 @@ int currentIndex=0;
                                       return Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Padding(padding: EdgeInsets.all(5)),
+                                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                           MaterialButton(
                                             onPressed: () {
-                                              
                                               // Cuando se presiona el botón, identifica el dato correspondiente
                                               String datoSeleccionado =
                                                   p_img[index];
@@ -522,7 +533,7 @@ int currentIndex=0;
                                             },
                                             child: Container(
                                                 decoration: BoxDecoration(
-                                                    border: Border.all(width: 1),
+                                                    border: Border.all(width: screenSize.width*0.003),
                                                     borderRadius:
                                                         BorderRadius.circular(5),
                                                     color: Color.fromARGB(
@@ -532,14 +543,14 @@ int currentIndex=0;
                                                 child: Center(
                                                   child: Column(
                                                     children: [
-                                                      Padding(padding: EdgeInsets.all(5)),
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                                       Text(
                                                         p_img[index],
                                                          textAlign: TextAlign.center,
                                                         style: TextStyle(
                                                             fontSize: textSize3),
                                                       ),
-                                                      Padding(padding: EdgeInsets.all(5)),
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                                       MaterialButton(
                                                         onPressed: (){
                                                           Navigator.push(
@@ -554,7 +565,7 @@ int currentIndex=0;
                                                           decoration: 
                                                           BoxDecoration(
                                                             borderRadius:BorderRadius.circular(10),
-                                                            border: Border.all(width: 2),
+                                                            border: Border.all(width: screenSize.width*0.005),
                                                             image: DecorationImage(
                                                               fit: BoxFit.cover,
                                                               image: MemoryImage(images[index]) )                             
@@ -575,18 +586,18 @@ int currentIndex=0;
                             ),
                           ):
                           Padding(padding: EdgeInsets.all(0)),//padding sin tomar a cuenta
-                          Padding(padding: EdgeInsets.all(10)),
+                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                           cant_S!=0? // si sonido es diferente de 0
                            Container(
                             width: screenSize.width * 0.9,
                             height: screenSize.height * 0.45,
                             decoration: BoxDecoration(
-                              border: Border.all(width: 2),
+                              border: Border.all(width: screenSize.width*0.005),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
                               children: [
-                                Padding(padding: EdgeInsets.all(10)),
+                                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                 Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: [
@@ -604,7 +615,7 @@ int currentIndex=0;
                                       return Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Padding(padding: EdgeInsets.all(5)),
+                                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                           MaterialButton(
                                             onPressed: () {
                                               // Cuando se presiona el botón, identifica el dato correspondiente
@@ -616,7 +627,7 @@ int currentIndex=0;
                                             },
                                             child: Container(
                                                 decoration: BoxDecoration(
-                                                    border: Border.all(width: 1),
+                                                    border: Border.all(width: screenSize.width*0.003),
                                                     borderRadius:
                                                         BorderRadius.circular(5),
                                                     color: Color.fromARGB(
@@ -626,14 +637,14 @@ int currentIndex=0;
                                                 child: Center(
                                                   child: Column(
                                                     children: [
-                                                      Padding(padding: EdgeInsets.all(5)),
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                                       Text(
                                                         p_sound[index],
                                                          textAlign: TextAlign.center,
                                                         style: TextStyle(
                                                             fontSize: textSize3),
                                                       ),
-                                                      Padding(padding: EdgeInsets.all(5)),
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                                       MaterialButton(
                                                         onPressed: (){
                                                          
@@ -644,7 +655,7 @@ int currentIndex=0;
                                                           decoration: 
                                                           BoxDecoration(
                                                             borderRadius: BorderRadius.circular(10),
-                                                            border: Border.all(width: 2),
+                                                            border: Border.all(width: screenSize.width*0.005),
                                                           ),
                                                           child: Column(
                                                             mainAxisAlignment: MainAxisAlignment.center,
@@ -681,8 +692,12 @@ int currentIndex=0;
                                                                   });
                                                                 },
                                                                 child: Container(
-                                                                  child: Icon(Icons
-                                                                      .stop),
+                                                                  width: screenSize.width*0.05,
+                                                                  height: screenSize.height*0.03,
+                                                                  child: Center(
+                                                                    child: Icon(Icons
+                                                                        .stop),
+                                                                  ),
                                                                 ),
                                                               ),
                                                                   ElevatedButton(
@@ -713,8 +728,12 @@ int currentIndex=0;
                                                                   });
                                                                 },
                                                                 child: Container(
-                                                                  child: Icon(Icons
-                                                                      .play_arrow),
+                                                                   width: screenSize.width*0.05,
+                                                                  height: screenSize.height*0.03,
+                                                                  child: Center(
+                                                                    child: Icon(Icons
+                                                                        .play_arrow),
+                                                                  ),
                                                                 ),
                                                               ),
                                                               ElevatedButton(
@@ -734,12 +753,15 @@ int currentIndex=0;
                                                                     audios.pause();
                                                                   });
                                                                 },
-                                                                child: Container(
-                                                                  child: Icon(Icons
-                                                                      .pause),
+                                                                child: Center(
+                                                                  child: Container(
+                                                                     width: screenSize.width*0.05,
+                                                                    height: screenSize.height*0.03,
+                                                                    child: Icon(Icons
+                                                                        .pause),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                         
                                                                 ],
                                                               ),
                                                             ],
@@ -759,18 +781,18 @@ int currentIndex=0;
                             ),
                           ):
                           Padding(padding: EdgeInsets.all(5)),
-                          Padding(padding: EdgeInsets.all(10)),
+                          Padding(padding: EdgeInsets.all(screenSize.height*0.03)),
                           cant_G !=0?//if para juegos
                           Container(
                             width: screenSize.width * 0.9,
                             height: screenSize.height * 0.3,
                             decoration: BoxDecoration(
-                              border: Border.all(width: 2),
+                              border: Border.all(width: screenSize.width*0.005),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
                               children: [
-                                Padding(padding: EdgeInsets.all(10)),
+                                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                 Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: [
@@ -788,7 +810,7 @@ int currentIndex=0;
                                       return Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Padding(padding: EdgeInsets.all(5)),
+                                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                           MaterialButton(
                                             onPressed: () {
                                               // Cuando se presiona el botón, identifica el dato correspondiente
@@ -800,7 +822,7 @@ int currentIndex=0;
                                             },
                                             child: Container(
                                                 decoration: BoxDecoration(
-                                                    border: Border.all(width: 1),
+                                                    border: Border.all(width: screenSize.width*0.003),
                                                     borderRadius:
                                                         BorderRadius.circular(5),
                                                     color: Color.fromARGB(
@@ -810,14 +832,14 @@ int currentIndex=0;
                                                 child: Center(
                                                   child: Column(
                                                     children: [
-                                                      Padding(padding: EdgeInsets.all(5)),
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                                                       Text(
                                                         p_Game[index],
                                                         textAlign: TextAlign.center,
                                                         style: TextStyle(
                                                             fontSize: textSize3),
                                                       ),
-                                                      Padding(padding: EdgeInsets.all(5)),
+                                                      Padding(padding: EdgeInsets.all(screenSize.height*0.005)),
                                                       MaterialButton(
                                                         onPressed: (){
                                                           
@@ -828,7 +850,7 @@ int currentIndex=0;
                                                           decoration: 
                                                           BoxDecoration(
                                                             borderRadius: BorderRadius.circular(10),
-                                                            border: Border.all(width: 2),
+                                                            border: Border.all(width: screenSize.width*0.003),
                                                           ),
                                                           child: Center(child: Text("Respuesta del juego: ${request[index]}")),
                                                         ),
@@ -845,13 +867,10 @@ int currentIndex=0;
                               ],
                             ),
                           ):
-                          Padding(padding: EdgeInsets.all(2))//padding sin tomar en cuenta
-            
+                          Padding(padding: EdgeInsets.all(2))//padding sin tomar en cuenta   
                         ],
                       ),
-            
-                      Padding(padding: EdgeInsets.all(10)),
-            
+                      Padding(padding: EdgeInsets.all(screenSize.width*0.05)),      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -884,18 +903,18 @@ int currentIndex=0;
                               }
                             },
                             child: Container(
-                              width: 70,
-                              height: 40,
+                              width: screenSize.width*0.2,
+                              height: screenSize.height*0.05,
                               decoration: BoxDecoration(
                                   color: Color.fromARGB(255, 225, 204, 243),
                                   border: Border.all(width: 2),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
-                                child: Text("Guardar"),
+                                child: Text("Guardar",style: TextStyle(fontSize: textSize3),),
                               ),
                             ),
                           ),
-                          Padding(padding: EdgeInsets.only(right: 20))
+                          Padding(padding: EdgeInsets.only(right: screenSize.width*0.05))
                         ],
                       ),
                       //edicion de patalla
@@ -1026,7 +1045,10 @@ int currentIndex=0;
                                 Navigator.pop(context);
                                 var nombre = nameac.text;
 
-                                editname(nombre, widget.cod);
+                               var n= editname(nombre, widget.cod);
+                               if(n!="Error"){
+                                _mensaje(context);
+                               }
                                 obtenerpreguntas();
                               }
                             });
@@ -2031,7 +2053,8 @@ int currentIndex=0;
                     Padding(padding: EdgeInsets.all(10)),
                      MaterialButton(
                       onPressed: () {
-                        deleteAsk(widget.cod, cod);
+                        var n=deleteAsk(widget.cod, cod);
+                        if(n!="Error"){
                         obtenerpreguntas();
                          final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
@@ -2049,6 +2072,9 @@ int currentIndex=0;
                               ],
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }else{
+                            _mensaje(context);
+                        }
                         Navigator.pop(context);
                       },
                       child: Container(
@@ -2297,6 +2323,29 @@ int currentIndex=0;
                     )
                   ],
                 )),
+          );
+        });
+  }
+  void _mensaje(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Error de conexión"),
+            content:
+                const Text('La conexion es lenta\nIntentalo de nuevo mas tarde o conectate a una red WIFI'),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              )
+            ],
           );
         });
   }
