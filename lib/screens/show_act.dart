@@ -25,6 +25,8 @@ class VerAct extends StatefulWidget {
 }
 
 class _VerActEState extends State<VerAct> {
+  var info;
+  bool isLoading=true;
   var resultado;
   List nombre_act = [];
   List cod_act = [];
@@ -52,10 +54,10 @@ class _VerActEState extends State<VerAct> {
     } else if (seleccionada != "Año" && seleccionada2 != "Seccion") {
       resultado = await showActivitysSG(widget.cod, a, seleccionada);
     }
-    print(seleccionada);
-    print(seleccionada2);
-    print(a);
+    print(resultado);
+    if(resultado != "Error"){  
     setState(() {
+      isLoading =false;
       n1 = 0;
       cod_act.clear();
       nombre_act.clear();
@@ -64,23 +66,34 @@ class _VerActEState extends State<VerAct> {
         if (n == null) {
           n = 1;
         }
-
         for (var i = 0; i < n; i++) {
           var dato = resultado[i];
           var codigo = dato["cod_act"];
           var nombre = dato["nombre_act"];
           var dates = dato["date"];
-
           cod_act.add(codigo);
           nombre_act.add(nombre);
           date.add(dates);
         }
       }
     });
+    }else{
+      setState(() {
+         isLoading=false;
+      info="Error";
+      });
+     
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(info);
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 50.00 : 25.00;//titulos
+    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 50.00 : 20.00;//subtitulos
+    double textSize3 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 40.00 : 17.00;//filtros
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -89,13 +102,7 @@ class _VerActEState extends State<VerAct> {
         child: Scaffold(
             appBar: AppBar(
               leading: MaterialButton(onPressed: (){
-                Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfeOp(
-                                    cod_p: widget.cod,
-                                  )),
-                        );
+                Navigator.pop(context);
               },
               child: Center(child:Icon(Icons.arrow_back)),),
               elevation: 0,
@@ -105,8 +112,8 @@ class _VerActEState extends State<VerAct> {
                   children: [
                     GradientText(
                       'Historial de Actividades\nCreadas',
-                      style: const TextStyle(
-                        fontSize: 25.0,
+                      style:  TextStyle(
+                        fontSize: textSize,
                       ),
                       gradientType: GradientType.linear,
                       gradientDirection: GradientDirection.ttb,
@@ -125,12 +132,12 @@ class _VerActEState extends State<VerAct> {
             body: SingleChildScrollView(
                 child: Column(
               children: [
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: screenSize.height * 0.05,
                 ),
                 Text(
                   "Filtros:",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontSize: textSize2),
                 ),
                 Padding(
                   padding: EdgeInsets.all(4),
@@ -139,13 +146,15 @@ class _VerActEState extends State<VerAct> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
-                      width: 70,
+                      width: screenSize.width * 0.2,
+                      height: screenSize.height * 0.07,
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 208, 171, 241),
                           border: Border.all(width: 1),
                           borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: DropdownButton(
+                          style: TextStyle(fontSize: textSize3,color: Colors.black),
                           borderRadius: BorderRadius.circular(10),
                           dropdownColor: Color.fromARGB(255, 208, 171, 241),
                           value: seleccionada,
@@ -160,13 +169,15 @@ class _VerActEState extends State<VerAct> {
                       ),
                     ),
                     Container(
-                      width: 100,
+                      width: screenSize.width * 0.3,
+                      height: screenSize.height * 0.07,
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 208, 171, 241),
                           border: Border.all(width: 1),
                           borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: DropdownButton(
+                          style: TextStyle(fontSize: textSize3,color: Colors.black),
                           borderRadius: BorderRadius.circular(10),
                           dropdownColor: Color.fromARGB(255, 208, 171, 241),
                           value: seleccionada2,
@@ -203,20 +214,70 @@ class _VerActEState extends State<VerAct> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: screenSize.height * 0.02,
                 ),
                 Container(
-                  width: 1000,
+                  width:screenSize.width * 1,
                   color: Colors.black,
-                  height: 2,
+                  height: screenSize.height*0.002,
                 ),
                 //fin de espacio para definicion de linea
-                const SizedBox(
-                  height: 20,
-                ),
-                //espacio para definición de contenedor para mostrar historial
+                 isLoading ?
 
+                Column(
+                  children: [
+                    
+                     SizedBox(
+                  height: screenSize.height * 0.3,
+                ),
+                             
+                    const FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child:CircularProgressIndicator(
+                          color: Color.fromARGB(255, 103, 82, 197),
+                        backgroundColor: Colors.white,
+                      ),),
+                      Text("Cargando",style: TextStyle(fontSize: textSize3,fontStyle: FontStyle.italic),)
+                  ],
+                )
+                :
+                 info =="Error"?
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                           SizedBox(
+                           height: screenSize.height * 0.3,
+                            ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: MaterialButton(onPressed: (){
+                                       setState(() {
+                                        info="";
+                                         getActivitys(seleccionada, seleccionada2, a);
+                                       }); 
+                            },
+                            child: Row(children: [
+                              Text("Reintentar"),
+                              Icon(Icons.error)
+                            ]),),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+                :
+                 SizedBox(
+                  height: screenSize.height * 0.02,
+                ),
+                //espacio para definición de contenedor para mostrar historial        
                 for (var i = 0; i < nombre_act.length; i++)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -246,8 +307,8 @@ class _VerActEState extends State<VerAct> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          width: 240,
-                          height: 60,
+                          width: screenSize.width * 0.65,
+                          height: screenSize.width * 0.15,
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15)),
@@ -262,15 +323,17 @@ class _VerActEState extends State<VerAct> {
                               Positioned(
                                 left: 30,
                                 top: 20,
-                                child: Text(nombre_act[i],
-                                    style: TextStyle(fontSize: 15)),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Text(nombre_act[i],
+                                      style: TextStyle(fontSize: textSize3)),
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
                       MaterialButton(
-
                         onPressed: () async{
                           n1++;
                           if (n1 == 1) {
@@ -323,8 +386,8 @@ class _VerActEState extends State<VerAct> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          height: 50,
-                          width: 50,
+                          height: screenSize.height * 0.08,
+                          width: screenSize.width * 0.15,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 209, 31, 18),
                             border: Border.all(width: 1),

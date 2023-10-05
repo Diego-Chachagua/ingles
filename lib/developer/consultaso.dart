@@ -41,6 +41,7 @@ Future<dynamic> comprobare(String usuariobd, String contrabd) async {
 }
 
 Future<dynamic> comprobarp(String usuariobd, String contrabd) async {
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/formp.php'),
     body: <String, dynamic>{
@@ -48,12 +49,12 @@ Future<dynamic> comprobarp(String usuariobd, String contrabd) async {
       "contra": contrabd,
     },
   );
-  if (enviar.statusCode == 201) {
-    return "error";
-  } else {
     var resultado = jsonDecode(enviar.body);
     print(resultado);
     return resultado;
+  }catch(e){
+    print(e);
+    return "Error";
   }
 }
 

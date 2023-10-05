@@ -44,6 +44,7 @@ Future<void> agregarImg(var pregunta, File? imagen, var cod) async {
 
 Future<dynamic> mostrarAct(var cod) async {
   print(cod);
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_ask_act.php'),
     body: <String, dynamic>{
@@ -51,9 +52,11 @@ Future<dynamic> mostrarAct(var cod) async {
     },
   );
   var resultado = jsonDecode(enviar.body);
-
-
+  print(resultado);
   return resultado;
+  }catch(e){
+  return "Error";
+  }
 }
 
 Future<dynamic> editAsk(var pregunta, var cod) async {
@@ -124,6 +127,7 @@ Future<dynamic> insertcodes(var grado, var seccion,var cod, var hora, var anio) 
 //extraer actividades
 Future<dynamic> showActivitys(var cod) async {
   print(cod);
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_name_act.php'),
     body: <String, dynamic>{
@@ -133,6 +137,9 @@ Future<dynamic> showActivitys(var cod) async {
   var resultado = jsonDecode(enviar.body);
   print(resultado);
   return resultado;
+  }catch(e){
+    return "Error";
+  }
 }
 
 //eliminar pregunta
@@ -154,6 +161,7 @@ Future<dynamic> deleteAsk(var cod,cod_a) async {
 Future<dynamic> showActivitysgrade(var cod,var grade) async {
   print(cod);
   print(grade);
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_activitygrade.php'),
     body: <String, dynamic>{
@@ -164,11 +172,15 @@ Future<dynamic> showActivitysgrade(var cod,var grade) async {
   var resultado = jsonDecode(enviar.body);
   print(resultado);
   return resultado;
+  }catch(e){
+    return "Error";
+  }
 }
 
 Future<dynamic> showActivityssection(var cod,var section) async {
   print(cod);
   print(section);
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_activitysection.php'),
     body: <String, dynamic>{
@@ -179,11 +191,16 @@ Future<dynamic> showActivityssection(var cod,var section) async {
   var resultado = jsonDecode(enviar.body);
   print(resultado);
   return resultado;
+  }catch(e){
+    return "Error";
+  }
 }
 Future<dynamic> showActivitysSG(var cod,var section,var grade) async {
   print(cod);
   print(section);
   print(grade);
+  try{
+    
   http.Response enviar = await http.post(
     Uri.parse('https://incasingles.000webhostapp.com/show_activitySG.php'),
     body: <String, dynamic>{
@@ -195,6 +212,9 @@ Future<dynamic> showActivitysSG(var cod,var section,var grade) async {
   var resultado = jsonDecode(enviar.body);
   print(resultado);
   return resultado;
+  }catch(e){
+    return "Error";
+  }
 }
 
 //borrar actividades

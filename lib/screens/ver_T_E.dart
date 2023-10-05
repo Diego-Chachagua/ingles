@@ -34,7 +34,10 @@ class _ShowElecState extends State<ShowElec> {
   @override
   Widget build(BuildContext context) {
     var cod_profe = widget.cod_p;
-
+      Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 50.00 : 25.00;//titulos
+    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 50.00 : 30.00;//subtitulos
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -47,9 +50,9 @@ class _ShowElecState extends State<ShowElec> {
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
               title: Center(
                 child: GradientText(
-                  'ELIJA UNA OPCION',
-                  style: const TextStyle(
-                    fontSize: 30.0,
+                  'SELECCIONE UNA OPCION',
+                  style: TextStyle(
+                    fontSize:textSize,
                   ),
                   gradientType: GradientType.linear,
                   gradientDirection: GradientDirection.ttb,
@@ -66,11 +69,10 @@ class _ShowElecState extends State<ShowElec> {
             body: SingleChildScrollView(
                 child: Center(
               //inicio de definicion de opciones a mostrar al usuario
-              child: Column(
-                
+              child: Column(    
                 children: [
-                const SizedBox(
-                  height: 250,
+                 SizedBox(
+                  height: screenSize.height * 0.25,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -88,16 +90,16 @@ class _ShowElecState extends State<ShowElec> {
                                       )),
                             );
                           },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
+                          child: SizedBox(
+                               height: screenSize.height * 0.15,
+                              width: screenSize.width * 0.38,
                               child: Image(
                                   image: AssetImage('assets/tareas.png'))),
                         ),
                         GradientText(
                           'Tareas',
-                          style: const TextStyle(
-                            fontSize: 30.0,
+                          style:  TextStyle(
+                            fontSize: textSize2,
                           ),
                           gradientType: GradientType.linear,
                           gradientDirection: GradientDirection.ttb,
@@ -121,16 +123,16 @@ class _ShowElecState extends State<ShowElec> {
                               MaterialPageRoute(builder: (context) => VerExams(cod: cod_profe,) ),
                             ); 
                           },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
+                          child:SizedBox(
+                               height: screenSize.height * 0.15,
+                              width: screenSize.width * 0.38,
                               child: Image(
                                   image: AssetImage('assets/examen.png'))),
                         ),
                         GradientText(
                           'Examenes',
-                          style: const TextStyle(
-                            fontSize: 30.0,
+                          style:  TextStyle(
+                            fontSize: textSize2,
                           ),
                           gradientType: GradientType.linear,
                           gradientDirection: GradientDirection.ttb,
@@ -146,54 +148,8 @@ class _ShowElecState extends State<ShowElec> {
                     //fin de espacio de contenedor para ver examenes
                   ],
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
                 //contenedor para la opcion de tareas
               ]),
             ))));
-  }
-
-  void _smsError(BuildContext parentContext) async {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shadowColor: Color.fromARGB(255, 170, 63, 233),
-            backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("ERROR[003]"),
-            content: Container(
-              height: 160,
-              child: Column(
-                children: [
-                  Text(
-                      "-Ya existe una actividad con el nombre 'NAME OF ACTIVITY/TASK'\n-Para solucionar este problema es recomendado\ncambiar el nombre a la otra actividad que contenga el mismo nombre",
-                      style: TextStyle(fontStyle: FontStyle.italic)),
-                  Padding(padding: EdgeInsets.all(10)),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      width: 180,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(Icons.arrow_back),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 }

@@ -27,13 +27,19 @@ class _FirstRouteState extends State<FirstRoute> {
   void initState() {
     super.initState();
     (() async {
-      // FlutterWindowManager.addFlags(
-      // FlutterWindowManager.FLAG_SECURE);
+      FlutterWindowManager.addFlags(
+      FlutterWindowManager.FLAG_SECURE);
     })();
   }
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 10.00 : screenWidth > 600? 40.00 : 20.00;//textos 
+    double textSize2 = screenWidth < 340 ? 20.0 : screenWidth >600 ? 80.00 : 40.00;//titulos
+    double textSize3 = screenWidth < 340 ? 15.0 : screenWidth >600 ? 50.00 : 30.00;
+    double textSize4 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 30.00 : 15.00;// letra de Botones
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -45,9 +51,9 @@ class _FirstRouteState extends State<FirstRoute> {
           elevation: 0,
           title: Center(
             child: GradientText(
-              'BIENVENIDOS',
-              style: const TextStyle(
-                fontSize: 55.0,
+              'WELCOME',
+              style:  TextStyle(
+                fontSize: textSize2,
               ),
               gradientType: GradientType.linear,
               gradientDirection: GradientDirection.ttb,
@@ -64,24 +70,42 @@ class _FirstRouteState extends State<FirstRoute> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              inicio(),
+              Container(
+    color: Colors.transparent,
+    child: Center(
+      child: GradientText(
+        '----¿COMO DESEA INICIAR SESION?----',
+        style:  TextStyle(
+          fontSize: textSize ,
+        ),
+        gradientType: GradientType.linear,
+        gradientDirection: GradientDirection.ttb,
+        radius: 2.5,
+        colors: const [
+          Color.fromARGB(255, 170, 63, 233),
+          Color.fromARGB(255, 66, 91, 233),
+          Color.fromARGB(255, 60, 135, 221),
+        ],
+      ),
+    ),
+  ),
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 50,
+                     SizedBox(
+                      height: screenSize.height * 0.1,
                     ),
                     Row(
                       children: [
-                        const SizedBox(
-                          width: 5,
+                         SizedBox(
+                          width: screenSize.width * 0.05,
                         ),
                         MaterialButton(
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
+                          child:  SizedBox(
+                             width: screenSize.width * 0.35, // Utiliza el 80% del ancho de la pantalla
+                            height: screenSize.height * 0.2, // Utiliza el 30% de la altura de la pantalla
                               child: Image(
                                   image: AssetImage('assets/profesor.png'))),
                           onPressed: () {
@@ -92,10 +116,13 @@ class _FirstRouteState extends State<FirstRoute> {
                                 ));
                           },
                         ),
+                         SizedBox(
+                          width: screenSize.width * 0.05,
+                        ),
                         MaterialButton(
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
+                          child: SizedBox(
+                               width: screenSize.width * 0.35, // Utiliza el 80% del ancho de la pantalla
+                            height: screenSize.height * 0.2,
                               child: Image(
                                   image: AssetImage('assets/alumno.png'))),
                           onPressed: () {
@@ -110,13 +137,13 @@ class _FirstRouteState extends State<FirstRoute> {
                     ),
                     Row(
                       children: [
-                        const SizedBox(
-                          width: 27,
+                         SizedBox(
+                          width: screenSize.width * 0.07,
                         ),
                         GradientText(
                           'PROFESOR',
-                          style: const TextStyle(
-                            fontSize: 30.0,
+                          style: TextStyle(
+                            fontSize: textSize3,
                           ),
                           gradientType: GradientType.linear,
                           gradientDirection: GradientDirection.ttb,
@@ -127,13 +154,13 @@ class _FirstRouteState extends State<FirstRoute> {
                             Color.fromARGB(255, 60, 135, 221),
                           ],
                         ),
-                        const SizedBox(
-                          width: 50,
+                        SizedBox(
+                          width: screenSize.width * 0.13,
                         ),
                         GradientText(
                           'ALUMNO',
-                          style: const TextStyle(
-                            fontSize: 30.0,
+                          style:  TextStyle(
+                            fontSize: textSize3,
                           ),
                           gradientType: GradientType.linear,
                           gradientDirection: GradientDirection.ttb,
@@ -146,13 +173,13 @@ class _FirstRouteState extends State<FirstRoute> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 40,
-                    ),
+                     SizedBox(
+                          height: screenSize.height * 0.07,
+                        ),
                     MaterialButton(
-                      child: const SizedBox(
-                          height: 150,
-                          width: 145,
+                      child:  SizedBox(
+                           width: screenSize.width * 0.35, // Utiliza el 80% del ancho de la pantalla
+                            height: screenSize.height * 0.2,
                           child: Image(image: AssetImage('assets/admin.png'))),
                       onPressed: () {
                         Navigator.push(
@@ -164,8 +191,8 @@ class _FirstRouteState extends State<FirstRoute> {
                     ),
                     GradientText(
                       'ADMINISTRADOR',
-                      style: const TextStyle(
-                        fontSize: 30.0,
+                      style:  TextStyle(
+                        fontSize: textSize3,
                       ),
                       gradientType: GradientType.linear,
                       gradientDirection: GradientDirection.ttb,
@@ -181,22 +208,26 @@ class _FirstRouteState extends State<FirstRoute> {
               ),
               Row(
                 children: [
-                  const SizedBox(
-                    height: 300,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Ayuda(),
-                          )); // Lógica que se ejecutará cuando se presione el botón "Guardar"
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color.fromARGB(255, 64, 65,
-                          66), // Cambia el color de fondo del botón a rojo
+                   SizedBox(
+                          height: screenSize.height * 0.3,
+                        ),
+                  Container(
+                    height: screenSize.height * 0.05,
+                     width: screenSize.width * 0.2,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Ayuda(),
+                            )); // Lógica que se ejecutará cuando se presione el botón "Guardar"
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color.fromARGB(255, 64, 65,
+                            66), // Cambia el color de fondo del botón a rojo
+                      ),
+                      child:  Text('Ayuda',style: TextStyle(fontSize: textSize4),),
                     ),
-                    child: const Text('Ayuda'),
                   ),
                 ],
               ),
@@ -208,24 +239,3 @@ class _FirstRouteState extends State<FirstRoute> {
   }
 }
 
-Widget inicio() {
-  return Container(
-    color: Colors.transparent,
-    child: Center(
-      child: GradientText(
-        '----¿COMO DESEA INICIAR SESION?----',
-        style: const TextStyle(
-          fontSize: 23,
-        ),
-        gradientType: GradientType.linear,
-        gradientDirection: GradientDirection.ttb,
-        radius: 2.5,
-        colors: const [
-          Color.fromARGB(255, 170, 63, 233),
-          Color.fromARGB(255, 66, 91, 233),
-          Color.fromARGB(255, 60, 135, 221),
-        ],
-      ),
-    ),
-  );
-}
