@@ -91,9 +91,9 @@ class _VerActEState extends State<VerAct> {
     print(info);
     Size screenSize = MediaQuery.of(context).size;//contenedores
     double screenWidth = MediaQuery.of(context).size.width;
-    double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 50.00 : 25.00;//titulos
-    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 50.00 : 20.00;//subtitulos
-    double textSize3 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 40.00 : 17.00;//filtros
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 25.00;//titulos
+    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >=600 ? 40.00 : 20.00;//subtitulos
+    double textSize3 = screenWidth < 340 ? 10.0 : screenWidth >=600 ? 30.00 : 17.00;//filtros
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -260,6 +260,7 @@ class _VerActEState extends State<VerAct> {
                             child: MaterialButton(onPressed: (){
                                        setState(() {
                                         info="";
+                                        isLoading=true;
                                          getActivitys(seleccionada, seleccionada2, a);
                                        }); 
                             },
@@ -307,8 +308,8 @@ class _VerActEState extends State<VerAct> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          width: screenSize.width * 0.65,
-                          height: screenSize.width * 0.15,
+                          width: screenSize.width*0.65,
+                          height: screenSize.height*0.08,
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15)),
@@ -386,8 +387,8 @@ class _VerActEState extends State<VerAct> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          height: screenSize.height * 0.08,
-                          width: screenSize.width * 0.15,
+                          height: screenSize.height*0.07,
+                          width: screenSize.width*0.15,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 209, 31, 18),
                             border: Border.all(width: 1),

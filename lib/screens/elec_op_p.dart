@@ -44,8 +44,8 @@ var result1;
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;//contenedores
     double screenWidth = MediaQuery.of(context).size.width;
-    double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 50.00 : 25.00;//titulos
-    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 50.00 : 20.00;//subtitulos
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 40.00 : 20.00;//titulos
+    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 40.00 : 20.00;//subtitulos
     var cod_profe=widget.cod_p;
     return Container(
         decoration: const BoxDecoration(
@@ -54,7 +54,6 @@ var result1;
         ),
         child: Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: false,
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
               title: Center(
@@ -65,7 +64,7 @@ var result1;
                   ),
                   gradientType: GradientType.linear,
                   gradientDirection: GradientDirection.ttb,
-                  radius: 3.5,
+                  radius: 4.5,
                   colors: const [
                     Color.fromARGB(255, 170, 63, 233),
                     Color.fromARGB(255, 66, 91, 233),
@@ -125,7 +124,7 @@ var result1;
                           },
                           child:  SizedBox(
                               height: screenSize.height * 0.15,
-                              width: screenSize.width * 0.45,
+                              width: screenSize.width * 0.3,
                               child: Image(image: AssetImage('assets/tareas.png'))),
                         ),
                         GradientText(
@@ -184,7 +183,7 @@ var result1;
                           },
                           child:  SizedBox(
                               height: screenSize.height * 0.15,
-                              width: screenSize.width * 0.38,
+                              width: screenSize.width * 0.3,
                               child: Image(image: AssetImage('assets/examen.png'))),
                         ),
                         GradientText(
@@ -223,7 +222,7 @@ var result1;
                               },
                               child: SizedBox(
                                   height: screenSize.height * 0.15,
-                              width: screenSize.width * 0.45,
+                              width: screenSize.width * 0.3,
                                   child: Image(image: AssetImage('assets/historial_medico.png'))),
                             ),
                             GradientText(
@@ -255,7 +254,7 @@ var result1;
                               },
                               child:  SizedBox(
                                  height: screenSize.height * 0.15,
-                              width: screenSize.width * 0.38,
+                              width: screenSize.width * 0.3,
                                   child: Image(image: AssetImage('assets/calificar1.png'))),
                             ),
                             GradientText(
@@ -275,12 +274,7 @@ var result1;
                           ],
                         ),
                       ],
-                    ),
-
-                    
-
-                    
-                
+                    ),    
               ]),
             ))));
   }

@@ -37,6 +37,8 @@ class _VerExamsState extends State<VerExams> {
   List seccion = ['Seccion', 'A', 'E', 'K', 'G', 'D', 'O', 'L', 'M', 'N', 'F'];
   var n1 = 0;
   String a = "";
+  bool isLoading=true;
+  var info="";
 
   @override
   void initState() {
@@ -54,10 +56,11 @@ class _VerExamsState extends State<VerExams> {
     } else if (seleccionada != "Año" && seleccionada2 != "Seccion") {
       resultado = await showExamsSG(widget.cod, a, seleccionada);
     }
-    print(seleccionada);
-    print(seleccionada2);
-    print(a);
+    print(resultado);
+    if(resultado!="Error"){
+      
     setState(() {
+      isLoading=false;
       n1 = 0;
       cod_p.clear();
       nombre_p.clear();
@@ -69,19 +72,33 @@ class _VerExamsState extends State<VerExams> {
 
         for (var i = 0; i < n; i++) {
           var dato = resultado[i];
-          var codigo = dato["cod_pr"];
-          var nombre = dato["nombre_p"];
+          var codigo = dato["cod_act"];
+          var nombre = dato["nombre_act"];
           var dates = dato["date"];
           cod_p.add(codigo);
+          print(cod_p);
           nombre_p.add(nombre);
+          print(nombre_p);
           date.add(dates);
         }
       }
     });
+    }else{
+      setState(() {
+        isLoading=false;
+        info="Error";
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(info);
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 25.00;//titulos
+    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >=600 ? 40.00 : 20.00;//subtitulos
+    double textSize3 = screenWidth < 340 ? 10.0 : screenWidth >=600 ? 30.00 : 17.00;//filtros
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -90,13 +107,7 @@ class _VerExamsState extends State<VerExams> {
         child: Scaffold(
             appBar: AppBar(
               leading: MaterialButton(onPressed: (){
-                Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ShowElec(
-                                    cod_p: widget.cod,
-                                  )),
-                        );
+                Navigator.pop(context);
               },
               child: Center(child:Icon(Icons.arrow_back)),),
               elevation: 0,
@@ -106,8 +117,8 @@ class _VerExamsState extends State<VerExams> {
                   children: [
                     GradientText(
                       'Historial de Examenes\nCreados',
-                      style: const TextStyle(
-                        fontSize: 25.0,
+                      style: TextStyle(
+                        fontSize: textSize,
                       ),
                       gradientType: GradientType.linear,
                       gradientDirection: GradientDirection.ttb,
@@ -127,27 +138,28 @@ class _VerExamsState extends State<VerExams> {
             body: SingleChildScrollView(
                 child: Column(
               children: [
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: screenSize.height*0.03,
                 ),
                 Text(
                   "Filtros:",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontSize: textSize2),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(4),
+                  padding: EdgeInsets.all(screenSize.height*0.01),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      width: 70,
+                      width: screenSize.width*0.2,
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 208, 171, 241),
                           border: Border.all(width: 1),
                           borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: DropdownButton(
+                           style: TextStyle(fontSize: textSize3,color: Colors.black),
                           borderRadius: BorderRadius.circular(10),
                           dropdownColor: Color.fromARGB(255, 208, 171, 241),
                           value: seleccionada,
@@ -162,13 +174,14 @@ class _VerExamsState extends State<VerExams> {
                       ),
                     ),
                     Container(
-                      width: 100,
+                      width: screenSize.width*0.3,
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 208, 171, 241),
                           border: Border.all(width: 1),
                           borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: DropdownButton(
+                           style: TextStyle(fontSize: textSize3,color: Colors.black),
                           borderRadius: BorderRadius.circular(10),
                           dropdownColor: Color.fromARGB(255, 208, 171, 241),
                           value: seleccionada2,
@@ -205,17 +218,67 @@ class _VerExamsState extends State<VerExams> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: screenSize.height*0.01,
                 ),
                 Container(
-                  width: 1000,
+                  width:screenSize.width*1,
                   color: Colors.black,
-                  height: 2,
+                  height: screenSize.height*0.003,
                 ),
+                 isLoading ?
+                Column(
+                  children: [ 
+                     SizedBox(
+                  height: screenSize.height * 0.3,
+                ),
+                             
+                    const FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child:CircularProgressIndicator(
+                          color: Color.fromARGB(255, 103, 82, 197),
+                        backgroundColor: Colors.white,
+                      ),),
+                      Text("Cargando",style: TextStyle(fontSize: textSize3,fontStyle: FontStyle.italic),)
+                  ],
+                )
+                :
+                 info =="Error"?
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                           SizedBox(
+                           height: screenSize.height * 0.3,
+                            ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: MaterialButton(onPressed: (){
+                                       setState(() {
+                                        info="";
+                                        isLoading=true;
+                                         getActivitys(seleccionada, seleccionada2, a);
+                                       }); 
+                            },
+                            child: Row(children: [
+                              Text("Reintentar"),
+                              Icon(Icons.error)
+                            ]),),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+                :
                 //fin de espacio para definicion de linea
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: screenSize.height*0.03,
                 ),
                 //espacio para definición de contenedor para mostrar historial
 
@@ -237,6 +300,7 @@ class _VerExamsState extends State<VerExams> {
                                           .showSnackBar(snackBar);
                         },
                         onPressed: () {
+                          
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -247,8 +311,8 @@ class _VerExamsState extends State<VerExams> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          width: 240,
-                          height: 60,
+                          width: screenSize.width*0.65,
+                          height: screenSize.height*0.08,
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15)),
@@ -264,7 +328,7 @@ class _VerExamsState extends State<VerExams> {
                                 left: 30,
                                 top: 20,
                                 child: Text(nombre_p[i],
-                                    style: TextStyle(fontSize: 15)),
+                                    style: TextStyle(fontSize: textSize3)),
                               ),
                             ],
                           ),
@@ -272,16 +336,6 @@ class _VerExamsState extends State<VerExams> {
                       ),
                       MaterialButton(
                         onPressed: () async{
-                        //    final snackBar = SnackBar(
-                        //     backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                        //     shape: Border.all(width: 1),
-                        //     closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                        //     content: Row(
-                        //       children: [
-                        //         Text("Desactivado por el momento"),
-                        //       ],
-                        //     ));
-                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           n1++;
                           if (n1 == 1) {
                             var result= await comprobarExam(cod_p[i]);
@@ -333,8 +387,8 @@ class _VerExamsState extends State<VerExams> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          height: 50,
-                          width: 50,
+                          height: screenSize.height*0.07,
+                          width: screenSize.width*0.15,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 209, 31, 18),
                             border: Border.all(width: 1),

@@ -27,8 +27,8 @@ class _FirstRouteState extends State<FirstRoute> {
   void initState() {
     super.initState();
     (() async {
-      FlutterWindowManager.addFlags(
-      FlutterWindowManager.FLAG_SECURE);
+      // FlutterWindowManager.addFlags(
+      // FlutterWindowManager.FLAG_SECURE);
     })();
   }
 
@@ -36,7 +36,7 @@ class _FirstRouteState extends State<FirstRoute> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;//contenedores
     double screenWidth = MediaQuery.of(context).size.width;
-    double textSize = screenWidth < 340 ? 10.00 : screenWidth > 600? 40.00 : 20.00;//textos 
+    double textSize = screenWidth < 340 ? 10.00 : screenWidth > 600? 35.00 : 20.00;//textos 
     double textSize2 = screenWidth < 340 ? 20.0 : screenWidth >600 ? 80.00 : 40.00;//titulos
     double textSize3 = screenWidth < 340 ? 15.0 : screenWidth >600 ? 50.00 : 30.00;
     double textSize4 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 30.00 : 15.00;// letra de Botones

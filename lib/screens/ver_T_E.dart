@@ -36,8 +36,8 @@ class _ShowElecState extends State<ShowElec> {
     var cod_profe = widget.cod_p;
       Size screenSize = MediaQuery.of(context).size;//contenedores
     double screenWidth = MediaQuery.of(context).size.width;
-    double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 50.00 : 25.00;//titulos
-    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 50.00 : 30.00;//subtitulos
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 40.00 : 20.00;//titulos
+    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >600 ? 50.00 : 25.00;//subtitulos
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -45,7 +45,6 @@ class _ShowElecState extends State<ShowElec> {
         ),
         child: Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: false,
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
               title: Center(

@@ -249,10 +249,10 @@ int currentIndex=0;
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size; //contenedores
     double screenWidth = MediaQuery.of(context).size.width;
-    double textSize = screenWidth < 340? 8.00: screenWidth > 600? 50.00: 25.00; //titulos
-    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 35.00: 15.00; //boton de guardado
-    double textSize3 = screenWidth < 340? 10.0: screenWidth > 600? 50.00: 15.00; //preguntas
-    double textSize4 = screenWidth < 340? 10.0: screenWidth > 600? 50.00: 15.00; //para titulos en las secciones
+    double textSize = screenWidth < 340? 8.00: screenWidth > 600? 30.00: 20.00; //titulos
+    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 25.00: 15.00; //boton de guardado
+    double textSize3 = screenWidth < 340? 10.0: screenWidth > 600? 25.00: 15.00; //preguntas
+    double textSize4 = screenWidth < 340? 10.0: screenWidth > 600? 25.00: 15.00; //para titulos en las secciones
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -272,8 +272,8 @@ int currentIndex=0;
                 }
               },
               child: SizedBox(
-                width: screenSize.width *0.05,
-                height:screenSize.height*0.05,
+                width: screenSize.width *0.1,
+                height:screenSize.height*0.1,
                 child: Icon(Icons.arrow_back_outlined),
               ),
             ),
@@ -282,6 +282,7 @@ int currentIndex=0;
           ),
           backgroundColor: Colors.transparent,
           body: RefreshIndicator(
+            strokeWidth:BorderSide.strokeAlignOutside,
             onRefresh: obtenerpreguntas,
             child: Scrollbar(
               thickness: screenSize.width*0.03,
@@ -304,6 +305,7 @@ int currentIndex=0;
                                 enabled: false,
                                 decoration: InputDecoration.collapsed(
                                     hintText: "${nameA}"),
+                                    style: TextStyle(fontSize: textSize),
                               )),
                           MaterialButton(
                             onPressed: () {
@@ -492,7 +494,7 @@ int currentIndex=0;
                             ),
                           ):
                           Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
-                          Padding(padding: EdgeInsets.all(screenSize.height*0.001)),
+                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                           cant_I!=0?// si imagenes es diferente de 0
                           Container(
                             width: screenSize.width * 0.9,
@@ -781,7 +783,7 @@ int currentIndex=0;
                             ),
                           ):
                           Padding(padding: EdgeInsets.all(5)),
-                          Padding(padding: EdgeInsets.all(screenSize.height*0.03)),
+                          Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                           cant_G !=0?//if para juegos
                           Container(
                             width: screenSize.width * 0.9,
@@ -870,7 +872,7 @@ int currentIndex=0;
                           Padding(padding: EdgeInsets.all(2))//padding sin tomar en cuenta   
                         ],
                       ),
-                      Padding(padding: EdgeInsets.all(screenSize.width*0.05)),      
+                      Padding(padding: EdgeInsets.all(screenSize.width*0.03)),      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -928,6 +930,7 @@ int currentIndex=0;
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
+            iconSize: screenSize.width*0.07,
             selectedItemColor: Colors.black,
             unselectedItemColor: Colors.black,
             backgroundColor: Color.fromARGB(255, 114, 83, 155),
@@ -937,6 +940,7 @@ int currentIndex=0;
               BottomNavigationBarItem(
                 backgroundColor: Colors.white,
                 label: "Add Ask",
+                
                 icon: Icon(Icons.add_comment_outlined)
                 ),
               BottomNavigationBarItem(
@@ -1002,25 +1006,25 @@ int currentIndex=0;
                 children: [
                   Center(
                     child: Container(
-                      width: 250,
-                      height: 80,
+                      height: 70,
                       child: Form(
                         key: nameact,
-                        child: TextFormField(
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "Campo requerido";
-                            }
-                          },
-                          controller: nameac,
-                          textCapitalization: TextCapitalization.characters,
-                          textAlign: TextAlign.center,
-                          cursorColor: Colors.black,
-                          maxLength: 40,
-                          maxLines: 2,
-                          decoration: const InputDecoration.collapsed(
-                              hintText: "Nombre de la actividad",
-                              hintStyle: TextStyle(fontSize: 15)),
+                        child: SingleChildScrollView(
+                          child: TextFormField(
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return "Campo requerido";
+                              }
+                            },
+                            controller: nameac,
+                            textCapitalization: TextCapitalization.characters,
+                            textAlign: TextAlign.center,
+                            cursorColor: Colors.black,
+                            maxLength: 40,
+                            decoration:  InputDecoration.collapsed(
+                                hintText: "Nombre de la actividad",
+                                hintStyle: TextStyle(fontSize: 15)),
+                          ),
                         ),
                       ),
                     ),
@@ -1044,9 +1048,8 @@ int currentIndex=0;
                               if (nameact.currentState!.validate()) {
                                 Navigator.pop(context);
                                 var nombre = nameac.text;
-
                                var n= editname(nombre, widget.cod);
-                               if(n!="Error"){
+                               if(n=="Error"){
                                 _mensaje(context);
                                }
                                 obtenerpreguntas();
@@ -1227,8 +1230,12 @@ int currentIndex=0;
                                 nameask.text = "";
                               } else {
                                 ask = nameask.text;
-                                agregarAskActivity(ask, widget.cod);
+                                var n = agregarAskActivity(ask, widget.cod);
+                                print(n);
                                 nameask.text = "";
+                                if(n=="Error"){
+                                _mensaje(context);
+                               }else{
                                 Navigator.pop(context);
                               
                                final snackBar = SnackBar(
@@ -1249,6 +1256,7 @@ int currentIndex=0;
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               obtenerpreguntas();
                               }    
+                              }
                           },
                           child: const Text(
                             'Aceptar',
@@ -1330,8 +1338,12 @@ int currentIndex=0;
                                   onPressed: () {
                                     if (formchangeask.currentState!.validate()) {
                                       pregunta = changeask.text;
-                                      editAsk(pregunta, cod);
+                                     var n=  editAsk(pregunta, cod);
                                       changeask.text = "";
+                                      if(n=="Error"){
+                                      _mensaje(context);
+                                      }
+                                obtenerpreguntas();
                                       Navigator.pop(context);
                                        final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
@@ -1442,7 +1454,13 @@ int currentIndex=0;
                     Padding(padding: EdgeInsets.all(10)),
                     MaterialButton(
                       onPressed: () {
-                        deleteAsk(widget.cod, cod);
+                       var n= deleteAsk(widget.cod, cod);
+                       if(n=="Error"){
+                                _mensaje(context);
+                               }else{
+
+                               
+                                obtenerpreguntas();
                          final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
@@ -1460,7 +1478,9 @@ int currentIndex=0;
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         obtenerpreguntas();
+                               
                         Navigator.pop(context);
+                               }
                       },
                       child: Container(
                         width: 180,
@@ -1583,7 +1603,10 @@ int currentIndex=0;
                      Padding(padding: EdgeInsets.all(10)),
                     MaterialButton(
                       onPressed: () {
-                        deleteAsk(widget.cod, cod);
+                        var n=deleteAsk(widget.cod, cod);
+                        if(n=="Error"){
+                                _mensaje(context);
+                               }else{
                         obtenerpreguntas();
                          final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
@@ -1602,6 +1625,7 @@ int currentIndex=0;
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         Navigator.pop(context);
+                               }
                       },
                       child: Container(
                         width: 180,
@@ -1755,7 +1779,11 @@ int currentIndex=0;
                       if (addsound.currentState!.validate()) {
                         namesound.text = "";
                         url.text = "";
-                        upSound(widget.cod, url_s, ask);
+                        var n= upSound(widget.cod, url_s, ask);
+                        if(n=="Error"){
+                                _mensaje(context);
+                               }else{
+                                obtenerpreguntas();
                         Navigator.pop(context);
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
@@ -1773,6 +1801,7 @@ int currentIndex=0;
                               ],
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                               }
                       }
                     },
                     child: Container(
@@ -1889,7 +1918,10 @@ int currentIndex=0;
                       if (addgame.currentState!.validate()) {
                         nameask.text="";
                         addaskgame.text="";
-                        upGame(widget.cod, respuesta, name);
+                       var n= upGame(widget.cod, respuesta, name);
+                       if(n=="Error"){
+                                _mensaje(context);
+                               }else{
                          final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                             shape: Border.all(width: 1),
@@ -1908,6 +1940,7 @@ int currentIndex=0;
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         obtenerpreguntas();
                         Navigator.pop(context);
+                               }
                       }
                     },
                     child: Container(
@@ -2161,7 +2194,10 @@ int currentIndex=0;
                       var respuesta = newrquest.text;
                       if (editRequest.currentState!.validate()) {
                         
-                        editRespuesta(widget.cod, cod, respuesta);
+                        var n= editRespuesta(widget.cod, cod, respuesta);
+                        if(n=="Error"){
+                                _mensaje(context);
+                               }else{
                         obtenerpreguntas();
                          final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
@@ -2181,6 +2217,7 @@ int currentIndex=0;
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         Navigator.pop(context);
                         newrquest.text = "";
+                               }
                       }
                     },
                     child: Container(
@@ -2264,7 +2301,11 @@ int currentIndex=0;
                     Padding(padding: EdgeInsets.all(10)),
                      MaterialButton(
                       onPressed: () {
-                        deleteAsk(widget.cod, cod);
+                        var n = deleteAsk(widget.cod, cod);
+                        if(n=="Error"){
+                                _mensaje(context);
+                               }
+                                else{
                         obtenerpreguntas();
                          final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
@@ -2283,6 +2324,7 @@ int currentIndex=0;
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         Navigator.pop(context);
+                                }
                       },
                       child: Container(
                         width: 180,
