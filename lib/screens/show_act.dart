@@ -355,20 +355,12 @@ class _VerActEState extends State<VerAct> {
                                   //borrar pero contiene preguntas
                                   _deletetask(context,"Esta actividad contiene preguntas",cod_act[index],seleccionada,seleccionada2,a);
                                   }else if(dato=="no borrar"){
-                                                                //no se puede borrar
-                                 final snackBar = SnackBar(
-                                    content: Text(
-                                        "Esta actividad no se puede borrar por que ya contiene preguntas"));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                  _deletetask(context,"Esta actividad ya ha sido asignada",cod_act[index],seleccionada,seleccionada2,a);//no se puede borrar
                                 }
                                 else if (dato=="false"){
                                   //borrar
                                 _deletetask(context, "",cod_act[index],seleccionada,seleccionada2,a);
                                 }
-                              
-                            
-
                           },
                           child: Container(
                             margin: EdgeInsets.only(top: 20),

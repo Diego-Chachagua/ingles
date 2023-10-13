@@ -355,14 +355,9 @@ class _VerExamsState extends State<VerExams> {
                               var dato=result;
                              if(dato=="borrar"){
                                   //borrar pero contiene preguntas
-                                  _deletetask(context,"Esta actividad contiene preguntas",cod_p[index],seleccionada,seleccionada2,a);
+                                  _deletetask(context,"Este examen contiene preguntas",cod_p[index],seleccionada,seleccionada2,a);
                                   }else if(dato=="no borrar"){
-                                                                //no se puede borrar
-                                 final snackBar = SnackBar(
-                                    content: Text(
-                                        "Esta actividad no se puede borrar por que ya contiene preguntas"));
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                   _deletetask(context,"Este examen ya ha sido asignado",cod_p[index],seleccionada,seleccionada2,a);        
                                 }
                                 else if (dato=="false"){
                                   //borrar
