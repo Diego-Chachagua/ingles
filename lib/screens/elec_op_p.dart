@@ -105,8 +105,11 @@ var result1;
                               for (var i = 0; i < reslt.length; i++) {
                                 var dato = reslt[i];
                                 var codigo=dato["cod_act"];
+                              
                                 setState(() {
-                                   cod=codigo;
+                               
+                                    cod=codigo;
+                                  
                                    print(cod);
                                 });
                               }
@@ -114,13 +117,20 @@ var result1;
                             }catch(e){
                               _smsError(context);
                             } 
-                            
+                               if(cod==null){
+                                    final snackBar = SnackBar(
+                                    content:
+                                        Text("No se pudo crear la actividad"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                  }else{
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) =>  TareasP(cod: cod,cod_p: widget.cod_p, ),
 
                             )   
                             );
+                            }
                           },
                           child:  SizedBox(
                               height: screenSize.height * 0.15,
@@ -289,7 +299,7 @@ var result1;
             backgroundColor: Color.fromARGB(255, 196, 158, 218),
             title: const Text("ERROR[003]"),
             content: Container(
-              height: 160,
+              height: 250,
               child: Column(
                 children: [
                   Text(

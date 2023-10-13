@@ -22,6 +22,7 @@ class VerEstuAct extends StatefulWidget {
   String anio;
   String seccion;
   String cod_p;
+
   String select;
   VerEstuAct(
       {super.key,
@@ -35,6 +36,8 @@ class VerEstuAct extends StatefulWidget {
 
 class _VerEstuActState extends State<VerEstuAct> {
   var resultado;
+  bool isLoading=true;
+String info="";
   var resultado2;
   List nombres = [];
   List apellidos = [];
@@ -49,7 +52,10 @@ class _VerEstuActState extends State<VerEstuAct> {
 
   Future<void> getActivitys() async {
     resultado = await shownieAlum(widget.anio, widget.seccion);
+    if(resultado!="Error"){
+      
     setState(() {
+      isLoading=false;
       nie.clear();
       nombres.clear();
       if (resultado != "noExisten") {
@@ -68,6 +74,12 @@ class _VerEstuActState extends State<VerEstuAct> {
         }
       }
     });
+    }else{
+        setState(() {
+          isLoading=false;
+        info="Error";
+        });
+      }
   }
 
   @override
@@ -93,6 +105,10 @@ class _VerEstuActState extends State<VerEstuAct> {
     } else if (widget.seccion == "10") {
       secc = "F";
     }
+     Size screenSize = MediaQuery.of(context).size; //contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340? 8.00: screenWidth > 600? 30.00: 20.00; //titulos
+    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 25.00: 15.00; //boton de guardado
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -102,13 +118,7 @@ class _VerEstuActState extends State<VerEstuAct> {
             appBar: AppBar(
               leading: MaterialButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SelectAS(
-                              cod_p: widget.cod_p,
-                            )),
-                  );
+                  Navigator.pop(context);
                 },
                 child: Center(child: Icon(Icons.arrow_back)),
               ),
@@ -121,23 +131,72 @@ class _VerEstuActState extends State<VerEstuAct> {
               children: [
                 Text(
                   'Se muestran estudiantes de ${widget.anio}°  "${secc}" ',
-                  style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+                  style: TextStyle(fontSize: textSize, fontStyle: FontStyle.italic),
                 ),
-                const SizedBox(
-                  height: 30,
+                 SizedBox(
+                  height: screenSize.height*0.03,
                 ),
                 Container(
-                  width: 1000,
+                  width:screenSize.width*1,
                   color: Colors.black,
-                  height: 2,
+                  height: screenSize.height*0.003,
                 ),
                 //fin de espacio para definicion de linea
-                const SizedBox(
-                  height: 20,
+                isLoading ?
+                Column(
+                  children: [ 
+                     SizedBox(
+                  height: screenSize.height * 0.3,
+                ),
+                             
+                    const FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child:CircularProgressIndicator(
+                          color: Color.fromARGB(255, 103, 82, 197),
+                        backgroundColor: Colors.white,
+                      ),),
+                      Text("Cargando",style: TextStyle(fontSize: textSize2,fontStyle: FontStyle.italic),)
+                  ],
+                )
+                :
+                 info =="Error"?
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                           SizedBox(
+                           height: screenSize.height * 0.3,
+                            ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: MaterialButton(onPressed: (){
+                                       setState(() {
+                                        info="";
+                                        isLoading=true;
+                                         getActivitys();
+                                       }); 
+                            },
+                            child: Row(children: [
+                              Text("Reintentar"),
+                              Icon(Icons.error)
+                            ]),),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+                :
+                 SizedBox(
+                  height:screenSize.height*0.03,
                 ),
                 //espacio para definición de contenedor para mostrar historial
-                for (var i = 0; i < nie.length; i++)
-                  
+                for (var i = 0; i < nie.length; i++)    
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -170,14 +229,13 @@ class _VerEstuActState extends State<VerEstuAct> {
                                         elec: widget.select,
                                       )),
                             );
-                            }
-                            
+                            }   
                           }
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          width: 320,
-                          height: 60,
+                          width: screenSize.width*0.9,
+                          height: screenSize.height*0.08,
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15)),
@@ -193,7 +251,7 @@ class _VerEstuActState extends State<VerEstuAct> {
                                 left: 30,
                                 top: 20,
                                 child: Text(nombres[i] + " " + apellidos[i],
-                                    style: TextStyle(fontSize: 15)),
+                                    style: TextStyle(fontSize: textSize2)),
                               ),
                             ],
                           ),

@@ -72,8 +72,8 @@ class _VerExamsState extends State<VerExams> {
 
         for (var i = 0; i < n; i++) {
           var dato = resultado[i];
-          var codigo = dato["cod_act"];
-          var nombre = dato["nombre_act"];
+          var codigo = dato["cod_pr"];
+          var nombre = dato["nombre_p"];
           var dates = dato["date"];
           cod_p.add(codigo);
           print(cod_p);
@@ -166,6 +166,9 @@ class _VerExamsState extends State<VerExams> {
                           items: GetOptionsDropDownButton(),
                           onChanged: (value) {
                             setState(() {
+                               cod_p.clear();
+                              nombre_p.clear();
+                              isLoading=true;
                               seleccionada = value.toString();
                               getActivitys(seleccionada, seleccionada2, a);
                             });
@@ -188,6 +191,9 @@ class _VerExamsState extends State<VerExams> {
                           items: GetOptionsDropDownButton2(),
                           onChanged: (value) {
                             setState(() {
+                               cod_p.clear();
+                              nombre_p.clear();
+                              isLoading=true;
                               seleccionada2 = value.toString();
                               if (seleccionada2 == "A") {
                                 a = "1";
@@ -282,7 +288,14 @@ class _VerExamsState extends State<VerExams> {
                 ),
                 //espacio para definición de contenedor para mostrar historial
 
-                for (var i = 0; i < nombre_p.length; i++)
+                Container(
+               width: screenSize.width*1,
+                height: screenSize.height*0.7,
+                 child: ListView.builder(
+                  itemCount: cod_p.length,
+                  itemBuilder: (BuildContext context, int index) {
+                   // Crea un botón para cada elemento en la lista de datos
+                   return
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -295,7 +308,7 @@ class _VerExamsState extends State<VerExams> {
                                           closeIconColor: Color.fromARGB(
                                               255, 230, 230, 230),
                                           content: Text(
-                                              "Fecha de creación: ${date[i]}"));
+                                              "Fecha de creación: ${date[index]}"));
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
                         },
@@ -304,7 +317,7 @@ class _VerExamsState extends State<VerExams> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VerExam(cod: cod_p[i],
+                                builder: (context) => VerExam(cod: cod_p[index],
                                 cod_p: widget.cod,
                                     )),
                           );
@@ -327,7 +340,7 @@ class _VerExamsState extends State<VerExams> {
                               Positioned(
                                 left: 30,
                                 top: 20,
-                                child: Text(nombre_p[i],
+                                child: Text(nombre_p[index],
                                     style: TextStyle(fontSize: textSize3)),
                               ),
                             ],
@@ -337,53 +350,25 @@ class _VerExamsState extends State<VerExams> {
                       MaterialButton(
                         onPressed: () async{
                           n1++;
-                          if (n1 == 1) {
-                            var result= await comprobarExam(cod_p[i]);
-                              var dato=result;
-                              if(dato=="borrar"){
-                                  final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("!Esta actividad contiene preguntas¡\nPresiona 2 veces mas para borrarla de todos modos"),
-                              ],
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }else if(dato=="no borrar"){
-                                final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("No se puede borrar esta actividad\ndebido a que esta actividad ya ha sido respondida\npor estudiantes"),
-                              ],
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }
-                              else if (dato=="false"){
-                                final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("Presiona 2 Veces mas para borrar la actividad"),
-                              ],
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }
-                            
-                          }
-                          if (n1 == 2) {
 
-                            deleteExam(cod_p[i], widget.cod); 
-                          }
-                          if(n1==3){
-                             getActivitys(seleccionada, seleccionada2, a);
-                          }
+                            var result= await comprobarExam(cod_p[index]);
+                              var dato=result;
+                             if(dato=="borrar"){
+                                  //borrar pero contiene preguntas
+                                  _deletetask(context,"Esta actividad contiene preguntas",cod_p[index],seleccionada,seleccionada2,a);
+                                  }else if(dato=="no borrar"){
+                                                                //no se puede borrar
+                                 final snackBar = SnackBar(
+                                    content: Text(
+                                        "Esta actividad no se puede borrar por que ya contiene preguntas"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                }
+                                else if (dato=="false"){
+                                  //borrar
+                                _deletetask(context, "",cod_p[index],seleccionada,seleccionada2,a);
+                                }
+                          
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
@@ -401,7 +386,10 @@ class _VerExamsState extends State<VerExams> {
                         ),
                       )
                     ],
-                  )
+                  );
+                  }
+                 )
+ )
                 //fin de definición de contenedor
               ],
             ))));
@@ -427,5 +415,65 @@ class _VerExamsState extends State<VerExams> {
       ));
     });
     return secciones;
+  }
+  void _deletetask(BuildContext context, var texto,var cod,var g, var s,var c) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Estas seguro de borrar la actividad?"),
+            actions: [
+              Center(child: Text(texto)),
+              Column(
+                children: [
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [ 
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Cancelar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                               Navigator.pop(context);                
+                             deleteExam(cod, widget.cod);
+                             getActivitys(g, s, c);
+                              final snackBar = SnackBar(
+                                    content: Row(
+                                      children: [
+                                        Text(
+                                            "Si no se observan cambios prueba con"),
+                                        TextButton(onPressed: (){
+                                            getActivitys(g, s, c);
+                                        }, child: Center(child: Text("Actualizar"),))
+                                      ],
+                                    ));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+
+                            });
+                          },
+                          child: const Text(
+                            'Aceptar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
   }
 }

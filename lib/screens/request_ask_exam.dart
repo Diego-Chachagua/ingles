@@ -187,6 +187,12 @@ class _RespoderTaskEstuExamState extends State<RespoderTaskEstuExam> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size; //contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340? 8.00: screenWidth > 600? 30.00: 20.00; //titulos
+    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 25.00: 15.00; //boton de guardado
+    double textSize3 = screenWidth < 340? 10.0: screenWidth > 600? 25.00: 15.00; //preguntas
+    double textSize4 = screenWidth < 340? 10.0: screenWidth > 600? 25.00: 15.00; //para titulos en las secciones
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(

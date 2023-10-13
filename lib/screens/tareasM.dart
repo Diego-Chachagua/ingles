@@ -878,7 +878,18 @@ int currentIndex=0;
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           MaterialButton(
-                            onPressed: () {
+                            onPressed: () async{
+                              var n=await  extraerAS(widget.cod); 
+                                print(n);  
+                                if(n!="Error"){
+                                  print(n);
+                                  if(n=="contiene"){
+                                    final snackBar = SnackBar(
+                                    content:
+                                        Text("Esta actividad ya ha sido asignada"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                  }else{
                               if (nameA == "NAME OF ACTIVITY/TASK") {
                                 final snackBar = SnackBar(
                                     content:
@@ -903,6 +914,11 @@ int currentIndex=0;
                                           )),
                                 );
                               }
+
+                                  }
+                                }else{
+                                  _mensaje(context);
+                                }
                             },
                             child: Container(
                               width: screenSize.width*0.2,

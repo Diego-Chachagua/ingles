@@ -82,6 +82,12 @@ class _SaveActState extends State<SaveAct> {
   String a = "";
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size; //contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340? 8.00: screenWidth > 600? 40.00: 30.00; //titulos
+    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 25.00: 17.00; //boton de guardado
+    double textSize3 = screenWidth < 340? 10.0: screenWidth > 600? 25.00: 20.00; //preguntas
+    double textSize4 = screenWidth < 340? 10.0: screenWidth > 600? 25.00: 15.00; //para titulos en las secciones
     formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
     String formateTime = selectTime.format(context);
     String nowtime = timenow.format(context);
@@ -102,8 +108,8 @@ class _SaveActState extends State<SaveAct> {
                 Center(
                   child: GradientText(
                     'Do you want to save?',
-                    style: const TextStyle(
-                      fontSize: 40.0,
+                    style:  TextStyle(
+                      fontSize: textSize,
                     ),
                     gradientType: GradientType.linear,
                     gradientDirection: GradientDirection.ttb,
@@ -115,33 +121,34 @@ class _SaveActState extends State<SaveAct> {
                     ],
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.03)),
                 Text(
                   "Nombre de la actividad:",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: textSize2),
                 ),
-                Padding(padding: EdgeInsets.all(10)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                 Text(
                   widget.nombre_act,
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: textSize3),
                 ),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.03)),
                 Text(
                   'Selecciona año y sección a enviar\nla actividad',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: textSize3),
                 ),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.03)),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        width: 70,
+                        width: screenSize.width*0.2,
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 208, 171, 241),
                             border: Border.all(width: 1),
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: DropdownButton(
+                             style: TextStyle(fontSize: textSize3,color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                             dropdownColor: Color.fromARGB(255, 208, 171, 241),
                             value: seleccionada,
@@ -155,13 +162,14 @@ class _SaveActState extends State<SaveAct> {
                         ),
                       ),
                       Container(
-                        width: 100,
+                        width: screenSize.width*0.4,
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 208, 171, 241),
                             border: Border.all(width: 1),
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: DropdownButton(
+                             style: TextStyle(fontSize: textSize3,color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                             dropdownColor: Color.fromARGB(255, 208, 171, 241),
                             value: seleccionada2,
@@ -196,9 +204,9 @@ class _SaveActState extends State<SaveAct> {
                         ),
                       ),
                     ]),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.03)),
                  Container(
-                  width: 350,
+                  width: screenSize.width*0.9,
                   decoration: BoxDecoration(
                     border: Border.all(width: 1),
                     borderRadius: BorderRadius.circular(10)
@@ -207,50 +215,50 @@ class _SaveActState extends State<SaveAct> {
                     children: [
                       Text(
                         'Seleccione una hora y fecha limite\n                      de entrega',
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: textSize3),
                         
                       ),
-                       Padding(padding: EdgeInsets.all(20)),
+                       Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      width: 100,
-                      height: 40,
+                      width: screenSize.width*0.3,
+                      height: screenSize.height*0.07,
                       decoration: BoxDecoration(
                           border: Border.all(width: 1),
                           borderRadius: BorderRadius.circular(5)),
                       child: Column(
                         children: [
-                          Text('Fecha:'),
+                          Text('Fecha:',style: TextStyle(fontSize: textSize4),),
                           Text(
                             "$formattedDate",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                fontSize: 15),
+                                fontSize: textSize2),
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      width: 100,
-                      height: 40,
+                      width: screenSize.width*0.3,
+                      height: screenSize.height*0.07,
                       decoration: BoxDecoration(
                           border: Border.all(width: 1),
                           borderRadius: BorderRadius.circular(5)),
                       child: Column(
                         children: [
-                          Text("Hora:"),
+                          Text("Hora:",style: TextStyle(fontSize: textSize4),),
                           Text("$formateTime",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                fontSize: 15),),
+                                fontSize: textSize2),),
                         ],
                       ),
                     ),
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -261,8 +269,8 @@ class _SaveActState extends State<SaveAct> {
 
                       },
                       child: Container(
-                        width: 100,
-                        height: 40,
+                        width: screenSize.width*0.3,
+                        height: screenSize.height*0.06,
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 206, 200, 200),
                             border: Border.all(width: 0.5),
@@ -278,8 +286,8 @@ class _SaveActState extends State<SaveAct> {
 
                       },
                       child: Container(
-                        width: 100,
-                        height: 40,
+                        width: screenSize.width*0.3,
+                        height: screenSize.height*0.06,
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 206, 200, 200),
                             border: Border.all(width: 0.5),
@@ -289,10 +297,11 @@ class _SaveActState extends State<SaveAct> {
                     )),
                   ],
                 ),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                     ],
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                 MaterialButton(
                   onPressed: () {
                    
@@ -310,8 +319,8 @@ class _SaveActState extends State<SaveAct> {
                     
                   },
                   child: Container(
-                    width: 100,
-                    height: 40,
+                    width: screenSize.width*0.5,
+                    height: screenSize.height*0.05,
                     decoration: BoxDecoration(
                         color: Color.fromARGB(255, 191, 143, 236),
                         border: Border.all(width: 0.5),

@@ -94,6 +94,7 @@ Future<dynamic> addTask(var name,var cod_p, var anio,var hora) async {
   print(resultado);
   return resultado;
   }catch(e){
+    print(e);
     return "Error";
   }
 }
@@ -151,8 +152,10 @@ Future<dynamic> showActivitys(var cod) async {
   print(resultado);
   return resultado;
   }catch(e){
+    print(e);
     return "Error";
   }
+  
 }
 
 //eliminar pregunta
@@ -497,9 +500,10 @@ try{
 }
 }
 
-Future<dynamic> insertcodesE(var grado, var seccion,var cod) async {
+Future<dynamic> insertcodesE(var grado, var seccion,var cod, var hora, var anio) async {
   print(grado);
   print(seccion);
+  var date = anio+" "+hora;
   print(cod);
   try{
   http.Response enviar = await http.post(
@@ -508,6 +512,8 @@ Future<dynamic> insertcodesE(var grado, var seccion,var cod) async {
       "grado": grado,
       "secc": seccion,
       "cod": cod,
+      "date":date,
+
     },
   );
   return enviar.body;
@@ -913,6 +919,41 @@ Future<dynamic> addDateExam(var cod, var anio, var hora, var nie) async {
     },
   );
   return enviar.body;
+  }catch(e){
+    return "Error";
+  }
+}
+
+Future<dynamic> extraerAS(var cod_act) async {
+  print(cod_act);
+  //mostrar las preguntas
+  try{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incas.site/Speak_Up/GSact.php'),
+    body: <String, dynamic>{
+      "cod_act": cod_act,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
+  }catch(e){
+    return "Error";
+  }
+}
+
+Future<dynamic> extraerASExam(var cod_exam) async {
+  //mostrar las preguntas
+  try{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incas.site/Speak_Up/GS_exam.php'),
+    body: <String, dynamic>{
+      "cod_exam": cod_exam,
+    },
+  );
+  var resultado = jsonDecode(enviar.body);
+  print(resultado);
+  return resultado;
   }catch(e){
     return "Error";
   }

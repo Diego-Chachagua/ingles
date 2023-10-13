@@ -32,6 +32,8 @@ class CalificarE extends StatefulWidget {
 
 class _CalificarEState extends State<CalificarE> {
   var resultado;
+  bool isLoading=true;
+  String info="";
   List nombre_act = [];
   List cod_act = [];
   List fecha=[];
@@ -47,7 +49,10 @@ class _CalificarEState extends State<CalificarE> {
   Future<void> getActivitys() async {
     print(widget.nie);
       resultado = await showactAlum(widget.nie);
+      if(resultado!="Error"){
+        
     setState(() {
+      isLoading=false;
       n1 = 0;
       cod_act.clear();
       nombre_act.clear();
@@ -76,10 +81,21 @@ class _CalificarEState extends State<CalificarE> {
         }
       }
     });
+      }else{
+        setState(() {
+          isLoading=false;
+        info="Error";
+        });
+      }
   }
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size; //contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340? 8.00: screenWidth > 600? 28.00: 18.00; //titulos
+    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 25.00: 15.00; //boton de guardado
+        double textSize3 = screenWidth < 340? 10.0 : screenWidth > 600? 20.00: 10.00;
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -87,7 +103,6 @@ class _CalificarEState extends State<CalificarE> {
         ),
         child: Scaffold(
             appBar: AppBar(
-              
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
             ),
@@ -95,19 +110,69 @@ class _CalificarEState extends State<CalificarE> {
             body: SingleChildScrollView(
                 child: Column(
               children: [
-                Text("Se muestran actividades de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: 17,fontStyle: FontStyle.italic),),
+                Text("Se muestran actividades de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: textSize,fontStyle: FontStyle.italic),),
               Padding(padding: EdgeInsets.all(10)),
-              const SizedBox(
-                  height: 30,
+               SizedBox(
+                  height: screenSize.height*0.03,
                 ),
                 Container(
-                  width: 1000,
+                  width: screenSize.width*1,
                   color: Colors.black,
-                  height: 2,
+                  height: screenSize.height*0.003,
                 ),
                 //fin de espacio para definicion de linea
-                const SizedBox(
-                  height: 20,
+                isLoading ?
+                Column(
+                  children: [ 
+                     SizedBox(
+                  height: screenSize.height * 0.3,
+                ),
+                             
+                    const FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child:CircularProgressIndicator(
+                          color: Color.fromARGB(255, 103, 82, 197),
+                        backgroundColor: Colors.white,
+                      ),),
+                      Text("Cargando",style: TextStyle(fontSize: textSize2,fontStyle: FontStyle.italic),)
+                  ],
+                )
+                :
+                 info =="Error"?
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                           SizedBox(
+                           height: screenSize.height * 0.3,
+                            ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: MaterialButton(onPressed: (){
+                                       setState(() {
+                                        info="";
+                                        isLoading=true;
+                                         getActivitys();
+                                       }); 
+                            },
+                            child: Row(children: [
+                              Text("Reintentar"),
+                              Icon(Icons.error)
+                            ]),),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+                :
+                SizedBox(
+                  height: screenSize.height*0.02,
                 ),
                 //espacio para definición de contenedor para mostrar historial
 
@@ -140,8 +205,8 @@ class _CalificarEState extends State<CalificarE> {
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 20),
-                          width: 320,
-                          height: 60,
+                          width: screenSize.width*0.9,
+                          height: screenSize.height*0.08,
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15)),
@@ -157,7 +222,7 @@ class _CalificarEState extends State<CalificarE> {
                                 left: 30,
                                 top: 20,
                                 child: Text(nombre_act[i],
-                                    style: TextStyle(fontSize: 15,fontStyle: FontStyle.italic)),
+                                    style: TextStyle(fontSize: textSize2,fontStyle: FontStyle.italic)),
                               ),
                               Positioned(
                                 left: 260,
@@ -165,10 +230,10 @@ class _CalificarEState extends State<CalificarE> {
                                 child: Column(
                                   children: [
                                     Text("Estado:",
-                                    style: TextStyle(fontSize: 8,fontStyle: FontStyle.italic)
+                                    style: TextStyle(fontSize: textSize3,fontStyle: FontStyle.italic)
                                         ),
                                         Text("${fecha[i]}",
-                                    style: TextStyle(fontSize: 8,fontStyle: FontStyle.italic)),
+                                    style: TextStyle(fontSize: textSize3,fontStyle: FontStyle.italic)),
                                   ],
                                 ),
                               ),

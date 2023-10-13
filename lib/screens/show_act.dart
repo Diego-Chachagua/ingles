@@ -57,10 +57,10 @@ class _VerActEState extends State<VerAct> {
     print(resultado);
     if(resultado != "Error"){  
     setState(() {
+       cod_act.clear();
+        nombre_act.clear();
       isLoading =false;
       n1 = 0;
-      cod_act.clear();
-      nombre_act.clear();
       if (resultado != "noExisten") {
         var n = resultado.length;
         if (n == null) {
@@ -161,6 +161,9 @@ class _VerActEState extends State<VerAct> {
                           items: GetOptionsDropDownButton(),
                           onChanged: (value) {
                             setState(() {
+                              cod_act.clear();
+                              nombre_act.clear();
+                              isLoading=true;
                               seleccionada = value.toString();
                               getActivitys(seleccionada, seleccionada2, a);
                             });
@@ -184,6 +187,9 @@ class _VerActEState extends State<VerAct> {
                           items: GetOptionsDropDownButton2(),
                           onChanged: (value) {
                             setState(() {
+                              cod_act.clear();
+                              nombre_act.clear();
+                              isLoading=true;
                               seleccionada2 = value.toString();
                               if (seleccionada2 == "A") {
                                 a = "1";
@@ -279,132 +285,115 @@ class _VerActEState extends State<VerAct> {
                   height: screenSize.height * 0.02,
                 ),
                 //espacio para definición de contenedor para mostrar historial        
-                for (var i = 0; i < nombre_act.length; i++)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      MaterialButton(
-                        onLongPress: (){
-                          final snackBar = SnackBar(
-                                          backgroundColor: Color.fromARGB(
-                                              255, 155, 118, 214),
-                                          shape: Border.all(width: 1),
-                                          closeIconColor: Color.fromARGB(
-                                              255, 230, 230, 230),
-                                          content: Text(
-                                              "Fecha de creación: ${date[i]}"));
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar);
-                        },
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => VerTarea(
-                                      cod_p: widget.cod,
-                                      cod: cod_act[i],
-                                    )),
-                          );
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 20),
-                          width: screenSize.width*0.65,
-                          height: screenSize.height*0.08,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(15)),
-                            color: Color.fromARGB(255, 249, 249, 249),
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.black,
+               Container(
+                width: screenSize.width*1,
+                height: screenSize.height*0.7,
+                 child: ListView.builder(
+                  itemCount: cod_act.length,
+                  itemBuilder: (BuildContext context, int index) {
+                   // Crea un botón para cada elemento en la lista de datos
+                   return
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        MaterialButton(
+                          onLongPress: (){
+                            final snackBar = SnackBar(
+                                            backgroundColor: Color.fromARGB(
+                                                255, 155, 118, 214),
+                                            shape: Border.all(width: 1),
+                                            closeIconColor: Color.fromARGB(
+                                                255, 230, 230, 230),
+                                            content: Text(
+                                                "Fecha de creación: ${date[index]}"));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                          },
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VerTarea(
+                                        cod_p: widget.cod,
+                                        cod: cod_act[index],
+                                      )),
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 20),
+                            width: screenSize.width*0.65,
+                            height: screenSize.height*0.08,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
+                              color: Color.fromARGB(255, 249, 249, 249),
+                              border: Border.all(
+                                width: 2,
+                                color: Colors.black,
+                              ),
+                            ),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  left: 30,
+                                  top: 20,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(nombre_act[index],
+                                        style: TextStyle(fontSize: textSize3)),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 30,
-                                top: 20,
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Text(nombre_act[i],
-                                      style: TextStyle(fontSize: textSize3)),
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
-                      ),
-                      MaterialButton(
-                        onPressed: () async{
-                          n1++;
-                          if (n1 == 1) {
-                            var result= await comprobarAct(cod_act[i]);
-                              var dato=result;
-                              if(dato=="borrar"){
-                                  final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("!Esta actividad contiene preguntas¡\nPresiona 2 veces mas para borrarla de todos modos"),
-                              ],
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }else if(dato=="no borrar"){
-                                final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("No se puede borrar esta actividad\ndebido a que esta actividad ya ha sido respondida\npor estudiantes"),
-                              ],
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        getActivitys(seleccionada, seleccionada2, a);
-                              }
-                              else if (dato=="false"){
-                                final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content: Row(
-                              children: [
-                                Text("Presiona 2 Veces mas para borrar la actividad"),
-                              ],
-                            ));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }
+                        MaterialButton(
+                          onPressed: () async{
+                              var result= await comprobarAct(cod_act[index]);
+                                var dato=result;
+                                if(dato=="borrar"){
+                                  //borrar pero contiene preguntas
+                                  _deletetask(context,"Esta actividad contiene preguntas",cod_act[index],seleccionada,seleccionada2,a);
+                                  }else if(dato=="no borrar"){
+                                                                //no se puede borrar
+                                 final snackBar = SnackBar(
+                                    content: Text(
+                                        "Esta actividad no se puede borrar por que ya contiene preguntas"));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                }
+                                else if (dato=="false"){
+                                  //borrar
+                                _deletetask(context, "",cod_act[index],seleccionada,seleccionada2,a);
+                                }
+                              
                             
-                          }
-                          if (n1 == 2) {
-                            deleteTask(cod_act[i], widget.cod); 
-                          }
-                          if(n1==3){
-                             getActivitys(seleccionada, seleccionada2, a);
-                          }
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 20),
-                          height: screenSize.height*0.07,
-                          width: screenSize.width*0.15,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 209, 31, 18),
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.circular(10),
+
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 20),
+                            height: screenSize.height*0.07,
+                            width: screenSize.width*0.15,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 209, 31, 18),
+                              border: Border.all(width: 1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
                           ),
-                          child: Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
+                        )
+                      ],
+                    );
+                                      }
+                 ),
+               )
                 //fin de definición de contenedor
               ],
-            ))));
+            ),
+            )));
   }
 
   List<DropdownMenuItem<String>> GetOptionsDropDownButton() {
@@ -427,5 +416,65 @@ class _VerActEState extends State<VerAct> {
       ));
     });
     return secciones;
+  }
+
+  void _deletetask(BuildContext context, var texto,var cod,var g, var s,var c) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shadowColor: Color.fromARGB(255, 170, 63, 233),
+            backgroundColor: Color.fromARGB(255, 196, 158, 218),
+            title: const Text("Estas seguro de borrar la actividad?"),
+            actions: [
+              Center(child: Text(texto)),
+              Column(
+                children: [
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [ 
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Cancelar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                               Navigator.pop(context);                
+                             deleteTask(cod, widget.cod);
+                             getActivitys(g, s, c);
+                             final snackBar = SnackBar(
+                                    content: Row(
+                                      children: [
+                                        Text(
+                                            "Si no se observan cambios prueba con"),
+                                        TextButton(onPressed: (){
+                                            getActivitys(g, s, c);
+                                        }, child: Center(child: Text("Actualizar"),))
+                                      ],
+                                    ));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                            });
+                          },
+                          child: const Text(
+                            'Aceptar',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
+        });
   }
 }

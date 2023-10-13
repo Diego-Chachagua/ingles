@@ -44,7 +44,11 @@ class _SelectASState extends State<SelectAS> {
   @override
   Widget build(BuildContext context) {
     var cod_profe = widget.cod_p;
-
+ Size screenSize = MediaQuery.of(context).size; //contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340? 8.00: screenWidth > 600? 40.00 : 25.00; //titulos
+    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 25.00: 15.00; //boton de guardado
+    double textSize3 = screenWidth < 340? 10.0: screenWidth > 600? 25.00: 15.00; //preguntas
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -54,13 +58,7 @@ class _SelectASState extends State<SelectAS> {
             appBar: AppBar(
               leading: MaterialButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProfeOp(
-                              cod_p: widget.cod_p,
-                            )),
-                  );
+                  Navigator.pop(context);
                 },
                 child: Center(child: Icon(Icons.arrow_back)),
               ),
@@ -69,8 +67,8 @@ class _SelectASState extends State<SelectAS> {
               title: Center(
                 child: GradientText(
                   'ELECCION DE DATOS',
-                  style: const TextStyle(
-                    fontSize: 30.0,
+                  style:  TextStyle(
+                    fontSize: textSize,
                   ),
                   gradientType: GradientType.linear,
                   gradientDirection: GradientDirection.ttb,
@@ -89,10 +87,10 @@ class _SelectASState extends State<SelectAS> {
 
               child: Column(
                 children: [
-                  Padding(padding: EdgeInsets.all(100)),
+                  Padding(padding: EdgeInsets.all(screenSize.height*0.1)),
                   Container(
-                    width: 300,
-                    height: 300,
+                    width: screenSize.width*0.9,
+                    height: screenSize.height*0.4,
                     decoration: BoxDecoration(
                       border: Border.all(width: 2),
                       borderRadius: BorderRadius.circular(10),
@@ -100,20 +98,21 @@ class _SelectASState extends State<SelectAS> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Seleccione un año y sección:"),
-                        Padding(padding: EdgeInsets.all(20)),
+                        Text("Seleccione un año y sección:",style: TextStyle(fontSize: textSize2),),
+                        Padding(padding: EdgeInsets.all(screenSize.height*0.025)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
-                              width: 70,
-                              height: 60,
+                              width: screenSize.width*0.2,
+                              height: screenSize.height*0.08,
                               decoration: BoxDecoration(
                                   color: Color.fromARGB(255, 208, 171, 241),
                                   border: Border.all(width: 1),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                 child: DropdownButton(
+                                   style: TextStyle(fontSize: textSize3,color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                   dropdownColor:
                                       Color.fromARGB(255, 208, 171, 241),
@@ -128,14 +127,15 @@ class _SelectASState extends State<SelectAS> {
                               ),
                             ),
                             Container(
-                              width: 100,
-                              height: 60,
+                              width: screenSize.width*0.3,
+                              height: screenSize.height*0.08,
                               decoration: BoxDecoration(
                                   color: Color.fromARGB(255, 208, 171, 241),
                                   border: Border.all(width: 1),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Center(
                                 child: DropdownButton(
+                                   style: TextStyle(fontSize: textSize3,color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                   dropdownColor:
                                       Color.fromARGB(255, 208, 171, 241),
@@ -172,18 +172,19 @@ class _SelectASState extends State<SelectAS> {
                             ),
                           ],
                         ),
-                        Padding(padding: EdgeInsets.all(20)),
-                        Text("Seleccione una opcion:"),
-                        Padding(padding: EdgeInsets.all(20)),
+                        Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
+                        Text("Seleccione una opcion:",style: TextStyle(fontSize: textSize3,color: Colors.black),),
+                        Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                         Container(
-                          width: 180,
-                          height: 60,
+                          width: screenSize.width*0.6,
+                          height: screenSize.height*0.08,
                           decoration: BoxDecoration(
                               color: Color.fromARGB(255, 208, 171, 241),
                               border: Border.all(width: 1),
                               borderRadius: BorderRadius.circular(10)),
                           child: Center(
                             child: DropdownButton(
+                               style: TextStyle(fontSize: textSize3,color: Colors.black),
                               borderRadius: BorderRadius.circular(10),
                               dropdownColor: Color.fromARGB(255, 208, 171, 241),
                               value: seleccionada3,
@@ -199,7 +200,7 @@ class _SelectASState extends State<SelectAS> {
                       ],
                     ),
                   ),
-                  Padding(padding: EdgeInsets.all(40)),
+                  Padding(padding: EdgeInsets.all(screenSize.height*0.05)),
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -245,16 +246,13 @@ class _SelectASState extends State<SelectAS> {
                                           select: eleccion,
                                         )),
                               );
-
-
                                 }
-                              }
-                             
+                              }        
                             }
                           },
                           child: Container(
-                            width: 100,
-                            height: 60,
+                            width: screenSize.width*0.3,
+                            height: screenSize.height*0.08,
                             decoration: BoxDecoration(
                               color: Color.fromARGB(255, 163, 122, 230),
                               border: Border.all(width: 1),
@@ -263,7 +261,7 @@ class _SelectASState extends State<SelectAS> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Continuar"),
+                                Text("Continuar", style: TextStyle(fontSize: textSize3,color: Colors.black),),
                                 Icon(Icons.navigate_next_rounded)
                               ],
                             ),
@@ -276,50 +274,6 @@ class _SelectASState extends State<SelectAS> {
               ),
             )));
   }
-
-  void _smsError(BuildContext parentContext) async {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shadowColor: Color.fromARGB(255, 170, 63, 233),
-            backgroundColor: Color.fromARGB(255, 196, 158, 218),
-            title: const Text("ERROR[003]"),
-            content: Container(
-              height: 160,
-              child: Column(
-                children: [
-                  Text(
-                      "-Ya existe una actividad con el nombre 'NAME OF ACTIVITY/TASK'\n-Para solucionar este problema es recomendado\ncambiar el nombre a la otra actividad que contenga el mismo nombre",
-                      style: TextStyle(fontStyle: FontStyle.italic)),
-                  Padding(padding: EdgeInsets.all(10)),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      width: 180,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(Icons.arrow_back),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
   List<DropdownMenuItem<String>> GetOptionsDropDownButton() {
     List<DropdownMenuItem<String>> annios = [];
     anios.forEach((element) {

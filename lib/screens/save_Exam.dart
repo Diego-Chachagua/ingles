@@ -82,6 +82,12 @@ class _SaveExamState extends State<SaveExam> {
   String a = "";
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size; //contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340? 8.00: screenWidth > 600? 40.00: 30.00; //titulos
+    double textSize2 = screenWidth < 340? 10.0 : screenWidth > 600? 25.00: 20.00; //boton de guardado
+    double textSize3 = screenWidth < 340? 10.0: screenWidth > 600? 25.00: 17.00; //preguntas
+    double textSize4 = screenWidth < 340? 10.0: screenWidth > 600? 25.00: 15.00; //para titulos en las secciones
     formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
     String formateTime = selectTime.format(context);
     String nowtime = timenow.format(context);
@@ -102,8 +108,8 @@ class _SaveExamState extends State<SaveExam> {
                 Center(
                   child: GradientText(
                     'Do you want to save?',
-                    style: const TextStyle(
-                      fontSize: 40.0,
+                    style:  TextStyle(
+                      fontSize: textSize,
                     ),
                     gradientType: GradientType.linear,
                     gradientDirection: GradientDirection.ttb,
@@ -115,33 +121,34 @@ class _SaveExamState extends State<SaveExam> {
                     ],
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                 Text(
                   "Nombre del examen:",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: textSize3),
                 ),
-                Padding(padding: EdgeInsets.all(10)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.01)),
                 Text(
                   widget.nombre_act,
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: textSize2),
                 ),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                 Text(
                   'Selecciona año y sección a enviar \nel examen',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: textSize2),
                 ),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        width: 70,
+                        width: screenSize.width*0.2,
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 208, 171, 241),
                             border: Border.all(width: 1),
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: DropdownButton(
+                             style: TextStyle(fontSize: textSize3,color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                             dropdownColor: Color.fromARGB(255, 208, 171, 241),
                             value: seleccionada,
@@ -155,13 +162,14 @@ class _SaveExamState extends State<SaveExam> {
                         ),
                       ),
                       Container(
-                        width: 100,
+                        width: screenSize.width*0.3,
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 208, 171, 241),
                             border: Border.all(width: 1),
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: DropdownButton(
+                            style: TextStyle(fontSize: textSize3,color: Colors.black),
                             borderRadius: BorderRadius.circular(10),
                             dropdownColor: Color.fromARGB(255, 208, 171, 241),
                             value: seleccionada2,
@@ -196,9 +204,9 @@ class _SaveExamState extends State<SaveExam> {
                         ),
                       ),
                     ]),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                 Container(
-                  width: 350,
+                  width: screenSize.width*0.9,
                   decoration: BoxDecoration(
                     border: Border.all(width: 1),
                     borderRadius: BorderRadius.circular(10)
@@ -207,61 +215,61 @@ class _SaveExamState extends State<SaveExam> {
                     children: [
                       Text(
                         'Seleccione una hora y fecha limite\n                      de entrega',
-                        style: TextStyle(fontSize: 20,color: Colors.black38),
+                        style: TextStyle(fontSize:textSize2),
                         
                       ),
-                       Padding(padding: EdgeInsets.all(20)),
+                       Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      width: 100,
-                      height: 40,
+                      width: screenSize.width*0.3,
+                      height: screenSize.height*0.07,
                       decoration: BoxDecoration(
                           border: Border.all(width: 1),
                           borderRadius: BorderRadius.circular(5)),
                       child: Column(
                         children: [
-                          Text('Fecha:',style: TextStyle(color: Colors.black38),),
+                          Text('Fecha:',style: TextStyle(fontSize:textSize3),),
                           Text(
                             "$formattedDate",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.black38,
-                                fontSize: 15),
+                                fontSize: textSize3),
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      width: 100,
-                      height: 40,
+                     width: screenSize.width*0.3,
+                      height: screenSize.height*0.07,
                       decoration: BoxDecoration(
                           border: Border.all(width: 1),
                           borderRadius: BorderRadius.circular(5)),
                       child: Column(
                         children: [
-                          Text("Hora:",style: TextStyle(color: Colors.black38)),
+                          Text("Hora:",style: TextStyle(fontSize: textSize3)),
                           Text("$formateTime",
                             style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.black38,
-                                fontSize: 15),),
+                                fontSize: textSize3),),
                         ],
                       ),
                     ),
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(20)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SafeArea(
                         child: MaterialButton(
-                      onPressed: null,
+                      onPressed: (){
+                        callDataPicker();
+                      },
                       child: Container(
-                        width: 100,
-                        height: 40,
+                      width: screenSize.width*0.3,
+                        height: screenSize.height*0.06,
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 206, 200, 200),
                             border: Border.all(width: 0.5),
@@ -272,10 +280,12 @@ class _SaveExamState extends State<SaveExam> {
                     SafeArea(
                         child: MaterialButton(
                           enableFeedback: false,
-                      onPressed: null,
+                      onPressed: (){
+                         callTimePicker();
+                      },
                       child: Container(
-                        width: 100,
-                        height: 40,
+                        width: screenSize.width*0.3,
+                        height: screenSize.height*0.06,
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 206, 200, 200),
                             border: Border.all(width: 0.5),
@@ -285,18 +295,18 @@ class _SaveExamState extends State<SaveExam> {
                     )),
                   ],
                 ),
-                Text("¡COMING SOON!",style: TextStyle(fontSize: 25,fontStyle: FontStyle.italic),),
+               Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                     ],
                   ),
                 ),
                
-                Padding(padding: EdgeInsets.all(25)),
+                Padding(padding: EdgeInsets.all(screenSize.height*0.02)),
                 MaterialButton(
                   onPressed: () {  
                       final snackBar = SnackBar(
                           content: Text("Actividad Guardada con exito"));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                     insertcodesE(seleccionada, a,widget.cod_act);
+                     insertcodesE(seleccionada, a,widget.cod_act,formateTime, formattedDate);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -306,8 +316,8 @@ class _SaveExamState extends State<SaveExam> {
                       );
                   },
                   child: Container(
-                    width: 100,
-                    height: 40,
+                    width: screenSize.width*0.5,
+                    height: screenSize.height*0.05,
                     decoration: BoxDecoration(
                         color: Color.fromARGB(255, 191, 143, 236),
                         border: Border.all(width: 0.5),
