@@ -110,16 +110,24 @@ class _CalificarEState extends State<CalificarE> {
             body: SingleChildScrollView(
                 child: Column(
               children: [
-                Text("Se muestran actividades de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: textSize,fontStyle: FontStyle.italic),),
-              Padding(padding: EdgeInsets.all(10)),
-               SizedBox(
-                  height: screenSize.height*0.03,
-                ),
                 Container(
-                  width: screenSize.width*1,
-                  color: Colors.black,
-                  height: screenSize.height*0.003,
-                ),
+                  width: screenSize.width*0.9,
+                  height: screenSize.height*0.1,
+                   decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 185, 159, 255),
+                    border: Border.all(width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                       BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(0, 7),
+                          blurRadius: 15.0,
+                          spreadRadius: 1.0,
+                          ),
+                    ]
+                  ),
+                  child: Center(child: Text("Se muestran actividades de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: textSize,fontStyle: FontStyle.italic),))),
+              Padding(padding: EdgeInsets.all(10)),               
                 //fin de espacio para definicion de linea
                 isLoading ?
                 Column(
@@ -172,7 +180,7 @@ class _CalificarEState extends State<CalificarE> {
                 )
                 :
                 SizedBox(
-                  height: screenSize.height*0.02,
+                  height: screenSize.height*0.03,
                 ),
                 //espacio para definición de contenedor para mostrar historial
 

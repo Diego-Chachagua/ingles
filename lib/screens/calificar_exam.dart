@@ -112,7 +112,23 @@ class _CalificarExamState extends State<CalificarExam> {
             body: SingleChildScrollView(
                 child: Column(
               children: [
-                Text("Se muestran Examenes de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: textSize,fontStyle: FontStyle.italic),),
+                Container(
+                  width: screenSize.width*0.9,
+                  height: screenSize.height*0.1,
+                   decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 185, 159, 255),
+                    border: Border.all(width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                       BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(0, 7),
+                          blurRadius: 15.0,
+                          spreadRadius: 1.0,
+                          ),
+                    ]
+                  ),
+                  child: Center(child: Text("Se muestran Examenes de el estudiante:\n${widget.nombres}",style: TextStyle(fontSize: textSize,fontStyle: FontStyle.italic),))),
                 SizedBox(
                   height: screenSize.height*0.02,
                 ),

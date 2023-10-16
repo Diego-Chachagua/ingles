@@ -50,7 +50,7 @@ class _ElecEOTEState extends State<ElecEOT> {
                       height: 100,
                     ),
                     GradientText(
-                      'ELIJA UNA OPCION',
+                      'ELIJA UNA OPCIONc',
                       style: const TextStyle(
                         fontSize: 30.0,
                       ),

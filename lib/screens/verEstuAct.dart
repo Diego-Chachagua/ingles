@@ -129,19 +129,29 @@ String info="";
             body: SingleChildScrollView(
                 child: Column(
               children: [
-                Text(
+                 Container(
+                  width: screenSize.width*0.9,
+                  height: screenSize.height*0.1,
+                   decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 185, 159, 255),
+                    border: Border.all(width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                       BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(0, 7),
+                          blurRadius: 15.0,
+                          spreadRadius: 1.0,
+                          ),
+                    ]
+                  ),
+                  child: Center(child: Text(
                   'Se muestran estudiantes de ${widget.anio}°  "${secc}" ',
                   style: TextStyle(fontSize: textSize, fontStyle: FontStyle.italic),
-                ),
+                ),)),
                  SizedBox(
-                  height: screenSize.height*0.03,
+                  height: screenSize.height*0.01,
                 ),
-                Container(
-                  width:screenSize.width*1,
-                  color: Colors.black,
-                  height: screenSize.height*0.003,
-                ),
-                //fin de espacio para definicion de linea
                 isLoading ?
                 Column(
                   children: [ 

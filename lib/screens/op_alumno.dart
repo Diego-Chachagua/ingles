@@ -46,6 +46,7 @@ class _OpAlumEState extends State<OpAlum> {
     super.initState();
     (() async {
       reslt = await anosec(widget.usuario, widget.contra);
+      if(reslt!="Error"){
       if (reslt != "noExisten") {
         for (var i = 0; i < reslt.length; i++) {
           var dato = reslt[i];
@@ -80,11 +81,19 @@ class _OpAlumEState extends State<OpAlum> {
           });
         }
       }
+      }else{
+        //poner alert dialog
+      }
     })();
   }
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 25.00;//titulos
+    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >=600 ? 40.00 : 15.00;//subtitulos
+    double textSize3 = screenWidth < 340 ? 10.0 : screenWidth >=600 ? 30.00 : 17.00;//preguntas
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -92,14 +101,13 @@ class _OpAlumEState extends State<OpAlum> {
         ),
         child: Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: false,
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
               title: Center(
                 child: GradientText(
                   'ELIJA UNA OPCION',
-                  style: const TextStyle(
-                    fontSize: 30.0,
+                  style:  TextStyle(
+                    fontSize: textSize,
                   ),
                   gradientType: GradientType.linear,
                   gradientDirection: GradientDirection.ttb,
@@ -118,10 +126,9 @@ class _OpAlumEState extends State<OpAlum> {
               //inicio de definicion de opciones a mostrar al usuario
 
               child: Column(children: [
-                const SizedBox(
-                  height: 90,
+                 SizedBox(
+                  height: screenSize.height*0.1,
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -139,16 +146,16 @@ class _OpAlumEState extends State<OpAlum> {
                                       nie: nie)),
                             );
                           },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
+                          child:  SizedBox(
+                              height: screenSize.height*0.15,
+                              width: screenSize.width*0.4,
                               child: Image(
                                   image: AssetImage('assets/tareas.png'))),
                         ),
                         GradientText(
                           'Tareas',
-                          style: const TextStyle(
-                            fontSize: 30.0,
+                          style:  TextStyle(
+                            fontSize: textSize,
                           ),
                           gradientType: GradientType.linear,
                           gradientDirection: GradientDirection.ttb,
@@ -176,16 +183,16 @@ class _OpAlumEState extends State<OpAlum> {
                                       nie: nie)),
                             );
                           },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
+                          child:  SizedBox(
+                              height: screenSize.height*0.15,
+                              width: screenSize.width*0.4,
                               child: Image(
                                   image: AssetImage('assets/examen.png'))),
                         ),
                         GradientText(
                           'Examenes',
-                          style: const TextStyle(
-                            fontSize: 30.0,
+                          style: TextStyle(
+                            fontSize: textSize,
                           ),
                           gradientType: GradientType.linear,
                           gradientDirection: GradientDirection.ttb,
@@ -201,8 +208,8 @@ class _OpAlumEState extends State<OpAlum> {
                     //fin de espacio de contenedor para ver examenes
                   ],
                 ),
-                const SizedBox(
-                  height: 40,
+                 SizedBox(
+                  height: screenSize.height*0.05,
                 ),
                 //contenedor para la opcion de tareas
                 Row(
@@ -224,16 +231,16 @@ class _OpAlumEState extends State<OpAlum> {
                                       usu: usuariobd, contra: contrabd)),
                             );
                           },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
+                          child:  SizedBox(
+                              height: screenSize.height*0.15,
+                              width: screenSize.width*0.4,
                               child: Image(
                                   image: AssetImage('assets/ver notas.png'))),
                         ),
                         GradientText(
                           'Ver mis notas',
-                          style: const TextStyle(
-                            fontSize: 30.0,
+                          style:  TextStyle(
+                            fontSize: textSize,
                           ),
                           gradientType: GradientType.linear,
                           gradientDirection: GradientDirection.ttb,
@@ -255,16 +262,16 @@ class _OpAlumEState extends State<OpAlum> {
                               MaterialPageRoute(builder: (context) => Videos()),
                             );
                           },
-                          child: const SizedBox(
-                              height: 150,
-                              width: 145,
+                          child: SizedBox(
+                              height: screenSize.height*0.15,
+                              width: screenSize.width*0.4,
                               child:
                                   Image(image: AssetImage('assets/play.png'))),
                         ),
                         GradientText(
                           'Ver más',
-                          style: const TextStyle(
-                            fontSize: 30.0,
+                          style:  TextStyle(
+                            fontSize: textSize,
                           ),
                           gradientType: GradientType.linear,
                           gradientDirection: GradientDirection.ttb,
@@ -280,7 +287,7 @@ class _OpAlumEState extends State<OpAlum> {
                   ],
                 ),
                 SizedBox(
-                  height: 10,
+                  height: screenSize.height*0.05,
                 ),
                 Column(
                   children: [
@@ -291,15 +298,15 @@ class _OpAlumEState extends State<OpAlum> {
                           MaterialPageRoute(builder: (context) => Temas()),
                         );
                       },
-                      child: const SizedBox(
-                          height: 150,
-                          width: 145,
+                      child:  SizedBox(
+                         height: screenSize.height*0.15,
+                              width: screenSize.width*0.4,
                           child: Image(image: AssetImage('assets/letra-u.png'))),
                     ),
                     GradientText(
                       'Unidades',
-                      style: const TextStyle(
-                        fontSize: 30.0,
+                      style:  TextStyle(
+                        fontSize:textSize,
                       ),
                       gradientType: GradientType.linear,
                       gradientDirection: GradientDirection.ttb,

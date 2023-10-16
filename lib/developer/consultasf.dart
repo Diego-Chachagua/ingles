@@ -691,6 +691,23 @@ Future<dynamic> addNotas(var nota, var cod_r, var cod_a , var nie) async {
     return "Error";
   }
 }
+Future<dynamic> addNotasExam(var nota, var cod_r, var cod_a , var nie) async {
+  print(cod_a);
+  try{
+  http.Response enviar = await http.post(
+    Uri.parse('https://incas.site/Speak_Up/add_nota_res_exam.php'),
+    body: <String, dynamic>{
+      "cod_a":cod_a,
+      "nota":nota,
+      "nie":nie,
+      "cod_r":cod_r,
+    },
+  );
+  return enviar.body;
+  }catch(e){
+    return "Error";
+  }
+}
 
 
 //comprobar actividades

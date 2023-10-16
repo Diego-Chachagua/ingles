@@ -12,6 +12,9 @@ import 'package:ingles/screens/verEstuAct.dart';
 import 'package:intl/intl.dart';
 import '../developer/consultasf.dart';
 import 'calificar_E.dart';
+import 'game.dart';
+import 'img_zoom.dart';
+import 'listen_audio.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -92,6 +95,8 @@ File? img;
 var contador=0;
   var n1;
   var ask;
+  bool isLoading=true;
+  String info="";
   bool valor=false;
   bool valor2=false;
   bool valor3=false;
@@ -110,22 +115,19 @@ var contador=0;
   List respuesta_Game = [];
   List notas = [];
   List cod_res=[];
-
-
-
   var i = 0;
-
   @override
   void initState() {
     super.initState();
     getActivitys();
   }
-
   Future<void> getActivitys() async {
     //resultado = await showactAlum(widget.nie);
     print(widget.cod_act);
     resultado2 = await showAskAlum(widget.cod_act,widget.nie);
+    if(resultado2 !="Error"){
     setState(() {
+      isLoading=false;
       if (resultado != "noExisten") {
         var n = resultado2.length;
         if (n == null) {
@@ -156,7 +158,6 @@ var contador=0;
           if(codigo!=null){
             cod_res.add(codigo);
             print(cod_res);
-
           }else{
             cod_res.add("0");
           }
@@ -166,9 +167,13 @@ var contador=0;
             notas.add("0");
           }
           //espacio para preguntas
-          respuesta_Game.add(respuestas_G);
+          if(respuestas_G!=null){
+            respuesta_Game.add(respuestas_G);
+          }else{
+            respuesta_Game.add("");
+          }
           pregunta.add(preguntas);
-                     audio_p.add(audios_pre);
+           audio_p.add(audios_pre);
           
           if(imagenes_pre!=null){
             Uint8List bytes = base64.decode(imagenes_pre);// preguntas
@@ -181,23 +186,31 @@ var contador=0;
            }
           respuesta.add(respuestas);
           audio.add(audios);
-          print(audio);
           if(imagenes!=null){
             Uint8List bytes = base64.decode(imagenes);// respuestas
             imagen.add(bytes);
           }else{
             imagen.add("");
-          }
-          imagen_cod.add(imagenes);
-          
+          }   
           // respuestas
         }
       }
     });
+    }else{
+      setState(() {
+        isLoading=false;
+        info="Error";
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 18.00;//titulos
+    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >=600 ? 40.00 : 15.00;//subtitulos
+    double textSize3 = screenWidth < 340 ? 10.0 : screenWidth >=600 ? 30.00 : 17.00;//preguntas
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -209,1116 +222,321 @@ var contador=0;
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
             ),
             backgroundColor: Colors.transparent,
-            body: RefreshIndicator(child:SingleChildScrollView(
+            body: RefreshIndicator(
+              onRefresh: getActivitys,
+              child:SingleChildScrollView(
                 child: Column(children: [
               Container(
-                width: 350,
-                height: 70,
+                width:screenSize.width*0.9,
+                height: screenSize.height*0.1,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 185, 159, 255),
+                border: Border.all(width: 2),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                   BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(0, 7),
+                      blurRadius: 15.0,
+                      spreadRadius: 1.0,
+                      ),
+                ]
+              ),
                 child: Center(
                   child: Column(
                     children: [
                       Text(
                         'Se muestra la actividad: "${widget.nombre_act}"',
-                        style: TextStyle(fontSize: 17, fontStyle: FontStyle.italic),
+                        style: TextStyle(fontSize: textSize, fontStyle: FontStyle.italic),
                       ),
                       Padding(padding: EdgeInsets.all(10)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text("Entregar antes de: ${widget.date}")
+                          Text("Entregar antes de: ${widget.date}",style: TextStyle(fontSize: textSize2),)
                         ],
                       )
                     ],
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 30,
+               SizedBox(
+                height: screenSize.height*0.03,
               ),
               Container(
-                width: 1000,
+                width: screenSize.width*1,
                 color: Colors.black,
-                height: 2,
+                height: 1,
               ),
               //fin de espacio para definicion de linea
-              const SizedBox(
-                height: 20,
-              ),
-              for (i = 0; i < pregunta.length; i++)
+                       isLoading ?
+
                 Column(
                   children: [
-                    imagen_p[i] == "" &&
-                            audio_p[i] == null &&
-                            respuesta_Game[i] == null
-                        ? 
-                        //definicion de subrespuestas segun si imagen y audio estan vacios mostrar 
-                        //para preguntas normales
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                            
-                              MaterialButton(
-                                padding: EdgeInsets.all(10),
-                                onPressed: () {
-                                  _opEdit(context);
-                                },
-                                child: Container(
-                                  width: 320,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 199, 157, 236),
-                                      border: Border.all(width: 2),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 5),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            width: 220,
-                                            child: TextField(
-                                              enabled: false,
-                                              maxLines: 3,
-                                              decoration:
-                                                  InputDecoration.collapsed(
-                                                      hintText:
-                                                          "${i} - ${pregunta[i]}"),
-                                            ),
-                                          ),
-                                         
-                                        ],
-                                      ),
-                                      
-                                      Container(width: 280,height: 2,color: Colors.black,),
-                                      Padding(padding: EdgeInsets.all(5)),
-                                      //inicio de evaluacion de respuesta
-                                      respuesta[i] == null &&  imagen_cod[i] == null &&  audio[i] == null
-                                          ? Container(
-                                            width: 260,
-                                            child: TextField(
-                                          enabled: false,
-                                          maxLines: 4,
-                                          decoration:
-                                              InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                  hintText:
-                                                     "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
-                                            ),
-                                          )
-                                          : imagen_cod[i] == null  && audio[i]==null?
-                                          Container(
-                                            width: 260,
-                                            child: TextField(
-                                          enabled: false,
-                                          maxLines: 4,
-                                          decoration:
-                                              InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                  hintText:
-                                                     "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
-                                            ),
-                                          ): audio[i]==null && respuesta[i]==null?          
-                                                      SizedBox(
-                                                        child: Column(
-                                                          children: [
-                                                            Text("${cod_res[i]}"),
-                                                            if(i < imagen.length)
-                                                            Container(
-                                                              width: 350,
-                                                              height: 400,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal: 20,
-                                                                      vertical: 5),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                border: Border.all(
-                                                                    width: 3),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(5),
-                                                                image: DecorationImage(
-                                                                    image:
-                                                                        MemoryImage(
-                                                                            imagen[i]
-                                                                        ),
-                                                                    fit:BoxFit.cover),
-                                                              ) 
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      )
-
-                                                      : imagen_cod[i]==null && respuesta[i]==null?
-                                                        Container(
-                                                          height: 100,
-                                                          decoration: BoxDecoration(border: Border.all(width: 2),borderRadius: BorderRadius.circular(10)),
-                                                          child: Column(
-                                                            
-                                                            children: [
-                                                              Text("Codigo: ${cod_res[i]}\nAudio de el estudiante:",style: TextStyle(fontStyle: FontStyle.italic),),
-                                                              Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceEvenly,
-                                                              children: [
-                                                                ElevatedButton(
-                                                                  style: ButtonStyle(
-                                                                    backgroundColor:
-                                                                        MaterialStateProperty
-                                                                            .resolveWith<
-                                                                                Color?>(
-                                                                      (Set<MaterialState>
-                                                                          states) {
-                                                                        if (states.contains(
-                                                                            MaterialState
-                                                                                .pressed)) {
-                                                                          return Color
-                                                                              .fromARGB(
-                                                                                  255,
-                                                                                  78,
-                                                                                  76,
-                                                                                  187); // Color cuando se presiona el botón
-                                                                        }
-                                                                        return Color.fromARGB(255,152,116,219); // Color predeterminado
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                  onPressed: () {
-                                                                    setState(() {
-                                                                      var n = audio.length;
-                                                                      for (var a = 0; a < n;a++) {
-                                                                        if (audio[a] =="no existe") {
-                                                                        } else {
-                                                                          playaudio(
-                                                                              audio[a]);
-                                                                        }
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  child: Container(
-                                                                    child: Icon(Icons
-                                                                        .play_arrow),
-                                                                  ),
-                                                                ),
-                                                                ElevatedButton(
-                                                                  style: ButtonStyle(
-                                                                    backgroundColor:
-                                                                        MaterialStateProperty
-                                                                            .resolveWith<
-                                                                                Color?>(
-                                                                      (Set<MaterialState>
-                                                                          states) {
-                                                                        if (states.contains(
-                                                                            MaterialState
-                                                                                .pressed)) {
-                                                                          return Color
-                                                                              .fromARGB(
-                                                                                  255,
-                                                                                  78,
-                                                                                  76,
-                                                                                  187); // Color cuando se presiona el botón
-                                                                        }
-                                                                        return Color
-                                                                            .fromARGB(
-                                                                                255,
-                                                                                152,
-                                                                                116,
-                                                                                219); // Color predeterminado
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                  onPressed: () {
-                                                                    setState(() {
-                                                                      audios.stop();
-                                                                    });
-                                                                  },
-                                                                  child: Container(
-                                                                    child: Icon(
-                                                                        Icons.stop),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                                                                              ),
-                                                            ],
-                                                          ),
-                                                        ):
-                                                      Padding(padding: EdgeInsets.all(1))     
-                                                      //fin de deficion de respuesta y sus posibilidades     
-                                    ],
-                                  ),
+                    
+                     SizedBox(
+                  height: screenSize.height * 0.3,
+                ),
+                             
+                    const FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child:CircularProgressIndicator(
+                          color: Color.fromARGB(255, 103, 82, 197),
+                        backgroundColor: Colors.white,
+                      ),),
+                      Text("Cargando",style: TextStyle(fontSize: textSize3,fontStyle: FontStyle.italic),)
+                  ],
+                )
+                :
+                 info =="Error"?
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                           SizedBox(
+                           height: screenSize.height * 0.3,
+                            ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: MaterialButton(onPressed: (){
+                                       setState(() {
+                                        info="";
+                                        isLoading=true;
+                                         getActivitys();
+                                       }); 
+                            },
+                            child: Row(children: [
+                              Text("Reintentar"),
+                              Icon(Icons.error)
+                            ]),),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+                : 
+                Container(        
+              width: screenSize.width*0.9,
+              height: screenSize.height*0.662,
+              decoration: BoxDecoration(
+                border: Border.all(width: 2),
+                borderRadius: BorderRadius.circular(10),
+                color: Color.fromARGB(255, 137, 110, 211),
+              ),
+              child: Column(
+                children: [
+                  Text("Respuestas:",style: TextStyle(fontSize: textSize2)),
+                  Padding(padding: EdgeInsets.all(1)),
+                  Container(
+                    width: screenSize.width*0.9,
+                    height: screenSize.height*0.63,
+                    child: Container(
+              width: screenSize.width*1,
+              height: screenSize.height*0.5,
+               child: ListView.builder(
+                itemCount: cod_res.length,
+                itemBuilder: (BuildContext context, int index) {
+                 return
+                 Column(
+                  children: [
+                    MaterialButton(
+                      onPressed: (){
+                        print(cod_res[index]);
+                        _opEdit(context,cod_res[index]);
+                      
+                      },
+                      child: Container(
+                        width: screenSize.width*0.8,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 149, 113, 247),
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(child: Column(
+                          children: [  
+                            Text(pregunta[index],textAlign: TextAlign.center,style: TextStyle(fontSize: textSize2)),
+                            imagen_p[index]!=""?
+                            MaterialButton(
+                              onPressed: (){
+                                 Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                    builder: (context) => Imagen(imagen: imagen_p[index],)),
+                                    );
+                              },
+                              child: Container(
+                                width: screenSize.width*0.5,
+                                height: screenSize.height*0.2,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(fit: BoxFit.cover,
+                                    image:MemoryImage(imagen_p[index])),
                                 ),
-                                //si audio es nulo
-                              )    
-                            ]
-                          )
-                          //juego
-                          //apartado para evaluar game
-                        : imagen_p[i] == "" &&
-                                audio_p[i] == null &&
-                                respuesta_Game[i] != null
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              ),
+                            ):  
+                            audio_p[index]!=null?
+                           MaterialButton(
+                            onPressed: (){
+                              Navigator.push(
+                                       context,
+                                        MaterialPageRoute(
+                                         builder: (context) => Audio(audio: audio_p[index],title: pregunta[index],)),
+                                         );
+                            },
+                             child: Container(
+                              width: screenSize.width*0.6,
+                              height: screenSize.height*0.05,
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 185, 159, 255),
+                                border:Border.all(width: 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  
-                                  Container(
-                                    width: 320,
-                                    decoration: BoxDecoration(
-                                         color: Color.fromARGB(255, 199, 157, 236),
-                                        border: Border.all(width: 2),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 5),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                             Container(
-                                          width: 240,
-                                          child: TextField(
-                                            enabled: false,
-                                            maxLines: 3,
-                                            decoration:
-                                                InputDecoration.collapsed(
-                                                    hintText:
-                                                        "${i} - ${pregunta[i]} "),
-                                          ),
-                                        ),
-                                          ],
-                                        ),
-                                        Text("${codigo2 = cod_res[i]}",style: TextStyle(color: Colors.transparent),),
-                                        Padding(padding: EdgeInsets.all(5)),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              width: 150,
-                                              child: 
-                                              TextField(controller: respuestaG ,
-                                              enabled: respuesta[i]!=null?
-                                              false: true,
-                                              decoration: InputDecoration(
-                                                hintText: "Respuesta",
-                                                border:OutlineInputBorder() ),),
-                                            ),
-                                            TextButton(onPressed: (){
-                                              setState(() {
-                                                 var respuestas= respuestaG.text;
-                                              print(respuestas);
-                                              if(respuestaunica!=respuestas){
-                                                contador++;
-                                                if(contador==1){
-                                                  n1=Border.all(width: 2);
-                                                }
-                                                if(contador==2){
-                                                  n3=Colors.black;
-                                                }
-                                                if(contador==3){
-                                                  valor=true;//brazo izquierdo
-                                                }
-                                                if(contador==4){
-                                                  valor2=true;
-                                                }
-                                                if(contador==5){
-                                                  valor3=true;
-                                                }
-                                                if(contador==6){
-                                                  valor4=true;
-                                                  getActivitys();
-                                                  addrequestGame(codigo2,respuestas);
-
-                                                }   
-                                                 
-                                              }else{
-                                                //falta logica
-                                                addrequestGame(codigo2,respuestas);
-                                                getActivitys();
-                                                final snackBar = SnackBar(
-                                                  backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                                                  shape: Border.all(width: 1),
-                                                  closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                                                  content: Row(
-                                                  children: [
-                                                    Text("Si coincide"),
-                                                  ],
-                                                ));
-                                                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                              }
-                                              });
-                                              respuestaG.text="";
-                                            }, child: Container(
-                                              width: 100,
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(width: 1),
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                              child: Center(child: Text("Comprobar",style: TextStyle(color: Colors.black),))))
-                                          ],
-                                        ),
-                                         Padding(padding: EdgeInsets.all(10)),
-                                         //caja de muñeco
-                                         //si aun no se responde
-                                         respuesta[i]==null?
-                                        Container(
-                                          height: 350,
-                                          decoration: BoxDecoration(
-                                            border:Border.all(width: 1),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Padding(padding: EdgeInsets.all(10)),
-                                              Container(width: 150,height: 2,color: Colors.black,),
-                                              Row(
-                                                crossAxisAlignment:CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(width: 60,),
-                                            Column(
-                                              children: [
-                                                Container(width: 2,height: 30,color: Colors.black,),
-                                                //cabeza
-                                                 Container(width: 30,height:30 ,decoration: BoxDecoration(
-                                                  border: n1,
-                                                  borderRadius: BorderRadius.circular(50),
-                                                 ),),
-                                                 Row(
-                                                   children: [
-                                                    //brazo izquierdo
-                                                    Container(width: 10,height: 60,
-                                                    child: CustomPaint(
-                                                      painter:valor==false?
-                                                      DiagonalPainter3():
-                                                      DiagonalPainter()
-                                                      
-                                                    ),),
-                                                    //cuerpo
-                                                     Container(width: 2,height: 100,color: n3,),
-                                                     //brazo derecho
-                                                     Container(width: 10,height: 60,
-                                                    child: CustomPaint(
-                                                      painter:  valor2==false?
-                                                      DiagonalPainter3():
-                                                      DiagonalPainter2()
-                                                    ),),
-                                                   ],
-                                                 ),
-                                                 //piernas
-                                                 Row(
-                                                  children: [
-                                                    //pierna izquierda
-                                                    Container(width: 10,height: 60,
-                                                    child: CustomPaint(
-                                                      painter: valor3==false?
-                                                      DiagonalPainter3():
-                                                      DiagonalPainter()
-                                                    ),),
-                                                    //pierna derecha
-                                                     Container(width: 10,height: 60,
-                                                    child: CustomPaint(
-                                                      painter: valor4==false?
-                                                      DiagonalPainter3():
-                                                      DiagonalPainter2()
-                                                    ),),
-                                                  ],
-                                                 )
-                                              ],
-                                            ),
-                                           
-                                            SizedBox(width: 120,),
-                                          Container(width: 2,height: 300,color: Colors.black,),
-                                          
-                                        ],),
-                                        Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 185,
-                                              ),
-                                              Container(
-                                                width: 50,
-                                                height: 2,
-                                                color: Colors.black,
-                                              )
-                                            ],
-                                          )
-                                            ],
-                                            
-                                          ),
-                                        ):
-                                        //si ya se respondio
-                                        Container(
-                                          height: 350,
-                                          decoration: BoxDecoration(
-                                            border:Border.all(width: 1),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Padding(padding: EdgeInsets.all(10)),
-                                              Container(width: 150,height: 2,color: Colors.black,),
-                                              Row(
-                                                crossAxisAlignment:CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(width: 60,),
-                                            Column(
-                                              children: [
-                                                Container(width: 2,height: 30,color: Colors.black,),
-                                                //cabeza
-                                                 Container(width: 30,height:30 ,decoration: BoxDecoration(
-                                                  border:Border.all(width: 2),
-                                                  borderRadius: BorderRadius.circular(50),
-                                                 ),),
-                                                 Row(
-                                                   children: [
-                                                    //brazo izquierdo
-                                                    Container(width: 10,height: 60,
-                                                    child: CustomPaint(
-                                                      painter:
-                                                      DiagonalPainter()
-                                                      
-                                                    ),),
-                                                    //cuerpo
-                                                     Container(width: 2,height: 100,color: Colors.black,),
-                                                     //brazo derecho
-                                                     Container(width: 10,height: 60,
-                                                    child: CustomPaint(
-                                                      painter:  
-                                                      DiagonalPainter2()
-                                                    ),),
-                                                   ],
-                                                 ),
-                                                 //piernas
-                                                 Row(
-                                                  children: [
-                                                    //pierna izquierda
-                                                    Container(width: 10,height: 60,
-                                                    child: CustomPaint(
-                                                      painter: 
-                                                      DiagonalPainter()
-                                                    ),),
-                                                    //pierna derecha
-                                                     Container(width: 10,height: 60,
-                                                    child: CustomPaint(
-                                                      painter: 
-                                                      DiagonalPainter2()
-                                                    ),),
-                                                  ],
-                                                 )
-                                              ],
-                                            ),
-                                           
-                                            SizedBox(width: 120,),
-                                          Container(width: 2,height: 300,color: Colors.black,),
-                                          
-                                        ],),
-                                        Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 185,
-                                              ),
-                                              Container(
-                                                width: 50,
-                                                height: 2,
-                                                color: Colors.black,
-                                              )
-                                            ],
-                                          )
-                                            ],
-                                            
-                                          ),
-                                        ),
-
-                                        //container de muñeco
-                                        
-                                        Padding(padding: EdgeInsets.all(5)),
-                                        Container(width: 290,height: 2,color: Colors.black,),
-                                        
-                                    Padding(padding: EdgeInsets.all(5)),
-                                        respuesta[i]==null?
-                                          Container(
-                                          width: 260,
-                                          child: TextField(
-                                        enabled: false,
-                                        maxLines: 4,
-                                        decoration:
-                                            InputDecoration(
-                                              border: OutlineInputBorder(),
-                                                hintText:
-                                                   "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
-                                          ),
-                                          )
-                                        :
-                                         Container(
-                                          width: 250,
-                                          child: TextField(
-                                        enabled: false,
-                                        maxLines: 4,
-                                        decoration:
-                                            InputDecoration(
-                                              border: OutlineInputBorder(),
-                                                hintText:
-                                                   "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
-                                          ),
-                                        ),
-                                        Padding(padding: EdgeInsets.all(5)),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )
-                              //imagen
-                            : audio_p[i] == null && imagen_p[i] != ""
-                                ? MaterialButton(
-                                   padding: EdgeInsets.all(10),
-                                    onPressed: () {
-                                       _opEdit(context);
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 320,
-                                          decoration: BoxDecoration(
-                                               color: Color.fromARGB(255, 199, 157, 236),
-                                              border: Border.all(width: 2),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 5),
-                                          child: Column(
-                                            children: [
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                   Container(
-                                            width: 245,
-                                            child: TextField(
-                                              enabled: false,
-                                              maxLines: 3,
-                                              decoration:
-                                                  InputDecoration.collapsed(
-                                                      hintText:
-                                                          "${i} - ${pregunta[i]}"),
-                                            ),
-                                          ),
-                                          Text("${notas[i]}/10"),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              
-                                                Container(
-                                                  width: 340,
-                                                  height: 400,
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 20,
-                                                      vertical: 5),
-                                                  decoration: BoxDecoration(
-                                                    border:
-                                                        Border.all(width: 3),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                    image: DecorationImage(
-                                                        image: MemoryImage(
-                                                            imagen_p[i]),
-                                                        fit: BoxFit.cover),
-                                                  ),
-                                                ),
-                                                Padding(padding: EdgeInsets.all(5)),
-                                                Container(width: 290,height: 2,color: Colors.black,),
-                                      Padding(padding: EdgeInsets.all(5)),
-                                         respuesta[i] == null &&  imagen_cod[i] == null &&  audio[i] == null
-                                          ? Container(
-                                            width: 260,
-                                            child: TextField(
-                                          enabled: false,
-                                          maxLines: 4,
-                                          decoration:
-                                              InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                  hintText:
-                                                     "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
-                                            ),
-                                          )
-                                          : imagen_cod[i] == null  && audio[i]==null?
-                                          Container(
-                                            width: 260,
-                                            child: TextField(
-                                          enabled: false,
-                                          maxLines: 4,
-                                          decoration:
-                                              InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                  hintText:
-                                                     "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
-                                            ),
-                                          ): audio[i]==null && respuesta[i]==null?       
-                                                      Container(
-                                                        width: 340,
-                                                        height: 400,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                horizontal: 20,
-                                                                vertical: 5),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              width: 3),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          image: DecorationImage(
-                                                              image:
-                                                                  MemoryImage(
-                                                                      imagen[i]),
-                                                              fit:BoxFit.cover),
-                                                        ),
-                                                      ): imagen_cod[i]==null && respuesta[i]==null?
-                                                       //respuesta audio imagen
-
-                                                        Container(
-                                                          height: 100,
-                                                          decoration: BoxDecoration(border: Border.all(width: 2),borderRadius: BorderRadius.circular(10)),
-                                                          child: Column(
-                                                            children: [
-                                                              Text("Codigo: ${cod_res[i]}\nAudio de el estudiante:"),
-                                                              Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceEvenly,
-                                                              children: [
-                                                                ElevatedButton(
-                                                                  style: ButtonStyle(
-                                                                    backgroundColor:
-                                                                        MaterialStateProperty
-                                                                            .resolveWith<
-                                                                                Color?>(
-                                                                      (Set<MaterialState>
-                                                                          states) {
-                                                                        if (states.contains(
-                                                                            MaterialState
-                                                                                .pressed)) {
-                                                                          return Color
-                                                                              .fromARGB(
-                                                                                  255,
-                                                                                  78,
-                                                                                  76,
-                                                                                  187); // Color cuando se presiona el botón
-                                                                        }
-                                                                        return Color.fromARGB(255,152,116,219); // Color predeterminado
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                  onPressed: () {
-                                                                    setState(() {
-                                                                      var n = audio.length;
-                                                                      for (var a = 0; a < n;a++) {
-                                                                        if (audio[a] =="no existe") {
-                                                                        } else {
-                                                                          playaudio(
-                                                                              audio[a]);
-                                                                        }
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  child: Container(
-                                                                    child: Icon(Icons
-                                                                        .play_arrow),
-                                                                  ),
-                                                                ),
-                                                                ElevatedButton(
-                                                                  style: ButtonStyle(
-                                                                    backgroundColor:
-                                                                        MaterialStateProperty
-                                                                            .resolveWith<
-                                                                                Color?>(
-                                                                      (Set<MaterialState>
-                                                                          states) {
-                                                                        if (states.contains(
-                                                                            MaterialState
-                                                                                .pressed)) {
-                                                                          return Color
-                                                                              .fromARGB(
-                                                                                  255,
-                                                                                  78,
-                                                                                  76,
-                                                                                  187); // Color cuando se presiona el botón
-                                                                        }
-                                                                        return Color
-                                                                            .fromARGB(
-                                                                                255,
-                                                                                152,
-                                                                                116,
-                                                                                219); // Color predeterminado
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                  onPressed: () {
-                                                                    setState(() {
-                                                                      audios.stop();
-                                                                    });
-                                                                  },
-                                                                  child: Container(
-                                                                    child: Icon(
-                                                                        Icons.stop),
-                                                                  ),
-                                                                ),
-                                                              ], ),
-                                                            ],
-                                                          ),
-                                                        ):
-                                                      Padding(padding: EdgeInsets.all(1))
-                                            
-                                               
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : audio_p[i] != null && imagen_p[i] == ""
-                                    ? MaterialButton(
-                                        onPressed: () {
-                                          _opEdit(context);
-                                        },
-                                        child: Container(
-                                            width: 320,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 5),
-                                            decoration: BoxDecoration(
-                                                  color: Color.fromARGB(255, 199, 157, 236),
-                                                border: Border.all(width: 2),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                    padding: EdgeInsets.all(5)),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                     Container(
-                                            width: 240,
-                                            child: TextField(
-                                              enabled: false,
-                                              maxLines: 3,
-                                              decoration:
-                                                  InputDecoration.collapsed(
-                                                      hintText:
-                                                          "${i} - ${pregunta[i]}"),
-                                            ),
-                                          ),
-                                          Text("${notas[i]}/10"),
-                                                  ],
-                                                ),
-                                                Padding(
-                                                    padding:
-                                                        EdgeInsets.all(10)),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    ElevatedButton(
-                                                      style: ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .resolveWith<
-                                                                    Color?>(
-                                                          (Set<MaterialState>
-                                                              states) {
-                                                            if (states.contains(
-                                                                MaterialState
-                                                                    .pressed)) {
-                                                              return Color.fromARGB(
-                                                                  255,
-                                                                  78,
-                                                                  76,
-                                                                  187); // Color cuando se presiona el botón
-                                                            }
-                                                            return Color.fromARGB(
-                                                                255,
-                                                                152,
-                                                                116,
-                                                                219); // Color predeterminado
-                                                          },
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          var n = audio_p.length;
-                                                          for (var a = 0;
-                                                              a < n;
-                                                              a++) {
-                                                            if (audio_p[a] ==
-                                                                null) {
-                                                            } else {
-                                                              playaudio(
-                                                                  audio_p[a]);
-                                                            }
-                                                          }
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Icon(
-                                                            Icons.play_arrow),
-                                                      ),
-                                                    ),
-                                                    ElevatedButton(
-                                                      style: ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .resolveWith<
-                                                                    Color?>(
-                                                          (Set<MaterialState>
-                                                              states) {
-                                                            if (states.contains(
-                                                                MaterialState
-                                                                    .pressed)) {
-                                                              return Color.fromARGB(
-                                                                  255,
-                                                                  78,
-                                                                  76,
-                                                                  187); // Color cuando se presiona el botón
-                                                            }
-                                                            return Color.fromARGB(
-                                                                255,
-                                                                152,
-                                                                116,
-                                                                219); // Color predeterminado
-                                                          },
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          audios.stop();
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        child: Icon(Icons.stop),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                //añadir codigo
-                                                Padding(padding: EdgeInsets.all(10)),
-                                                Container(width: 290,height: 2,color: Colors.black,),
-                                      Padding(padding: EdgeInsets.all(5)),
-                                         respuesta[i] == null &&  imagen_cod[i] == null &&  audio[i] == null
-                                          ? Container(
-                                            width: 260,
-                                            child: TextField(
-                                          enabled: false,
-                                          maxLines: 4,
-                                          decoration:
-                                              InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                  hintText:
-                                                     "codigo: ${cod_res[i]}\nRespuesta: vacia " ),
-                                            ),
-                                          )
-                                          : imagen_cod[i] == null  && audio[i]==null?
-                                          Container(
-                                            width: 260,
-                                            child: TextField(
-                                          enabled: false,
-                                          maxLines: 4,
-                                          decoration:
-                                              InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                  hintText:
-                                                     "codigo: ${cod_res[i]}\nRespuesta: ${respuesta[i]} " ),
-                                            ),
-                                          ): audio[i]==null && respuesta[i]==null?   
-
-                                                      Column(
-                                                        children: [
-                                                          Text("${cod_res[i]}",style: TextStyle(fontStyle: FontStyle.italic),),
-                                                          Text("Imagen subida por el estudiante:"),
-                                                          Container(
-                                                            width: 340,
-                                                            height: 400,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal: 20,
-                                                                    vertical: 5),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border: Border.all(
-                                                                  width: 3),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(5),
-                                                              image: DecorationImage(
-                                                                  image:
-                                                                      MemoryImage(
-                                                                          imagen[i]),
-                                                                  fit:BoxFit.cover),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ): imagen_cod[i]==null && respuesta[i]==null?
-                                                        Container(
-                                                          height: 100,
-                                                          decoration: BoxDecoration(border: Border.all(width: 2),borderRadius: BorderRadius.circular(10)),
-                                                          child: Column(
-                                                            children: [
-                                                              Text("Codigo: ${cod_res[i]}\nAudio del estudiante:",style: TextStyle(fontStyle: FontStyle.italic),),
-                                                              Padding(padding: EdgeInsets.all(5)),
-                                                              Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceEvenly,
-                                                              children: [
-                                                                ElevatedButton(
-                                                                  style: ButtonStyle(
-                                                                    backgroundColor:
-                                                                        MaterialStateProperty
-                                                                            .resolveWith<
-                                                                                Color?>(
-                                                                      (Set<MaterialState>
-                                                                          states) {
-                                                                        if (states.contains(
-                                                                            MaterialState
-                                                                                .pressed)) {
-                                                                          return Color
-                                                                              .fromARGB(
-                                                                                  255,
-                                                                                  78,
-                                                                                  76,
-                                                                                  187); // Color cuando se presiona el botón
-                                                                        }
-                                                                        return Color.fromARGB(255,152,116,219); // Color predeterminado
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                  onPressed: () {
-                                                                    setState(() {
-                                                                      var n = audio.length;
-                                                                      for (var a = 0; a < n;a++) {
-                                                                        if (audio[a] ==null) {
-                                                                        } else {
-                                                                          playaudio(
-                                                                              audio[a]);
-                                                                        }
-                                                                      }
-                                                                    });
-                                                                  },
-                                                                  child: Container(
-                                                                    child: Icon(Icons
-                                                                        .play_arrow),
-                                                                  ),
-                                                                ),
-                                                                ElevatedButton(
-                                                                  style: ButtonStyle(
-                                                                    backgroundColor:
-                                                                        MaterialStateProperty
-                                                                            .resolveWith<
-                                                                                Color?>(
-                                                                      (Set<MaterialState>
-                                                                          states) {
-                                                                        if (states.contains(
-                                                                            MaterialState
-                                                                                .pressed)) {
-                                                                          return Color
-                                                                              .fromARGB(
-                                                                                  255,
-                                                                                  78,
-                                                                                  76,
-                                                                                  187); // Color cuando se presiona el botón
-                                                                        }
-                                                                        return Color
-                                                                            .fromARGB(
-                                                                                255,
-                                                                                152,
-                                                                                116,
-                                                                                219); // Color predeterminado
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                                  onPressed: () {
-                                                                    setState(() {
-                                                                      audios.stop();
-                                                                    });
-                                                                  },
-                                                                  child: Container(
-                                                                    child: Icon(
-                                                                        Icons.stop),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                                                                              ),
-                                                            ],
-                                                          ),
-                                                        ):
-                                                      Padding(padding: EdgeInsets.all(1))
-                                              ],
-                                            )),
-                                      )
-                                    : Padding(padding: EdgeInsets.all(10)),
-                                   
+                                Text("Escuchar audio",style: TextStyle(fontSize: textSize2)),
+                                Icon(Icons.arrow_right)
+                              ],),
+                             ),
+                           )
+                            :
+                          respuesta_Game[index]!=""?
+                            MaterialButton(
+                              onPressed: (){
+                                if(respuesta[index]==null){
+                                Navigator.push(
+                                     context,
+                                      MaterialPageRoute(
+                                       builder: (context) => Game(game: respuesta_Game[index],ask: pregunta[index],cod: cod_res[index],)),
+                                       );
+                                       }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 185, 159, 255),
+                               border: Border.all(width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                                 width: screenSize.width*0.5,
+                                height: screenSize.height*0.05,
+                                child: Center(child: Text("Jugar",style: TextStyle(fontSize: textSize2))),
+                              ),
+                            ):
+                             Padding(padding: EdgeInsets.all(1)),
+                             Padding(padding: EdgeInsets.all(5)),
+                             Text("Respuesta:",style: TextStyle(fontSize: textSize2)),
+                             respuesta[index]!=null?
+                             Container(
+                              padding: EdgeInsets.all(5),
+                              width: screenSize.width*0.6,
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 185, 159, 255),
+                                border: Border.all(width: 1),
+                                borderRadius: BorderRadius.circular(5)
+                              ),
+                              child: Center(child: Text(respuesta[index],style: TextStyle(fontSize: textSize2))))
+                              :
+                             imagen[index]!=""?
+                              MaterialButton(
+                            onPressed: (){
+                              Navigator.push(
+                                          context,
+                                           MaterialPageRoute(
+                                           builder: (context) => Imagen(imagen: imagen[index],)),
+                                           );
+                            },
+                             child: Container(
+                              width: screenSize.width*0.6,
+                              height: screenSize.height*0.05,
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 185, 159, 255),
+                                border:Border.all(width: 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                Text("Ver Imagen",style: TextStyle(fontSize: textSize2)),
+                                Icon(Icons.arrow_right)
+                              ],),
+                             ),
+                           ):
+                             audio[index]!=null?
+                              MaterialButton(
+                            onPressed: (){
+                              Navigator.push(
+                                       context,
+                                        MaterialPageRoute(
+                                         builder: (context) => Audio(audio: audio[index],title: pregunta[index],)),
+                                         );
+                            },
+                             child: Container(
+                              width: screenSize.width*0.6,
+                              height: screenSize.height*0.05,
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 185, 159, 255),
+                                border:Border.all(width: 1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                Text("Escuchar audio",style: TextStyle(fontSize: textSize2)),
+                                Icon(Icons.arrow_right)
+                              ],),
+                             ),
+                           ):
+                             Text(""),
+                          ],
+                        )),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.all(screenSize.height*0.01))//divicion de cada contenedor generado por el list view
+                  ],
+                 );
+                }
+               )),
+                  ),
+                  
+                ],
+              ),
+                ),  
+                Padding(padding: EdgeInsets.all(10)),
+                 MaterialButton(
+                    onPressed: () {
+                      var selectDate = DateTime.now();
+                            var selectTime = TimeOfDay.now();
+                            String  formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
+                               String formateTime = selectTime.format(context);
+                            print(formateTime);
+                            print(formattedDate);
+                            addDateAct(widget.cod_act,formattedDate,formateTime,widget.nie);
+                      changeState(widget.cod_act, "Finalizado", widget.nie);
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1),
+                          borderRadius: BorderRadius.circular(10)),
+                      width: 100,
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Text("Finalizar",style: TextStyle(fontSize: textSize3),), Icon(Icons.check)],
+                      ),
+                    ),
+                  ),      
                     //espacio para definición de contenedor para mostrar historial
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(20)),
-                  MaterialButton(onPressed: (){
-                      var selectDate = DateTime.now();
-                      var selectTime = TimeOfDay.now();
-                       String formattedDate = DateFormat('yyyy-MM-dd').format(selectDate);
-                       String formateTime = selectTime.format(context);
-                       print(formateTime);
-                       print(formattedDate);
-                       addDateAct(widget.cod_act,formattedDate,formateTime,widget.nie);
-                                         changeState(widget.cod_act,"Finalizado",widget.nie);
-                                         Navigator.pop(context);
-                                    },
-                                    child: 
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(width: 1),
-                                        borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      width: 100,
-                                      height: 50,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text("Finalizar"),
-                                          Icon(Icons.check)
-                                        ],
-                                      ),
-                                    ),),
-               Padding(padding: EdgeInsets.all(40))
-                
-            ]
+  
+                 
             )
-            ),  onRefresh: getActivitys)
-            
-           
-            ));
+            )
+        )
+    )    ;   
   }
 
   void _msError(BuildContext parentContext) async {
@@ -1364,7 +582,7 @@ var contador=0;
         });
   }
    //menu para editar una pregunta
-   void _opEdit(BuildContext context) {
+   void _opEdit(BuildContext context,var cod) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -1379,7 +597,7 @@ var contador=0;
                   children: [
                     MaterialButton(
                       onPressed: () {
-                        _requestAsk(context);
+                        _requestAsk(context,cod);
                       },
                       child: Container(
                         width: 190,
@@ -1400,7 +618,7 @@ var contador=0;
                     Padding(padding: EdgeInsets.all(10)),
                     MaterialButton(
                       onPressed: () {
-                        _elegirImg(context);
+                        _elegirImg(context,cod);
                       },
                       child: Container(
                         width: 190,
@@ -1421,7 +639,7 @@ var contador=0;
                     Padding(padding: EdgeInsets.all(10)),
                     MaterialButton(
                       onPressed: () {
-                         _elegirSound(context);
+                         _elegirSound(context,cod);
                       },
                       child: Container(
                         width: 190,
@@ -1465,7 +683,7 @@ var contador=0;
         });
   }
    //espacio para la opcion de responder con pregunta
-   void _requestAsk(BuildContext context) {
+   void _requestAsk(BuildContext context, var cod) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -1480,22 +698,6 @@ var contador=0;
                     key: formchangeask,
                     child: Column(
                       children: [
-                        Container(
-                          width: 200,
-                          child: TextFormField(
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return "Campo requerido";
-                              }
-                            },
-                            controller: cod_changeask,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Codigo",
-                            ),
-                          ),
-                        ),
                         Padding(padding: EdgeInsets.all(10)),
                         Center(
                           child: Container(
@@ -1532,7 +734,6 @@ var contador=0;
                                 child: TextButton(
                                     onPressed: () {
                                       changeask.text = "";
-                                      cod_changeask.text = "";
                                       
                                       //añadir funcion sql
                                       
@@ -1550,13 +751,23 @@ var contador=0;
                                   onPressed: () {
                                     if (formchangeask.currentState!
                                         .validate()) {
-                                      var ask2 = changeask.text;
-                                      var cod = cod_changeask.text;
-                                      
+                                      var ask2 = changeask.text;      
                                      addrequestAsk(cod,ask2,widget.nie);//funcion para agregar respuesta a la pregunta
                                       cod_changeask.text="";
                                       changeask.text = "";
                                       Navigator.pop(context);
+                                       final snackBar = SnackBar(
+                                    content: Row(
+                                      children: [
+                                        Text(
+                                            "Si no se observan cambios prueba con"),
+                                        TextButton(onPressed: (){
+                                            getActivitys();
+                                        }, child: Center(child: Text("Actualizar"),))
+                                      ],
+                                    ));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                                       //espacio para actializar pantalla
                                     }
                                   },
@@ -1576,7 +787,7 @@ var contador=0;
   }
 
   //espacio para responder con imagen
-  void _elegirImg(BuildContext context) {
+  void _elegirImg(BuildContext context, var cod) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -1590,35 +801,10 @@ var contador=0;
               height: 240,
               child: Column(
                 children: [
-                  Container(
-                      width: 150,
-                      height: 100,
-                      child: Form(
-                        key: formKey,
-                        child: TextFormField(
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return "campo requerido";
-                          }
-                        },
-                        controller: nameask,
-                        textAlign: TextAlign.center,
-                        cursorColor: Colors.black,
-                        keyboardType: TextInputType.number,
-                        maxLines: 2,
-                        maxLength: 40,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: "codigo",
-                            hintStyle: TextStyle(fontSize: 15)),
-                      ) )
-                     ),
                   MaterialButton(
                     onPressed: () {
-                      var ask = nameask.text;
-                      if (formKey.currentState!.validate()) {
-                         setimage(ask);//funcion para cargar imagen
-                        nameask.text = "";
+
+                         setimage(cod);//funcion para cargar imagen
                         Navigator.pop(context);
                         final snackBar = SnackBar(
                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
@@ -1636,7 +822,7 @@ var contador=0;
                               ],
                             ));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
+                      
                     },
                     minWidth: 40,
                     height: 70,
@@ -1684,7 +870,7 @@ var contador=0;
         });
   }
   //espacio para responder con microfono
-  void _elegirSound(BuildContext context) {
+  void _elegirSound(BuildContext context, var cod) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -1706,23 +892,7 @@ var contador=0;
                         key: addsound,
                         child: Column(
                           children: [
-                            TextFormField(
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return "campo requerido";
-                                }
-                              },
-                              controller: namesound,
-                              textAlign: TextAlign.center,
-                              cursorColor: Colors.black,
-                              keyboardType: TextInputType.number,
-                              maxLines: 2,
-                              maxLength: 40,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: "codigo",
-                                  hintStyle: TextStyle(fontSize: 15)),
-                            ),
+
                             TextFormField(
                               validator: (String? value) {
                                 if (value == null || value.isEmpty) {
@@ -1745,21 +915,24 @@ var contador=0;
                   Padding(padding: EdgeInsets.all(10)),
                   MaterialButton(
                     onPressed: () {
-                      var ask = namesound.text;
                       var url_s = url.text;
                       if (addsound.currentState!.validate()) {
-                        addrequestsound(ask,url_s,widget.nie);
-                        namesound.text = "";
+                        addrequestsound(cod,url_s,widget.nie);
                         url.text = "";
                         //añadir funcion para consulta sql
                         Navigator.pop(context);
-                        final snackBar = SnackBar(
-                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
-                            shape: Border.all(width: 1),
-                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
-                            content:
-                                Text("Es necesario refrescar la pantalla"));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                         final snackBar = SnackBar(
+                                    content: Row(
+                                      children: [
+                                        Text(
+                                            "Si no se observan cambios prueba con"),
+                                        TextButton(onPressed: (){
+                                            getActivitys();
+                                        }, child: Center(child: Text("Actualizar"),))
+                                      ],
+                                    ));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                       }
                     },
                     child: Container(
@@ -1865,53 +1038,3 @@ var contador=0;
 }
 
 //brazo izquierdo y pierna izquierda
-class DiagonalPainter extends CustomPainter {
-   @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2;
-
-    
-    canvas.drawLine(Offset(size.width, 0), Offset(-30, 30), paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
-
-}
-//brazo derecho y pierna derecha
-class DiagonalPainter2 extends CustomPainter {
-   @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2;
-
-    
-   canvas.drawLine(Offset(0, 0), Offset(40, 30), paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
-
-}
-
-//no mostrar
-class DiagonalPainter3 extends CustomPainter {
-   @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 2;
-  }
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
-
-}

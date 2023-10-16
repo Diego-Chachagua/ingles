@@ -30,12 +30,17 @@ var reslt;
 List<String> tareas= [];
 List<String> cod= [];
 List date=[];
-
+bool isLoading=true;
+String info="";
   @override
 void initState(){
   super.initState();
-  (() async{
-    reslt = await tareasd(widget.nie);
+  getActivitys();
+}
+
+Future<void> getActivitys()async{
+   reslt = await tareasd(widget.nie);
+    if(reslt != "Error"){
     if (reslt!="noExisten"){
       for (var i = 0; i < reslt.length; i++){
     var dato =reslt[i];
@@ -52,6 +57,7 @@ void initState(){
          
 
 setState(() {
+  isLoading=false;
   // Actualizar las listas con los datos obtenidos
   tareas.add(nom_tem);
   cod.add(id_tem);
@@ -61,11 +67,21 @@ setState(() {
 });
   }
     }
-  })();
+    }else{
+      setState(() {
+        isLoading=false;
+        info="Error";
+      });
+    }
 }
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 18.00;//titulos
+    double textSize2 = screenWidth < 340 ? 10.0 : screenWidth >=600 ? 40.00 : 15.00;//subtitulos
+    double textSize3 = screenWidth < 340 ? 10.0 : screenWidth >=600 ? 30.00 : 17.00;//preguntas
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -75,10 +91,8 @@ setState(() {
         appBar:  PreferredSize(
     preferredSize: const Size.fromHeight(130),
     child: AppBar(
-      automaticallyImplyLeading: false,
       centerTitle: true,
       //MODIFICACION DEL CONTAINER DEL APPBAR
-  title: const Text("", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 25),),
   backgroundColor: Colors.red,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.only(bottomRight: Radius.circular(50),bottomLeft: Radius.circular(50)),
@@ -103,50 +117,93 @@ setState(() {
           child: Column(
             children: [
             //Definicion de la linea
-              const SizedBox(height: 5,),
+               SizedBox(height: screenSize.height*0.005,),
               Container(
-              height: 5,
-              width: 1000,
+              height: screenSize.height*0.005,
+              width: screenSize.width*1,
               color: const Color.fromARGB(255, 0, 0, 0),
               ),
               //Apartado del cuadro con imagen
+               isLoading ?
+                Column(
+                  children: [
+                    
+                     SizedBox(
+                  height: screenSize.height * 0.3,
+                ),
+                             
+                    const FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child:CircularProgressIndicator(
+                          color: Color.fromARGB(255, 103, 82, 197),
+                        backgroundColor: Colors.white,
+                      ),),
+                      Text("Cargando",style: TextStyle(fontSize: textSize3,fontStyle: FontStyle.italic),)
+                  ],
+                )
+                :
+                 info =="Error"?
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                           SizedBox(
+                           height: screenSize.height * 0.3,
+                            ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: MaterialButton(onPressed: (){
+                                       setState(() {
+                                        info="";
+                                        isLoading=true;
+                                         getActivitys();
+                                       }); 
+                            },
+                            child: Row(children: [
+                              Text("Reintentar"),
+                              Icon(Icons.error)
+                            ]),),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+                :
+              SizedBox(height: 0,),
               for (var i = 0; i < tareas.length; i++)
               Column(
-                children: [
-                  
+                children: [ 
                   Row(
                     children: [
-
                       Container(
                         margin: const EdgeInsets.only(top: 20, right: 20,left: 10),
-                        height: 120,
-                        width: 120,
+                        height: screenSize.height*0.15,
+                        width: screenSize.width*0.25,
                         decoration: const BoxDecoration(
-                          
-                          
                           image: DecorationImage(
-                          image: AssetImage('assets/tareaso.png'),),
-                          
+                          image: AssetImage('assets/tareaso.png'),),      
                           ),
                         ),
                         
                         Container(
                           //Apartado del boton
                           margin: const EdgeInsets.only(top: 20),
-                          height: 50,
-                          width: 200,
+                          height: screenSize.height*0.07,
+                          width: screenSize.width*0.6,
                           color:Color.fromARGB(255, 171, 5, 204),
-                          
-                          
-                          child:  MaterialButton(onPressed: () async{
-                          
+                          child:  MaterialButton(onPressed: () async{                    
                     dynamic respuesta = await comprobartarea(cod[i],widget.nie);
                     var estado;
                     for(var n =0; n<respuesta.length;n++){
                       var dato=respuesta[n];
                       estado=dato["estado"];
-                    }
-                    
+                    }  
                     if(estado == "Finalizado"){
                        _mensajeUsu(context);
                     } else {
@@ -160,32 +217,18 @@ setState(() {
                    );
                       }
                     },
-                          child:  Center(child: Text(tareas[i], style: const TextStyle(fontSize: 20, color: Colors.white))),
-
-                            
+                          child:  Center(child: Text(tareas[i], style: TextStyle(fontSize: textSize3, color: Colors.white))),  
                           )
-                        
-
                           )
-
                     ]
-                          ),
-        
+                          ),   
                     ],
                   ),
                 ],
-              ),
-              
-            
-        
-        
+              ),   
           ),
       )
         );
-       
-    
-  
-
   }
     void _mensajeUsu(BuildContext context) {
     showDialog(

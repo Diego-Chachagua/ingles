@@ -10,6 +10,8 @@ import 'dart:collection';
 // ignore: unused_import
 import 'dart:io';
 
+import 'package:image_picker/image_picker.dart';
+
 Future<dynamic> comprobara(String usuariobd, String contrabd) async {
   http.Response enviar = await http.post(
     Uri.parse('https://incas.site/Speak_Up/forma.php'),
@@ -88,6 +90,7 @@ Future<dynamic> enviarusu(String seccione2, String gradoe2) async {
 }
 
 Future<dynamic> anosec(String usuario, String contra) async {
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incas.site/Speak_Up/grasecc.php'),
     body: <String, dynamic>{
@@ -101,10 +104,14 @@ Future<dynamic> anosec(String usuario, String contra) async {
   } else {
     return resultado;
   }
+  }catch(e){
+    return "Error";
+  }
 }
 
 Future<dynamic> tareasd(var nie) async {
   print(nie);
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incas.site/Speak_Up/tareas.php'),
     body: <String, dynamic>{
@@ -117,9 +124,14 @@ Future<dynamic> tareasd(var nie) async {
   } else {
     return resultado;
   }
+  }catch(e){
+    return "Error";
+  }
 }
 
 Future<dynamic> comprobartarea(var nombret, var nie) async {
+  try{
+    Future.delayed(Duration(seconds: 120));
   http.Response enviar = await http.post(
     Uri.parse('https://incas.site/Speak_Up/comprobart.php'),
     body: <String, dynamic>{
@@ -130,9 +142,13 @@ Future<dynamic> comprobartarea(var nombret, var nie) async {
   var resultado = jsonDecode(enviar.body);
   print(resultado);
   return resultado;
+  }catch(e){
+    return "Error";
+  }
 }
 
 Future<dynamic> examenes(String grado, String seccion) async {
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incas.site/Speak_Up/examen.php'),
     body: <String, dynamic>{
@@ -145,6 +161,9 @@ Future<dynamic> examenes(String grado, String seccion) async {
     return "error";
   } else {
     return resultado;
+  }
+  }catch(e){
+    return "Error";
   }
 }
 
