@@ -41,6 +41,7 @@ Future<dynamic> registro(String nnie, String nom, String apell, String g, dynami
 }
 
 Future<dynamic> historialestu(String usuariobd ,String contrabd) async{
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incas.site/Speak_Up/historialES.php'),
     body: <String, dynamic>{
@@ -55,9 +56,13 @@ Future<dynamic> historialestu(String usuariobd ,String contrabd) async{
     } else {
       return resultado;
     }
+  }catch(e){
+    return "Error";
+  }
 }
 
 Future<dynamic> historialestu2(String usuariobd ,String contrabd) async{
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incas.site/Speak_Up/historialact.php'),
     body: <String, dynamic>{
@@ -65,12 +70,15 @@ Future<dynamic> historialestu2(String usuariobd ,String contrabd) async{
       "contra": contrabd,
     },
     );
-    print(enviar.body);
     var resultado = jsonDecode(enviar.body);
+    print(resultado);
       if (enviar.statusCode == 201) {
       return "error";
     } else {
       return resultado;
     }
+  }catch(e){
+    return "Error";
+  }
 }
 

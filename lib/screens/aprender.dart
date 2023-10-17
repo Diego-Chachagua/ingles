@@ -34,6 +34,11 @@ class _VideosState extends State<Videos> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 20.00;//titulos
+    double textSize2 = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 20.00;//subtitulos
+    double textSize3 = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 15.00;//enlaces
     return Container(
       decoration:  const BoxDecoration(
           image: DecorationImage(
@@ -43,15 +48,14 @@ class _VideosState extends State<Videos> {
         ),
       child: Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: false,
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
               
               title: Center(
                 child: GradientText(
                   'VIDEOS DE APRENDIZAJE',
-                  style: const TextStyle(
-                      fontSize: 20.0,
+                  style:  TextStyle(
+                      fontSize: textSize,
                   ),
                   gradientType: GradientType.linear,
                   gradientDirection: GradientDirection.ttb,
@@ -93,7 +97,7 @@ class _VideosState extends State<Videos> {
                                 },
                                 child: Text(
                                   'https://youtu.be/bpMELj9caNY',
-                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: textSize3),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -106,7 +110,11 @@ class _VideosState extends State<Videos> {
                     color: Color.fromARGB(255, 255, 255, 255)
                   ),
                   children: [
-                    medio(),
+                    Container(
+        color: Color.fromARGB(255, 255, 255, 255),
+        child:  Center(
+            child: Text('Nivel Medio',style: TextStyle(fontSize: textSize2, color: Color.fromARGB(255, 0, 0, 0)),
+        ))),
                      InkWell(
                                 onTap: () {
                                   String userData =
@@ -115,7 +123,7 @@ class _VideosState extends State<Videos> {
                                 },
                                 child: Text(
                                   'https://youtu.be/qHMf1yLe_BU',
-                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: textSize3),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -128,7 +136,11 @@ class _VideosState extends State<Videos> {
                     color: Color.fromARGB(255, 255, 255, 255)
                   ),
                   children: [
-                    avanzado(),
+                    Container(
+        color: Color.fromARGB(255, 255, 255, 255),
+        child:  Center(
+            child: Text('Nivel Avanzado',style: TextStyle(fontSize: textSize2, color: Color.fromARGB(255, 0, 0, 0)),
+        ))),
                      InkWell(
                                 onTap: () {
                                   String userData =
@@ -137,7 +149,7 @@ class _VideosState extends State<Videos> {
                                 },
                                 child: Text(
                                   'https://youtu.be/8UUsGGwrNCY',
-                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: textSize3),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -159,7 +171,7 @@ class _VideosState extends State<Videos> {
                                 },
                                 child: Text(
                                   'https://youtu.be/LaaOaTuiU_s',
-                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: textSize3),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -181,7 +193,7 @@ class _VideosState extends State<Videos> {
                                 },
                                 child: Text(
                                   'https://www.juegosparaaprenderingles.org/',
-                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 12),
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: textSize3),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -198,13 +210,6 @@ class _VideosState extends State<Videos> {
     );
   }
 
-Widget medio() {
-    return Container(
-        color: Color.fromARGB(255, 255, 255, 255),
-        child: const Center(
-            child: Text('Nivel Medio',style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
-        )));
-  }
 
   Widget Basico() {
     return Container(
@@ -222,13 +227,7 @@ Widget medio() {
         )));
   }
 
-  Widget avanzado() {
-    return Container(
-        color: Color.fromARGB(255, 255, 255, 255),
-        child: const Center(
-            child: Text('Nivel Avanzado',style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 0, 0, 0)),
-        )));
-  }
+  
 
   Widget paginas() {
     return Container(

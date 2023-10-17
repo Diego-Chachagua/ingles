@@ -13,6 +13,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 Future<dynamic> comprobara(String usuariobd, String contrabd) async {
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incas.site/Speak_Up/forma.php'),
     body: <String, dynamic>{
@@ -25,9 +26,13 @@ Future<dynamic> comprobara(String usuariobd, String contrabd) async {
   } else {
     return enviar.body;
   }
+  }catch(e){
+    return "Error";
+  }
 }
 
 Future<dynamic> comprobare(String usuariobd, String contrabd) async {
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://incas.site/Speak_Up/forme.php'),
     body: <String, dynamic>{
@@ -39,6 +44,9 @@ Future<dynamic> comprobare(String usuariobd, String contrabd) async {
     return "error";
   } else {
     return enviar.body;
+  }
+  }catch(e){
+    return "Error";
   }
 }
 

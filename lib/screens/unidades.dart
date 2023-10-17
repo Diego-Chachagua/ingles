@@ -19,6 +19,10 @@ class _temasState extends State<Temas> {
   int currentStep = 0;
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 25.00;//titulos
+    double textSize2 = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 25.00;//subtitulos
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -44,8 +48,8 @@ class _temasState extends State<Temas> {
                   Step(
                       title: Text("Unit 1"),
                       content: SizedBox(
-                        width: 240,
-                        height: 200,
+                        width: screenSize.width*0.7,
+                        height: screenSize.height*0.3,
                         child: Container(
                           alignment: Alignment.topLeft,
                           child: Column(
@@ -53,7 +57,7 @@ class _temasState extends State<Temas> {
                             children: [
                               GradientText(
                                 '1-Classroom language',
-                                style: const TextStyle(
+                                style:  TextStyle(
                                   fontSize: 18.0,
                                 ),
                                 gradientType: GradientType.linear,
@@ -177,8 +181,8 @@ class _temasState extends State<Temas> {
                   Step(
                     title: Text("Unit 2"),
                     content: SizedBox(
-                        width: 240,
-                        height: 220,
+                        width: screenSize.width*0.7,
+                        height: screenSize.height*0.3,
                         child: Container(
                             alignment: Alignment.topLeft,
                             child: Column(
@@ -308,8 +312,8 @@ class _temasState extends State<Temas> {
                   Step(
                       title: Text("Unit 3"),
                       content: SizedBox(
-                          width: 240,
-                          height: 165,
+                          width: screenSize.width*0.7,
+                        height: screenSize.height*0.3,
                           child: Container(
                               alignment: Alignment.topLeft,
                               child: Column(
@@ -408,8 +412,8 @@ class _temasState extends State<Temas> {
                   Step(
                       title: Text("Unit 4"),
                       content: SizedBox(
-                          width: 240,
-                          height: 280,
+                          width: screenSize.width*0.7,
+                        height: screenSize.height*0.4,
                           child: Container(
                               alignment: Alignment.topLeft,
                               child: Column(
@@ -538,8 +542,8 @@ class _temasState extends State<Temas> {
                   Step(
                       title: Text("Unit 5"),
                       content: SizedBox(
-                          width: 240,
-                          height: 350,
+                         width: screenSize.width*0.7,
+                        height: screenSize.height*0.5,
                           child: Container(
                               alignment: Alignment.topLeft,
                               child: Column(
@@ -713,8 +717,8 @@ class _temasState extends State<Temas> {
                   Step(
                       title: Text("Unit 6"),
                       content: SizedBox(
-                          width: 240,
-                          height: 220,
+                          width: screenSize.width*0.7,
+                        height: screenSize.height*0.3,
                           child: Container(
                               alignment: Alignment.topCenter,
                               child: Column(

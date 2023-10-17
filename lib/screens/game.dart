@@ -161,23 +161,32 @@ var contador=0;
                                                             });
                                                             addrequestGame(widget.cod,respuestas);
                                                             Navigator.pop(context);
-            
-                                                          }   
-                                                           
-                                                        }else{
-                                                          addrequestGame(widget.cod,respuestas);
-                                                    
-                                                          final snackBar = SnackBar(
+                                                             final snackBar = SnackBar(
                                                             backgroundColor: Color.fromARGB(255, 155, 118, 214),
                                                             shape: Border.all(width: 1),
                                                             closeIconColor: Color.fromARGB(255, 230, 230, 230),
                                                             content: Row(
                                                             children: [
-                                                              Text("Si coincide"),
+                                                              Text("La respuesta fue incorrecta\n¡Respuesta guardada con exito!\nEs necesario refrescar la pantalla"),
                                                             ],
                                                           ));
                                                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            
+                                                          }   
+                                                           
+                                                        }else{
+                                                          addrequestGame(widget.cod,respuestas);
                                                            Navigator.pop(context);
+                                                            final snackBar = SnackBar(
+                                                            backgroundColor: Color.fromARGB(255, 155, 118, 214),
+                                                            shape: Border.all(width: 1),
+                                                            closeIconColor: Color.fromARGB(255, 230, 230, 230),
+                                                            content: Row(
+                                                            children: [
+                                                              Text("Respuesta Acertada,\n¡guardada con exito!\nEs necesario refrescar la pantalla"),
+                                                            ],
+                                                          ));
+                                                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                         }
                                                         });
                                                         respuestaG.text="";

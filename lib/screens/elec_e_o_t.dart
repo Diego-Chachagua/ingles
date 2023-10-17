@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-import '../main.dart';
 import 'ver_n_a.dart';
 import 'ver_n_e.dart';
 
@@ -28,6 +27,9 @@ class _ElecEOTEState extends State<ElecEOT> {
   String contrab = "";
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 25.00;//titulos
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -35,7 +37,6 @@ class _ElecEOTEState extends State<ElecEOT> {
         ),
         child: Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: false,
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
               
@@ -43,16 +44,15 @@ class _ElecEOTEState extends State<ElecEOT> {
             backgroundColor: Colors.transparent,
             body: SingleChildScrollView(
                 child: Center(
-                  child: Column(
-                    
+                  child: Column(     
                     children: [
-                      const SizedBox(
-                      height: 100,
+                      SizedBox(
+                      height: screenSize.height*0.1,
                     ),
                     GradientText(
-                      'ELIJA UNA OPCIONc',
-                      style: const TextStyle(
-                        fontSize: 30.0,
+                      'PRECIONE UNA OPCIÓN',
+                      style:TextStyle(
+                        fontSize: textSize,
                       ),
                       gradientType: GradientType.linear,
                       gradientDirection: GradientDirection.ttb,
@@ -63,8 +63,8 @@ class _ElecEOTEState extends State<ElecEOT> {
                         Color.fromARGB(255, 60, 135, 221),
                       ],
                     ),
-                    const SizedBox(
-                      height: 90,
+                     SizedBox(
+                      height: screenSize.height*0.15,
                     ),
                     
                     Row(
@@ -83,15 +83,15 @@ class _ElecEOTEState extends State<ElecEOT> {
                                 MaterialPageRoute(builder: (context) =>   VerNotasA(usuario: usuariob, contra: contrab)),
                               );
                               },
-                              child: const SizedBox(
-                                  height: 150,
-                                  width: 145,
+                              child:  SizedBox(
+                                  height: screenSize.height*0.15,
+                              width: screenSize.width*0.4,
                                   child: Image(image: AssetImage('assets/tareas.png'))),
                             ),
                             GradientText(
                               'Tareas',
-                              style: const TextStyle(
-                                fontSize: 30.0,
+                              style:  TextStyle(
+                                fontSize: textSize,
                               ),
                               gradientType: GradientType.linear,
                               gradientDirection: GradientDirection.ttb,
@@ -117,15 +117,15 @@ class _ElecEOTEState extends State<ElecEOT> {
                                 MaterialPageRoute(builder: (context) =>   VerNotasE(usuario: usuariob, contra: contrab)),
                               );     
                               },
-                              child: const SizedBox(
-                                  height: 150,
-                                  width: 145,
+                              child:  SizedBox(
+                                 height: screenSize.height*0.15,
+                              width: screenSize.width*0.4,
                                   child: Image(image: AssetImage('assets/examen.png'))),
                             ),
                             GradientText(
                               'Examenes',
-                              style: const TextStyle(
-                                fontSize: 30.0,
+                              style:  TextStyle(
+                                fontSize: textSize,
                               ),
                               gradientType: GradientType.linear,
                               gradientDirection: GradientDirection.ttb,

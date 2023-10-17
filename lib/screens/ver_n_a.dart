@@ -27,6 +27,8 @@ class _VerNotasAEState extends State<VerNotasA> {
   String usuariobd = "";
   String contrabd = "";
   var resultado;
+  bool isLoading=true;
+  String info="";
   var dato;
   List<String> nombre = [];
   List<String> nota = [];
@@ -34,29 +36,51 @@ class _VerNotasAEState extends State<VerNotasA> {
 @override
 void initState() {
   super.initState();
-  (() async {
-    usuariobd = widget.usuario;
+  getActivitys();
+
+}
+Future<void> getActivitys()async{
+usuariobd = widget.usuario;
     contrabd = widget.contra;
     resultado = await historialestu2(usuariobd, contrabd);
-    if (resultado != null) {
-      for (var dato in resultado) {
-        print(dato);
+    print(resultado);
+    if(resultado !="Error"){
+      for (var i=0; i<resultado.length;i++) {
+        dato=resultado[i];
         var nombre_p = dato['nombre'];
         var nota_p = dato['nota'];
-
         setState(() {
-          nombre.add(nombre_p);
-          nota.add(nota_p);
+        if(nombre_p!=null){
+        nombre.add(nombre_p);
+        }else{
+        nombre.add("Aun no hay actividades");
+        }
+
+        if(nota_p!=null){
+        nota.add(nota_p);
+        }else{
+          nota.add("0");
+        }
+          isLoading=false;
+          
+         
         });
       }
-    } else {
-      print("El resultado es nulo.");
+    }else{
+      setState(() {
+        isLoading=false;
+        info="Error";
+      });
     }
-  })();
 }
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;//contenedores
+    double screenWidth = MediaQuery.of(context).size.width;
+    double textSize = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 25.00;//titulos
+    double textSize2 = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 20.00;//subtitulos
+     double textSize3 = screenWidth < 340 ? 8.00 : screenWidth >=600? 30.00 : 15.00;//texto
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -64,7 +88,6 @@ void initState() {
         ),
         child: Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: false,
               elevation: 0,
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
               title: Center(
@@ -72,8 +95,8 @@ void initState() {
                   children: [
                     GradientText(
                       'HOMEWORK GRADES',
-                      style: const TextStyle(
-                        fontSize: 30.0,
+                      style:  TextStyle(
+                        fontSize: textSize,
                       ),
                       gradientType: GradientType.linear,
                       gradientDirection: GradientDirection.ttb,
@@ -86,8 +109,8 @@ void initState() {
                     ),
                     GradientText(
                       '(Calificaciones de tarea)',
-                      style: const TextStyle(
-                        fontSize: 20.0,
+                      style:  TextStyle(
+                        fontSize: textSize2,
                       ),
                       gradientType: GradientType.linear,
                       gradientDirection: GradientDirection.ttb,
@@ -106,25 +129,82 @@ void initState() {
             body: SingleChildScrollView(
                 child: Column(
               children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: screenSize.height*0.05,
                 ),
                 Container(
-                  width: 1000,
+                  width: screenSize.width*1,
                   color: Colors.black,
-                  height: 2,
+                  height: screenSize.height*0.003,
                 ),
-                const SizedBox(
-                  height: 20,
+                 isLoading
+                          ? Column(
+                              children: [
+                                SizedBox(
+                                  height: screenSize.height * 0.3,
+                                ),
+                                const FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: CircularProgressIndicator(
+                                    color: Color.fromARGB(255, 70, 35, 224),
+                                    backgroundColor: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  "Cargando",
+                                  style: TextStyle(
+                                      fontSize: textSize,
+                                      fontStyle: FontStyle.italic),
+                                )
+                              ],
+                            )
+                          : info == "Error"
+                              ? Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: screenSize.height * 0.3,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              border: Border.all(width: screenSize.width*0.003),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: MaterialButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  info = "";
+                                                  isLoading=true;
+                                                  getActivitys();
+                                                });
+                                              },
+                                              child: Row(children: [
+                                                Text("Reintentar",style: TextStyle(fontSize: textSize),),
+                                                Icon(Icons.error)
+                                              ]),
+                                            ),
+                                          ),
+                                          Padding(padding: EdgeInsets.all(10)),
+                                          Text(
+                                              "Error en la red o no estas conectado",style: TextStyle(fontSize: textSize),),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : 
+                SizedBox(
+                  height: screenSize.height*0.05,
                 ),
                 for (var i = 0; i < nombre.length; i++)
                 Container(
                     margin: EdgeInsets.only(top: 20),
-                    width: 320,
-                    height: 60,
+                    width: screenSize.width*0.9,
+                    height: screenSize.height*0.08,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                       color: Color.fromARGB(255, 249, 249, 249),
@@ -138,7 +218,7 @@ void initState() {
                         Positioned(
                           left: 30,
                           top: 20,
-                          child: Text(nombre[i], style: TextStyle(fontSize: 15)),
+                          child: Text(nombre[i], style: TextStyle(fontSize: textSize3)),
                         ),
                         Positioned(
                           left: 255,
@@ -154,7 +234,7 @@ void initState() {
                         Positioned(
                           left: 270,
                           top: 20,
-                          child: Text(nota[i] + "/10"),
+                          child: Text(nota[i] + "/10",style: TextStyle(fontSize: textSize3),),
                         ),
                       ],
                     ),

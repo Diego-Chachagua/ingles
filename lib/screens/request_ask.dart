@@ -411,7 +411,7 @@ var contador=0;
                                 Navigator.push(
                                      context,
                                       MaterialPageRoute(
-                                       builder: (context) => Game(game: respuesta_Game[index],ask: pregunta[index],cod: cod_res[index],)),
+                                       builder: (context) => Game(game: respuesta_Game[index],ask: pregunta[index],cod: cod_res[index])),
                                        );
                                        }
                               },
